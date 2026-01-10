@@ -28,3 +28,5 @@
   - Mobile-friendly layout.
 - **Database**:
   - Added `sql_backup/` folder containing all current PL/pgSQL functions and schema for reference and recovery.
+- **Documentation**:
+  - Added `pdd.md` (Product Definition Document) detailing project architecture, database schema, and business logic.
