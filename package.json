@@ -1,6 +1,6 @@
 {
   "name": "bobo-finance",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",
@@ -28,6 +28,7 @@
     "react-hook-form": "^7.70.0",
     "recharts": "^3.6.0",
     "tailwind-merge": "^3.4.0",
+    "use-debounce": "^10.1.0",
     "zod": "^4.3.5"
   },
   "devDependencies": {
