@@ -1,0 +1,1 @@
+ALTER TYPE spending_category ADD VALUE 'adjustment';

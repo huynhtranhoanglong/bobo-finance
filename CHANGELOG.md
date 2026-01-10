@@ -26,3 +26,5 @@
   - Interactive components with Radix UI (Dialogs, Selects, Dropdowns).
   - Dark mode compatible styling (partial).
   - Mobile-friendly layout.
+- **Database**:
+  - Added `sql_backup/` folder containing all current PL/pgSQL functions and schema for reference and recovery.
