@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.6] - 2026-01-11
+
+### Features
+- **Monthly Stats Dashboard**:
+  - Displays **"This Month's Stats"** at the top of the dashboard.
+  - Summarizes **Income**, **Expense**, and **Remaining** for the current month (excluding internal transfers).
+  - **Expense Breakdown**: Visual Pie Chart showing the distribution of Must Have, Nice to Have, and Waste expenses.
+  - **Spending Alert**: If user has debt, a progress bar alerts when monthly spending exceeds the "Average Minimum Spending" (calculated from the last 90 days of essential expenses).
+
+
 ## [1.0.5] - 2026-01-11
 
 ### Features

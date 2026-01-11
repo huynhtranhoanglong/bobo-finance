@@ -5,12 +5,24 @@ import { ArrowRightLeft, List } from "lucide-react";
 // Import các Components con
 import AddTransactionDialog from "@/components/add-transaction-dialog";
 import FinancialOverview from "@/components/financial-overview";
-import WalletCard from "@/components/wallet-card"; // NEW
+import WalletCard from "@/components/wallet-card";
+import MonthlyStats from "@/components/monthly-stats"; // NEW
 
 export default async function Home() {
   const supabase = await createClient();
 
-  // 1. Lấy dữ liệu Ví (Wallets)
+  // 0. Chuẩn bị thời gian (Tháng hiện tại)
+  const now = new Date();
+  const currentMonth = now.getMonth() + 1; // JS counts 0-11
+  const currentYear = now.getFullYear();
+
+  // 1. Lấy thống kê Tháng này (New v1.0.6)
+  const { data: monthlyStats } = await supabase.rpc('get_monthly_stats', {
+    p_month: currentMonth,
+    p_year: currentYear
+  });
+
+  // 2. Lấy dữ liệu Ví (Wallets)
   // Kèm theo tên Quỹ (funds) để hiển thị
   const { data: wallets } = await supabase
     .from("wallets")
@@ -23,7 +35,7 @@ export default async function Home() {
     `)
     .order('balance', { ascending: false }); // Ví nhiều tiền nhất lên đầu
 
-  // 2. Lấy dữ liệu Nợ (Debts)
+  // 3. Lấy dữ liệu Nợ (Debts)
   // Chỉ lấy các khoản mình nợ (payable) và còn dư nợ > 0
   const { data: debts } = await supabase
     .from("debts")
@@ -37,7 +49,7 @@ export default async function Home() {
     .gt('remaining_amount', 0)
     .order('remaining_amount', { ascending: false }); // Nợ nhiều nhất lên đầu
 
-  // 3. Lấy các chỉ số tài chính (Metrics) từ hàm SQL đã viết
+  // 4. Lấy các chỉ số tài chính (Metrics) từ hàm SQL đã viết
   // (Chi tiêu tối thiểu, Mục tiêu tự do tài chính...)
   const { data: metrics } = await supabase.rpc('get_financial_metrics');
 
@@ -45,7 +57,7 @@ export default async function Home() {
   const formatMoney = (amount: number) =>
     new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
 
-  // 4. Lấy danh sách Quỹ (Funds) để tạo ví mới
+  // 5. Lấy danh sách Quỹ (Funds) để tạo ví mới
   const { data: funds } = await supabase.from("funds").select("id, name");
 
   // Xử lý funds cho WalletCard (Để tránh lỗi nếu funds null)
@@ -56,6 +68,9 @@ export default async function Home() {
 
       {/* TIÊU ĐỀ */}
       <h1 className="text-3xl font-bold mb-6 text-gray-900">💰 Tài sản của tôi (Bobo)</h1>
+
+      {/* PHẦN 0: THỐNG KÊ THÁNG NÀY (NEW v1.0.6) */}
+      <MonthlyStats stats={monthlyStats} />
 
       {/* PHẦN 1: DASHBOARD TỔNG QUAN (AN TOÀN / TỰ DO TÀI CHÍNH) */}
       <FinancialOverview metrics={metrics} />
