@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.1.1] - 2026-01-11
+## [1.1.1] - 2026-01-12
 
 ### Features
 - **Automatic Default Funds Creation**:
@@ -13,6 +13,9 @@
   - **New Users**: Default funds are created on first login.
   - **Existing Users without Funds**: Default funds are created automatically when accessing the Dashboard.
   - **Existing Users with Funds**: No action taken (existing data preserved).
+
+### UI Improvements
+- Added **Build Version Indicator** at the bottom of the Dashboard for easy version tracking.
 
 ### Technical Details
 - Added `app/actions/ensure-funds.ts` - Server Action to ensure default funds exist.
