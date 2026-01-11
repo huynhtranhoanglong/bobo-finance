@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.10] - 2026-01-11
+
+### Features
+- **User Registration**:
+  - Added a **Sign Up** feature directly on the login page.
+  - Users can now create a new account by entering their email and password and clicking "Đăng ký tài khoản mới".
+  - Implemented backend logic to handle registration via Supabase Auth:
+    - Automatically sends a confirmation email (if enabled in Supabase settings).
+    - Displays appropriate success/error messages on the login screen.
+  - **Account Creation Flow**: Simplified onboarding for new users without needing external admin tools.
+
+
 ## [1.0.9] - 2026-01-11
 
 ### Features

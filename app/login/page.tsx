@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { login } from "./actions"; // Import hàm logic vừa viết
+import { login, signup } from "./actions"; // Import hàm logic vừa viết
 
 export default function LoginPage({
     searchParams,
@@ -40,16 +40,18 @@ export default function LoginPage({
                         />
                     </div>
 
-                    {/* Hiển thị lỗi nếu có */}
                     {searchParams?.message && (
-                        <div className="p-3 bg-red-100 text-red-600 text-sm rounded-md">
-                            Sai tài khoản hoặc mật khẩu!
+                        <div className={`p-3 text-sm rounded-md mb-4 ${searchParams.message.includes("thành công") ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}>
+                            {searchParams.message === "Could not authenticate" ? "Sai tài khoản hoặc mật khẩu!" : searchParams.message}
                         </div>
                     )}
 
                     {/* formAction sẽ gọi hàm login ở server */}
-                    <Button formAction={login} className="w-full">
+                    <Button formAction={login} className="w-full mb-2">
                         Đăng nhập
+                    </Button>
+                    <Button formAction={signup} variant="outline" className="w-full">
+                        Đăng ký tài khoản mới
                     </Button>
                 </form>
             </div>
