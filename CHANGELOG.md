@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.11] - 2026-01-11
+
+### Features
+- **Google Authentication (OAuth)**:
+  - Added support for "Sign in with Google" to provide a faster and more convenient login experience.
+  - Implemented secure OAuth 2.0 flow using Supabase Auth:
+    - **UI**: Added a Google Sign-In button with proper branding on the login page.
+    - **Backend**: Created a dedicated `auth/callback` route to handle OAuth redirects and session exchange securely.
+    - **Configuration**: Prepared system to handle `localhost:3001` redirect URIs for local development.
+
+
 ## [1.0.10] - 2026-01-11
 
 ### Features
