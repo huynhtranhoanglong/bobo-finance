@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0] - 2026-01-11
+
+### Infrastructure
+- **Deployment**:
+  - Successfully prepared application for Vercel deployment.
+  - Implemented **Single Database Strategy** using Row Level Security (RLS) to support both Production and Development environments on a single Supabase project.
+  - Updated configuration to support dynamic Redirect URLs for OAuth (Google Login) on both `localhost`, `vercel.app` (preview), and production domain.
+
 ## [1.0.14] - 2026-01-11
 
 ### Security Fixes
