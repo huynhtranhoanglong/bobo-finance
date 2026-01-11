@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.12] - 2026-01-11
+
+### Bug Fixes
+- **Google Login Validation**:
+  - Fixed an issue where the "Sign in with Google" button was blocked by HTML5 form validation (requiring Email/Password fields to be filled).
+  - Applied `formNoValidate` attribute to the Google Login button, allowing the OAuth flow to proceed immediately without checking the login form inputs.
+
+
 ## [1.0.11] - 2026-01-11
 
 ### Features
