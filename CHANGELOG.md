@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.5] - 2026-01-11
+
+### Features
+- **Edit & Delete Wallets**:
+  - Users can now click on a wallet card to edit its details (Name, Fund, Balance) or delete it.
+  - **Smart Balance Adjustment**: When manually editing a wallet's balance, the system automatically creates an adjustment transaction (Income or Expense) to ensure data consistency between the wallet balance and transaction history.
+  - **Safe Deletion**: Deleting a wallet prompts a confirmation implementation and utilizes Database Cascade Delete to automatically remove all linked transactions, preventing data orphans.
+
+
 ## [1.0.4] - 2026-01-11
 
 ### Features

@@ -21,6 +21,40 @@ export async function createWalletAction(formData: FormData) {
     return { success: true };
 }
 
+// HÀM MỚI: Cập nhật ví (v1.0.5 - Có điều chỉnh số dư)
+export async function updateWalletAction(formData: FormData) {
+    const supabase = await createClient();
+    const id = formData.get("id") as string;
+    const name = formData.get("name") as string;
+    const fund_id = formData.get("fund_id") as string;
+    const new_balance = Number(formData.get("balance"));
+
+    const { error } = await supabase.rpc("update_wallet_with_adjustment", {
+        p_wallet_id: id,
+        p_name: name,
+        p_fund_id: fund_id,
+        p_new_balance: new_balance
+    });
+
+    if (error) return { error: error.message };
+    revalidatePath("/");
+    return { success: true };
+}
+
+// HÀM MỚI: Xóa ví (v1.0.5)
+export async function deleteWalletAction(wallet_id: string) {
+    const supabase = await createClient();
+
+    const { error } = await supabase
+        .from("wallets")
+        .delete()
+        .eq("id", wallet_id);
+
+    if (error) return { error: error.message };
+    revalidatePath("/");
+    return { success: true };
+}
+
 export async function addTransaction(formData: FormData) {
     const supabase = await createClient();
 

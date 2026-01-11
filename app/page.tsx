@@ -5,6 +5,7 @@ import { ArrowRightLeft, List } from "lucide-react";
 // Import các Components con
 import AddTransactionDialog from "@/components/add-transaction-dialog";
 import FinancialOverview from "@/components/financial-overview";
+import WalletCard from "@/components/wallet-card"; // NEW
 
 export default async function Home() {
   const supabase = await createClient();
@@ -17,7 +18,8 @@ export default async function Home() {
       id,
       name,
       balance,
-      funds ( name )
+      fund_id, 
+      funds ( id, name )
     `)
     .order('balance', { ascending: false }); // Ví nhiều tiền nhất lên đầu
 
@@ -45,6 +47,9 @@ export default async function Home() {
 
   // 4. Lấy danh sách Quỹ (Funds) để tạo ví mới
   const { data: funds } = await supabase.from("funds").select("id, name");
+
+  // Xử lý funds cho WalletCard (Để tránh lỗi nếu funds null)
+  const fundsList = funds || [];
 
   return (
     <main className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
@@ -80,19 +85,7 @@ export default async function Home() {
       <h2 className="text-xl font-bold mb-4 text-gray-800">Ví tiền</h2>
       <div className="grid gap-4 mb-8">
         {wallets?.map((wallet: any) => (
-          <div key={wallet.id} className="p-4 border rounded-lg shadow-sm bg-white text-black transition hover:shadow-md">
-            <div className="flex justify-between items-center">
-              <div>
-                <h3 className="font-semibold text-lg">{wallet.name}</h3>
-                <p className="text-sm text-gray-500">
-                  {wallet.funds?.name || "Chưa phân loại"}
-                </p>
-              </div>
-              <div className="text-xl font-bold text-green-600">
-                {formatMoney(wallet.balance)}
-              </div>
-            </div>
-          </div>
+          <WalletCard key={wallet.id} wallet={wallet} funds={fundsList} />
         ))}
         {wallets?.length === 0 && <p className="text-gray-500 italic">Chưa có ví nào.</p>}
       </div>
