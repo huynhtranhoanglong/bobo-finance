@@ -8,10 +8,14 @@ import FinancialOverview from "@/components/financial-overview";
 import MonthlyStats from "@/components/monthly-stats";
 import FundGroup from "@/components/fund-group"; // NEW v1.0.7
 import { UserNav } from "@/components/user-nav"; // NEW v1.0.9
+import { ensureDefaultFunds } from "@/app/actions/ensure-funds"; // NEW v1.1.1
 
 export default async function Home() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+
+  // NEW v1.1.1: Đảm bảo user có đủ 4 funds mặc định
+  await ensureDefaultFunds();
 
   // 0. Chuẩn bị thời gian (Tháng hiện tại)
   const now = new Date();

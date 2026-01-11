@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.1.1] - 2026-01-11
+
+### Features
+- **Automatic Default Funds Creation**:
+  - Users now automatically receive **4 default funds** when they first access the Dashboard:
+    1. Daily Expenses
+    2. Emergency Fund
+    3. Sinking Fund
+    4. Investment Fund
+  - This ensures a consistent experience for all users without requiring manual fund setup.
+  - **New Users**: Default funds are created on first login.
+  - **Existing Users without Funds**: Default funds are created automatically when accessing the Dashboard.
+  - **Existing Users with Funds**: No action taken (existing data preserved).
+
+### Technical Details
+- Added `app/actions/ensure-funds.ts` - Server Action to ensure default funds exist.
+- Modified `app/page.tsx` to call `ensureDefaultFunds()` on Dashboard load.
+- Added `sql_backup/202601112025_ensure_default_funds.sql` for reference.
+
+
 ## [1.1.0] - 2026-01-11
 
 ### Infrastructure
