@@ -183,6 +183,11 @@ export default async function Home() {
       {/* PHẦN 5: NÚT FAB (THÊM GIAO DỊCH / TẠO VÍ) */}
       <AddTransactionDialog wallets={wallets || []} debts={debts || []} funds={funds || []} />
 
+      {/* DEBUG: Build Version Indicator - XÓA SAU KHI DEBUG XONG */}
+      <p className="text-center text-xs text-gray-400 mt-8">
+        Build: v1.1.1-debug-20260112-0530
+      </p>
+
     </main>
   );
 }
