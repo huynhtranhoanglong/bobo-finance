@@ -2,6 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 // HÀM MỚI: Tạo ví mới (v1.0.4)
 export async function createWalletAction(formData: FormData) {
@@ -204,4 +205,11 @@ export async function updateDebtAction(formData: FormData) {
     if (error) return { error: error.message };
     revalidatePath("/");
     return { success: true };
+}
+
+// HÀM MỚI: Đăng xuất (v1.0.9)
+export async function signOutAction() {
+    const supabase = await createClient();
+    await supabase.auth.signOut();
+    redirect("/login");
 }

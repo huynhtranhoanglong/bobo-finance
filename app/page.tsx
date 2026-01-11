@@ -7,9 +7,11 @@ import AddTransactionDialog from "@/components/add-transaction-dialog";
 import FinancialOverview from "@/components/financial-overview";
 import MonthlyStats from "@/components/monthly-stats";
 import FundGroup from "@/components/fund-group"; // NEW v1.0.7
+import { UserNav } from "@/components/user-nav"; // NEW v1.0.9
 
 export default async function Home() {
   const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
   // 0. Chuẩn bị thời gian (Tháng hiện tại)
   const now = new Date();
@@ -110,7 +112,10 @@ export default async function Home() {
   return (
     <main className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
 
-      <h1 className="text-3xl font-bold mb-6 text-gray-900">💰 Tài sản của tôi (Bobo)</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-bold text-gray-900">💰 Tài sản của tôi (Bobo)</h1>
+        {user && <UserNav email={user.email || 'User'} />}
+      </div>
 
       {/* Overview */}
       <FinancialOverview metrics={metrics} />

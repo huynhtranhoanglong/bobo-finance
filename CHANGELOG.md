@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.0.9] - 2026-01-11
+
+### Features
+- **Authentication & Security**:
+  - **Middleware Protection**: Enhanced routing security by implementing Middleware to strictly inspect all incoming requests. Users attempting to access protected routes (Dashboard, Transactions, etc.) without a valid session are now automatically redirected to `/login`.
+  - **Login Assurance**: Updated Login UI with a clear security message ensuring users that their financial data is encrypted and secure.
+- **Account Management**:
+  - **User Menu**: Added a User Dropdown Menu to the Dashboard header.
+  - **Profile Quick View**: Displays user's email or initial avatar.
+  - **Sign Out**: Implemented secure server-side `Sign Out` functionality accessible directly from the dashboard.
+- **Documentation**:
+  - **Port Correction**: Updated `README.md` to correctly reflect the development server port as `localhost:3001` (was 3000).
+
+
 ## [1.0.8] - 2026-01-11
 
 ### Improvements

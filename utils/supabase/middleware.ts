@@ -32,7 +32,16 @@ export async function updateSession(request: NextRequest) {
     );
 
     // Quan trọng: Lệnh này sẽ kiểm tra xem user đã đăng nhập chưa
-    await supabase.auth.getUser();
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
+    // LOGIC BẢO VỆ: Nếu chưa đăng nhập và không phải trang /login -> Redirect về /login
+    if (!user && !request.nextUrl.pathname.startsWith("/login")) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/login";
+        return NextResponse.redirect(url);
+    }
 
     return response;
 }

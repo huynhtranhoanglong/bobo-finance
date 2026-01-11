@@ -2,7 +2,12 @@ import { type NextRequest } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
-    return await updateSession(request);
+    const response = await updateSession(request);
+
+    // Nếu user chưa đăng nhập và không ở trang login -> Redirect về login
+    // Lưu ý: updateSession trả về response có set cookie, ta cần check user từ supabase client trong đó
+    // Tuy nhiên đơn giản nhất là check header x-middleware-request-cookie hoặc dùng logic trong updateSession trả về redirect
+    return response;
 }
 
 export const config = {

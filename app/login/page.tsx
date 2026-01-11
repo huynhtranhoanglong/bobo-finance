@@ -14,7 +14,8 @@ export default function LoginPage({
                 <div className="text-center">
                     <h1 className="text-2xl font-bold tracking-tight">Đăng nhập Bobo</h1>
                     <p className="text-sm text-gray-500 mt-2">
-                        Nhập tài khoản Admin bạn đã tạo trong Database
+                        Vui lòng đăng nhập để tiếp tục. <br />
+                        Dữ liệu tài chính của bạn được mã hóa và bảo mật tuyệt đối.
                     </p>
                 </div>
 
