@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.4] - 2026-01-11
+
+### Features
+- **Create New Wallet**:
+  - Integrated "Create Wallet" tab into the FAB (Add Transaction Dialog).
+  - Users can input initial balance (positive or negative).
+  - Automated initial transaction creation:
+    - **Positive Balance**: Creates an "Income" transaction named "Số dư ban đầu".
+    - **Negative Balance**: Creates an "Expense" transaction named "Số dư ban đầu (Âm)".
+  - Linked new wallet to a parent Fund (`fund_id`).
+
 ## [1.0.3] - 2026-01-11
 
 ### Features

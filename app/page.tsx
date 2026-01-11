@@ -43,6 +43,9 @@ export default async function Home() {
   const formatMoney = (amount: number) =>
     new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
 
+  // 4. Lấy danh sách Quỹ (Funds) để tạo ví mới
+  const { data: funds } = await supabase.from("funds").select("id, name");
+
   return (
     <main className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
 
@@ -114,9 +117,8 @@ export default async function Home() {
         )}
       </div>
 
-      {/* PHẦN 5: NÚT FAB (THÊM GIAO DỊCH) */}
-      {/* Truyền dữ liệu ví và nợ vào để Form hiển thị danh sách chọn */}
-      <AddTransactionDialog wallets={wallets || []} debts={debts || []} />
+      {/* PHẦN 5: NÚT FAB (THÊM GIAO DỊCH / TẠO VÍ) */}
+      <AddTransactionDialog wallets={wallets || []} debts={debts || []} funds={funds || []} />
 
     </main>
   );

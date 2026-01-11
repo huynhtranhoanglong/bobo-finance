@@ -3,6 +3,24 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
+// HÀM MỚI: Tạo ví mới (v1.0.4)
+export async function createWalletAction(formData: FormData) {
+    const supabase = await createClient();
+    const name = formData.get("name") as string;
+    const fund_id = formData.get("fund_id") as string;
+    const initial_balance = Number(formData.get("initial_balance"));
+
+    const { error } = await supabase.rpc("create_wallet_with_initial_balance", {
+        p_name: name,
+        p_fund_id: fund_id,
+        p_initial_balance: initial_balance
+    });
+
+    if (error) return { error: error.message };
+    revalidatePath("/");
+    return { success: true };
+}
+
 export async function addTransaction(formData: FormData) {
     const supabase = await createClient();
 
