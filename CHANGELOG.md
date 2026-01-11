@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.0.8] - 2026-01-11
+
+### Improvements
+- **Dashboard Layout Reordering**:
+  - Reorganized dashboard sections for better usability and visual flow.
+  - **New Order**:
+    1. Header
+    2. Financial Overview
+    3. Monthly Stats
+    4. Wallets (Grouped by Funds)
+    5. Debts List
+    6. Navigation Buttons (History & Debts)
+    7. FAB (Add Transaction)
+
+
 ## [1.0.7] - 2026-01-11
 
 ### Features

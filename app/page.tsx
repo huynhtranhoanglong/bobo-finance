@@ -112,29 +112,11 @@ export default async function Home() {
 
       <h1 className="text-3xl font-bold mb-6 text-gray-900">💰 Tài sản của tôi (Bobo)</h1>
 
-      {/* Stats Tháng Này */}
-      <MonthlyStats stats={monthlyStats} />
-
       {/* Overview */}
       <FinancialOverview metrics={metrics} />
 
-      {/* Navigation */}
-      <div className="grid grid-cols-2 gap-4 mb-8">
-        <Link
-          href="/transactions"
-          className="flex items-center justify-center gap-2 p-4 bg-white border rounded-xl shadow-sm hover:bg-blue-50 transition font-semibold text-blue-600"
-        >
-          <List className="h-5 w-5" />
-          Xem Lịch sử
-        </Link>
-        <Link
-          href="/debts"
-          className="flex items-center justify-center gap-2 p-4 bg-white border rounded-xl shadow-sm hover:bg-orange-50 transition font-semibold text-orange-600"
-        >
-          <ArrowRightLeft className="h-5 w-5" />
-          Quản lý Nợ
-        </Link>
-      </div>
+      {/* Stats Tháng Này */}
+      <MonthlyStats stats={monthlyStats} />
 
       {/* VÍ TIỀN (GOM NHÓM THEO QUỸ) v1.0.7 */}
       <h2 className="text-xl font-bold mb-4 text-gray-800">Ví tiền</h2>
@@ -153,7 +135,7 @@ export default async function Home() {
 
       {/* PHẦN 4: DANH SÁCH NỢ (PREVIEW) */}
       <h2 className="text-xl font-bold mb-4 text-gray-800">📉 Các khoản nợ</h2>
-      <div className="grid gap-4">
+      <div className="grid gap-4 mb-8">
         {debts?.map((debt: any) => (
           <div key={debt.id} className="p-4 border border-red-200 bg-red-50 rounded-lg shadow-sm">
             <div className="flex justify-between items-center">
@@ -169,6 +151,24 @@ export default async function Home() {
             <p className="text-gray-500">Tuyệt vời! Bạn không có khoản nợ nào.</p>
           </div>
         )}
+      </div>
+
+      {/* Navigation - ĐƯA XUỐNG DƯỚI */}
+      <div className="grid grid-cols-2 gap-4 mb-8">
+        <Link
+          href="/transactions"
+          className="flex items-center justify-center gap-2 p-4 bg-white border rounded-xl shadow-sm hover:bg-blue-50 transition font-semibold text-blue-600"
+        >
+          <List className="h-5 w-5" />
+          Xem Lịch sử
+        </Link>
+        <Link
+          href="/debts"
+          className="flex items-center justify-center gap-2 p-4 bg-white border rounded-xl shadow-sm hover:bg-orange-50 transition font-semibold text-orange-600"
+        >
+          <ArrowRightLeft className="h-5 w-5" />
+          Quản lý Nợ
+        </Link>
       </div>
 
       {/* PHẦN 5: NÚT FAB (THÊM GIAO DỊCH / TẠO VÍ) */}
