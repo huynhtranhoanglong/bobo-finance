@@ -37,7 +37,8 @@ export async function updateSession(request: NextRequest) {
     } = await supabase.auth.getUser();
 
     // LOGIC BẢO VỆ: Nếu chưa đăng nhập và không phải trang /login -> Redirect về /login
-    if (!user && !request.nextUrl.pathname.startsWith("/login")) {
+    // v1.0.13: Cho phép thêm route /auth (để xử lý callback từ Google)
+    if (!user && !request.nextUrl.pathname.startsWith("/login") && !request.nextUrl.pathname.startsWith("/auth")) {
         const url = request.nextUrl.clone();
         url.pathname = "/login";
         return NextResponse.redirect(url);

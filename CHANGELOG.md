@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.13] - 2026-01-11
+
+### Bug Fixes
+- **Authentication Bypass for Callbacks**:
+  - Fixed a critical issue where the Application Middleware was incorrectly redirecting OAuth callback requests (`/auth/callback`) back to the Login page.
+  - Allowed unauthenticated access to routes starting with `/auth`, ensuring that Google's authentication response (containing the session code) can reach the server for processing without being intercepted.
+
+
 ## [1.0.12] - 2026-01-11
 
 ### Bug Fixes
