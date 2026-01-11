@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.14] - 2026-01-11
+
+### Security Fixes
+- **Data Isolation & RLS Enforcement**:
+  - **Critical Fix**: Patched `get_financial_metrics` RPC function which was previously exposing financial metrics (Net Worth, Safety Targets) across different user accounts due to missing parameters.
+  - **Transaction Security**: Hardened `update_transaction_v2` and `delete_transaction_v2` functions with strict `auth.uid()` checks to prevent unauthorized modification of other users' data, even if Transaction IDs are guessed.
+  - **Note**: These fixes require running the `202601111715_fix_rpc_security.sql` script in the Supabase SQL Editor.
+
+
 ## [1.0.13] - 2026-01-11
 
 ### Bug Fixes
