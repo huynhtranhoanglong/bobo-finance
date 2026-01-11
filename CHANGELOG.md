@@ -4,10 +4,10 @@
 
 ### Features
 - **Advanced Edit Transaction**:
-  - cho phép chỉnh sửa **Ngày/Giờ** (Date & Time).
-  - Cho phép thay đổi **Danh mục** (Category) cho giao dịch Thu/Chi.
-  - Cập nhật logic SQL Backend (`update_transaction_v2`) để xử lý hoàn tiền/trừ tiền đúng khi thay đổi thông tin.
-  - **Lưu ý**: Loại giao dịch (Type) được giữ cố định để đảm bảo an toàn dữ liệu dòng tiền.
+  - Enabled editing of **Date & Time**.
+  - Allowed changing **Category** for Income/Expense transactions.
+  - Updated Backend SQL logic (`update_transaction_v2`) to correctly handle refunds/deductions when details change.
+  - **Note**: Transaction Type remains fixed to ensure cash flow data integrity.
 
 ## [1.0.1] - 2026-01-11
 
