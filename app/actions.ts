@@ -93,7 +93,7 @@ export async function addTransaction(formData: FormData) {
 // HÀM MỚI: Xóa giao dịch
 export async function deleteTransactionAction(id: string) {
     const supabase = await createClient();
-    const { error } = await supabase.rpc("delete_transaction", { p_transaction_id: id });
+    const { error } = await supabase.rpc("delete_transaction_v2", { p_transaction_id: id });
 
     if (error) return { error: error.message };
     revalidatePath("/"); // Làm mới dữ liệu

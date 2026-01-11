@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.3] - 2026-01-11
+
+### Features
+- **Smart Delete for Debt Transactions**:
+  - Implemented `delete_transaction_v2` logic.
+  - Deleting a transaction that created a debt (Income/Expense linked to Debt) will now automatically reduce the Debt's `total_amount` and `remaining_amount`.
+  - Ensures Debt balance stays synchronized with actual transaction history (e.g., deleting a "Loan" transaction removes the corresponding "Debt" record value).
+
 ## [1.0.2] - 2026-01-11
 
 ### Features
