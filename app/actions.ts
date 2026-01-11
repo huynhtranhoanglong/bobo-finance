@@ -111,21 +111,24 @@ export async function deleteDebtAction(id: string) {
 }
 // ... (code cũ giữ nguyên)
 
-// HÀM MỚI: Sửa giao dịch
+// HÀM MỚI: Sửa giao dịch (v1.0.2 - Update Transaction V2)
 export async function updateTransactionAction(formData: FormData) {
     const supabase = await createClient();
     const id = formData.get("id") as string;
     const amount = Number(formData.get("amount"));
     const note = formData.get("note") as string;
     const wallet_id = formData.get("wallet_id") as string;
-    const date = new Date().toISOString(); // Hoặc giữ nguyên ngày cũ tùy ý, ở đây ta update ngày sửa
+    const date = formData.get("date") as string; // Lấy ngày từ form (đã format đúng ISO hoặc timestamp)
+    const category = formData.get("category") as string || null;
 
-    const { error } = await supabase.rpc("update_transaction", {
+    // Gọi hàm RPC V2 mới
+    const { error } = await supabase.rpc("update_transaction_v2", {
         p_id: id,
         p_new_amount: amount,
         p_new_note: note,
-        p_new_date: date,
-        p_new_wallet_id: wallet_id
+        p_new_date: date, // Truyền ngày mới
+        p_new_wallet_id: wallet_id,
+        p_new_category: category // Truyền category mới
     });
 
     if (error) return { error: error.message };

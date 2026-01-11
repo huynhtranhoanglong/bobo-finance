@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.2] - 2026-01-11
+
+### Features
+- **Advanced Edit Transaction**:
+  - cho phép chỉnh sửa **Ngày/Giờ** (Date & Time).
+  - Cho phép thay đổi **Danh mục** (Category) cho giao dịch Thu/Chi.
+  - Cập nhật logic SQL Backend (`update_transaction_v2`) để xử lý hoàn tiền/trừ tiền đúng khi thay đổi thông tin.
+  - **Lưu ý**: Loại giao dịch (Type) được giữ cố định để đảm bảo an toàn dữ liệu dòng tiền.
+
 ## [1.0.1] - 2026-01-11
 
 ### Features
