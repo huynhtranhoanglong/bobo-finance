@@ -60,36 +60,51 @@ export default async function Home() {
   // --- LOGIC GROUPING WALLETS (v1.0.7) ---
   const fundGroups: Record<string, { name: string, balance: number, wallets: any[] }> = {};
 
-  // Group by Fund Name
+  // 1. Khởi tạo Group cho TẤT CẢ các Fund (kể cả Fund rỗng)
+  fundsList.forEach((fund: any) => {
+    fundGroups[fund.name] = { name: fund.name, balance: 0, wallets: [] };
+  });
+
+  // 2. Thêm nhóm "Other Funds" đề phòng có ví mồ côi
+  if (!fundGroups["Other Funds"]) {
+    fundGroups["Other Funds"] = { name: "Other Funds", balance: 0, wallets: [] };
+  }
+
+  // 3. Đưa Wallet vào đúng Group
   wallets?.forEach((wallet: any) => {
-    const fundName = wallet.funds?.name || "Other Funds";
+    const fundName = wallet.funds?.name;
 
-    if (!fundGroups[fundName]) {
-      fundGroups[fundName] = { name: fundName, balance: 0, wallets: [] };
+    if (fundName && fundGroups[fundName]) {
+      fundGroups[fundName].wallets.push(wallet);
+      fundGroups[fundName].balance += wallet.balance;
+    } else {
+      // Bỏ vào Other Funds nếu không tìm thấy Fund cha
+      fundGroups["Other Funds"].wallets.push(wallet);
+      fundGroups["Other Funds"].balance += wallet.balance;
     }
-
-    fundGroups[fundName].wallets.push(wallet);
-    fundGroups[fundName].balance += wallet.balance;
   });
 
-  // Convert to Array & Sort
-  const sortedGroups = Object.values(fundGroups).sort((a, b) => {
-    const order = ["Daily Expense", "Emergency Fund", "Sinking Fund", "Investment Fund"];
-    const indexA = order.indexOf(a.name);
-    const indexB = order.indexOf(b.name);
+  // 4. Sort Groups theo thứ tự ưu tiên
+  // Note: Dựa vào hình ảnh user cung cấp: "Daily Expenses", "Invesment Fund" (typo)
+  const sortedGroups = Object.values(fundGroups)
+    .filter(g => g.name !== "Other Funds" || g.wallets.length > 0) // Chỉ hiện Other Funds nếu có ví
+    .sort((a, b) => {
+      const order = ["Daily Expenses", "Emergency Fund", "Sinking Fund", "Invesment Fund"];
+      const indexA = order.indexOf(a.name);
+      const indexB = order.indexOf(b.name);
 
-    // Nếu cả 2 đều nằm trong list ưu tiên -> sort theo index
-    if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+      // Nếu cả 2 đều nằm trong list ưu tiên -> sort theo index
+      if (indexA !== -1 && indexB !== -1) return indexA - indexB;
 
-    // Nếu chỉ A có -> A lên trước
-    if (indexA !== -1) return -1;
+      // Nếu chỉ A có -> A lên trước
+      if (indexA !== -1) return -1;
 
-    // Nếu chỉ B có -> B lên trước
-    if (indexB !== -1) return 1;
+      // Nếu chỉ B có -> B lên trước
+      if (indexB !== -1) return 1;
 
-    // Còn lại sort ABC
-    return a.name.localeCompare(b.name);
-  });
+      // Còn lại sort ABC
+      return a.name.localeCompare(b.name);
+    });
   // ---------------------------------------
 
   return (

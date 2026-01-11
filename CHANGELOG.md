@@ -8,11 +8,12 @@
   - **Fund Grouping**: Wallets are now nested inside their respective Funds using an Accordion UI (Expand/Collapse).
   - **Fund Totals**: Displays total balance for each Fund directly on the group header.
   - **Prioritized Sorting**: Funds are strictly ordered as:
-    1. Daily Expense
+    1. Daily Expenses
     2. Emergency Fund
     3. Sinking Fund
-    4. Investment Fund
+    4. Invesment Fund (Custom order)
     5. Others (sorted alphabetically)
+  - **Empty Funds**: Funds are now displayed even if they have no wallets, ensuring a complete overview of the financial structure.
 
 
 ## [1.0.6] - 2026-01-11
