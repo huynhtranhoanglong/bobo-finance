@@ -5,25 +5,24 @@ import { ArrowRightLeft, List } from "lucide-react";
 // Import các Components con
 import AddTransactionDialog from "@/components/add-transaction-dialog";
 import FinancialOverview from "@/components/financial-overview";
-import WalletCard from "@/components/wallet-card";
-import MonthlyStats from "@/components/monthly-stats"; // NEW
+import MonthlyStats from "@/components/monthly-stats";
+import FundGroup from "@/components/fund-group"; // NEW v1.0.7
 
 export default async function Home() {
   const supabase = await createClient();
 
   // 0. Chuẩn bị thời gian (Tháng hiện tại)
   const now = new Date();
-  const currentMonth = now.getMonth() + 1; // JS counts 0-11
+  const currentMonth = now.getMonth() + 1;
   const currentYear = now.getFullYear();
 
-  // 1. Lấy thống kê Tháng này (New v1.0.6)
+  // 1. Lấy thống kê Tháng này
   const { data: monthlyStats } = await supabase.rpc('get_monthly_stats', {
     p_month: currentMonth,
     p_year: currentYear
   });
 
   // 2. Lấy dữ liệu Ví (Wallets)
-  // Kèm theo tên Quỹ (funds) để hiển thị
   const { data: wallets } = await supabase
     .from("wallets")
     .select(`
@@ -33,10 +32,9 @@ export default async function Home() {
       fund_id, 
       funds ( id, name )
     `)
-    .order('balance', { ascending: false }); // Ví nhiều tiền nhất lên đầu
+    .order('balance', { ascending: false });
 
   // 3. Lấy dữ liệu Nợ (Debts)
-  // Chỉ lấy các khoản mình nợ (payable) và còn dư nợ > 0
   const { data: debts } = await supabase
     .from("debts")
     .select(`
@@ -47,37 +45,66 @@ export default async function Home() {
     `)
     .eq('type', 'payable')
     .gt('remaining_amount', 0)
-    .order('remaining_amount', { ascending: false }); // Nợ nhiều nhất lên đầu
+    .order('remaining_amount', { ascending: false });
 
-  // 4. Lấy các chỉ số tài chính (Metrics) từ hàm SQL đã viết
-  // (Chi tiêu tối thiểu, Mục tiêu tự do tài chính...)
+  // 4. Lấy metrics
   const { data: metrics } = await supabase.rpc('get_financial_metrics');
 
-  // Hàm format tiền tệ cho đẹp (VND)
   const formatMoney = (amount: number) =>
     new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
 
-  // 5. Lấy danh sách Quỹ (Funds) để tạo ví mới
+  // 5. Lấy danh sách Funds
   const { data: funds } = await supabase.from("funds").select("id, name");
-
-  // Xử lý funds cho WalletCard (Để tránh lỗi nếu funds null)
   const fundsList = funds || [];
+
+  // --- LOGIC GROUPING WALLETS (v1.0.7) ---
+  const fundGroups: Record<string, { name: string, balance: number, wallets: any[] }> = {};
+
+  // Group by Fund Name
+  wallets?.forEach((wallet: any) => {
+    const fundName = wallet.funds?.name || "Other Funds";
+
+    if (!fundGroups[fundName]) {
+      fundGroups[fundName] = { name: fundName, balance: 0, wallets: [] };
+    }
+
+    fundGroups[fundName].wallets.push(wallet);
+    fundGroups[fundName].balance += wallet.balance;
+  });
+
+  // Convert to Array & Sort
+  const sortedGroups = Object.values(fundGroups).sort((a, b) => {
+    const order = ["Daily Expense", "Emergency Fund", "Sinking Fund", "Investment Fund"];
+    const indexA = order.indexOf(a.name);
+    const indexB = order.indexOf(b.name);
+
+    // Nếu cả 2 đều nằm trong list ưu tiên -> sort theo index
+    if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+
+    // Nếu chỉ A có -> A lên trước
+    if (indexA !== -1) return -1;
+
+    // Nếu chỉ B có -> B lên trước
+    if (indexB !== -1) return 1;
+
+    // Còn lại sort ABC
+    return a.name.localeCompare(b.name);
+  });
+  // ---------------------------------------
 
   return (
     <main className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
 
-      {/* TIÊU ĐỀ */}
       <h1 className="text-3xl font-bold mb-6 text-gray-900">💰 Tài sản của tôi (Bobo)</h1>
 
-      {/* PHẦN 0: THỐNG KÊ THÁNG NÀY (NEW v1.0.6) */}
+      {/* Stats Tháng Này */}
       <MonthlyStats stats={monthlyStats} />
 
-      {/* PHẦN 1: DASHBOARD TỔNG QUAN (AN TOÀN / TỰ DO TÀI CHÍNH) */}
+      {/* Overview */}
       <FinancialOverview metrics={metrics} />
 
-      {/* PHẦN 2: CÁC NÚT ĐIỀU HƯỚNG NHANH */}
+      {/* Navigation */}
       <div className="grid grid-cols-2 gap-4 mb-8">
-        {/* Nút sang trang Lịch sử */}
         <Link
           href="/transactions"
           className="flex items-center justify-center gap-2 p-4 bg-white border rounded-xl shadow-sm hover:bg-blue-50 transition font-semibold text-blue-600"
@@ -85,8 +112,6 @@ export default async function Home() {
           <List className="h-5 w-5" />
           Xem Lịch sử
         </Link>
-
-        {/* Nút sang trang Quản lý Nợ */}
         <Link
           href="/debts"
           className="flex items-center justify-center gap-2 p-4 bg-white border rounded-xl shadow-sm hover:bg-orange-50 transition font-semibold text-orange-600"
@@ -96,11 +121,17 @@ export default async function Home() {
         </Link>
       </div>
 
-      {/* PHẦN 3: DANH SÁCH VÍ TIỀN */}
+      {/* VÍ TIỀN (GOM NHÓM THEO QUỸ) v1.0.7 */}
       <h2 className="text-xl font-bold mb-4 text-gray-800">Ví tiền</h2>
-      <div className="grid gap-4 mb-8">
-        {wallets?.map((wallet: any) => (
-          <WalletCard key={wallet.id} wallet={wallet} funds={fundsList} />
+      <div className="mb-8">
+        {sortedGroups.map((group) => (
+          <FundGroup
+            key={group.name}
+            fundName={group.name}
+            totalBalance={group.balance}
+            wallets={group.wallets}
+            fundsList={fundsList}
+          />
         ))}
         {wallets?.length === 0 && <p className="text-gray-500 italic">Chưa có ví nào.</p>}
       </div>
