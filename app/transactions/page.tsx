@@ -3,7 +3,8 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import TransactionItem from "@/components/transaction-item";
 import TransactionFilters from "@/components/transaction-filters";
-
+import { PrivacyToggle } from "@/components/ui/privacy-toggle";
+import { UserNav } from "@/components/user-nav";
 export default async function TransactionsPage({
     searchParams,
 }: {
@@ -11,6 +12,7 @@ export default async function TransactionsPage({
 }) {
     const supabase = await createClient();
     const params = await searchParams;
+    const { data: { user } } = await supabase.auth.getUser();
 
     // Lấy các tham số filter từ URL
     const q = (params.q as string) || "";
@@ -64,11 +66,17 @@ export default async function TransactionsPage({
     return (
         <main className="p-4 md:p-8 max-w-3xl mx-auto pb-24 bg-gray-50 min-h-screen">
             {/* Header: Nút Quay lại + Tiêu đề */}
-            <div className="flex items-center gap-4 mb-6">
-                <Link href="/" className="p-2 hover:bg-gray-200 rounded-full transition">
-                    <ArrowLeft className="h-6 w-6 text-gray-700" />
-                </Link>
-                <h1 className="text-2xl font-bold">Lịch sử giao dịch</h1>
+            <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-4">
+                    <Link href="/" className="p-2 hover:bg-gray-200 rounded-full transition">
+                        <ArrowLeft className="h-6 w-6 text-gray-700" />
+                    </Link>
+                    <h1 className="text-2xl font-bold">Lịch sử giao dịch</h1>
+                </div>
+                <div className="flex items-center gap-2">
+                    <PrivacyToggle />
+                    {user && <UserNav email={user.email || 'User'} />}
+                </div>
             </div>
 
             {/* BỘ LỌC */}

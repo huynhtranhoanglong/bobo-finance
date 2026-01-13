@@ -12,15 +12,12 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import EditTransactionDialog from "./edit-transaction-dialog"
+import { PrivacyAmount } from "@/components/ui/privacy-amount";
 
 // Nhận thêm props 'wallets' từ trang cha truyền xuống
 export default function TransactionItem({ transaction, wallets }: { transaction: any, wallets: any[] }) {
     const [loading, setLoading] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false); // State để bật tắt bảng Sửa
-
-    // 1. Hàm định dạng tiền tệ (Client Side)
-    const formatMoney = (amount: number) =>
-        new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
 
     // 2. Hàm định dạng ngày tháng (Client Side)
     const formatDate = (dateString: string) => {
@@ -111,7 +108,7 @@ export default function TransactionItem({ transaction, wallets }: { transaction:
 
                 {/* Số tiền bên phải */}
                 <div className={`font-bold ${colorClass}`}>
-                    {sign}{formatMoney(transaction.amount)}
+                    {sign}<PrivacyAmount amount={transaction.amount} />
                 </div>
             </div>
 

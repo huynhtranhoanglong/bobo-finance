@@ -37,7 +37,8 @@
   - **Default State**: Enabled by default for new users/sessions to ensure privacy in public spaces.
   - **Persistence**: Remembers user preference via LocalStorage.
   - **Color Preservation**: Retains Red/Green color coding even when numbers are hidden, allowing users to gauge financial health (Positive/Negative) without revealing exact figures.
-  - **Usage**: Only affects the **View Layer** (Dashboard). Interaction Dialogs (Add Transaction, Edit Wallet) still show actual numbers to ensure accurate input.
+  - **Usage**: Only affects the **View Layer** (Dashboard, Transactions, Debts). Interaction Dialogs still show actual numbers to ensure accurate input.
+  - **Consistency**: Header logic (Privacy Toggle + User Nav) is now unified across all main screens.
 
 ### Technical Details
 - Added `components/providers/privacy-provider.tsx` - Context for managing privacy state.

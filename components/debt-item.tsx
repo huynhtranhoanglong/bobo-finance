@@ -6,13 +6,10 @@ import { deleteDebtAction } from "@/app/actions"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import EditDebtDialog from "./edit-debt-dialog"
+import { PrivacyAmount } from "@/components/ui/privacy-amount";
 
 export default function DebtItem({ debt }: { debt: any }) {
     const [isEditOpen, setIsEditOpen] = useState(false); // State bật tắt bảng Sửa
-
-    // 1. Hàm định dạng tiền tệ (Client Side)
-    const formatMoney = (amount: number) =>
-        new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
 
     // 2. Xử lý xóa
     const handleDelete = async () => {
@@ -40,7 +37,7 @@ export default function DebtItem({ debt }: { debt: any }) {
                     {/* Thông tin bên phải: Số tiền + Nút thao tác */}
                     <div className="flex items-center gap-3">
                         <div className={`text-xl font-bold ${isPayable ? 'text-red-600' : 'text-green-600'}`}>
-                            {formatMoney(debt.remaining_amount)}
+                            <PrivacyAmount amount={debt.remaining_amount} />
                         </div>
 
                         {/* Nút Sửa: Mở Dialog */}
@@ -58,8 +55,8 @@ export default function DebtItem({ debt }: { debt: any }) {
                 {/* Thanh tiến trình trả nợ */}
                 <div className="space-y-2 mt-4">
                     <div className="flex justify-between text-xs text-gray-500">
-                        <span>Đã trả: {formatMoney(paidAmount)}</span>
-                        <span>Tổng vay: {formatMoney(debt.total_amount)}</span>
+                        <span>Đã trả: <PrivacyAmount amount={paidAmount} /></span>
+                        <span>Tổng vay: <PrivacyAmount amount={debt.total_amount} /></span>
                     </div>
                     <Progress value={progress} className="h-2" />
                     <div className="text-right text-xs font-medium text-blue-600">

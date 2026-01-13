@@ -120,7 +120,7 @@ export default async function Home() {
 
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold text-gray-900">💰 Tài sản của tôi (Bobo)</h1>
-        <h1 className="text-3xl font-bold text-gray-900">💰 Tài sản của tôi (Bobo)</h1>
+
         <div className="flex items-center gap-2">
           <PrivacyToggle />
           {user && <UserNav email={user.email || 'User'} />}

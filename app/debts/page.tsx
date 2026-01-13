@@ -2,9 +2,11 @@ import { createClient } from "@/utils/supabase/server";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import DebtItem from "@/components/debt-item"; // Import component con đã tách
-
+import { PrivacyToggle } from "@/components/ui/privacy-toggle";
+import { UserNav } from "@/components/user-nav";
 export default async function DebtsPage() {
     const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
 
     // 1. Lấy danh sách tất cả khoản nợ (cả nợ đi vay và nợ cho vay)
     const { data: debts, error } = await supabase
@@ -24,11 +26,17 @@ export default async function DebtsPage() {
         <main className="p-4 md:p-8 max-w-3xl mx-auto pb-24 bg-gray-50 min-h-screen">
 
             {/* Header: Nút Quay lại + Tiêu đề */}
-            <div className="flex items-center gap-4 mb-6">
-                <Link href="/" className="p-2 hover:bg-gray-200 rounded-full transition">
-                    <ArrowLeft className="h-6 w-6 text-gray-700" />
-                </Link>
-                <h1 className="text-2xl font-bold">Quản lý Nợ</h1>
+            <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-4">
+                    <Link href="/" className="p-2 hover:bg-gray-200 rounded-full transition">
+                        <ArrowLeft className="h-6 w-6 text-gray-700" />
+                    </Link>
+                    <h1 className="text-2xl font-bold">Quản lý Nợ</h1>
+                </div>
+                <div className="flex items-center gap-2">
+                    <PrivacyToggle />
+                    {user && <UserNav email={user.email || 'User'} />}
+                </div>
             </div>
 
             {/* Danh sách các khoản nợ */}
