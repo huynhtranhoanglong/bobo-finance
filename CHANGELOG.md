@@ -23,6 +23,9 @@
 - Added **Resend** package (`resend`) for email delivery.
 - New environment variable: `RESEND_API_KEY`.
 
+### Bug Fixes
+- **Vercel Serverless Compatibility**: Fixed "Missing API Key" error on Vercel deployment by moving Resend SDK initialization from global scope to function scope. This ensures environment variables are available at runtime in serverless environments.
+
 
 ## [1.1.1] - 2026-01-12
 
