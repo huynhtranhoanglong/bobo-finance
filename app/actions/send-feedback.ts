@@ -5,17 +5,14 @@ import { createClient } from "@/utils/supabase/server";
 
 export async function sendFeedbackAction(formData: FormData) {
     try {
-        // Debug: Check if API key is available
+        // Initialize Resend inside function to ensure env vars are available at runtime (Vercel Serverless)
         const apiKey = process.env.RESEND_API_KEY;
-        console.log("[sendFeedback] API Key exists:", !!apiKey);
-        console.log("[sendFeedback] API Key prefix:", apiKey?.substring(0, 5) || "NONE");
 
         if (!apiKey) {
-            console.error("[sendFeedback] RESEND_API_KEY is not set!");
+            console.error("[sendFeedback] RESEND_API_KEY is not configured");
             return { error: "Cấu hình email chưa hoàn tất. Vui lòng liên hệ admin." };
         }
 
-        // Initialize Resend inside function to ensure env vars are available at runtime
         const resend = new Resend(apiKey);
 
         const supabase = await createClient();
