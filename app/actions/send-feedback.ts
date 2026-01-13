@@ -23,7 +23,7 @@ export async function sendFeedbackAction(formData: FormData) {
         // Send email via Resend
         const { error } = await resend.emails.send({
             from: "Bobo Finance <onboarding@resend.dev>",
-            to: "longhoangtranhuynh@gmail.com",
+            to: "huynhtranhoanglong@gmail.com",
             subject: `[Góp ý ${feedbackType === "feature" ? "Tính năng" : "Giao diện"}] ${title}`,
             html: `
                 <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
