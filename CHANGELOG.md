@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.1.2] - 2026-01-13
+
+### Features
+- **Feedback Hub**:
+  - Added a **Feedback Hub** feature allowing users to submit feedback directly from the application.
+  - Feedback form is divided into **2 categories**:
+    1. **Feature Feedback** (🔧 Tính năng): Suggestions for new features or improvements.
+    2. **UI Feedback** (🎨 Giao diện): Feedback about the user interface and design.
+  - Submitted feedback is sent via email to the product owner using **Resend** email service.
+  - Email includes: Feedback type, Title, Content, and Sender's email.
+
+### UI Improvements
+- Added **"Góp ý" (Feedback)** menu item in the User dropdown menu (accessible via avatar button).
+- Feedback dialog with **tabbed interface** for easy category selection.
+- **Success state** with auto-close after submission.
+
+### Technical Details
+- Added `components/feedback-dialog.tsx` - Dialog component with 2-tab form.
+- Added `app/actions/send-feedback.ts` - Server Action for sending emails via Resend API.
+- Modified `components/user-nav.tsx` - Integrated Feedback menu item and dialog.
+- Added **Resend** package (`resend`) for email delivery.
+- New environment variable: `RESEND_API_KEY`.
+
+
 ## [1.1.1] - 2026-01-12
 
 ### Features
