@@ -30,12 +30,12 @@ export async function sendFeedbackAction(formData: FormData) {
 
         // Send email via Resend
         const { error } = await resend.emails.send({
-            from: "Bobo Finance <onboarding@resend.dev>",
+            from: "Bobo <onboarding@resend.dev>",
             to: "huynhtranhoanglong@gmail.com",
             subject: `[Góp ý ${feedbackType === "feature" ? "Tính năng" : "Giao diện"}] ${title}`,
             html: `
                 <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-                    <h2 style="color: #1e293b;">💬 Góp Ý Mới Từ Bobo Finance</h2>
+                    <h2 style="color: #1e293b;">💬 Góp Ý Mới Từ Bobo</h2>
                     <hr style="border: 1px solid #e2e8f0;" />
                     
                     <table style="width: 100%; border-collapse: collapse;">
