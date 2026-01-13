@@ -2,6 +2,7 @@
 
 import { Progress } from "@/components/ui/progress"
 import { ShieldCheck, PartyPopper, TrendingUp } from "lucide-react"
+import { PrivacyAmount } from "@/components/ui/privacy-amount";
 
 export default function FinancialOverview({ metrics }: { metrics: any }) {
     if (!metrics) return null;
@@ -17,9 +18,9 @@ export default function FinancialOverview({ metrics }: { metrics: any }) {
                 <div className="flex justify-between items-start mb-4">
                     <div>
                         <p className="text-slate-400 text-sm font-medium uppercase tracking-wider">An Toàn Tài Chính</p>
-                        <h3 className="text-2xl font-bold mt-1">{formatMoney(metrics.net_worth)}</h3>
+                        <h3 className="text-2xl font-bold mt-1"><PrivacyAmount amount={metrics.net_worth} /></h3>
                         <p className="text-xs text-slate-400 mt-1">
-                            / Mục tiêu {formatMoney(metrics.safety_target)}
+                            / Mục tiêu <PrivacyAmount amount={metrics.safety_target} />
                         </p>
                     </div>
                     <div className="p-2 bg-blue-600 rounded-lg">
@@ -36,7 +37,7 @@ export default function FinancialOverview({ metrics }: { metrics: any }) {
                 </div>
 
                 <div className="mt-4 pt-4 border-t border-slate-700 text-xs text-slate-400">
-                    Chi tiêu tối thiểu: <span className="text-white">{formatMoney(metrics.min_monthly_spend)}/tháng</span>
+                    Chi tiêu tối thiểu: <span className="text-white"><PrivacyAmount amount={metrics.min_monthly_spend} />/tháng</span>
                 </div>
             </div>
 
@@ -45,9 +46,9 @@ export default function FinancialOverview({ metrics }: { metrics: any }) {
                 <div className="flex justify-between items-start mb-4">
                     <div>
                         <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">Tự Do Tài Chính</p>
-                        <h3 className="text-2xl font-bold mt-1 text-green-600">{formatMoney(metrics.net_worth)}</h3>
+                        <h3 className="text-2xl font-bold mt-1 text-green-600"><PrivacyAmount amount={metrics.net_worth} /></h3>
                         <p className="text-xs text-gray-400 mt-1">
-                            / Mục tiêu {formatMoney(metrics.freedom_target)}
+                            / Mục tiêu <PrivacyAmount amount={metrics.freedom_target} />
                         </p>
                     </div>
                     <div className="p-2 bg-green-100 rounded-lg">
@@ -70,7 +71,7 @@ export default function FinancialOverview({ metrics }: { metrics: any }) {
                 </div>
 
                 <div className="mt-4 pt-4 border-t text-xs text-gray-500">
-                    Chi tiêu tiêu chuẩn: <span className="text-black">{formatMoney(metrics.std_monthly_spend)}/tháng</span>
+                    Chi tiêu tiêu chuẩn: <span className="text-black"><PrivacyAmount amount={metrics.std_monthly_spend} />/tháng</span>
                 </div>
             </div>
 

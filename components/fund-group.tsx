@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { ChevronDown, ChevronRight, Wallet } from "lucide-react"
 import WalletCard from "./wallet-card"
+import { PrivacyAmount } from "@/components/ui/privacy-amount";
 
 interface FundGroupProps {
     fundName: string;
@@ -36,7 +37,7 @@ export default function FundGroup({ fundName, totalBalance, wallets, fundsList }
                 </div>
 
                 <div className="font-bold text-blue-700">
-                    {formatMoney(totalBalance)}
+                    <PrivacyAmount amount={totalBalance} />
                 </div>
             </div>
 

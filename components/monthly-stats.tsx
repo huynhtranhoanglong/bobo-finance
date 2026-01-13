@@ -1,6 +1,7 @@
 "use client"
 
 import { AlertTriangle, TrendingUp, TrendingDown, Wallet } from "lucide-react"
+import { PrivacyAmount } from "@/components/ui/privacy-amount";
 
 export default function MonthlyStats({ stats }: { stats: any }) {
     if (!stats) return null;
@@ -43,18 +44,18 @@ export default function MonthlyStats({ stats }: { stats: any }) {
                 <div className="p-3 bg-green-50 rounded-xl">
                     <div className="text-green-600 mb-1 flex justify-center"><TrendingUp size={20} /></div>
                     <p className="text-xs text-gray-500 uppercase font-semibold">Thu Nhập</p>
-                    <p className="font-bold text-green-700 text-sm md:text-base">{formatMoney(income)}</p>
+                    <p className="font-bold text-green-700 text-sm md:text-base"><PrivacyAmount amount={income} /></p>
                 </div>
                 <div className="p-3 bg-red-50 rounded-xl">
                     <div className="text-red-600 mb-1 flex justify-center"><TrendingDown size={20} /></div>
                     <p className="text-xs text-gray-500 uppercase font-semibold">Chi Tiêu</p>
-                    <p className="font-bold text-red-700 text-sm md:text-base">{formatMoney(expense)}</p>
+                    <p className="font-bold text-red-700 text-sm md:text-base"><PrivacyAmount amount={expense} /></p>
                 </div>
                 <div className="p-3 bg-blue-50 rounded-xl">
                     <div className="text-blue-600 mb-1 flex justify-center"><Wallet size={20} /></div>
                     <p className="text-xs text-gray-500 uppercase font-semibold">Còn Lại</p>
                     <p className={`font-bold text-sm md:text-base ${remaining >= 0 ? 'text-blue-700' : 'text-orange-600'}`}>
-                        {formatMoney(remaining)}
+                        <PrivacyAmount amount={remaining} />
                     </p>
                 </div>
             </div>
@@ -99,7 +100,7 @@ export default function MonthlyStats({ stats }: { stats: any }) {
                 <div className={`p-4 rounded-xl border ${isOverBudget ? 'bg-red-50 border-red-200' : 'bg-gray-50 border-gray-200'}`}>
                     <div className="flex justify-between items-end mb-2">
                         <span className="text-sm font-semibold text-gray-700">Tiến độ chi tiêu (vs Tối thiểu)</span>
-                        <span className="text-xs text-gray-500">{formatMoney(expense)} / {formatMoney(min_spend)}</span>
+                        <span className="text-xs text-gray-500"><PrivacyAmount amount={expense} /> / <PrivacyAmount amount={min_spend} /></span>
                     </div>
 
                     {/* Progress Bar */}

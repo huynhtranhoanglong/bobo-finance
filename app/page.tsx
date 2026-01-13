@@ -9,6 +9,8 @@ import MonthlyStats from "@/components/monthly-stats";
 import FundGroup from "@/components/fund-group"; // NEW v1.0.7
 import { UserNav } from "@/components/user-nav"; // NEW v1.0.9
 import { ensureDefaultFunds } from "@/app/actions/ensure-funds"; // NEW v1.1.1
+import { PrivacyToggle } from "@/components/ui/privacy-toggle";
+import { PrivacyAmount } from "@/components/ui/privacy-amount";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -118,7 +120,11 @@ export default async function Home() {
 
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold text-gray-900">💰 Tài sản của tôi (Bobo)</h1>
-        {user && <UserNav email={user.email || 'User'} />}
+        <h1 className="text-3xl font-bold text-gray-900">💰 Tài sản của tôi (Bobo)</h1>
+        <div className="flex items-center gap-2">
+          <PrivacyToggle />
+          {user && <UserNav email={user.email || 'User'} />}
+        </div>
       </div>
 
       {/* Overview */}
@@ -150,7 +156,7 @@ export default async function Home() {
             <div className="flex justify-between items-center">
               <span className="font-medium text-gray-700">{debt.name}</span>
               <span className="font-bold text-red-600">
-                Còn nợ: {formatMoney(debt.remaining_amount)}
+                Còn nợ: <PrivacyAmount amount={debt.remaining_amount} />
               </span>
             </div>
           </div>

@@ -2,13 +2,10 @@
 
 import { useState } from "react"
 import EditWalletDialog from "@/components/edit-wallet-dialog"
+import { PrivacyAmount } from "@/components/ui/privacy-amount";
 
 export default function WalletCard({ wallet, funds }: { wallet: any, funds: any[] }) {
     const [open, setOpen] = useState(false)
-
-    // Formatter
-    const formatMoney = (amount: number) =>
-        new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
 
     return (
         <>
@@ -24,7 +21,7 @@ export default function WalletCard({ wallet, funds }: { wallet: any, funds: any[
                         </p>
                     </div>
                     <div className={`text-xl font-bold ${wallet.balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                        {formatMoney(wallet.balance)}
+                        <PrivacyAmount amount={wallet.balance} />
                     </div>
                 </div>
             </div>

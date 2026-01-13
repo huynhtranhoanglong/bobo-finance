@@ -27,6 +27,25 @@
 - **Vercel Serverless Compatibility**: Fixed "Missing API Key" error on Vercel deployment by moving Resend SDK initialization from global scope to function scope. This ensures environment variables are available at runtime in serverless environments.
 
 
+
+## [1.1.3] - 2026-01-13
+
+### Features
+- **Privacy Mode (Chế độ Riêng tư)**:
+  - Added a **Privacy Toggle** button (Eye icon) on the Dashboard header.
+  - **Functionality**: Instantly masks all sensitive financial numbers (Net Worth, Balances, Debts, Monthly Stats) with `******`.
+  - **Default State**: Enabled by default for new users/sessions to ensure privacy in public spaces.
+  - **Persistence**: Remembers user preference via LocalStorage.
+  - **Color Preservation**: Retains Red/Green color coding even when numbers are hidden, allowing users to gauge financial health (Positive/Negative) without revealing exact figures.
+  - **Usage**: Only affects the **View Layer** (Dashboard). Interaction Dialogs (Add Transaction, Edit Wallet) still show actual numbers to ensure accurate input.
+
+### Technical Details
+- Added `components/providers/privacy-provider.tsx` - Context for managing privacy state.
+- Added `components/ui/privacy-amount.tsx` - Utility component for rendering masked/unmasked amounts.
+- Added `components/ui/privacy-toggle.tsx` - UI Button for toggling mode.
+- Wrapped application root in `PrivacyProvider`.
+- Updated all major dashboard components (`FinancialOverview`, `MonthlyStats`, `FundGroup`, `WalletCard`) to utilize `PrivacyAmount`.
+
 ## [1.1.1] - 2026-01-12
 
 ### Features
