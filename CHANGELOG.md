@@ -6,11 +6,13 @@
 - **Product Name**: Officially renamed from "Bobo Finance" to "**Bobo**".
 - **Visual Identity**:
   - Updated application Logo/Icon to the new "Money Windmill" design.
+  - Added `apple-icon.png` to support "Add to Home Screen" on iOS and Android with the new logo.
   - Updated Browser Tab Title to "Bobo".
   - Updated Email Sender Name for Feedback/Notifications to "Bobo".
 - **UI Updates**:
   - Refined Login Page header to "Đăng nhập Bobo".
   - Updated Dashboard header to "Tài sản của tôi (Bobo)".
+  - Updated Dashboard footer version to `v1.1.4`.
 
 ## [1.1.2] - 2026-01-13
 
