@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.1.6] - 2026-01-14
+
+### UI Improvements - Login Page Redesign
+- **Brand Identity**:
+  - Added **Bobo Logo** (64x64px) at the top of the login form for immediate brand recognition.
+  - Applied **primary brand color `#598c58`** to main action buttons (Login, Google Sign-In) and links.
+- **Improved User Experience**:
+  - **Reordered login options**: Google Sign-In button is now prominently displayed at the top, as most users prefer this faster authentication method.
+  - Added divider text "Hoặc đăng nhập bằng email" (Or sign in with email) to clearly separate login methods.
+  - Updated **tagline** to "Quản lý tiền thông minh, đơn giản, an toàn. 🔒" (Smart, simple, secure money management) - shorter and value-focused.
+- **Demo Mode Link**:
+  - Added "Chưa muốn đăng ký? [Dùng thử ngay]" (Not ready to sign up? Try it now) link at the bottom.
+  - Links to `/?demo=true` allowing new users to explore the app with sample data before committing to registration.
+- **Mobile Optimization**:
+  - Adjusted padding and spacing for optimal viewing on small screens (390x844 and similar).
+  - Increased button heights to 44px+ for better touch targets.
+
+### Technical Details
+- Modified `app/login/page.tsx` with new layout, logo integration, and demo link.
+- Copied `icon.png` to `/public/icon.png` for Next.js Image optimization.
+
 ## [1.1.5] - 2026-01-14
 
 ### Features
