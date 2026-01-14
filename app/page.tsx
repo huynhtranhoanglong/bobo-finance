@@ -114,8 +114,8 @@ export default async function Home({
         {/* Stats Tháng Này */}
         <MonthlyStats stats={DEMO_MONTHLY_STATS} />
 
-        <h2 className="text-xl font-bold mb-4 text-gray-800">Ví tiền</h2>
-        <div className="mb-8">
+        <h2 className="text-lg font-bold mb-4 text-gray-800">💳 Ví tiền</h2>
+        <div className="mb-6">
           {demoSortedGroups.map((group) => (
             <FundGroup
               key={group.name}
@@ -123,6 +123,7 @@ export default async function Home({
               totalBalance={group.balance}
               wallets={group.wallets}
               fundsList={DEMO_FUNDS}
+              minMonthlySpend={DEMO_MONTHLY_STATS.min_spend}
             />
           ))}
         </div>
@@ -239,7 +240,7 @@ export default async function Home({
   const sortedGroups = Object.values(fundGroups)
     .filter(g => g.name !== "Other Funds" || g.wallets.length > 0) // Chỉ hiện Other Funds nếu có ví
     .sort((a, b) => {
-      const order = ["Daily Expenses", "Emergency Fund", "Sinking Fund", "Invesment Fund"];
+      const order = ["Tiền mặt", "Quỹ dự phòng khẩn cấp", "Quỹ kế hoạch", "Quỹ đầu tư", "Daily Expenses", "Emergency Fund", "Sinking Fund", "Investment Fund", "Invesment Fund"];
       const indexA = order.indexOf(a.name);
       const indexB = order.indexOf(b.name);
 
@@ -272,9 +273,9 @@ export default async function Home({
       {/* Stats Tháng Này */}
       <MonthlyStats stats={monthlyStats} />
 
-      {/* VÍ TIỀN (GOM NHÓM THEO QUỸ) v1.0.7 */}
-      <h2 className="text-xl font-bold mb-4 text-gray-800">Ví tiền</h2>
-      <div className="mb-8">
+      {/* VÍ TIỀN (GOM NHÓM THEO QUỸ) */}
+      <h2 className="text-lg font-bold mb-4 text-gray-800">💳 Ví tiền</h2>
+      <div className="mb-6">
         {sortedGroups.map((group) => (
           <FundGroup
             key={group.name}
@@ -282,6 +283,7 @@ export default async function Home({
             totalBalance={group.balance}
             wallets={group.wallets}
             fundsList={fundsList}
+            minMonthlySpend={metrics?.min_monthly_spend}
           />
         ))}
         {wallets?.length === 0 && <p className="text-gray-500 italic">Chưa có ví nào.</p>}

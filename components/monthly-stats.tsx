@@ -67,7 +67,7 @@ export default function MonthlyStats({ stats }: MonthlyStatsProps) {
 
     return (
         <div className="bg-white p-5 rounded-2xl shadow-sm border mb-6">
-            <h2 className="text-lg font-bold text-gray-800 mb-4">📊 Thống Kê Tháng Này</h2>
+            <h2 className="text-lg font-bold text-gray-800 mb-4">📊 Thống kê tháng này</h2>
 
             {/* 1. TỔNG QUAN: 2 HÀNG */}
             {/* Hàng 1: Thu Nhập + Chi Tiêu */}

@@ -1,51 +1,121 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronDown, ChevronRight, Wallet } from "lucide-react"
+import { ChevronDown, ChevronRight, Wallet, Shield, PiggyBank, TrendingUp, Banknote } from "lucide-react"
 import WalletCard from "./wallet-card"
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
+
+// Color palette
+const COLOR_POSITIVE = '#598c58';
+const COLOR_NEGATIVE = '#c25e5e';
+const COLOR_NEUTRAL = '#7a869a';
 
 interface FundGroupProps {
     fundName: string;
     totalBalance: number;
     wallets: any[];
-    fundsList: any[]; // Để truyền xuống WalletCard cho chức năng Edit
+    fundsList: any[];
+    minMonthlySpend?: number; // For Emergency Fund calculation
 }
 
-export default function FundGroup({ fundName, totalBalance, wallets, fundsList }: FundGroupProps) {
-    const [isOpen, setIsOpen] = useState(false); // Mặc định đóng cho gọn, hoặc true nếu muốn mở hết
+// Map fund names to icons
+const getFundIcon = (fundName: string) => {
+    const iconMap: Record<string, any> = {
+        'Tiền mặt': Banknote,
+        'Daily Expenses': Banknote,
+        'Quỹ dự phòng khẩn cấp': Shield,
+        'Emergency Fund': Shield,
+        'Quỹ kế hoạch': PiggyBank,
+        'Sinking Fund': PiggyBank,
+        'Quỹ đầu tư': TrendingUp,
+        'Investment Fund': TrendingUp,
+        'Invesment Fund': TrendingUp,
+    };
+    return iconMap[fundName] || Wallet;
+};
 
-    const formatMoney = (amount: number) =>
-        new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+// Get Vietnamese name for display (handles both old and new names)
+const getDisplayName = (fundName: string) => {
+    const nameMap: Record<string, string> = {
+        'Daily Expenses': 'Tiền mặt',
+        'Emergency Fund': 'Quỹ dự phòng khẩn cấp',
+        'Sinking Fund': 'Quỹ kế hoạch',
+        'Investment Fund': 'Quỹ đầu tư',
+        'Invesment Fund': 'Quỹ đầu tư',
+    };
+    return nameMap[fundName] || fundName;
+};
+
+// Check if this is an Emergency Fund
+const isEmergencyFund = (fundName: string) => {
+    return fundName === 'Emergency Fund' || fundName === 'Quỹ dự phòng khẩn cấp';
+};
+
+export default function FundGroup({ fundName, totalBalance, wallets, fundsList, minMonthlySpend }: FundGroupProps) {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const displayName = getDisplayName(fundName);
+    const IconComponent = getFundIcon(fundName);
+
+    // Emergency Fund Status calculation
+    let emergencyMonths = 0;
+    let emergencyColor = COLOR_NEUTRAL;
+    let showEmergencyStatus = false;
+
+    if (isEmergencyFund(fundName) && minMonthlySpend && minMonthlySpend > 0) {
+        showEmergencyStatus = true;
+        emergencyMonths = totalBalance / minMonthlySpend;
+
+        if (emergencyMonths >= 6) {
+            emergencyColor = COLOR_POSITIVE;
+        } else if (emergencyMonths >= 3) {
+            emergencyColor = COLOR_NEUTRAL;
+        } else {
+            emergencyColor = COLOR_NEGATIVE;
+        }
+    }
 
     return (
-        <div className="mb-4 bg-white rounded-xl border shadow-sm overflow-hidden">
-            {/* HEADER - Click ID toggle */}
+        <div className="mb-3 bg-white rounded-2xl border shadow-sm overflow-hidden">
+            {/* HEADER - Click to toggle */}
             <div
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center justify-between p-4 cursor-pointer bg-slate-50 hover:bg-slate-100 transition"
+                className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50 transition"
             >
-                <div className="flex items-center gap-2">
-                    {isOpen ? <ChevronDown size={20} className="text-gray-500" /> : <ChevronRight size={20} className="text-gray-500" />}
+                <div className="flex items-center gap-3">
+                    {isOpen ? <ChevronDown size={18} style={{ color: COLOR_NEUTRAL }} /> : <ChevronRight size={18} style={{ color: COLOR_NEUTRAL }} />}
 
                     <div className="flex items-center gap-2">
-                        <div className="bg-white p-1.5 rounded-full shadow-sm">
-                            <Wallet size={16} className="text-blue-600" />
+                        <div className="p-2 rounded-xl" style={{ backgroundColor: `${COLOR_POSITIVE}15` }}>
+                            <IconComponent size={18} style={{ color: COLOR_POSITIVE }} />
                         </div>
-                        <span className="font-bold text-gray-800">{fundName}</span>
+                        <div>
+                            <span className="font-bold text-gray-800">{displayName}</span>
+                            {showEmergencyStatus && (
+                                <span
+                                    className="ml-2 text-xs px-2 py-0.5 rounded-full font-medium"
+                                    style={{
+                                        backgroundColor: `${emergencyColor}15`,
+                                        color: emergencyColor
+                                    }}
+                                >
+                                    ~{emergencyMonths.toFixed(1)} tháng
+                                </span>
+                            )}
+                        </div>
                     </div>
                 </div>
 
-                <div className="font-bold text-blue-700">
+                <div className="font-bold" style={{ color: totalBalance >= 0 ? COLOR_POSITIVE : COLOR_NEGATIVE }}>
                     <PrivacyAmount amount={totalBalance} />
                 </div>
             </div>
 
             {/* BODY - List of Wallets */}
             {isOpen && (
-                <div className="p-3 bg-white border-t space-y-3">
+                <div className="px-4 pb-4 space-y-2">
                     {wallets.length === 0 ? (
-                        <p className="text-sm text-gray-400 italic text-center py-2">Chưa có ví nào trong quỹ này.</p>
+                        <p className="text-sm italic text-center py-3" style={{ color: COLOR_NEUTRAL }}>Chưa có ví nào trong quỹ này.</p>
                     ) : (
                         wallets.map(wallet => (
                             <WalletCard key={wallet.id} wallet={wallet} funds={fundsList} />

@@ -45,12 +45,28 @@
       - Spending > Time (by 10%+): Red (warning)
     - **Contextual Explanation**: Text explains the comparison basis based on debt status.
 
+- **Wallets Section Redesign**:
+  - **Vietnamese Fund Names**: Renamed funds for better localization:
+    - Daily Expenses → **Tiền mặt**
+    - Emergency Fund → **Quỹ dự phòng khẩn cấp**
+    - Sinking Fund → **Quỹ kế hoạch**
+    - Investment Fund → **Quỹ đầu tư**
+  - **Emergency Fund Status**: New feature showing months of spending coverage:
+    - Calculates: `Total Balance / Minimum Monthly Spend`
+    - Color-coded badge: Green (>6 months), Gray (3-6 months), Red (<3 months)
+    - Displays as "~X.X tháng" badge next to fund name
+  - **Unified Design**: Applied design system colors and icons to fund groups and wallet cards
+  - **Section Title**: Changed "Thống Kê Tháng Này" → "Thống kê tháng này" (lowercase)
+
 ### Technical Details
 - Added `components/greeting-header.tsx` - Client component with time-based greeting logic.
 - Added `components/net-worth-section.tsx` - Simple component for Net Worth display.
 - Added `components/financial-progress.tsx` - Combined progress section with dynamic milestone targeting.
 - Rewrote `components/monthly-stats.tsx` - New design with filled pie chart and time vs spending progress.
-- Modified `app/page.tsx` - Updated Dashboard layout for both Demo Mode and Real User Mode.
+- Rewrote `components/fund-group.tsx` - Vietnamese name mapping, Emergency Fund status calculation, unified styling.
+- Rewrote `components/wallet-card.tsx` - Simplified design with unified colors.
+- Modified `app/page.tsx` - Updated Dashboard layout, added minMonthlySpend prop passing.
+- Added `sql_backup/202601142050_rename_funds_vietnamese.sql` - Script to rename funds in database.
 - Deprecated usage of `components/financial-overview.tsx` in Dashboard (file retained for backward compatibility).
 - Updated version indicator to `v1.1.7`.
 
