@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.5] - 2026-01-14
+
+### Features
+- **Accurate Net Worth Calculation**:
+  - Updated the logic for **Total Assets (Net Worth)** on the dashboard.
+  - **New Formula**: `Net Worth = Total Wallet Balances - Total Payable Debts`.
+  - Previously, it only counted assets without subtracting debts. This change reflects a truer picture of financial health.
+  - **Financial Freedom/Safety Targets**: Progress bars are now also calculated based on this "Real Net Worth".
+
+### Technical Details
+- Updated `get_financial_metrics` RPC function in Database.
+- Added `sql_backup/202601140840_update_net_worth_logic.sql`.
+
 ## [1.1.4] - 2026-01-13
 
 ### Rebranding
