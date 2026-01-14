@@ -58,14 +58,29 @@
   - **Unified Design**: Applied design system colors and icons to fund groups and wallet cards
   - **Section Title**: Changed "Thống Kê Tháng Này" → "Thống kê tháng này" (lowercase)
 
+- **Debts Section Redesign**:
+  - **Repayment Progress**: Each debt now shows a progress bar with % paid
+  - **Progress Badge**: Displays "X% đã trả" with color-coded status:
+    - < 30% paid: Red (still a lot to go)
+    - 30-70%: Gray (in progress)
+    - > 70%: Green (almost done)
+  - **Amount Format**: "Còn nợ: X / Y" shows remaining vs total
+  - **Empty State**: Friendly "🎉 Tuyệt vời! Bạn không có khoản nợ nào." message
+
+- **Navigation Links Redesign**:
+  - **Unified Style**: Cards use `rounded-2xl shadow-sm` to match other sections
+  - **Vertical Layout**: Icon above text for cleaner look
+  - **Color-coded**: "Lịch sử giao dịch" in green, "Quản lý nợ" in red
+
 ### Technical Details
 - Added `components/greeting-header.tsx` - Client component with time-based greeting logic.
 - Added `components/net-worth-section.tsx` - Simple component for Net Worth display.
 - Added `components/financial-progress.tsx` - Combined progress section with dynamic milestone targeting.
+- Added `components/debt-card.tsx` - Debt card with repayment progress bar.
 - Rewrote `components/monthly-stats.tsx` - New design with filled pie chart and time vs spending progress.
 - Rewrote `components/fund-group.tsx` - Vietnamese name mapping, Emergency Fund status calculation, unified styling.
 - Rewrote `components/wallet-card.tsx` - Simplified design with unified colors.
-- Modified `app/page.tsx` - Updated Dashboard layout, added minMonthlySpend prop passing.
+- Modified `app/page.tsx` - Complete Dashboard layout overhaul with all new components.
 - Added `sql_backup/202601142050_rename_funds_vietnamese.sql` - Script to rename funds in database.
 - Deprecated usage of `components/financial-overview.tsx` in Dashboard (file retained for backward compatibility).
 - Updated version indicator to `v1.1.7`.

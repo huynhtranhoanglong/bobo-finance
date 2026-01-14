@@ -15,6 +15,7 @@ import { DisablePrivacyOnMount } from "@/components/ui/disable-privacy";
 import GreetingHeader from "@/components/greeting-header";
 import NetWorthSection from "@/components/net-worth-section";
 import FinancialProgress from "@/components/financial-progress";
+import DebtCard from "@/components/debt-card";
 
 // ===================== DEMO MODE DATA =====================
 const DEMO_METRICS = {
@@ -128,28 +129,23 @@ export default async function Home({
           ))}
         </div>
 
-        <h2 className="text-xl font-bold mb-4 text-gray-800">📉 Các khoản nợ</h2>
-        <div className="grid gap-4 mb-8">
+        {/* DEBTS SECTION */}
+        <h2 className="text-lg font-bold mb-4 text-gray-800">💳 Các khoản nợ</h2>
+        <div className="space-y-3 mb-6">
           {DEMO_DEBTS.map((debt) => (
-            <div key={debt.id} className="p-4 border border-red-200 bg-red-50 rounded-lg shadow-sm">
-              <div className="flex justify-between items-center">
-                <span className="font-medium text-gray-700">{debt.name}</span>
-                <span className="font-bold text-red-600">
-                  Còn nợ: <PrivacyAmount amount={debt.remaining_amount} />
-                </span>
-              </div>
-            </div>
+            <DebtCard key={debt.id} debt={debt} />
           ))}
         </div>
 
-        <div className="grid grid-cols-2 gap-4 mb-8">
-          <div className="flex items-center justify-center gap-2 p-4 bg-white border rounded-xl shadow-sm text-gray-400 cursor-not-allowed">
-            <List className="h-5 w-5" />
-            Xem Lịch sử (Demo)
+        {/* Navigation Links */}
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm cursor-not-allowed">
+            <List size={20} style={{ color: '#7a869a' }} />
+            <span className="text-sm font-medium" style={{ color: '#7a869a' }}>Lịch sử giao dịch</span>
           </div>
-          <div className="flex items-center justify-center gap-2 p-4 bg-white border rounded-xl shadow-sm text-gray-400 cursor-not-allowed">
-            <ArrowRightLeft className="h-5 w-5" />
-            Quản lý Nợ (Demo)
+          <div className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm cursor-not-allowed">
+            <ArrowRightLeft size={20} style={{ color: '#7a869a' }} />
+            <span className="text-sm font-medium" style={{ color: '#7a869a' }}>Quản lý nợ</span>
           </div>
         </div>
 
@@ -289,41 +285,35 @@ export default async function Home({
         {wallets?.length === 0 && <p className="text-gray-500 italic">Chưa có ví nào.</p>}
       </div>
 
-      {/* PHẦN 4: DANH SÁCH NỢ (PREVIEW) */}
-      <h2 className="text-xl font-bold mb-4 text-gray-800">📉 Các khoản nợ</h2>
-      <div className="grid gap-4 mb-8">
+      {/* DEBTS SECTION */}
+      <h2 className="text-lg font-bold mb-4 text-gray-800">💳 Các khoản nợ</h2>
+      <div className="space-y-3 mb-6">
         {debts?.map((debt: any) => (
-          <div key={debt.id} className="p-4 border border-red-200 bg-red-50 rounded-lg shadow-sm">
-            <div className="flex justify-between items-center">
-              <span className="font-medium text-gray-700">{debt.name}</span>
-              <span className="font-bold text-red-600">
-                Còn nợ: <PrivacyAmount amount={debt.remaining_amount} />
-              </span>
-            </div>
-          </div>
+          <DebtCard key={debt.id} debt={debt} />
         ))}
         {(!debts || debts.length === 0) && (
-          <div className="p-6 text-center border-2 border-dashed border-gray-200 rounded-xl">
-            <p className="text-gray-500">Tuyệt vời! Bạn không có khoản nợ nào.</p>
+          <div className="p-6 text-center bg-white rounded-2xl border shadow-sm">
+            <p className="text-lg mb-1">🎉</p>
+            <p style={{ color: '#598c58' }} className="font-medium">Tuyệt vời! Bạn không có khoản nợ nào.</p>
           </div>
         )}
       </div>
 
-      {/* Navigation - ĐƯA XUỐNG DƯỚI */}
-      <div className="grid grid-cols-2 gap-4 mb-8">
+      {/* Navigation Links */}
+      <div className="grid grid-cols-2 gap-3 mb-6">
         <Link
           href="/transactions"
-          className="flex items-center justify-center gap-2 p-4 bg-white border rounded-xl shadow-sm hover:bg-blue-50 transition font-semibold text-blue-600"
+          className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm hover:shadow-md transition"
         >
-          <List className="h-5 w-5" />
-          Xem Lịch sử
+          <List size={20} style={{ color: '#598c58' }} />
+          <span className="text-sm font-medium" style={{ color: '#598c58' }}>Lịch sử giao dịch</span>
         </Link>
         <Link
           href="/debts"
-          className="flex items-center justify-center gap-2 p-4 bg-white border rounded-xl shadow-sm hover:bg-orange-50 transition font-semibold text-orange-600"
+          className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm hover:shadow-md transition"
         >
-          <ArrowRightLeft className="h-5 w-5" />
-          Quản lý Nợ
+          <ArrowRightLeft size={20} style={{ color: '#c25e5e' }} />
+          <span className="text-sm font-medium" style={{ color: '#c25e5e' }}>Quản lý nợ</span>
         </Link>
       </div>
 
