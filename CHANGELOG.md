@@ -5,7 +5,7 @@
 ### Rebranding
 - **Product Name**: Officially renamed from "Bobo Finance" to "**Bobo**".
 - **Visual Identity**:
-  - Updated application Logo/Icon to the new "Money Windmill" design.
+  - Updated application Logo/Icon to the new "Styled S" design.
   - Added `apple-icon.png` to support "Add to Home Screen" on iOS and Android with the new logo.
   - Updated Browser Tab Title to "Bobo".
   - Updated Email Sender Name for Feedback/Notifications to "Bobo".
