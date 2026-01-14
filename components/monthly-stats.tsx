@@ -37,11 +37,12 @@ export default function MonthlyStats({ stats }: MonthlyStatsProps) {
     const pctWaste = (breakdown.waste / basis) * 100;
 
     // Filled Pie Chart với conic-gradient
+    // Thiết yếu (Positive) -> Thứ yếu (Neutral) -> Lãng phí (Negative)
     const pieStyle = {
         background: `conic-gradient(
-            ${COLOR_NEGATIVE} 0% ${pctMustHave}%, 
+            ${COLOR_POSITIVE} 0% ${pctMustHave}%, 
             ${COLOR_NEUTRAL} ${pctMustHave}% ${pctMustHave + pctNiceToHave}%, 
-            #a0aec0 ${pctMustHave + pctNiceToHave}% 100%
+            ${COLOR_NEGATIVE} ${pctMustHave + pctNiceToHave}% 100%
         )`
     };
 
@@ -68,29 +69,30 @@ export default function MonthlyStats({ stats }: MonthlyStatsProps) {
         <div className="bg-white p-5 rounded-2xl shadow-sm border mb-6">
             <h2 className="text-lg font-bold text-gray-800 mb-4">📊 Thống Kê Tháng Này</h2>
 
-            {/* 1. TỔNG QUAN 3 CỘT */}
-            <div className="grid grid-cols-3 gap-2 mb-6 text-center">
+            {/* 1. TỔNG QUAN: 2 HÀNG */}
+            {/* Hàng 1: Thu Nhập + Chi Tiêu */}
+            <div className="grid grid-cols-2 gap-3 mb-3">
                 {/* Thu Nhập */}
-                <div className="p-3 rounded-xl" style={{ backgroundColor: `${COLOR_POSITIVE}15` }}>
+                <div className="p-4 rounded-xl text-center" style={{ backgroundColor: `${COLOR_POSITIVE}15` }}>
                     <p className="text-xs uppercase font-semibold mb-1" style={{ color: COLOR_NEUTRAL }}>Thu Nhập</p>
-                    <p className="font-bold text-sm" style={{ color: COLOR_POSITIVE }}>
+                    <p className="font-bold text-base" style={{ color: COLOR_POSITIVE }}>
                         <PrivacyAmount amount={income} />
                     </p>
                 </div>
                 {/* Chi Tiêu */}
-                <div className="p-3 rounded-xl" style={{ backgroundColor: `${COLOR_NEGATIVE}15` }}>
+                <div className="p-4 rounded-xl text-center" style={{ backgroundColor: `${COLOR_NEGATIVE}15` }}>
                     <p className="text-xs uppercase font-semibold mb-1" style={{ color: COLOR_NEUTRAL }}>Chi Tiêu</p>
-                    <p className="font-bold text-sm" style={{ color: COLOR_NEGATIVE }}>
+                    <p className="font-bold text-base" style={{ color: COLOR_NEGATIVE }}>
                         <PrivacyAmount amount={expense} />
                     </p>
                 </div>
-                {/* Còn Lại */}
-                <div className="p-3 rounded-xl" style={{ backgroundColor: `${COLOR_NEUTRAL}15` }}>
-                    <p className="text-xs uppercase font-semibold mb-1" style={{ color: COLOR_NEUTRAL }}>Còn Lại</p>
-                    <p className="font-bold text-sm" style={{ color: remaining >= 0 ? COLOR_POSITIVE : COLOR_NEGATIVE }}>
-                        <PrivacyAmount amount={remaining} />
-                    </p>
-                </div>
+            </div>
+            {/* Hàng 2: Còn Lại (full width) */}
+            <div className="p-4 rounded-xl text-center mb-6" style={{ backgroundColor: `${COLOR_NEUTRAL}10` }}>
+                <p className="text-xs uppercase font-semibold mb-1" style={{ color: COLOR_NEUTRAL }}>Còn Lại</p>
+                <p className="font-bold text-xl" style={{ color: remaining >= 0 ? COLOR_POSITIVE : COLOR_NEGATIVE }}>
+                    <PrivacyAmount amount={remaining} />
+                </p>
             </div>
 
             {/* 2. PIE CHART - FILLED, CENTERED */}
@@ -108,15 +110,15 @@ export default function MonthlyStats({ stats }: MonthlyStatsProps) {
                 {/* Legend - Horizontal dưới chart */}
                 <div className="flex justify-center gap-4 text-xs">
                     <div className="flex items-center gap-1">
-                        <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLOR_NEGATIVE }} />
+                        <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLOR_POSITIVE }} />
                         <span className="text-gray-600">Thiết yếu {Math.round(pctMustHave)}%</span>
                     </div>
                     <div className="flex items-center gap-1">
                         <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLOR_NEUTRAL }} />
-                        <span className="text-gray-600">Hưởng thụ {Math.round(pctNiceToHave)}%</span>
+                        <span className="text-gray-600">Thứ yếu {Math.round(pctNiceToHave)}%</span>
                     </div>
                     <div className="flex items-center gap-1">
-                        <span className="w-3 h-3 rounded-full" style={{ backgroundColor: '#a0aec0' }} />
+                        <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLOR_NEGATIVE }} />
                         <span className="text-gray-600">Lãng phí {Math.round(pctWaste)}%</span>
                     </div>
                 </div>
