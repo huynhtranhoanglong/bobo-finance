@@ -72,6 +72,10 @@
   - **Vertical Layout**: Icon above text for cleaner look
   - **Color-coded**: "Lịch sử giao dịch" in green, "Quản lý nợ" in red
 
+- **FAB Button Update**:
+  - Changed from blue (`bg-blue-600`) to brand green (`#598c58`)
+  - Added `hover:scale-105` effect for better interaction feedback
+
 ### Technical Details
 - Added `components/greeting-header.tsx` - Client component with time-based greeting logic.
 - Added `components/net-worth-section.tsx` - Simple component for Net Worth display.
