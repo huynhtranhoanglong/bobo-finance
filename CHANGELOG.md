@@ -10,16 +10,26 @@
   - **Reordered login options**: Google Sign-In button is now prominently displayed at the top, as most users prefer this faster authentication method.
   - Added divider text "Hoặc đăng nhập bằng email" (Or sign in with email) to clearly separate login methods.
   - Updated **tagline** to "Quản lý tiền thông minh, đơn giản, an toàn. 🔒" (Smart, simple, secure money management) - shorter and value-focused.
-- **Demo Mode Link**:
-  - Added "Chưa muốn đăng ký? [Dùng thử ngay]" (Not ready to sign up? Try it now) link at the bottom.
-  - Links to `/?demo=true` allowing new users to explore the app with sample data before committing to registration.
 - **Mobile Optimization**:
   - Adjusted padding and spacing for optimal viewing on small screens (390x844 and similar).
   - Increased button heights to 44px+ for better touch targets.
 
+### Features - Demo Mode
+- **"Try Before You Sign Up"**:
+  - Added "Chưa muốn đăng ký? [Dùng thử ngay]" (Not ready to sign up? Try it now) link on login page.
+  - Links to `/?demo=true` allowing new users to explore the app with sample data before committing to registration.
+- **Full Demo Dashboard**:
+  - Demo mode displays a complete dashboard with sample data: Net Worth (125M VND), 4 Fund Groups, 5 Wallets, 2 Debts, Monthly Statistics.
+  - Yellow banner clearly indicates "Chế độ Demo - Dữ liệu mẫu" with a link to login/register.
+  - **Privacy Mode automatically disabled** in Demo Mode so users can see all sample numbers clearly.
+  - Navigation buttons (History, Manage Debts) are disabled in Demo Mode to prevent confusion.
+
 ### Technical Details
 - Modified `app/login/page.tsx` with new layout, logo integration, and demo link.
 - Copied `icon.png` to `/public/icon.png` for Next.js Image optimization.
+- Updated `utils/supabase/middleware.ts` to allow `?demo=true` to bypass authentication.
+- Added Demo Mode data and logic in `app/page.tsx` with sample metrics, wallets, funds, and debts.
+- Added `components/ui/disable-privacy.tsx` - a helper component to auto-disable Privacy Mode on mount.
 
 ## [1.1.5] - 2026-01-14
 

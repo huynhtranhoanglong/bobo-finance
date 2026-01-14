@@ -38,7 +38,10 @@ export async function updateSession(request: NextRequest) {
 
     // LOGIC BẢO VỆ: Nếu chưa đăng nhập và không phải trang /login -> Redirect về /login
     // v1.0.13: Cho phép thêm route /auth (để xử lý callback từ Google)
-    if (!user && !request.nextUrl.pathname.startsWith("/login") && !request.nextUrl.pathname.startsWith("/auth")) {
+    // v1.1.6: Cho phép Demo Mode (?demo=true) bypass authentication
+    const isDemoMode = request.nextUrl.searchParams.get("demo") === "true";
+
+    if (!user && !request.nextUrl.pathname.startsWith("/login") && !request.nextUrl.pathname.startsWith("/auth") && !isDemoMode) {
         const url = request.nextUrl.clone();
         url.pathname = "/login";
         return NextResponse.redirect(url);
