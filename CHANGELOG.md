@@ -26,10 +26,30 @@
     - If Safety Target reached → Shows % progress to **Độc lập tài chính**.
   - **Motivational Text**: "Còn [Amount] nữa để đạt [Target]" displays the remaining amount needed.
 
+- **Monthly Stats Section Redesign**:
+  - **Unified Color Palette**: Updated 3-column stats (Thu nhập/Chi tiêu/Còn lại) to use brand colors:
+    - Income: `#598c58` (green)
+    - Expense: `#c25e5e` (red)
+    - Remaining: `#7a869a` (gray) or green if positive
+  - **Filled Pie Chart**: Replaced donut chart with a **solid filled pie chart**.
+    - Centered horizontally with **50% width** of the section.
+    - Legends displayed in a **horizontal row below** the chart.
+  - **New Spending Progress Comparison**:
+    - **Time Progress Bar**: Shows % of month elapsed (e.g., day 14 of 30 = 47%).
+    - **Spending Progress Bar**: Compares actual spending against target:
+      - If user has debt → compared to **Minimum Spending**.
+      - If no debt → compared to **Standard Spending**.
+    - **Dynamic Color Logic**:
+      - Spending < Time (by 10%+): Green (good pace)
+      - Spending ≈ Time (±10%): Gray (on track)
+      - Spending > Time (by 10%+): Red (warning)
+    - **Contextual Explanation**: Text explains the comparison basis based on debt status.
+
 ### Technical Details
 - Added `components/greeting-header.tsx` - Client component with time-based greeting logic.
 - Added `components/net-worth-section.tsx` - Simple component for Net Worth display.
 - Added `components/financial-progress.tsx` - Combined progress section with dynamic milestone targeting.
+- Rewrote `components/monthly-stats.tsx` - New design with filled pie chart and time vs spending progress.
 - Modified `app/page.tsx` - Updated Dashboard layout for both Demo Mode and Real User Mode.
 - Deprecated usage of `components/financial-overview.tsx` in Dashboard (file retained for backward compatibility).
 - Updated version indicator to `v1.1.7`.

@@ -1,127 +1,172 @@
 "use client"
 
-import { AlertTriangle, TrendingUp, TrendingDown, Wallet } from "lucide-react"
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
 
-export default function MonthlyStats({ stats }: { stats: any }) {
+interface MonthlyStatsProps {
+    stats: {
+        income: number;
+        expense: number;
+        remaining: number;
+        breakdown: {
+            must_have: number;
+            nice_to_have: number;
+            waste: number;
+        };
+        min_spend: number;
+        std_spend?: number;
+        has_debt: boolean;
+    };
+}
+
+export default function MonthlyStats({ stats }: MonthlyStatsProps) {
     if (!stats) return null;
 
-    const { income, expense, remaining, breakdown, min_spend, has_debt } = stats;
+    const { income, expense, remaining, breakdown, min_spend, std_spend, has_debt } = stats;
 
-    // Format tiền
-    const formatMoney = (amount: number) =>
-        new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    // === COLOR PALETTE ===
+    const COLOR_POSITIVE = '#598c58';
+    const COLOR_NEGATIVE = '#c25e5e';
+    const COLOR_NEUTRAL = '#7a869a';
 
-    // Tính toán cho Pie Chart
+    // === PIE CHART CALCULATIONS ===
     const totalBreakdown = breakdown.must_have + breakdown.nice_to_have + breakdown.waste;
-    // Tránh chia cho 0
     const basis = totalBreakdown > 0 ? totalBreakdown : 1;
 
     const pctMustHave = (breakdown.must_have / basis) * 100;
     const pctNiceToHave = (breakdown.nice_to_have / basis) * 100;
     const pctWaste = (breakdown.waste / basis) * 100;
 
-    // CSS Conic Gradient cho Pie Chart
-    // MustHave (Red) -> NiceToHave (Yellow) -> Waste (Gray)
+    // Filled Pie Chart với conic-gradient
     const pieStyle = {
         background: `conic-gradient(
-            #ef4444 0% ${pctMustHave}%, 
-            #eab308 ${pctMustHave}% ${pctMustHave + pctNiceToHave}%, 
-            #94a3b8 ${pctMustHave + pctNiceToHave}% 100%
+            ${COLOR_NEGATIVE} 0% ${pctMustHave}%, 
+            ${COLOR_NEUTRAL} ${pctMustHave}% ${pctMustHave + pctNiceToHave}%, 
+            #a0aec0 ${pctMustHave + pctNiceToHave}% 100%
         )`
     };
 
-    // Logic Cảnh báo Chi tiêu (chỉ khi có nợ)
-    const spendProgress = min_spend > 0 ? (expense / min_spend) * 100 : 0;
-    const isOverBudget = has_debt && expense > min_spend;
+    // === SPENDING PROGRESS CALCULATIONS ===
+    const now = new Date();
+    const currentDay = now.getDate();
+    const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    const timeProgress = (currentDay / daysInMonth) * 100;
+
+    // Chọn mức so sánh dựa trên có nợ hay không
+    const compareTarget = has_debt ? min_spend : (std_spend || min_spend);
+    const spendingProgress = compareTarget > 0 ? (expense / compareTarget) * 100 : 0;
+
+    // Logic màu sắc: so sánh spending với time (±10%)
+    const difference = spendingProgress - timeProgress;
+    let progressColor = COLOR_NEUTRAL;
+    if (difference < -10) {
+        progressColor = COLOR_POSITIVE; // Tốt, chi tiêu ít hơn tiến độ thời gian
+    } else if (difference > 10) {
+        progressColor = COLOR_NEGATIVE; // Cảnh báo, chi tiêu vượt tiến độ
+    }
 
     return (
-        <div className="bg-white p-6 rounded-2xl shadow-sm border mb-8">
-            <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">📊 Thống Kê Tháng Này</h2>
+        <div className="bg-white p-5 rounded-2xl shadow-sm border mb-6">
+            <h2 className="text-lg font-bold text-gray-800 mb-4">📊 Thống Kê Tháng Này</h2>
 
             {/* 1. TỔNG QUAN 3 CỘT */}
             <div className="grid grid-cols-3 gap-2 mb-6 text-center">
-                <div className="p-3 bg-green-50 rounded-xl">
-                    <div className="text-green-600 mb-1 flex justify-center"><TrendingUp size={20} /></div>
-                    <p className="text-xs text-gray-500 uppercase font-semibold">Thu Nhập</p>
-                    <p className="font-bold text-green-700 text-sm md:text-base"><PrivacyAmount amount={income} /></p>
+                {/* Thu Nhập */}
+                <div className="p-3 rounded-xl" style={{ backgroundColor: `${COLOR_POSITIVE}15` }}>
+                    <p className="text-xs uppercase font-semibold mb-1" style={{ color: COLOR_NEUTRAL }}>Thu Nhập</p>
+                    <p className="font-bold text-sm" style={{ color: COLOR_POSITIVE }}>
+                        <PrivacyAmount amount={income} />
+                    </p>
                 </div>
-                <div className="p-3 bg-red-50 rounded-xl">
-                    <div className="text-red-600 mb-1 flex justify-center"><TrendingDown size={20} /></div>
-                    <p className="text-xs text-gray-500 uppercase font-semibold">Chi Tiêu</p>
-                    <p className="font-bold text-red-700 text-sm md:text-base"><PrivacyAmount amount={expense} /></p>
+                {/* Chi Tiêu */}
+                <div className="p-3 rounded-xl" style={{ backgroundColor: `${COLOR_NEGATIVE}15` }}>
+                    <p className="text-xs uppercase font-semibold mb-1" style={{ color: COLOR_NEUTRAL }}>Chi Tiêu</p>
+                    <p className="font-bold text-sm" style={{ color: COLOR_NEGATIVE }}>
+                        <PrivacyAmount amount={expense} />
+                    </p>
                 </div>
-                <div className="p-3 bg-blue-50 rounded-xl">
-                    <div className="text-blue-600 mb-1 flex justify-center"><Wallet size={20} /></div>
-                    <p className="text-xs text-gray-500 uppercase font-semibold">Còn Lại</p>
-                    <p className={`font-bold text-sm md:text-base ${remaining >= 0 ? 'text-blue-700' : 'text-orange-600'}`}>
+                {/* Còn Lại */}
+                <div className="p-3 rounded-xl" style={{ backgroundColor: `${COLOR_NEUTRAL}15` }}>
+                    <p className="text-xs uppercase font-semibold mb-1" style={{ color: COLOR_NEUTRAL }}>Còn Lại</p>
+                    <p className="font-bold text-sm" style={{ color: remaining >= 0 ? COLOR_POSITIVE : COLOR_NEGATIVE }}>
                         <PrivacyAmount amount={remaining} />
                     </p>
                 </div>
             </div>
 
-            {/* 2. PIE CHART & BREAKDOWN */}
-            <div className="flex items-center gap-6 mb-6">
-                {/* Pie Chart Circle */}
-                <div className="relative w-24 h-24 rounded-full shrink-0" style={pieStyle}>
-                    <div className="absolute inset-2 bg-white rounded-full flex items-center justify-center">
-                        <span className="text-xs font-bold text-gray-400">Tỉ trọng</span>
-                    </div>
-                </div>
+            {/* 2. PIE CHART - FILLED, CENTERED */}
+            <div className="flex flex-col items-center mb-6">
+                {/* Pie Chart - 50% width của section */}
+                <div
+                    className="rounded-full mb-4"
+                    style={{
+                        ...pieStyle,
+                        width: '50%',
+                        aspectRatio: '1/1'
+                    }}
+                />
 
-                {/* Legend */}
-                <div className="flex-1 space-y-2 text-sm">
-                    <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-2">
-                            <span className="w-3 h-3 rounded-full bg-red-500"></span>
-                            <span className="text-gray-600">Thiết yếu</span>
-                        </div>
-                        <span className="font-semibold text-gray-700">{Math.round(pctMustHave)}%</span>
+                {/* Legend - Horizontal dưới chart */}
+                <div className="flex justify-center gap-4 text-xs">
+                    <div className="flex items-center gap-1">
+                        <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLOR_NEGATIVE }} />
+                        <span className="text-gray-600">Thiết yếu {Math.round(pctMustHave)}%</span>
                     </div>
-                    <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-2">
-                            <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
-                            <span className="text-gray-600">Hưởng thụ</span>
-                        </div>
-                        <span className="font-semibold text-gray-700">{Math.round(pctNiceToHave)}%</span>
+                    <div className="flex items-center gap-1">
+                        <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLOR_NEUTRAL }} />
+                        <span className="text-gray-600">Hưởng thụ {Math.round(pctNiceToHave)}%</span>
                     </div>
-                    <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-2">
-                            <span className="w-3 h-3 rounded-full bg-slate-400"></span>
-                            <span className="text-gray-600">Lãng phí</span>
-                        </div>
-                        <span className="font-semibold text-gray-700">{Math.round(pctWaste)}%</span>
+                    <div className="flex items-center gap-1">
+                        <span className="w-3 h-3 rounded-full" style={{ backgroundColor: '#a0aec0' }} />
+                        <span className="text-gray-600">Lãng phí {Math.round(pctWaste)}%</span>
                     </div>
                 </div>
             </div>
 
-            {/* 3. CẢNH BÁO / TIẾN ĐỘ (Chỉ hiện khi CÓ NỢ) */}
-            {has_debt && (
-                <div className={`p-4 rounded-xl border ${isOverBudget ? 'bg-red-50 border-red-200' : 'bg-gray-50 border-gray-200'}`}>
-                    <div className="flex justify-between items-end mb-2">
-                        <span className="text-sm font-semibold text-gray-700">Tiến độ chi tiêu (vs Tối thiểu)</span>
-                        <span className="text-xs text-gray-500"><PrivacyAmount amount={expense} /> / <PrivacyAmount amount={min_spend} /></span>
+            {/* 3. TIẾN ĐỘ CHI TIÊU (NEW DESIGN) */}
+            <div className="p-4 rounded-xl border" style={{ backgroundColor: `${COLOR_NEUTRAL}08` }}>
+                {/* Thanh Tiến độ Thời gian */}
+                <div className="mb-4">
+                    <div className="flex justify-between items-center mb-1">
+                        <span className="text-sm font-medium text-gray-600">⏱️ Tiến độ thời gian</span>
+                        <span className="text-sm font-bold" style={{ color: COLOR_NEUTRAL }}>
+                            {Math.round(timeProgress)}%
+                        </span>
                     </div>
-
-                    {/* Progress Bar */}
-                    <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                    <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
                         <div
-                            className={`h-full transition-all duration-500 ${isOverBudget ? 'bg-red-600' : 'bg-green-500'}`}
-                            style={{ width: `${Math.min(spendProgress, 100)}%` }}
-                        ></div>
+                            className="h-full transition-all duration-500"
+                            style={{ width: `${timeProgress}%`, backgroundColor: COLOR_NEUTRAL }}
+                        />
                     </div>
-
-                    {isOverBudget && (
-                        <div className="flex gap-2 mt-3 text-red-700 text-sm items-start">
-                            <AlertTriangle size={18} className="shrink-0 mt-0.5" />
-                            <p>Bạn đang nợ và đã chi tiêu vượt mức tối thiểu! Hãy tiết kiệm hơn.</p>
-                        </div>
-                    )}
-                    {!isOverBudget && (
-                        <p className="text-xs text-green-600 mt-2 text-right">Bạn đang kiểm soát tốt chi tiêu.</p>
-                    )}
                 </div>
-            )}
+
+                {/* Thanh Tiến độ Chi tiêu */}
+                <div className="mb-3">
+                    <div className="flex justify-between items-center mb-1">
+                        <span className="text-sm font-medium text-gray-600">💳 Tiến độ chi tiêu</span>
+                        <span className="text-sm font-bold" style={{ color: progressColor }}>
+                            {Math.round(Math.min(spendingProgress, 100))}%
+                        </span>
+                    </div>
+                    <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div
+                            className="h-full transition-all duration-500"
+                            style={{
+                                width: `${Math.min(spendingProgress, 100)}%`,
+                                backgroundColor: progressColor
+                            }}
+                        />
+                    </div>
+                </div>
+
+                {/* Dòng diễn giải */}
+                <p className="text-xs text-center" style={{ color: COLOR_NEUTRAL }}>
+                    {has_debt
+                        ? "⚠️ Bạn đang có khoản nợ, nên giữ chi tiêu ở mức tối thiểu."
+                        : "💡 So sánh với mức chi tiêu tiêu chuẩn của bạn."
+                    }
+                </p>
+            </div>
         </div>
-    )
+    );
 }

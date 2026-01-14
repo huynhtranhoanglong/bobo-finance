@@ -35,6 +35,7 @@ const DEMO_MONTHLY_STATS = {
   remaining: 7000000,
   breakdown: { must_have: 10000000, nice_to_have: 6000000, waste: 2000000 },
   min_spend: 8000000,
+  std_spend: 12000000,
   has_debt: true
 };
 
