@@ -1,5 +1,44 @@
 # Changelog
 
+## [1.1.7] - 2026-01-14
+
+### UI Improvements - Dashboard Redesign
+
+- **New Greeting Header**:
+  - Replaced static header "💰 Tài sản của tôi" with a **time-based greeting** that changes throughout the day.
+  - Greeting variations:
+    - ☀️ "Chào buổi sáng!" (5:00 - 11:59)
+    - 🌤️ "Chào buổi chiều!" (12:00 - 17:59)
+    - 🌙 "Chào buổi tối!" (18:00 - 21:59)
+    - 🌃 "Khuya rồi, nghỉ ngơi nhé!" (22:00 - 4:59)
+  - Privacy Toggle and User Menu remain accessible on the right side.
+
+- **Separated Net Worth Section**:
+  - Net Worth is now displayed prominently in its own section immediately after the greeting.
+  - Large, bold text with **brand color `#598c58`** for positive emphasis.
+  - Supports Privacy Mode masking.
+
+- **Unified Financial Progress Section**:
+  - Replaced the previous 2-card layout (Safety + Freedom) with a **single, streamlined progress section**.
+  - Displays **Chi tiêu tối thiểu** (Minimum Monthly Spend) and **Chi tiêu tiêu chuẩn** (Standard Monthly Spend) in a compact 2-column layout.
+  - **Dynamic Progress Bar**: Shows progress toward the nearest milestone:
+    - If not yet reached Safety Target → Shows % progress to **An toàn tài chính**.
+    - If Safety Target reached → Shows % progress to **Độc lập tài chính**.
+  - **Motivational Text**: "Còn [Amount] nữa để đạt [Target]" displays the remaining amount needed.
+
+### Technical Details
+- Added `components/greeting-header.tsx` - Client component with time-based greeting logic.
+- Added `components/net-worth-section.tsx` - Simple component for Net Worth display.
+- Added `components/financial-progress.tsx` - Combined progress section with dynamic milestone targeting.
+- Modified `app/page.tsx` - Updated Dashboard layout for both Demo Mode and Real User Mode.
+- Deprecated usage of `components/financial-overview.tsx` in Dashboard (file retained for backward compatibility).
+- Updated version indicator to `v1.1.7`.
+
+### Color Palette Used
+- **Positive (Growth/Safety)**: `#598c58`
+- **Negative (Decline/Caution)**: `#c25e5e`
+- **Neutral (Stability/Info)**: `#7a869a`
+
 ## [1.1.6] - 2026-01-14
 
 ### UI Improvements - Login Page Redesign

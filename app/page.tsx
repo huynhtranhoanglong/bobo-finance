@@ -4,14 +4,17 @@ import { ArrowRightLeft, List } from "lucide-react";
 
 // Import các Components con
 import AddTransactionDialog from "@/components/add-transaction-dialog";
-import FinancialOverview from "@/components/financial-overview";
 import MonthlyStats from "@/components/monthly-stats";
-import FundGroup from "@/components/fund-group"; // NEW v1.0.7
-import { UserNav } from "@/components/user-nav"; // NEW v1.0.9
-import { ensureDefaultFunds } from "@/app/actions/ensure-funds"; // NEW v1.1.1
+import FundGroup from "@/components/fund-group";
+import { UserNav } from "@/components/user-nav";
+import { ensureDefaultFunds } from "@/app/actions/ensure-funds";
 import { PrivacyToggle } from "@/components/ui/privacy-toggle";
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import { DisablePrivacyOnMount } from "@/components/ui/disable-privacy";
+// NEW v1.1.7
+import GreetingHeader from "@/components/greeting-header";
+import NetWorthSection from "@/components/net-worth-section";
+import FinancialProgress from "@/components/financial-progress";
 
 // ===================== DEMO MODE DATA =====================
 const DEMO_METRICS = {
@@ -98,11 +101,16 @@ export default async function Home({
           </p>
         </div>
 
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">💰 Tài sản của tôi (Demo)</h1>
-        </div>
+        {/* NEW v1.1.7: Greeting Header */}
+        <GreetingHeader showControls={false} />
 
-        <FinancialOverview metrics={DEMO_METRICS} />
+        {/* NEW v1.1.7: Net Worth Section */}
+        <NetWorthSection netWorth={DEMO_METRICS.net_worth} />
+
+        {/* NEW v1.1.7: Financial Progress */}
+        <FinancialProgress metrics={DEMO_METRICS} />
+
+        {/* Stats Tháng Này */}
         <MonthlyStats stats={DEMO_MONTHLY_STATS} />
 
         <h2 className="text-xl font-bold mb-4 text-gray-800">Ví tiền</h2>
@@ -143,7 +151,7 @@ export default async function Home({
           </div>
         </div>
 
-        <p className="text-center text-xs text-gray-400 mt-8">Build: v1.1.6 (Demo Mode)</p>
+        <p className="text-center text-xs text-gray-400 mt-8">Build: v1.1.7 (Demo Mode)</p>
       </main>
     );
   }
@@ -251,17 +259,14 @@ export default async function Home({
   return (
     <main className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
 
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">💰 Tài sản của tôi (Bobo)</h1>
+      {/* NEW v1.1.7: Greeting Header */}
+      <GreetingHeader userEmail={user?.email || 'User'} />
 
-        <div className="flex items-center gap-2">
-          <PrivacyToggle />
-          {user && <UserNav email={user.email || 'User'} />}
-        </div>
-      </div>
+      {/* NEW v1.1.7: Net Worth Section */}
+      <NetWorthSection netWorth={metrics?.net_worth || 0} />
 
-      {/* Overview */}
-      <FinancialOverview metrics={metrics} />
+      {/* NEW v1.1.7: Financial Progress */}
+      <FinancialProgress metrics={metrics} />
 
       {/* Stats Tháng Này */}
       <MonthlyStats stats={monthlyStats} />
@@ -324,7 +329,7 @@ export default async function Home({
 
       {/* Build Version Indicator */}
       <p className="text-center text-xs text-gray-400 mt-8">
-        Build: v1.1.6
+        Build: v1.1.7
       </p>
 
     </main>
