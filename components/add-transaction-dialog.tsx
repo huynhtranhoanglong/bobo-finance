@@ -62,7 +62,11 @@ export default function AddTransactionDialog({ wallets, debts, funds }: { wallet
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button className="fixed bottom-8 right-8 h-14 w-14 rounded-full shadow-lg bg-blue-600 hover:bg-blue-700 text-white z-50" size="icon">
+                <Button
+                    className="fixed bottom-8 right-8 h-14 w-14 rounded-full shadow-lg text-white z-50 hover:scale-105 transition-transform"
+                    style={{ backgroundColor: '#598c58' }}
+                    size="icon"
+                >
                     <Plus className="h-6 w-6" />
                 </Button>
             </DialogTrigger>
