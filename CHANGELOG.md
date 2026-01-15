@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.1] - 2026-01-15
+
+### UX Improvements - Mobile Optimization
+- **Disable Dialog Autofocus**: 
+  - Disabled automatic focus functionality on all input dialogs to prevent the mobile keyboard from popping up unexpectedly and covering the screen content.
+  - Affected components: `CreateDebtDialog`, `CreateWalletDialog`, `EditDebtDialog`, `EditWalletDialog`, `EditTransactionDialog`.
+  - Improves visual clarity and control for users on small screens (390x844).
+
 ## [1.2.0] - 2026-01-15
 
 ### UI Unification - Global Design System

@@ -41,7 +41,7 @@ export default function EditDebtDialog({ open, setOpen, debt, onSuccess }: any) 
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px]" onOpenAutoFocus={(e) => e.preventDefault()}>
                 <DialogHeader>
                     <DialogTitle className="text-center text-xl">Chỉnh sửa khoản nợ</DialogTitle>
                 </DialogHeader>

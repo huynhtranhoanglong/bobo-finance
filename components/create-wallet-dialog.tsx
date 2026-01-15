@@ -35,7 +35,7 @@ export default function CreateWalletDialog({ funds }: { funds: any[] }) {
                 </Button>
             </DialogTrigger>
 
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px]" onOpenAutoFocus={(e) => e.preventDefault()}>
                 <DialogHeader>
                     <DialogTitle>Tạo Ví Mới</DialogTitle>
                 </DialogHeader>

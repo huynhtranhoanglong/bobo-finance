@@ -42,7 +42,7 @@ export default function EditTransactionDialog({ open, setOpen, transaction, wall
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
+            <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto" onOpenAutoFocus={(e) => e.preventDefault()}>
                 <DialogHeader>
                     <DialogTitle className="text-center text-xl">Sửa Giao Dịch</DialogTitle>
                 </DialogHeader>

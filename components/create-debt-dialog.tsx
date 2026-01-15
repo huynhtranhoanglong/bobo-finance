@@ -41,7 +41,7 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
                 </Button>
             </DialogTrigger>
 
-            <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
+            <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto" onOpenAutoFocus={(e) => e.preventDefault()}>
                 <DialogHeader>
                     <DialogTitle>Tạo Khoản Nợ Mới</DialogTitle>
                 </DialogHeader>
