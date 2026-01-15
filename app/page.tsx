@@ -11,6 +11,9 @@ import { ensureDefaultFunds } from "@/app/actions/ensure-funds";
 import { PrivacyToggle } from "@/components/ui/privacy-toggle";
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import { DisablePrivacyOnMount } from "@/components/ui/disable-privacy";
+import EditTransactionDialog from "@/components/edit-transaction-dialog"; // Import dialog sửa
+import CreateWalletDialog from "@/components/create-wallet-dialog";
+import CreateDebtDialog from "@/components/create-debt-dialog";
 // NEW v1.1.7
 import GreetingHeader from "@/components/greeting-header";
 import NetWorthSection from "@/components/net-worth-section";
@@ -270,7 +273,10 @@ export default async function Home({
       <MonthlyStats stats={monthlyStats} />
 
       {/* VÍ TIỀN (GOM NHÓM THEO QUỸ) */}
-      <h2 className="text-lg font-bold mb-4 text-gray-800">💳 Ví tiền</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-bold text-gray-800">💳 Ví tiền</h2>
+        <CreateWalletDialog funds={fundsList || []} />
+      </div>
       <div className="mb-6">
         {sortedGroups.map((group) => (
           <FundGroup
@@ -286,7 +292,10 @@ export default async function Home({
       </div>
 
       {/* DEBTS SECTION */}
-      <h2 className="text-lg font-bold mb-4 text-gray-800">💳 Các khoản nợ</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-bold text-gray-800">💳 Các khoản nợ</h2>
+        <CreateDebtDialog wallets={wallets || []} />
+      </div>
       <div className="space-y-3 mb-6">
         {debts?.map((debt: any) => (
           <DebtCard key={debt.id} debt={debt} />
@@ -315,7 +324,7 @@ export default async function Home({
 
       {/* Build Version Indicator */}
       <p className="text-center text-xs text-gray-400 mt-8">
-        Build: v1.1.10
+        Build: v1.1.11
       </p>
 
     </main >

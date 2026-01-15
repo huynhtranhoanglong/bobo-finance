@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.1.11] - 2026-01-15
+
+### UI Improvements - FAB & Contextual Actions
+- **Streamlined FAB (Unified Add Transaction)**:
+  - Refactored the Floating Action Button to focus solely on daily transactions (Income, Expense, Transfer, Debt Repayment).
+  - Removed "Create Wallet" and "Create New Debt" options from the FAB to reduce clutter.
+- **New Contextual Actions**:
+  - **Create Wallet**: Added a `+` button next to the "Ví tiền" (Wallets) section header on the Dashboard.
+  - **Create Debt**: Added a `+` button next to the "Các khoản nợ" (Debts) section header on the Dashboard.
+  - Improves usability by placing creation actions directly where users look for them.
+
+### Technical Details
+- Created `components/create-wallet-dialog.tsx`.
+- Created `components/create-debt-dialog.tsx`.
+- Refactored `components/add-transaction-dialog.tsx` to remove configuration logic.
+- Updated `app/page.tsx` header to include "Contextual Actions".
+
 ## [1.1.10] - 2026-01-15
 
 ### UI Improvements - Debt Management
