@@ -3,11 +3,12 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { updateTransactionAction } from "@/app/actions"
+import { updateTransactionAction, deleteTransactionAction } from "@/app/actions"
+import { Trash2 } from "lucide-react"
 
-export default function EditTransactionDialog({ open, setOpen, transaction, wallets }: any) {
+export default function EditTransactionDialog({ open, setOpen, transaction, wallets, onSuccess }: any) {
     const [loading, setLoading] = useState(false);
 
     // Form action
@@ -17,7 +18,26 @@ export default function EditTransactionDialog({ open, setOpen, transaction, wall
         const res = await updateTransactionAction(formData);
         setLoading(false);
         if (res?.error) alert(res.error);
-        else setOpen(false);
+        else {
+            setOpen(false);
+            onSuccess?.(); // Trigger refresh if callback provided
+        }
+    }
+
+    // Delete action
+    async function handleDelete() {
+        if (!confirm("Bạn có chắc chắn muốn xóa giao dịch này? Tiền sẽ được hoàn lại ví.")) return;
+
+        setLoading(true);
+        const res = await deleteTransactionAction(transaction.id);
+        setLoading(false);
+
+        if (res?.error) {
+            alert(res.error);
+        } else {
+            setOpen(false);
+            onSuccess?.(); // Trigger refresh if callback provided
+        }
     }
 
     return (
@@ -95,7 +115,35 @@ export default function EditTransactionDialog({ open, setOpen, transaction, wall
                         <Input name="note" defaultValue={transaction.note || ""} />
                     </div>
 
-                    <Button type="submit" disabled={loading} className="w-full mt-2">{loading ? "Đang lưu..." : "Lưu Thay Đổi"}</Button>
+                    <DialogFooter className="flex flex-col-reverse sm:flex-row sm:justify-between gap-2 mt-4">
+                        <Button
+                            type="button"
+                            variant="destructive"
+                            onClick={handleDelete}
+                            disabled={loading}
+                            className="w-full sm:w-auto"
+                        >
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Xóa giao dịch
+                        </Button>
+                        <div className="flex gap-2">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => setOpen(false)}
+                                className="flex-1 sm:flex-none"
+                            >
+                                Hủy
+                            </Button>
+                            <Button
+                                type="submit"
+                                disabled={loading}
+                                className="flex-1 sm:flex-none"
+                            >
+                                {loading ? "Đang lưu..." : "Lưu thay đổi"}
+                            </Button>
+                        </div>
+                    </DialogFooter>
                 </form>
             </DialogContent>
         </Dialog>

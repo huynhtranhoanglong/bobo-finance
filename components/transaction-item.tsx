@@ -10,7 +10,7 @@ const COLOR_POSITIVE = '#598c58';
 const COLOR_NEGATIVE = '#c25e5e';
 const COLOR_NEUTRAL = '#7a869a';
 
-export default function TransactionItem({ transaction, wallets }: { transaction: any, wallets: any[] }) {
+export default function TransactionItem({ transaction, wallets, onSuccess }: { transaction: any, wallets: any[], onSuccess?: () => void }) {
     const [isEditOpen, setIsEditOpen] = useState(false);
 
     // Format date
@@ -91,6 +91,7 @@ export default function TransactionItem({ transaction, wallets }: { transaction:
                     setOpen={setIsEditOpen}
                     transaction={transaction}
                     wallets={wallets}
+                    onSuccess={onSuccess}
                 />
             )}
         </>

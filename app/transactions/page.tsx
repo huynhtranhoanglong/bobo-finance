@@ -23,8 +23,14 @@ function TransactionsPageContent() {
     const [user, setUser] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [displayCount, setDisplayCount] = useState(ITEMS_PER_PAGE);
+    const [refreshTrigger, setRefreshTrigger] = useState(0); // Trigger for refresh
 
-    // Fetch data on mount and when search params change
+    // Callback to refresh data
+    const handleRefresh = () => {
+        setRefreshTrigger(prev => prev + 1);
+    };
+
+    // Fetch data on mount and when search params change or refresh triggered
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
@@ -107,7 +113,7 @@ function TransactionsPageContent() {
         }
 
         fetchData();
-    }, [searchParams]);
+    }, [searchParams, refreshTrigger]); // Watch both searchParams and refreshTrigger
 
     const handleLoadMore = () => {
         setDisplayCount(prev => prev + ITEMS_PER_PAGE);
@@ -147,6 +153,7 @@ function TransactionsPageContent() {
                                 key={t.id}
                                 transaction={t}
                                 wallets={wallets || []}
+                                onSuccess={handleRefresh}
                             />
                         ))}
 
@@ -179,6 +186,7 @@ function TransactionsPageContent() {
                 wallets={wallets || []}
                 debts={debts || []}
                 funds={funds || []}
+                onSuccess={handleRefresh}
             />
         </main>
     );

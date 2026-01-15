@@ -35,19 +35,38 @@
   - Users can create new transactions without returning to dashboard
   - Consistent FAB placement across all app pages
 
+- **Real-time Transaction Refresh** (NEW):
+  - **Instant Updates**: New transactions appear immediately after creation without page reload
+  - **Seamless UX**: Using state trigger pattern for efficient re-fetching
+  - Applied to both Add and Edit transaction flows
+  - Scalable solution that works across all pages
+
+- **Delete Button in Edit Dialog** (NEW):
+  - Added "Xóa giao dịch" button to edit transaction dialog
+  - Red destructive styling with Trash icon for clear visual indication
+  - Position: Left side of footer (separated from Save/Cancel actions)
+  - Confirmation prompt prevents accidental deletion
+  - Auto-refresh after deletion
+
 - **Technical Changes**:
   - Converted `app/transactions/page.tsx` from Server Component to Client Component
   - Created `utils/supabase/client.ts` for client-side data fetching
   - Implemented client-side filtering and pagination logic
   - Date filter supports ISO date format with proper timezone handling
+  - Added `refreshTrigger` state for efficient data refresh
+  - Added `onSuccess` callback pattern to all transaction components
+  - Wrapped page in Suspense boundary for proper `useSearchParams` handling
 
 ### Bug Fixes
 - Fixed date filtering to include full end date (adds 1 day to `to_date` for inclusive range)
+- Fixed Vercel deployment by adding Suspense boundary for `useSearchParams` hook
 
 ### Technical Details
 - Modified `components/transaction-filters.tsx` - Complete redesign with date range filter
-- Modified `components/transaction-item.tsx` - Removed dropdown menu, made card clickable, added background colors
-- Modified `app/transactions/page.tsx` - Converted to client component with pagination and FAB
+- Modified `components/transaction-item.tsx` - Removed dropdown menu, made card clickable, added background colors, added onSuccess callback
+- Modified `components/edit-transaction-dialog.tsx` - Added delete button and onSuccess callback
+- Modified `components/add-transaction-dialog.tsx` - Added onSuccess callback for refresh
+- Modified `app/transactions/page.tsx` - Converted to client component with pagination, FAB, and refresh trigger
 - Added `utils/supabase/client.ts` - Client-side Supabase utility
 - Updated version indicator to `v1.1.9`
 

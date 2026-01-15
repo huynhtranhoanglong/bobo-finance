@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { addTransaction, createWalletAction } from "@/app/actions"
 
-export default function AddTransactionDialog({ wallets, debts, funds }: { wallets: any[], debts: any[], funds: any[] }) {
+export default function AddTransactionDialog({ wallets, debts, funds, onSuccess }: { wallets: any[], debts: any[], funds: any[], onSuccess?: () => void }) {
     const [open, setOpen] = useState(false)
     const [type, setType] = useState("expense")
     const [debtType, setDebtType] = useState("payable")
@@ -27,6 +27,7 @@ export default function AddTransactionDialog({ wallets, debts, funds }: { wallet
                 alert("Lỗi: " + result.error);
             } else {
                 setOpen(false);
+                onSuccess?.(); // Trigger refresh
             }
             return;
         }
@@ -45,6 +46,7 @@ export default function AddTransactionDialog({ wallets, debts, funds }: { wallet
             alert("Lỗi: " + result.error);
         } else {
             setOpen(false);
+            onSuccess?.(); // Trigger refresh
         }
     }
 
