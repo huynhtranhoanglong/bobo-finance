@@ -166,46 +166,18 @@ export default async function Home({
   const currentMonth = now.getMonth() + 1;
   const currentYear = now.getFullYear();
 
-  // 1. Lấy thống kê Tháng này
-  const { data: monthlyStats } = await supabase.rpc('get_monthly_stats', {
+  // v1.2.4: Gộp tất cả API thành 1 RPC call duy nhất
+  const { data: dashboardData } = await supabase.rpc('get_dashboard_data', {
     p_month: currentMonth,
     p_year: currentYear
   });
 
-  // 2. Lấy dữ liệu Ví (Wallets)
-  const { data: wallets } = await supabase
-    .from("wallets")
-    .select(`
-      id,
-      name,
-      balance,
-      fund_id, 
-      funds ( id, name )
-    `)
-    .order('balance', { ascending: false });
-
-  // 3. Lấy dữ liệu Nợ (Debts)
-  const { data: debts } = await supabase
-    .from("debts")
-    .select(`
-      id,
-      name,
-      remaining_amount,
-      total_amount
-    `)
-    .eq('type', 'payable')
-    .gt('remaining_amount', 0)
-    .order('remaining_amount', { ascending: false });
-
-  // 4. Lấy metrics
-  const { data: metrics } = await supabase.rpc('get_financial_metrics');
-
-  const formatMoney = (amount: number) =>
-    new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-
-  // 5. Lấy danh sách Funds
-  const { data: funds } = await supabase.from("funds").select("id, name");
-  const fundsList = funds || [];
+  // Extract data từ response
+  const monthlyStats = dashboardData?.monthly_stats;
+  const wallets = dashboardData?.wallets || [];
+  const debts = dashboardData?.debts || [];
+  const metrics = dashboardData?.metrics;
+  const fundsList = dashboardData?.funds || [];
 
   // --- LOGIC GROUPING WALLETS (v1.0.7) ---
   const fundGroups: Record<string, { name: string, balance: number, wallets: any[] }> = {};
@@ -320,11 +292,11 @@ export default async function Home({
       </div>
 
       {/* PHẦN 5: NÚT FAB (THÊM GIAO DỊCH / TẠO VÍ) */}
-      <AddTransactionDialog wallets={wallets || []} debts={debts || []} funds={funds || []} />
+      <AddTransactionDialog wallets={wallets || []} debts={debts || []} funds={fundsList || []} />
 
       {/* Build Version Indicator */}
       <p className="text-center text-xs text-gray-400 mt-8">
-        Build: v1.2.3
+        Build: v1.2.4
       </p>
 
     </main >

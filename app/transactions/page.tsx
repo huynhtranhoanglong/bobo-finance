@@ -11,6 +11,7 @@ import { UserNav } from "@/components/user-nav";
 import AddTransactionDialog from "@/components/add-transaction-dialog";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
+import { TransactionListSkeleton } from "@/components/ui/skeleton";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -22,18 +23,18 @@ function TransactionsPageContent() {
     const [funds, setFunds] = useState<any[]>([]);
     const [user, setUser] = useState<any>(null);
     const [loading, setLoading] = useState(true);
+    const [staticDataLoaded, setStaticDataLoaded] = useState(false);
     const [displayCount, setDisplayCount] = useState(ITEMS_PER_PAGE);
-    const [refreshTrigger, setRefreshTrigger] = useState(0); // Trigger for refresh
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-    // Callback to refresh data
+    // Callback to refresh transactions only (not static data)
     const handleRefresh = () => {
         setRefreshTrigger(prev => prev + 1);
     };
 
-    // Fetch data on mount and when search params change or refresh triggered
+    // Fetch static data ONCE on mount (wallets, debts, funds, user)
     useEffect(() => {
-        async function fetchData() {
-            setLoading(true);
+        async function fetchStaticData() {
             const supabase = createClient();
 
             // Get user
@@ -57,6 +58,20 @@ function TransactionsPageContent() {
             // Get funds (for FAB)
             const { data: fundsData } = await supabase.from("funds").select("id, name");
             setFunds(fundsData || []);
+
+            setStaticDataLoaded(true);
+        }
+
+        fetchStaticData();
+    }, []); // Empty dependency = only run on mount
+
+    // Fetch transactions when filters change or refresh triggered
+    useEffect(() => {
+        if (!staticDataLoaded) return; // Wait for static data first
+
+        async function fetchTransactions() {
+            setLoading(true);
+            const supabase = createClient();
 
             // Get filter params
             const q = searchParams.get("q") || "";
@@ -89,7 +104,6 @@ function TransactionsPageContent() {
                 query = query.gte("date", new Date(from_date).toISOString());
             }
             if (to_date) {
-                // Add 1 day to include the entire to_date
                 const toDateEnd = new Date(to_date);
                 toDateEnd.setDate(toDateEnd.getDate() + 1);
                 query = query.lt("date", toDateEnd.toISOString());
@@ -109,11 +123,11 @@ function TransactionsPageContent() {
             const { data: transactionsData } = await query;
             setTransactions(transactionsData || []);
             setLoading(false);
-            setDisplayCount(ITEMS_PER_PAGE); // Reset pagination when filters change
+            setDisplayCount(ITEMS_PER_PAGE);
         }
 
-        fetchData();
-    }, [searchParams, refreshTrigger]); // Watch both searchParams and refreshTrigger
+        fetchTransactions();
+    }, [searchParams, refreshTrigger, staticDataLoaded]); // Watch filters and refresh
 
     const handleLoadMore = () => {
         setDisplayCount(prev => prev + ITEMS_PER_PAGE);
@@ -144,7 +158,7 @@ function TransactionsPageContent() {
 
             {/* Transactions List */}
             {loading ? (
-                <div className="text-center text-gray-500 py-10">Đang tải...</div>
+                <TransactionListSkeleton />
             ) : (
                 <>
                     <div className="space-y-3">

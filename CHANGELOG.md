@@ -1,5 +1,37 @@
 # Changelog
 
+## [1.2.4] - 2026-01-15
+
+### Performance Optimizations
+
+- **Unified Dashboard API (Single RPC)**:
+  - Consolidated 5 separate API calls (wallets, debts, funds, metrics, monthly_stats) into a single `get_dashboard_data` RPC function.
+  - Reduces network overhead and improves Dashboard load time significantly.
+  - **Database Script**: `sql_backup/202601152000_get_dashboard_data.sql`
+
+- **Singleton Supabase Client**:
+  - Implemented singleton pattern for browser Supabase client to reuse connection instead of creating new instances on every call.
+  - Modified `utils/supabase/client.ts`.
+
+- **Optimized Transaction Page Refresh Logic**:
+  - Separated data fetching into `fetchStaticData()` (runs once on mount) and `fetchTransactions()` (runs on filter change or CRUD operations).
+  - Static data (wallets, debts, funds, user) no longer reloads when adding/editing/deleting transactions.
+  - Faster perceived performance after transaction operations.
+
+### UX Improvements
+
+- **Skeleton Loading**:
+  - Replaced plain "Đang tải..." text with animated skeleton placeholders.
+  - Added `components/ui/skeleton.tsx` with variants: `Skeleton`, `DashboardSkeleton`, `TransactionListSkeleton`.
+  - Applied to Transaction History page for smooth loading experience.
+
+### Technical Details
+- Modified `app/page.tsx` - Refactored to use single RPC call.
+- Modified `app/transactions/page.tsx` - Separated static data fetch from transactions fetch.
+- Modified `utils/supabase/client.ts` - Added singleton pattern.
+- Added `components/ui/skeleton.tsx` - New skeleton loading components.
+- Added `sql_backup/202601152000_get_dashboard_data.sql` - New unified RPC function.
+
 ## [1.2.3] - 2026-01-15
 
 ### UX Improvements - Input Formatting
