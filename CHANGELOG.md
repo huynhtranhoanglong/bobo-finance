@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.1.10] - 2026-01-15
+
+### UI Improvements - Debt Management
+- **Integrated Debt Management**:
+  - Removed separate "Manage Debts" page (`/debts`) to simplify navigation.
+  - **Interactive Debt Cards**: Users can now click directly on a debt card in the Dashboard to edit or delete it.
+  - **Edit Dialog**: Updated with a "Delete" button for quick removal of debts.
+  - **Real-time Updates**: Dashboard immediately reflects changes after editing or deleting a debt.
+  - Removed "Manage Debts" button from Dashboard footer.
+
+### Technical Details
+- Converted `components/debt-card.tsx` to Client Component.
+- Updated `components/edit-debt-dialog.tsx` to include Delete functionality.
+- Deleted `app/debts` directory and `components/debt-item.tsx`.
+
 ## [1.1.9] - 2026-01-15
 
 ### UI Improvements - Transaction History Page Redesign
