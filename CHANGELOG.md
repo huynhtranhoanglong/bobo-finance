@@ -9,7 +9,7 @@
   - Enhanced monetary input fields to be **bold** and larger (`text-lg font-bold`) for easier reading.
   - **Refined Edit Dialogs**: Removed "Cancel" buttons (use X icon). Moved "Delete" action to the bottom with a separator for safety and cleaner UI.
   - **Mobile Optimization**: Removed default `autoFocus` on inputs to prevent keyboard pop-up, improving initial view on mobile.
-  - **FAB Redesign**: Simplified FAB to focus on "Income/Expense". "Transfer" and "Debt Repayment" are now accessed via a "More" toggle. Updated tab colors to be less distracting.
+  - **FAB Redesign**: Implemented a "Segmented Group" tab system `[Expense] [Income] [Other]`. The "Other" tab reveals "Transfer" and "Debt Repayment" options, keeping the interface clean and focused. Active tabs now strictly follow the brand color (`#598c58`).
 - **Affected Components**:
   - `AddTransactionDialog` (FAB)
   - `EditTransactionDialog`

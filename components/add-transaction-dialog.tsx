@@ -61,62 +61,52 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
 
                 <form action={handleSubmit} className="grid gap-4 py-4">
 
-                    {/* 1. THANH CHỌN LOẠI (Style mới, tối giản) */}
-                    <div className="grid grid-cols-2 gap-2">
+                    {/* 1. THANH CHỌN LOẠI (Segmented Group: Chi | Thu | Khác) */}
+                    <div className="grid grid-cols-3 gap-2">
                         <Button
                             type="button"
-                            variant={type === "expense" ? "default" : "outline"}
+                            variant="outline"
                             onClick={() => setType("expense")}
-                            className={type === "expense" ? "bg-red-500 hover:bg-red-600 text-white border-transparent" : "text-gray-500 border-gray-200"}
+                            className={`${type === "expense" ? "bg-[#598c58] text-white hover:bg-[#4a7a49] border-transparent" : "text-gray-500 hover:text-gray-700"}`}
                         >
                             💸 Chi Tiêu
                         </Button>
                         <Button
                             type="button"
-                            variant={type === "income" ? "default" : "outline"}
+                            variant="outline"
                             onClick={() => setType("income")}
-                            className={type === "income" ? "bg-green-500 hover:bg-green-600 text-white border-transparent" : "text-gray-500 border-gray-200"}
+                            className={`${type === "income" ? "bg-[#598c58] text-white hover:bg-[#4a7a49] border-transparent" : "text-gray-500 hover:text-gray-700"}`}
                         >
                             💰 Thu Nhập
                         </Button>
-                    </div>
-
-                    {/* MỞ RỘNG (Chuyển khoản / Trả nợ) */}
-                    {(type !== 'expense' && type !== 'income') && (
-                        <div className="flex gap-2 justify-center animate-in fade-in slide-in-from-top-2">
-                            <span className="text-sm font-medium text-gray-700">{getTitle()}</span>
-                        </div>
-                    )}
-
-                    <div className="flex justify-center">
                         <Button
                             type="button"
-                            variant="ghost"
-                            size="sm"
-                            className="text-xs text-gray-400 hover:text-gray-700"
-                            onClick={() => setType(type === 'transfer' ? 'expense' : 'transfer')}
+                            variant="outline"
+                            onClick={() => setType(type === 'transfer' || type === 'debt_repayment' ? type : 'transfer')}
+                            className={`${(type === "transfer" || type === "debt_repayment") ? "bg-[#598c58] text-white hover:bg-[#4a7a49] border-transparent" : "text-gray-500 hover:text-gray-700"}`}
                         >
-                            {type === 'transfer' || type === 'debt_repayment' ? "Quay lại Thu/Chi" : "Chức năng khác (Chuyển/Trả nợ)..."}
+                            ... Khác
                         </Button>
                     </div>
 
+                    {/* MỞ RỘNG (Chuyển khoản / Trả nợ) - Chỉ hiện khi chọn Tab 'Khác' */}
                     {(type === 'transfer' || type === 'debt_repayment') && (
-                        <div className="grid grid-cols-2 gap-2 mb-2">
+                        <div className="grid grid-cols-2 gap-2 animate-in fade-in slide-in-from-top-1 bg-gray-50 p-2 rounded-lg border border-gray-100">
                             <Button
                                 type="button"
                                 size="sm"
-                                variant={type === "transfer" ? "default" : "outline"}
+                                variant={type === "transfer" ? "secondary" : "ghost"}
                                 onClick={() => setType("transfer")}
-                                className={type === "transfer" ? "bg-blue-600 text-white" : ""}
+                                className={type === "transfer" ? "bg-blue-100 text-blue-700 font-semibold" : "text-gray-500"}
                             >
                                 🔄 Chuyển Khoản
                             </Button>
                             <Button
                                 type="button"
                                 size="sm"
-                                variant={type === "debt_repayment" ? "default" : "outline"}
+                                variant={type === "debt_repayment" ? "secondary" : "ghost"}
                                 onClick={() => setType("debt_repayment")}
-                                className={type === "debt_repayment" ? "bg-orange-500 text-white" : ""}
+                                className={type === "debt_repayment" ? "bg-orange-100 text-orange-700 font-semibold" : "text-gray-500"}
                             >
                                 📉 Trả Nợ
                             </Button>
