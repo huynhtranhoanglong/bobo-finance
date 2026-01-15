@@ -70,6 +70,30 @@
 - Added `utils/supabase/client.ts` - Client-side Supabase utility
 - Updated version indicator to `v1.1.9`
 
+### Hotfix - Filter UI Improvements
+
+- **Collapsible Filter Section**:
+  - Filter section now starts collapsed to save screen space
+  - Click header to expand/collapse filter options
+  - Shows "Đang lọc" badge when filters are active
+  - Cleaner, less cluttered initial view
+
+- **Date Picker Layout (iOS Fix)**:
+  - Changed date inputs from horizontal to **vertical stack**
+  - Fixes display issues on iOS Safari
+  - Better mobile experience on all devices
+
+- **Clear Date Buttons**:
+  - Added X button to clear individual date selections
+  - Appears on right side of date input when date is selected
+  - One-click to remove date filter
+
+- **Technical Changes**:
+  - Added `isExpanded` state for collapse/expand functionality
+  - Changed date inputs from `defaultValue` to `value` for better control
+  - Added `handleClearDate` function
+  - Added `hasActiveFilters` helper to show filter status
+
 
 ### UI Improvements - Login Page
 - **Separate Login & Register Tabs**:
