@@ -78,21 +78,18 @@
   - Shows "Đang lọc" badge when filters are active
   - Cleaner, less cluttered initial view
 
-- **Date Picker Layout (iOS Fix)**:
-  - Changed date inputs from horizontal to **vertical stack**
-  - Fixes display issues on iOS Safari
-  - Better mobile experience on all devices
-
-- **Clear Date Buttons**:
-  - Added X button to clear individual date selections
-  - Appears on right side of date input when date is selected
-  - One-click to remove date filter
+- **Date Filter Redesign (iOS Compatibility)**:
+  - **Replaced date inputs with preset dropdown** for better iOS Safari compatibility
+  - Options: Hôm nay, Hôm qua, 7 ngày qua, Tuần này, Tháng này, Tháng trước, Toàn thời gian
+  - Simpler, more intuitive UX for mobile users
+  - Automatic date range calculation based on selected preset
+  - Fixes all iOS date picker compatibility issues
 
 - **Technical Changes**:
-  - Added `isExpanded` state for collapse/expand functionality
-  - Changed date inputs from `defaultValue` to `value` for better control
-  - Added `handleClearDate` function
-  - Added `hasActiveFilters` helper to show filter status
+  - Added `handleDatePresetChange` function for preset logic
+  - Removed date inputs and clear date functionality
+  - Added `date_preset` URL parameter to track selected preset
+  - Date ranges automatically calculated client-side based on preset selection
 
 
 ### UI Improvements - Login Page
