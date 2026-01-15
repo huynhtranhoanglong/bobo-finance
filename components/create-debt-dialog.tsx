@@ -79,7 +79,7 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
                         <Select name="wallet_id" required>
                             <SelectTrigger><SelectValue placeholder="Chọn ví" /></SelectTrigger>
                             <SelectContent>
-                                {wallets.map(w => <SelectItem key={w.id} value={w.id}>{w.name} ({new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(w.balance)})</SelectItem>)}
+                                {wallets.map(w => <SelectItem key={w.id} value={w.id}>{w.name} ({new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(w.balance))})</SelectItem>)}
                             </SelectContent>
                         </Select>
                         <p className="text-xs text-gray-500">Hệ thống sẽ tự động tạo giao dịch {debtType === 'payable' ? 'Thu nhập' : 'Chi tiêu'} tương ứng.</p>

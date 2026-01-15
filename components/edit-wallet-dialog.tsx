@@ -82,7 +82,7 @@ export default function EditWalletDialog({
                         <Label>Số dư hiện tại</Label>
                         <MoneyInput
                             name="balance"
-                            initialValue={wallet.balance}
+                            initialValue={Number(wallet.balance)}
                             required
                             className="font-bold text-lg"
                         />

@@ -137,7 +137,7 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                                 <Select name="wallet_id" required>
                                     <SelectTrigger><SelectValue placeholder="Chọn ví" /></SelectTrigger>
                                     <SelectContent>
-                                        {wallets.map(w => <SelectItem key={w.id} value={w.id}>{w.name} ({new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(w.balance)})</SelectItem>)}
+                                        {wallets.map(w => <SelectItem key={w.id} value={w.id}>{w.name} ({new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(w.balance))})</SelectItem>)}
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -179,7 +179,7 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                             <Label>Ví</Label>
                             <Select name="wallet_id" required>
                                 <SelectTrigger><SelectValue placeholder="Chọn ví" /></SelectTrigger>
-                                <SelectContent>{wallets.map(w => <SelectItem key={w.id} value={w.id}>{w.name} ({new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(w.balance)})</SelectItem>)}</SelectContent>
+                                <SelectContent>{wallets.map(w => <SelectItem key={w.id} value={w.id}>{w.name} ({new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(w.balance))})</SelectItem>)}</SelectContent>
                             </Select>
                         </div>
                     )}

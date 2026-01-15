@@ -13,7 +13,7 @@ const COLOR_NEUTRAL = '#7a869a';
 export default function WalletCard({ wallet, funds }: { wallet: any, funds: any[] }) {
     const [open, setOpen] = useState(false)
 
-    const balanceColor = wallet.balance >= 0 ? COLOR_POSITIVE : COLOR_NEGATIVE;
+    const balanceColor = Number(wallet.balance) >= 0 ? COLOR_POSITIVE : COLOR_NEGATIVE;
 
     return (
         <>
@@ -29,7 +29,7 @@ export default function WalletCard({ wallet, funds }: { wallet: any, funds: any[
                         <span className="font-medium text-gray-800">{wallet.name}</span>
                     </div>
                     <div className="font-bold" style={{ color: balanceColor }}>
-                        <PrivacyAmount amount={wallet.balance} />
+                        <PrivacyAmount amount={Number(wallet.balance)} />
                     </div>
                 </div>
             </div>

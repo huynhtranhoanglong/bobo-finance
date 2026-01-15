@@ -32,6 +32,12 @@
 - Added `components/ui/skeleton.tsx` - New skeleton loading components.
 - Added `sql_backup/202601152000_get_dashboard_data.sql` - New unified RPC function.
 
+### Bug Fixes
+- **Fixed Wallet Balance NaN Display**:
+  - PostgreSQL `decimal` type returns as string in JSON response from RPC, causing `Intl.NumberFormat` to display "NaN".
+  - Added `Number()` wrapper to all wallet balance references to ensure proper type conversion.
+  - **Affected Files**: `add-transaction-dialog.tsx`, `create-debt-dialog.tsx`, `wallet-card.tsx`, `edit-wallet-dialog.tsx`.
+
 ## [1.2.3] - 2026-01-15
 
 ### UX Improvements - Input Formatting
