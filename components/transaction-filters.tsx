@@ -13,7 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { Search, Calendar, ChevronDown, ChevronUp, X } from "lucide-react"
+import { Search, Calendar, ChevronDown, ChevronUp } from "lucide-react"
 
 export default function TransactionFilters({ wallets }: { wallets: any[] }) {
     const searchParams = useSearchParams()
@@ -40,9 +40,61 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
         replace(`/transactions?${params.toString()}`)
     }
 
-    const handleClearDate = (key: string) => {
+    // Handle preset date range selection
+    const handleDatePresetChange = (preset: string) => {
         const params = new URLSearchParams(searchParams)
-        params.delete(key)
+        const now = new Date()
+        let fromDate: Date | null = null
+        let toDate: Date | null = null
+
+        switch (preset) {
+            case 'today':
+                fromDate = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+                toDate = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+                break
+            case 'yesterday':
+                const yesterday = new Date(now)
+                yesterday.setDate(yesterday.getDate() - 1)
+                fromDate = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate())
+                toDate = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate())
+                break
+            case 'last7days':
+                fromDate = new Date(now)
+                fromDate.setDate(fromDate.getDate() - 7)
+                toDate = now
+                break
+            case 'thisweek':
+                const dayOfWeek = now.getDay()
+                const monday = new Date(now)
+                monday.setDate(now.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1))
+                fromDate = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate())
+                toDate = now
+                break
+            case 'thismonth':
+                fromDate = new Date(now.getFullYear(), now.getMonth(), 1)
+                toDate = now
+                break
+            case 'lastmonth':
+                const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+                const lastDayOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0)
+                fromDate = lastMonth
+                toDate = lastDayOfLastMonth
+                break
+            case 'all':
+            default:
+                params.delete('from_date')
+                params.delete('to_date')
+                params.delete('date_preset')
+                replace(`/transactions?${params.toString()}`)
+                return
+        }
+
+        if (fromDate && toDate) {
+            params.set('from_date', fromDate.toISOString().split('T')[0])
+            params.set('to_date', toDate.toISOString().split('T')[0])
+            params.set('date_preset', preset)
+        }
+
         replace(`/transactions?${params.toString()}`)
     }
 
@@ -90,52 +142,29 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
                     {/* Divider */}
                     <div className="border-t" />
 
-                    {/* 2. DATE FILTER - Stacked Vertically */}
+                    {/* 2. DATE PRESET FILTER */}
                     <div>
                         <Label className="text-sm font-medium text-gray-700 mb-2 block flex items-center gap-2">
                             <Calendar size={16} style={{ color: '#598c58' }} />
                             Khoảng thời gian
                         </Label>
-                        <div className="space-y-2">
-                            {/* From Date */}
-                            <div className="relative">
-                                <Input
-                                    type="date"
-                                    className="h-11 rounded-xl pr-10"
-                                    value={searchParams.get("from_date")?.toString() || ""}
-                                    onChange={(e) => handleFilterChange("from_date", e.target.value)}
-                                    placeholder="Từ ngày"
-                                />
-                                {searchParams.get("from_date") && (
-                                    <button
-                                        onClick={() => handleClearDate("from_date")}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                                        type="button"
-                                    >
-                                        <X size={18} />
-                                    </button>
-                                )}
-                            </div>
-                            {/* To Date */}
-                            <div className="relative">
-                                <Input
-                                    type="date"
-                                    className="h-11 rounded-xl pr-10"
-                                    value={searchParams.get("to_date")?.toString() || ""}
-                                    onChange={(e) => handleFilterChange("to_date", e.target.value)}
-                                    placeholder="Đến ngày"
-                                />
-                                {searchParams.get("to_date") && (
-                                    <button
-                                        onClick={() => handleClearDate("to_date")}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                                        type="button"
-                                    >
-                                        <X size={18} />
-                                    </button>
-                                )}
-                            </div>
-                        </div>
+                        <Select
+                            value={searchParams.get("date_preset")?.toString() || "all"}
+                            onValueChange={handleDatePresetChange}
+                        >
+                            <SelectTrigger className="h-11 rounded-xl">
+                                <SelectValue placeholder="Toàn thời gian" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">Toàn thời gian</SelectItem>
+                                <SelectItem value="today">Hôm nay</SelectItem>
+                                <SelectItem value="yesterday">Hôm qua</SelectItem>
+                                <SelectItem value="last7days">7 ngày qua</SelectItem>
+                                <SelectItem value="thisweek">Tuần này</SelectItem>
+                                <SelectItem value="thismonth">Tháng này</SelectItem>
+                                <SelectItem value="lastmonth">Tháng trước</SelectItem>
+                            </SelectContent>
+                        </Select>
                     </div>
 
                     {/* 3. TYPE & WALLET FILTERS */}
