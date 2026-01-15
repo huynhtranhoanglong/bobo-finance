@@ -37,7 +37,7 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
     // Tiêu đề động
     const getTitle = () => {
         switch (type) {
-            case 'transfer': return 'Chuyển Khoản';
+            case 'transfer': return 'Chuyển Ví';
             case 'debt_repayment': return 'Trả Nợ Cũ';
             default: return 'Thêm Giao Dịch';
         }
@@ -100,7 +100,7 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                                 onClick={() => setType("transfer")}
                                 className={type === "transfer" ? "bg-blue-100 text-blue-700 font-semibold" : "text-gray-500"}
                             >
-                                🔄 Chuyển Khoản
+                                🔄 Chuyển Ví
                             </Button>
                             <Button
                                 type="button"
@@ -158,17 +158,27 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                         </>
                     )}
 
-                    {/* CASE: CHUYỂN KHOẢN */}
+                    {/* CASE: CHUYỂN VÍ */}
                     {type === 'transfer' && (
                         <div className="grid grid-cols-[1fr,auto,1fr] gap-2 items-end">
                             <div className="grid gap-2">
                                 <Label>Từ ví</Label>
-                                <Select name="wallet_id" required><SelectTrigger><SelectValue placeholder="Chọn" /></SelectTrigger><SelectContent>{wallets.map(w => <SelectItem key={w.id} value={w.id}>{w.name}</SelectItem>)}</SelectContent></Select>
+                                <Select name="wallet_id" required>
+                                    <SelectTrigger><SelectValue placeholder="Chọn" /></SelectTrigger>
+                                    <SelectContent>
+                                        {wallets.map(w => <SelectItem key={w.id} value={w.id}>{w.name} ({new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(w.balance))})</SelectItem>)}
+                                    </SelectContent>
+                                </Select>
                             </div>
                             <ArrowRightLeft className="mb-3 text-gray-400" size={20} />
                             <div className="grid gap-2">
                                 <Label>Đến ví</Label>
-                                <Select name="to_wallet_id" required><SelectTrigger><SelectValue placeholder="Chọn" /></SelectTrigger><SelectContent>{wallets.map(w => <SelectItem key={w.id} value={w.id}>{w.name}</SelectItem>)}</SelectContent></Select>
+                                <Select name="to_wallet_id" required>
+                                    <SelectTrigger><SelectValue placeholder="Chọn" /></SelectTrigger>
+                                    <SelectContent>
+                                        {wallets.map(w => <SelectItem key={w.id} value={w.id}>{w.name} ({new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(w.balance))})</SelectItem>)}
+                                    </SelectContent>
+                                </Select>
                             </div>
                         </div>
                     )}

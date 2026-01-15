@@ -38,6 +38,10 @@
   - Added `Number()` wrapper to all wallet balance references to ensure proper type conversion.
   - **Affected Files**: `add-transaction-dialog.tsx`, `create-debt-dialog.tsx`, `wallet-card.tsx`, `edit-wallet-dialog.tsx`.
 
+- **Transfer Dialog Enhancement**:
+  - Added wallet balance preview to "From Wallet" and "To Wallet" dropdowns in Transfer dialog.
+  - Renamed "Chuyển Khoản" to "Chuyển Ví" for consistency.
+
 ## [1.2.3] - 2026-01-15
 
 ### UX Improvements - Input Formatting
