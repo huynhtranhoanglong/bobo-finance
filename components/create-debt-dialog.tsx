@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Plus } from "lucide-react"
+import { Plus, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -102,7 +102,7 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
                     </div>
 
                     <Button type="submit" disabled={loading} style={{ backgroundColor: '#598c58' }} className="w-full mt-2">
-                        {loading ? "Đang xử lý..." : "Tạo Khoản Nợ"}
+                        {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang xử lý...</> : "Tạo Khoản Nợ"}
                     </Button>
                 </form>
             </DialogContent>

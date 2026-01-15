@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.2.2] - 2026-01-15
+
+### UX Improvements - Visual Feedback
+- **Global Loading Screen**: 
+  - Implemented a branded loading screen featuring the Bobo Logo with a gentle **pulse animation**.
+  - Provides immediate visual feedback during initial app load and page transitions.
+- **Interactive Button Loading**: 
+  - All action buttons (Create, Save, Delete, Send) now display a **spinning loader icon** during processing.
+  - Replaces static "Loading..." text with dynamic visual indicators, reducing perceived wait time.
+  - Applied to all dialogs: Transaction, Wallet, Debt, and Feedback.
+
 ## [1.2.1] - 2026-01-15
 
 ### UX Improvements - Mobile Optimization

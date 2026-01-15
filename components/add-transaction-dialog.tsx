@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Plus, ArrowRightLeft } from "lucide-react"
+import { Plus, ArrowRightLeft, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -204,7 +204,7 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                     </div>
 
                     <Button type="submit" disabled={loading} className="mt-4 w-full text-lg py-6" style={{ backgroundColor: '#598c58' }}>
-                        {loading ? "Đang xử lý..." : "Xác Nhận"}
+                        {loading ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Đang xử lý...</> : "Xác Nhận"}
                     </Button>
                 </form>
             </DialogContent>

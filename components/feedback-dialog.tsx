@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { MessageSquare, Send, X } from "lucide-react"
+import { MessageSquare, Send, X, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -107,7 +107,7 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
                             style={{ backgroundColor: '#598c58' }}
                         >
                             {loading ? (
-                                "Đang gửi..."
+                                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang gửi...</>
                             ) : (
                                 <>
                                     <Send className="mr-2 h-4 w-4" />

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { updateDebtAction, deleteDebtAction } from "@/app/actions"
-import { Trash2 } from "lucide-react"
+import { Trash2, Loader2 } from "lucide-react"
 
 export default function EditDebtDialog({ open, setOpen, debt, onSuccess }: any) {
     const [loading, setLoading] = useState(false);
@@ -59,7 +59,7 @@ export default function EditDebtDialog({ open, setOpen, debt, onSuccess }: any) 
                     </div>
 
                     <Button type="submit" disabled={loading} className="w-full mt-4" style={{ backgroundColor: '#598c58' }}>
-                        {loading ? "Đang lưu..." : "Lưu thay đổi"}
+                        {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang lưu...</> : "Lưu thay đổi"}
                     </Button>
 
                     <div className="relative flex py-2 items-center">
@@ -76,7 +76,7 @@ export default function EditDebtDialog({ open, setOpen, debt, onSuccess }: any) 
                         className="w-full flex gap-2"
                         title="Xóa khoản nợ"
                     >
-                        <Trash2 className="h-4 w-4" />
+                        {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
                         Xóa khoản nợ
                     </Button>
                 </form>

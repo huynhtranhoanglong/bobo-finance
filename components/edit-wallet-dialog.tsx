@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { updateWalletAction, deleteWalletAction } from "@/app/actions"
-import { Trash2 } from "lucide-react"
+import { Trash2, Loader2 } from "lucide-react"
 
 export default function EditWalletDialog({
     wallet,
@@ -86,7 +86,7 @@ export default function EditWalletDialog({
                     </div>
 
                     <Button type="submit" disabled={loading} className="mt-4 w-full" style={{ backgroundColor: '#598c58' }}>
-                        {loading ? "Đang lưu..." : "Lưu Thay Đổi"}
+                        {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang lưu...</> : "Lưu Thay Đổi"}
                     </Button>
 
                     <div className="relative flex py-2 items-center">
@@ -102,7 +102,8 @@ export default function EditWalletDialog({
                         disabled={loading}
                         className="w-full flex gap-2"
                     >
-                        <Trash2 size={16} /> Xóa Ví Này
+                        {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 size={16} />}
+                        {loading ? "Đang xoá..." : "Xóa Ví Này"}
                     </Button>
 
                 </form>
