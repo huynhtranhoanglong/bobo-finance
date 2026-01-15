@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.1.8] - 2026-01-15
+
+### UI Improvements - Login Page
+- **Separate Login & Register Tabs**:
+  - Implemented a toggle switch at the top of the form for distinct Login and Registration flows.
+  - Improves clarity and prevents accidental clicks on mobile devices (390x844 optimized).
+  - Uses tabs with clear active/inactive states.
+
+- **Show/Hide Password**:
+  - Added an "Eye" icon to the password input field.
+  - Allows users to toggle password visibility for better usability.
+
+- **Improved Error Notifications**:
+  - Updated error messages to use distinct alert styling (Red for errors, Green for success) with icons.
+  - Ensures messages are clearly visible and contextually color-coded.
+
+### Bug Fixes
+- **Enter Key Behavior**:
+  - Fixed an issue where pressing "Enter" in the login form would trigger the Google Login button instead of submitting the form.
+  - Isolated the Google Login button into a separate container to prioritize the main form submission.
+
+### Technical Details
+- Modified `app/login/page.tsx` to include state management for tabs and password visibility.
+- Updated Dashboard footer version to `v1.1.8`.
+
 ## [1.1.7] - 2026-01-14
 
 ### UI Improvements - Dashboard Redesign
