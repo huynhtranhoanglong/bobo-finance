@@ -12,6 +12,9 @@ import AddTransactionDialog from "@/components/add-transaction-dialog";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
 
+// Mark this page as dynamic to prevent static generation
+export const dynamic = 'force-dynamic';
+
 const ITEMS_PER_PAGE = 10;
 
 export default function TransactionsPage() {
