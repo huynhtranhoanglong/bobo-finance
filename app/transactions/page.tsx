@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { ArrowLeft, ChevronDown } from "lucide-react";
 import Link from "next/link";
@@ -12,12 +12,9 @@ import AddTransactionDialog from "@/components/add-transaction-dialog";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
 
-// Mark this page as dynamic to prevent static generation
-export const dynamic = 'force-dynamic';
-
 const ITEMS_PER_PAGE = 10;
 
-export default function TransactionsPage() {
+function TransactionsPageContent() {
     const searchParams = useSearchParams();
     const [transactions, setTransactions] = useState<any[]>([]);
     const [wallets, setWallets] = useState<any[]>([]);
@@ -184,5 +181,17 @@ export default function TransactionsPage() {
                 funds={funds || []}
             />
         </main>
+    );
+}
+
+export default function TransactionsPage() {
+    return (
+        <Suspense fallback={
+            <div className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
+                <div className="text-center text-gray-500 py-10">Đang tải...</div>
+            </div>
+        }>
+            <TransactionsPageContent />
+        </Suspense>
     );
 }
