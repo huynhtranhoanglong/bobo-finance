@@ -1,71 +1,125 @@
-import { createClient } from "@/utils/supabase/server";
-import { ArrowLeft } from "lucide-react";
+"use client"
+
+import { useState, useEffect } from "react";
+import { createClient } from "@/utils/supabase/client";
+import { ArrowLeft, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import TransactionItem from "@/components/transaction-item";
 import TransactionFilters from "@/components/transaction-filters";
 import { PrivacyToggle } from "@/components/ui/privacy-toggle";
 import { UserNav } from "@/components/user-nav";
-export default async function TransactionsPage({
-    searchParams,
-}: {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}) {
-    const supabase = await createClient();
-    const params = await searchParams;
-    const { data: { user } } = await supabase.auth.getUser();
+import AddTransactionDialog from "@/components/add-transaction-dialog";
+import { Button } from "@/components/ui/button";
+import { useSearchParams } from "next/navigation";
 
-    // Lấy các tham số filter từ URL
-    const q = (params.q as string) || "";
-    const wallet_id = (params.wallet as string) || "";
-    const type = (params.type as string) || "";
-    const sort = (params.sort as string) || "date_desc";
+const ITEMS_PER_PAGE = 10;
 
-    // 1. Lấy danh sách Ví (để truyền vào Filters Component)
-    const { data: wallets } = await supabase
-        .from("wallets")
-        .select("id, name");
+export default function TransactionsPage() {
+    const searchParams = useSearchParams();
+    const [transactions, setTransactions] = useState<any[]>([]);
+    const [wallets, setWallets] = useState<any[]>([]);
+    const [debts, setDebts] = useState<any[]>([]);
+    const [funds, setFunds] = useState<any[]>([]);
+    const [user, setUser] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const [displayCount, setDisplayCount] = useState(ITEMS_PER_PAGE);
 
-    // 2. Build Query Giao dịch
-    let query = supabase
-        .from("transactions")
-        .select(`
-      *,
-      wallets:wallet_id ( name ),
-      debts:related_debt_id ( name )
-    `);
+    // Fetch data on mount and when search params change
+    useEffect(() => {
+        async function fetchData() {
+            setLoading(true);
+            const supabase = createClient();
 
-    // -> Áp dụng bộ lọc
-    if (q) {
-        query = query.ilike("note", `%${q}%`); // Tìm theo Note
-    }
-    if (wallet_id && wallet_id !== "all") {
-        query = query.eq("wallet_id", wallet_id);
-    }
-    if (type && type !== "all") {
-        query = query.eq("type", type);
-    }
+            // Get user
+            const { data: { user: currentUser } } = await supabase.auth.getUser();
+            setUser(currentUser);
 
-    // -> Áp dụng Sắp xếp
-    if (sort === "date_asc") {
-        query = query.order("date", { ascending: true });
-    } else if (sort === "amount_desc") {
-        query = query.order("amount", { ascending: false });
-    } else if (sort === "amount_asc") {
-        query = query.order("amount", { ascending: true });
-    } else {
-        // Mặc định: Mới nhất trước (date_desc)
-        query = query.order("date", { ascending: false });
-    }
+            // Get wallets
+            const { data: walletsData } = await supabase
+                .from("wallets")
+                .select("id, name");
+            setWallets(walletsData || []);
 
-    const { data: transactions, error } = await query;
+            // Get debts (for FAB)
+            const { data: debtsData } = await supabase
+                .from("debts")
+                .select("id, name, remaining_amount, total_amount")
+                .eq('type', 'payable')
+                .gt('remaining_amount', 0);
+            setDebts(debtsData || []);
 
-    if (error) {
-        return <div className="p-8 text-red-500">Lỗi tải dữ liệu: {error.message}</div>;
-    }
+            // Get funds (for FAB)
+            const { data: fundsData } = await supabase.from("funds").select("id, name");
+            setFunds(fundsData || []);
+
+            // Get filter params
+            const q = searchParams.get("q") || "";
+            const wallet_id = searchParams.get("wallet") || "";
+            const type = searchParams.get("type") || "";
+            const sort = searchParams.get("sort") || "date_desc";
+            const from_date = searchParams.get("from_date") || "";
+            const to_date = searchParams.get("to_date") || "";
+
+            // Build query
+            let query = supabase
+                .from("transactions")
+                .select(`
+                    *,
+                    wallets:wallet_id ( name ),
+                    debts:related_debt_id ( name )
+                `);
+
+            // Apply filters
+            if (q) {
+                query = query.ilike("note", `%${q}%`);
+            }
+            if (wallet_id && wallet_id !== "all") {
+                query = query.eq("wallet_id", wallet_id);
+            }
+            if (type && type !== "all") {
+                query = query.eq("type", type);
+            }
+            if (from_date) {
+                query = query.gte("date", new Date(from_date).toISOString());
+            }
+            if (to_date) {
+                // Add 1 day to include the entire to_date
+                const toDateEnd = new Date(to_date);
+                toDateEnd.setDate(toDateEnd.getDate() + 1);
+                query = query.lt("date", toDateEnd.toISOString());
+            }
+
+            // Apply sorting
+            if (sort === "date_asc") {
+                query = query.order("date", { ascending: true });
+            } else if (sort === "amount_desc") {
+                query = query.order("amount", { ascending: false });
+            } else if (sort === "amount_asc") {
+                query = query.order("amount", { ascending: true });
+            } else {
+                query = query.order("date", { ascending: false });
+            }
+
+            const { data: transactionsData } = await query;
+            setTransactions(transactionsData || []);
+            setLoading(false);
+            setDisplayCount(ITEMS_PER_PAGE); // Reset pagination when filters change
+        }
+
+        fetchData();
+    }, [searchParams]);
+
+    const handleLoadMore = () => {
+        setDisplayCount(prev => prev + ITEMS_PER_PAGE);
+    };
+
+    const displayedTransactions = transactions.slice(0, displayCount);
+    const hasMore = displayCount < transactions.length;
+    const remainingCount = transactions.length - displayCount;
 
     return (
-        <main className="p-4 md:p-8 max-w-3xl mx-auto pb-24 bg-gray-50 min-h-screen">
-            {/* Header: Nút Quay lại + Tiêu đề */}
+        <main className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
+            {/* Header */}
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-4">
                     <Link href="/" className="p-2 hover:bg-gray-200 rounded-full transition">
@@ -79,25 +133,53 @@ export default async function TransactionsPage({
                 </div>
             </div>
 
-            {/* BỘ LỌC */}
+            {/* Filters */}
             <TransactionFilters wallets={wallets || []} />
 
-            {/* Danh sách giao dịch */}
-            <div className="space-y-3">
-                {transactions?.map((t: any) => (
-                    <TransactionItem
-                        key={t.id}
-                        transaction={t}
-                        wallets={wallets || []}
-                    />
-                ))}
+            {/* Transactions List */}
+            {loading ? (
+                <div className="text-center text-gray-500 py-10">Đang tải...</div>
+            ) : (
+                <>
+                    <div className="space-y-3">
+                        {displayedTransactions.map((t: any) => (
+                            <TransactionItem
+                                key={t.id}
+                                transaction={t}
+                                wallets={wallets || []}
+                            />
+                        ))}
 
-                {transactions?.length === 0 && (
-                    <div className="text-center text-gray-500 py-10">
-                        Không tìm thấy giao dịch nào.
+                        {transactions.length === 0 && (
+                            <div className="text-center text-gray-500 py-10 bg-white rounded-2xl border shadow-sm">
+                                Không tìm thấy giao dịch nào.
+                            </div>
+                        )}
                     </div>
-                )}
-            </div>
+
+                    {/* Load More Button */}
+                    {hasMore && (
+                        <div className="flex justify-center mt-6">
+                            <Button
+                                onClick={handleLoadMore}
+                                variant="outline"
+                                className="rounded-xl h-12 px-6 gap-2"
+                                style={{ borderColor: '#598c58', color: '#598c58' }}
+                            >
+                                Xem thêm ({remainingCount} giao dịch nữa)
+                                <ChevronDown size={18} />
+                            </Button>
+                        </div>
+                    )}
+                </>
+            )}
+
+            {/* FAB Button */}
+            <AddTransactionDialog
+                wallets={wallets || []}
+                debts={debts || []}
+                funds={funds || []}
+            />
         </main>
     );
 }

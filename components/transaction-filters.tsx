@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation"
 import { useDebouncedCallback } from "use-debounce"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import {
     Select,
     SelectContent,
@@ -10,7 +11,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { Search } from "lucide-react"
+import { Search, Calendar } from "lucide-react"
 
 export default function TransactionFilters({ wallets }: { wallets: any[] }) {
     const searchParams = useSearchParams()
@@ -37,69 +38,116 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
     }
 
     return (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-white p-4 rounded-xl shadow-sm border mb-6 sticky top-0 z-10">
-            {/* 1. SEARCH INPUT */}
-            <div className="col-span-2 relative">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-                <Input
-                    placeholder="Tìm kiếm giao dịch..."
-                    className="pl-9"
-                    defaultValue={searchParams.get("q")?.toString()}
-                    onChange={(e) => handleSearch(e.target.value)}
-                />
+        <div className="bg-white p-5 rounded-2xl shadow-sm border mb-6 space-y-4">
+            {/* 1. SEARCH - Full Width Top */}
+            <div>
+                <Label className="text-sm font-medium text-gray-700 mb-2 block flex items-center gap-2">
+                    <Search size={16} style={{ color: '#598c58' }} />
+                    Tìm kiếm
+                </Label>
+                <div className="relative">
+                    <Input
+                        placeholder="Tìm kiếm theo ghi chú..."
+                        className="h-11 rounded-xl"
+                        defaultValue={searchParams.get("q")?.toString()}
+                        onChange={(e) => handleSearch(e.target.value)}
+                    />
+                </div>
             </div>
 
-            {/* 2. FILTER WALLET */}
-            <Select
-                defaultValue={searchParams.get("wallet")?.toString()}
-                onValueChange={(val) => handleFilterChange("wallet", val)}
-            >
-                <SelectTrigger>
-                    <SelectValue placeholder="Tất cả Ví" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="all">Tất cả Ví</SelectItem>
-                    {wallets.map((w) => (
-                        <SelectItem key={w.id} value={w.id}>
-                            {w.name}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
+            {/* Divider */}
+            <div className="border-t" />
 
-            {/* 3. FILTER TYPE */}
-            <Select
-                defaultValue={searchParams.get("type")?.toString()}
-                onValueChange={(val) => handleFilterChange("type", val)}
-            >
-                <SelectTrigger>
-                    <SelectValue placeholder="Loại Giao Dịch" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="all">Tất cả Loại</SelectItem>
-                    <SelectItem value="income">Thu nhập (+)</SelectItem>
-                    <SelectItem value="expense">Chi tiêu (-)</SelectItem>
-                    <SelectItem value="debt_repayment">Trả nợ</SelectItem>
-                    <SelectItem value="transfer_out">Chuyển đi</SelectItem>
-                    <SelectItem value="transfer_in">Nhận về</SelectItem>
-                </SelectContent>
-            </Select>
+            {/* 2. DATE FILTER */}
+            <div>
+                <Label className="text-sm font-medium text-gray-700 mb-2 block flex items-center gap-2">
+                    <Calendar size={16} style={{ color: '#598c58' }} />
+                    Khoảng thời gian
+                </Label>
+                <div className="grid grid-cols-2 gap-3">
+                    <div>
+                        <Input
+                            type="date"
+                            className="h-11 rounded-xl"
+                            defaultValue={searchParams.get("from_date")?.toString()}
+                            onChange={(e) => handleFilterChange("from_date", e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <Input
+                            type="date"
+                            className="h-11 rounded-xl"
+                            defaultValue={searchParams.get("to_date")?.toString()}
+                            onChange={(e) => handleFilterChange("to_date", e.target.value)}
+                        />
+                    </div>
+                </div>
+            </div>
 
-            {/* 4. SORT (Optional addition for full feature) */}
-            <Select
-                defaultValue={searchParams.get("sort")?.toString() || "date_desc"}
-                onValueChange={(val) => handleFilterChange("sort", val)}
-            >
-                <SelectTrigger>
-                    <SelectValue placeholder="Sắp xếp" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="date_desc">Mới nhất</SelectItem>
-                    <SelectItem value="date_asc">Cũ nhất</SelectItem>
-                    <SelectItem value="amount_desc">Số tiền lớn nhất</SelectItem>
-                    <SelectItem value="amount_asc">Số tiền nhỏ nhất</SelectItem>
-                </SelectContent>
-            </Select>
+            {/* 3. TYPE & WALLET FILTERS */}
+            <div className="grid grid-cols-2 gap-3">
+                <div>
+                    <Label className="text-sm font-medium text-gray-700 mb-2 block">Loại</Label>
+                    <Select
+                        defaultValue={searchParams.get("type")?.toString() || "all"}
+                        onValueChange={(val) => handleFilterChange("type", val)}
+                    >
+                        <SelectTrigger className="h-11 rounded-xl">
+                            <SelectValue placeholder="Tất cả" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">Tất cả</SelectItem>
+                            <SelectItem value="income">Thu nhập</SelectItem>
+                            <SelectItem value="expense">Chi tiêu</SelectItem>
+                            <SelectItem value="debt_repayment">Trả nợ</SelectItem>
+                            <SelectItem value="transfer_out">Chuyển đi</SelectItem>
+                            <SelectItem value="transfer_in">Nhận về</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+
+                <div>
+                    <Label className="text-sm font-medium text-gray-700 mb-2 block">Ví</Label>
+                    <Select
+                        defaultValue={searchParams.get("wallet")?.toString() || "all"}
+                        onValueChange={(val) => handleFilterChange("wallet", val)}
+                    >
+                        <SelectTrigger className="h-11 rounded-xl">
+                            <SelectValue placeholder="Tất cả" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">Tất cả ví</SelectItem>
+                            {wallets.map((w) => (
+                                <SelectItem key={w.id} value={w.id}>
+                                    {w.name}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+            </div>
+
+            {/* Divider */}
+            <div className="border-t" />
+
+            {/* 4. SORT - Bottom */}
+            <div>
+                <Label className="text-sm font-medium text-gray-700 mb-2 block">Sắp xếp</Label>
+                <Select
+                    defaultValue={searchParams.get("sort")?.toString() || "date_desc"}
+                    onValueChange={(val) => handleFilterChange("sort", val)}
+                >
+                    <SelectTrigger className="h-11 rounded-xl">
+                        <SelectValue placeholder="Mới nhất" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="date_desc">Mới nhất</SelectItem>
+                        <SelectItem value="date_asc">Cũ nhất</SelectItem>
+                        <SelectItem value="amount_desc">Số tiền lớn nhất</SelectItem>
+                        <SelectItem value="amount_asc">Số tiền nhỏ nhất</SelectItem>
+                    </SelectContent>
+                </Select>
+            </div>
         </div>
     )
 }

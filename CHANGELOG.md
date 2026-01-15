@@ -1,6 +1,56 @@
 # Changelog
 
-## [1.1.8] - 2026-01-15
+## [1.1.9] - 2026-01-15
+
+### UI Improvements - Transaction History Page Redesign
+
+- **Filter Layout Redesign**:
+  - Reorganized filter component into clear vertical sections with visual separation
+  - **Search** section at top with icon and label for better clarity
+  - **NEW: Date Range Filter** - Added "from_date" and "to_date" filters using HTML5 date inputs for easy date selection
+  - **Type & Wallet Filters** in a 2-column grid for compact layout
+  - **Sort** section at bottom with clear labeling
+  - Applied consistent styling: `rounded-2xl`, `shadow-sm`, brand color icons (`#598c58`)
+  - Better mobile-optimized layout with proper spacing and padding
+
+- **Transaction Item Improvements**:
+  - **Simplified Interaction**: Removed 3-dot menu button - entire card is now clickable to edit
+  - **Color-Coded Backgrounds**: Each transaction card has subtle background color based on type:
+    - Income: Light green (`#598c5815`)
+    - Expense: Light red (`#c25e5e15`)
+    - Transfer/Debt: Light gray (`#7a869a15`)
+  - **Enhanced Visual Feedback**: Added hover effect (shadow + scale) to indicate clickability
+  - **Improved Layout**: Icon in white semi-transparent box, better text hierarchy with wallet name & date stacked
+  - Cleaner, more modern card design matching app's overall aesthetic
+
+- **Pagination Feature**:
+  - Default display: **10 transactions** per page
+  - **"Load More" button** to show additional 10 transactions at a time
+  - Button shows remaining transaction count for transparency
+  - Pagination resets when filters change
+  - Improves performance for users with many transactions
+
+- **FAB Button Integration**:
+  - Added floating action button to transaction history page
+  - Users can create new transactions without returning to dashboard
+  - Consistent FAB placement across all app pages
+
+- **Technical Changes**:
+  - Converted `app/transactions/page.tsx` from Server Component to Client Component
+  - Created `utils/supabase/client.ts` for client-side data fetching
+  - Implemented client-side filtering and pagination logic
+  - Date filter supports ISO date format with proper timezone handling
+
+### Bug Fixes
+- Fixed date filtering to include full end date (adds 1 day to `to_date` for inclusive range)
+
+### Technical Details
+- Modified `components/transaction-filters.tsx` - Complete redesign with date range filter
+- Modified `components/transaction-item.tsx` - Removed dropdown menu, made card clickable, added background colors
+- Modified `app/transactions/page.tsx` - Converted to client component with pagination and FAB
+- Added `utils/supabase/client.ts` - Client-side Supabase utility
+- Updated version indicator to `v1.1.9`
+
 
 ### UI Improvements - Login Page
 - **Separate Login & Register Tabs**:
