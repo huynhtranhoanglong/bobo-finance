@@ -61,20 +61,82 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
 
                 <form action={handleSubmit} className="grid gap-4 py-4">
 
-                    {/* 1. THANH CHỌN LOẠI (4 Nút - Grid 4 cột) */}
-                    <div className="grid grid-cols-4 gap-2">
-                        <Button type="button" size="sm" variant={type === "expense" ? "default" : "outline"} onClick={() => setType("expense")} className={type === "expense" ? "bg-red-500" : ""}>💸 Chi</Button>
-                        <Button type="button" size="sm" variant={type === "income" ? "default" : "outline"} onClick={() => setType("income")} className={type === "income" ? "bg-green-500" : ""}>💰 Thu</Button>
-                        <Button type="button" size="sm" variant={type === "transfer" ? "default" : "outline"} onClick={() => setType("transfer")} className={type === "transfer" ? "bg-blue-500" : ""}>🔄 Chuyển</Button>
-                        <Button type="button" size="sm" variant={type === "debt_repayment" ? "default" : "outline"} onClick={() => setType("debt_repayment")} className={type === "debt_repayment" ? "bg-orange-500" : ""}>📉 Trả Nợ</Button>
+                    {/* 1. THANH CHỌN LOẠI (Style mới, tối giản) */}
+                    <div className="grid grid-cols-2 gap-2">
+                        <Button
+                            type="button"
+                            variant={type === "expense" ? "default" : "outline"}
+                            onClick={() => setType("expense")}
+                            className={type === "expense" ? "bg-red-500 hover:bg-red-600 text-white border-transparent" : "text-gray-500 border-gray-200"}
+                        >
+                            💸 Chi Tiêu
+                        </Button>
+                        <Button
+                            type="button"
+                            variant={type === "income" ? "default" : "outline"}
+                            onClick={() => setType("income")}
+                            className={type === "income" ? "bg-green-500 hover:bg-green-600 text-white border-transparent" : "text-gray-500 border-gray-200"}
+                        >
+                            💰 Thu Nhập
+                        </Button>
                     </div>
+
+                    {/* MỞ RỘNG (Chuyển khoản / Trả nợ) */}
+                    {(type !== 'expense' && type !== 'income') && (
+                        <div className="flex gap-2 justify-center animate-in fade-in slide-in-from-top-2">
+                            <span className="text-sm font-medium text-gray-700">{getTitle()}</span>
+                        </div>
+                    )}
+
+                    <div className="flex justify-center">
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="text-xs text-gray-400 hover:text-gray-700"
+                            onClick={() => setType(type === 'transfer' ? 'expense' : 'transfer')}
+                        >
+                            {type === 'transfer' || type === 'debt_repayment' ? "Quay lại Thu/Chi" : "Chức năng khác (Chuyển/Trả nợ)..."}
+                        </Button>
+                    </div>
+
+                    {(type === 'transfer' || type === 'debt_repayment') && (
+                        <div className="grid grid-cols-2 gap-2 mb-2">
+                            <Button
+                                type="button"
+                                size="sm"
+                                variant={type === "transfer" ? "default" : "outline"}
+                                onClick={() => setType("transfer")}
+                                className={type === "transfer" ? "bg-blue-600 text-white" : ""}
+                            >
+                                🔄 Chuyển Khoản
+                            </Button>
+                            <Button
+                                type="button"
+                                size="sm"
+                                variant={type === "debt_repayment" ? "default" : "outline"}
+                                onClick={() => setType("debt_repayment")}
+                                className={type === "debt_repayment" ? "bg-orange-500 text-white" : ""}
+                            >
+                                📉 Trả Nợ
+                            </Button>
+                        </div>
+                    )}
+
 
                     {/* ==================== FORM CHUNG ==================== */}
 
                     {/* SỐ TIỀN (Luôn hiện) */}
                     <div className="grid gap-2">
                         <Label>Số tiền</Label>
-                        <Input name="amount" type="number" placeholder="0" required className="text-lg font-bold" />
+                        <Input
+                            name="amount"
+                            type="number"
+                            placeholder="0"
+                            required
+                            className="text-lg font-bold"
+                            autoFocus={false}
+                        />
                     </div>
 
                     {/* CASE: TRẢ NỢ CŨ */}

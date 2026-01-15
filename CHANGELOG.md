@@ -7,6 +7,9 @@
   - Applied the primary brand color (`#598c58`) to all primary action buttons (Save, Add, Confirm, Send) across all dialogs.
   - Standardized dialog headers to be **centered** and large (`text-xl`) for better visual balance, especially on mobile.
   - Enhanced monetary input fields to be **bold** and larger (`text-lg font-bold`) for easier reading.
+  - **Refined Edit Dialogs**: Removed "Cancel" buttons (use X icon). Moved "Delete" action to the bottom with a separator for safety and cleaner UI.
+  - **Mobile Optimization**: Removed default `autoFocus` on inputs to prevent keyboard pop-up, improving initial view on mobile.
+  - **FAB Redesign**: Simplified FAB to focus on "Income/Expense". "Transfer" and "Debt Repayment" are now accessed via a "More" toggle. Updated tab colors to be less distracting.
 - **Affected Components**:
   - `AddTransactionDialog` (FAB)
   - `EditTransactionDialog`

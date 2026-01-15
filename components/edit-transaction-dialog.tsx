@@ -3,7 +3,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { updateTransactionAction, deleteTransactionAction } from "@/app/actions"
 import { Trash2 } from "lucide-react"
@@ -115,36 +115,31 @@ export default function EditTransactionDialog({ open, setOpen, transaction, wall
                         <Input name="note" defaultValue={transaction.note || ""} />
                     </div>
 
-                    <DialogFooter className="flex flex-col-reverse sm:flex-row sm:justify-between gap-2 mt-4">
-                        <Button
-                            type="button"
-                            variant="destructive"
-                            onClick={handleDelete}
-                            disabled={loading}
-                            className="w-full sm:w-auto"
-                        >
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            Xóa giao dịch
-                        </Button>
-                        <div className="flex gap-2">
-                            <Button
-                                type="button"
-                                variant="outline"
-                                onClick={() => setOpen(false)}
-                                className="flex-1 sm:flex-none"
-                            >
-                                Hủy
-                            </Button>
-                            <Button
-                                type="submit"
-                                disabled={loading}
-                                className="flex-1 sm:flex-none"
-                                style={{ backgroundColor: '#598c58' }}
-                            >
-                                {loading ? "Đang lưu..." : "Lưu thay đổi"}
-                            </Button>
-                        </div>
-                    </DialogFooter>
+                    <Button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full mt-4"
+                        style={{ backgroundColor: '#598c58' }}
+                    >
+                        {loading ? "Đang lưu..." : "Lưu thay đổi"}
+                    </Button>
+
+                    <div className="relative flex py-2 items-center">
+                        <div className="flex-grow border-t border-gray-200"></div>
+                        <span className="flex-shrink-0 mx-4 text-gray-400 text-xs">Hoặc</span>
+                        <div className="flex-grow border-t border-gray-200"></div>
+                    </div>
+
+                    <Button
+                        type="button"
+                        variant="destructive"
+                        onClick={handleDelete}
+                        disabled={loading}
+                        className="w-full flex gap-2"
+                    >
+                        <Trash2 className="h-4 w-4" />
+                        Xóa giao dịch
+                    </Button>
                 </form>
             </DialogContent>
         </Dialog>

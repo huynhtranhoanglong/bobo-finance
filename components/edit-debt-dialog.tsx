@@ -3,7 +3,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { updateDebtAction, deleteDebtAction } from "@/app/actions"
 import { Trash2 } from "lucide-react"
 
@@ -58,28 +58,27 @@ export default function EditDebtDialog({ open, setOpen, debt, onSuccess }: any) 
                         </p>
                     </div>
 
-                    <DialogFooter className="flex items-center justify-between sm:justify-between w-full mt-4">
-                        <div className="flex-1">
-                            <Button
-                                type="button"
-                                variant="destructive"
-                                size="icon"
-                                onClick={handleDelete}
-                                disabled={loading}
-                                title="Xóa khoản nợ"
-                            >
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
-                        </div>
-                        <div className="flex gap-2">
-                            <Button type="button" variant="outline" onClick={() => setOpen(false)} disabled={loading}>
-                                Hủy
-                            </Button>
-                            <Button type="submit" disabled={loading} style={{ backgroundColor: '#598c58' }}>
-                                {loading ? "Đang lưu..." : "Lưu thay đổi"}
-                            </Button>
-                        </div>
-                    </DialogFooter>
+                    <Button type="submit" disabled={loading} className="w-full mt-4" style={{ backgroundColor: '#598c58' }}>
+                        {loading ? "Đang lưu..." : "Lưu thay đổi"}
+                    </Button>
+
+                    <div className="relative flex py-2 items-center">
+                        <div className="flex-grow border-t border-gray-200"></div>
+                        <span className="flex-shrink-0 mx-4 text-gray-400 text-xs">Hoặc</span>
+                        <div className="flex-grow border-t border-gray-200"></div>
+                    </div>
+
+                    <Button
+                        type="button"
+                        variant="destructive"
+                        onClick={handleDelete}
+                        disabled={loading}
+                        className="w-full flex gap-2"
+                        title="Xóa khoản nợ"
+                    >
+                        <Trash2 className="h-4 w-4" />
+                        Xóa khoản nợ
+                    </Button>
                 </form>
             </DialogContent>
         </Dialog>
