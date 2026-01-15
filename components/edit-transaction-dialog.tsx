@@ -2,6 +2,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { MoneyInput } from "@/components/ui/money-input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -51,7 +52,12 @@ export default function EditTransactionDialog({ open, setOpen, transaction, wall
                     {/* 1. SỐ TIỀN */}
                     <div className="grid gap-2">
                         <Label>Số tiền</Label>
-                        <Input name="amount" type="number" defaultValue={transaction.amount} required className="font-bold text-lg" />
+                        <MoneyInput
+                            name="amount"
+                            initialValue={transaction.amount}
+                            required
+                            className="font-bold text-lg"
+                        />
                     </div>
 
                     {/* 2. LOẠI (Read-only) + DANH MỤC */}

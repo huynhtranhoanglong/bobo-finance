@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Plus, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { MoneyInput } from "@/components/ui/money-input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -69,8 +70,8 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
                     </div>
 
                     <div className="grid gap-2">
-                        <Label>Số tiền</Label>
-                        <Input name="amount" type="number" placeholder="0" required className="text-lg font-bold" />
+                        <Label>Số tiền nợ</Label>
+                        <MoneyInput name="amount" placeholder="0" required />
                     </div>
 
                     <div className="grid gap-2">

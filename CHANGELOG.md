@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.2.3] - 2026-01-15
+
+### UX Improvements - Input Formatting
+- **Smart Currency Input**: 
+  - Implemented `MoneyInput` component that auto-formats numbers with Vietnam Style separators (e.g., `1.000.000`) while typing.
+  - Ensures raw integer values are sent to the backend for data integrity.
+- **Mobile Optimization**: 
+  - Enabled **Numeric Keyboard** on mobile devices when focusing on currency fields, eliminating the need to switch keyboard modes.
+  - Applied to all financial input dialogs (Transaction, Wallet, Debt).
+
 ## [1.2.2] - 2026-01-15
 
 ### UX Improvements - Visual Feedback

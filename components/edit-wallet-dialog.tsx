@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { MoneyInput } from "@/components/ui/money-input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -79,7 +80,12 @@ export default function EditWalletDialog({
 
                     <div className="grid gap-2">
                         <Label>Số dư hiện tại</Label>
-                        <Input name="balance" type="number" defaultValue={wallet.balance} required className="font-bold text-lg" />
+                        <MoneyInput
+                            name="balance"
+                            initialValue={wallet.balance}
+                            required
+                            className="font-bold text-lg"
+                        />
                         <p className="text-xs text-blue-600">
                             *Hệ thống sẽ tự động tạo giao dịch điều chỉnh (Thu/Chi) nếu số dư thay đổi.
                         </p>

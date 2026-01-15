@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Plus, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { MoneyInput } from "@/components/ui/money-input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -57,8 +58,8 @@ export default function CreateWalletDialog({ funds }: { funds: any[] }) {
                     </div>
 
                     <div className="grid gap-2">
-                        <Label>Số dư hiện tại</Label>
-                        <Input name="initial_balance" type="number" placeholder="0" required className="font-bold text-lg" />
+                        <Label>Số dư ban đầu</Label>
+                        <MoneyInput name="initial_balance" placeholder="0" required />
                         <p className="text-xs text-gray-500">
                             Hệ thống sẽ tự động tạo giao dịch số dư đầu kỳ.
                         </p>

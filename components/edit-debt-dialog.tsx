@@ -2,6 +2,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { MoneyInput } from "@/components/ui/money-input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { updateDebtAction, deleteDebtAction } from "@/app/actions"
@@ -51,8 +52,12 @@ export default function EditDebtDialog({ open, setOpen, debt, onSuccess }: any) 
                         <Input name="name" defaultValue={debt.name} required />
                     </div>
                     <div className="grid gap-2">
-                        <Label>Tổng số tiền vay</Label>
-                        <Input name="total_amount" type="number" defaultValue={debt.total_amount} required className="font-bold text-lg" />
+                        <Label>Tổng số nợ gốc</Label>
+                        <MoneyInput
+                            name="total_amount"
+                            initialValue={debt.total_amount}
+                            required
+                        />
                         <p className="text-xs text-gray-500">
                             Thay đổi tổng vay sẽ tự động cập nhật dư nợ còn lại tương ứng.
                         </p>
