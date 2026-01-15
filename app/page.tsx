@@ -300,20 +300,13 @@ export default async function Home({
       </div>
 
       {/* Navigation Links */}
-      <div className="grid grid-cols-2 gap-3 mb-6">
+      <div className="grid grid-cols-1 gap-3 mb-6">
         <Link
           href="/transactions"
           className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm hover:shadow-md transition"
         >
           <List size={20} style={{ color: '#598c58' }} />
           <span className="text-sm font-medium" style={{ color: '#598c58' }}>Lịch sử giao dịch</span>
-        </Link>
-        <Link
-          href="/debts"
-          className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm hover:shadow-md transition"
-        >
-          <ArrowRightLeft size={20} style={{ color: '#c25e5e' }} />
-          <span className="text-sm font-medium" style={{ color: '#c25e5e' }}>Quản lý nợ</span>
         </Link>
       </div>
 
@@ -322,9 +315,9 @@ export default async function Home({
 
       {/* Build Version Indicator */}
       <p className="text-center text-xs text-gray-400 mt-8">
-        Build: v1.1.9
+        Build: v1.1.10
       </p>
 
-    </main>
+    </main >
   );
 }

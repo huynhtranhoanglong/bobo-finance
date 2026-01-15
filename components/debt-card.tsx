@@ -1,6 +1,9 @@
 "use client"
 
+import { useState } from "react";
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
+import EditDebtDialog from "./edit-debt-dialog";
+import { useRouter } from "next/navigation";
 
 // Color palette
 const COLOR_POSITIVE = '#598c58';
@@ -17,6 +20,8 @@ interface DebtCardProps {
 }
 
 export default function DebtCard({ debt }: DebtCardProps) {
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const router = useRouter(); // To refresh page after update
     const { name, remaining_amount, total_amount } = debt;
 
     // Calculate progress (% paid)
@@ -31,46 +36,64 @@ export default function DebtCard({ debt }: DebtCardProps) {
         progressColor = COLOR_NEUTRAL; // In progress
     }
 
-    return (
-        <div className="p-4 bg-white rounded-2xl border shadow-sm">
-            {/* Header: Name */}
-            <div className="flex justify-between items-start mb-3">
-                <span className="font-bold text-gray-800">{name}</span>
-                <span
-                    className="text-xs px-2 py-1 rounded-full font-medium"
-                    style={{
-                        backgroundColor: `${progressColor}15`,
-                        color: progressColor
-                    }}
-                >
-                    {progressPercent.toFixed(0)}% đã trả
-                </span>
-            </div>
+    const handleSuccess = () => {
+        router.refresh();
+    };
 
-            {/* Amount Info */}
-            <div className="flex justify-between items-center mb-3 text-sm">
-                <span style={{ color: COLOR_NEUTRAL }}>Còn nợ</span>
-                <div>
-                    <span className="font-bold" style={{ color: COLOR_NEGATIVE }}>
-                        <PrivacyAmount amount={remaining_amount} />
+    return (
+        <>
+            <div
+                onClick={() => setIsEditOpen(true)}
+                className="p-4 bg-white rounded-2xl border shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.01] transition-all duration-200"
+            >
+                {/* Header: Name */}
+                <div className="flex justify-between items-start mb-3">
+                    <span className="font-bold text-gray-800">{name}</span>
+                    <span
+                        className="text-xs px-2 py-1 rounded-full font-medium"
+                        style={{
+                            backgroundColor: `${progressColor}15`,
+                            color: progressColor
+                        }}
+                    >
+                        {progressPercent.toFixed(0)}% đã trả
                     </span>
-                    <span className="mx-1" style={{ color: COLOR_NEUTRAL }}>/</span>
-                    <span style={{ color: COLOR_NEUTRAL }}>
-                        <PrivacyAmount amount={total_amount} />
-                    </span>
+                </div>
+
+                {/* Amount Info */}
+                <div className="flex justify-between items-center mb-3 text-sm">
+                    <span style={{ color: COLOR_NEUTRAL }}>Còn nợ</span>
+                    <div>
+                        <span className="font-bold" style={{ color: COLOR_NEGATIVE }}>
+                            <PrivacyAmount amount={remaining_amount} />
+                        </span>
+                        <span className="mx-1" style={{ color: COLOR_NEUTRAL }}>/</span>
+                        <span style={{ color: COLOR_NEUTRAL }}>
+                            <PrivacyAmount amount={total_amount} />
+                        </span>
+                    </div>
+                </div>
+
+                {/* Progress Bar */}
+                <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div
+                        className="h-full transition-all duration-500"
+                        style={{
+                            width: `${progressPercent}%`,
+                            backgroundColor: progressColor
+                        }}
+                    />
                 </div>
             </div>
 
-            {/* Progress Bar */}
-            <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                <div
-                    className="h-full transition-all duration-500"
-                    style={{
-                        width: `${progressPercent}%`,
-                        backgroundColor: progressColor
-                    }}
+            {isEditOpen && (
+                <EditDebtDialog
+                    open={isEditOpen}
+                    setOpen={setIsEditOpen}
+                    debt={debt}
+                    onSuccess={handleSuccess}
                 />
-            </div>
-        </div>
+            )}
+        </>
     );
 }
