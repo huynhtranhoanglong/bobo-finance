@@ -43,7 +43,7 @@ export default function EditDebtDialog({ open, setOpen, debt, onSuccess }: any) 
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Chỉnh sửa khoản nợ</DialogTitle>
+                    <DialogTitle className="text-center text-xl">Chỉnh sửa khoản nợ</DialogTitle>
                 </DialogHeader>
                 <form action={handleUpdate} className="grid gap-4 py-4">
                     <div className="grid gap-2">
@@ -52,7 +52,7 @@ export default function EditDebtDialog({ open, setOpen, debt, onSuccess }: any) 
                     </div>
                     <div className="grid gap-2">
                         <Label>Tổng số tiền vay</Label>
-                        <Input name="total_amount" type="number" defaultValue={debt.total_amount} required className="font-bold" />
+                        <Input name="total_amount" type="number" defaultValue={debt.total_amount} required className="font-bold text-lg" />
                         <p className="text-xs text-gray-500">
                             Thay đổi tổng vay sẽ tự động cập nhật dư nợ còn lại tương ứng.
                         </p>

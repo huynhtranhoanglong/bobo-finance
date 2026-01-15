@@ -85,7 +85,7 @@ export default function EditWalletDialog({
                         </p>
                     </div>
 
-                    <Button type="submit" disabled={loading} className="mt-4 w-full bg-slate-900 hover:bg-slate-800">
+                    <Button type="submit" disabled={loading} className="mt-4 w-full" style={{ backgroundColor: '#598c58' }}>
                         {loading ? "Đang lưu..." : "Lưu Thay Đổi"}
                     </Button>
 

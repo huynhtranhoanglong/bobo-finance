@@ -151,7 +151,7 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                         <Input name="note" placeholder="..." />
                     </div>
 
-                    <Button type="submit" disabled={loading} className="mt-4 w-full text-lg py-6 bg-slate-900 hover:bg-slate-800">
+                    <Button type="submit" disabled={loading} className="mt-4 w-full text-lg py-6" style={{ backgroundColor: '#598c58' }}>
                         {loading ? "Đang xử lý..." : "Xác Nhận"}
                     </Button>
                 </form>

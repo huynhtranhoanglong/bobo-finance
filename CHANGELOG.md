@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.2.0] - 2026-01-15
+
+### UI Unification - Global Design System
+- **Unified Dialog Styling**:
+  - Applied the primary brand color (`#598c58`) to all primary action buttons (Save, Add, Confirm, Send) across all dialogs.
+  - Standardized dialog headers to be **centered** and large (`text-xl`) for better visual balance, especially on mobile.
+  - Enhanced monetary input fields to be **bold** and larger (`text-lg font-bold`) for easier reading.
+- **Affected Components**:
+  - `AddTransactionDialog` (FAB)
+  - `EditTransactionDialog`
+  - `EditWalletDialog`
+  - `EditDebtDialog`
+  - `FeedbackDialog`
+  - `CreateWalletDialog` (Previous v1.1.11)
+  - `CreateDebtDialog` (Previous v1.1.11)
+
 ## [1.1.11] - 2026-01-15
 
 ### UI Improvements - FAB & Contextual Actions

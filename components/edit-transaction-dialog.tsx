@@ -44,7 +44,7 @@ export default function EditTransactionDialog({ open, setOpen, transaction, wall
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle>Sửa Giao Dịch</DialogTitle>
+                    <DialogTitle className="text-center text-xl">Sửa Giao Dịch</DialogTitle>
                 </DialogHeader>
                 <form action={handleUpdate} className="grid gap-4 py-4">
 
@@ -139,6 +139,7 @@ export default function EditTransactionDialog({ open, setOpen, transaction, wall
                                 type="submit"
                                 disabled={loading}
                                 className="flex-1 sm:flex-none"
+                                style={{ backgroundColor: '#598c58' }}
                             >
                                 {loading ? "Đang lưu..." : "Lưu thay đổi"}
                             </Button>
