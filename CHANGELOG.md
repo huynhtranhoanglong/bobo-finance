@@ -1,5 +1,53 @@
 # Changelog
 
+## [1.3.0] - 2026-01-16
+
+### Major Feature - Family (Phase 1: Database Foundation)
+
+> **Note:** This release adds the database foundation for the Family feature. UI will be added in future phases.
+
+- **New Database Tables**:
+  - `families` - Stores family groups with name, owner, and creation date.
+  - `family_members` - Links users to families with roles (`owner` / `member`).
+  - `family_invitations` - Manages pending invitations with email, token, and expiration.
+
+- **Schema Updates**:
+  - Added `family_id` column to `wallets`, `funds`, `debts`, `transactions` tables.
+  - Added `visibility` column to `wallets` for future private wallet feature (`shared` / `private`).
+  - Created indexes for all new columns to optimize query performance.
+
+- **Row Level Security (RLS)**:
+  - Family members can view shared data within their family.
+  - Only data creator (or family owner) can edit/delete records.
+  - Users without family continue to use personal dashboard as before.
+
+- **New RPC Functions**:
+  - `create_family(name)` - Create a new family, user becomes owner.
+  - `get_my_family()` - Get family info including members and pending invitations.
+  - `update_family_name(name)` - Update family name (owner only).
+  - `leave_family()` - Leave family, auto-transfer ownership if owner leaves.
+  - `remove_family_member(user_id)` - Remove member (owner only).
+  - `invite_family_member(email)` - Send invitation via email (owner only).
+  - `get_invitation_info(token)` - Get invitation details for acceptance page.
+  - `accept_invitation(token)` - Accept invitation and join family.
+  - `cancel_invitation(invitation_id)` - Cancel pending invitation (owner only).
+  - `get_user_family_id()` - Helper to get current user's family ID.
+  - `is_family_owner()` - Helper to check if user is family owner.
+
+### Technical Details
+
+- **SQL Scripts Added**:
+  - `sql_backup/202601161100_family_tables.sql` - Tables, columns, indexes, and RLS policies.
+  - `sql_backup/202601161130_family_rpc.sql` - All RPC functions for family management.
+
+- **Design Decisions**:
+  - One user can only be in one family at a time.
+  - When owner leaves, ownership transfers to the earliest member.
+  - User data is migrated to family upon joining and unlinked upon leaving.
+  - Code is prepared for future features: private wallets, personal dashboard.
+
+- Updated version indicator to `v1.3.0`.
+
 ## [1.2.8] - 2026-01-16
 
 ### Code Quality - Refactoring & Maintainability
