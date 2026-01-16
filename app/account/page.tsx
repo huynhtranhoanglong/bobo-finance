@@ -143,10 +143,8 @@ export default function AccountPage() {
                             Đăng xuất
                         </Button>
                     </form>
-                </Button>
-            </form>
-            <AppVersion />
-        </div>
+                    <AppVersion />
+                </div>
             </div >
         </main >
     )
