@@ -1,5 +1,41 @@
 # Changelog
 
+## [1.3.3] - 2026-01-16
+
+### Bug Fixes - Family Feature
+
+> **Critical Fix:** This release fixes bugs that prevented the Family feature from working after creation.
+
+- **Fixed: RLS Circular Dependency**:
+  - Root cause: `families` policy checked `family_members`, and `family_members` policy checked `families` → deadlock.
+  - Fix: Added direct owner/user checks to break the circular dependency.
+  - `families` policy: `owner_id = auth.uid() OR ...`
+  - `family_members` policy: `user_id = auth.uid() OR ...`
+
+- **Fixed: Column `profiles.email` does not exist**:
+  - Root cause: `get_my_family()` referenced `profiles.email` which doesn't exist in the `profiles` table.
+  - Fix: Changed to use `auth.users.email` instead.
+
+- **Fixed: Column `profiles.display_name` does not exist**:
+  - Root cause: `get_my_family()` and `get_dashboard_data()` referenced `profiles.display_name`.
+  - Fix: Changed to use `auth.users.email` as display_name.
+
+### Technical Details
+
+- **SQL Hotfix**:
+  - `sql_backup/202601161300_hotfix_family_bugs.sql` - Contains all fixes.
+  - Users who already ran Phase 1-3 scripts need to run this hotfix.
+
+- **Functions Updated**:
+  - `get_my_family()` - Fixed column references.
+  - `get_dashboard_data()` - Fixed column references.
+
+- **RLS Policies Updated**:
+  - `families.Users can view their own family` - Added `owner_id = auth.uid()`.
+  - `family_members.Members can view their family members` - Added `user_id = auth.uid()`.
+
+- Updated version indicator to `v1.3.3`.
+
 ## [1.3.2] - 2026-01-16
 
 ### Major Feature - Family (Phase 3: User Interface)
