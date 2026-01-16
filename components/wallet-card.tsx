@@ -4,11 +4,7 @@ import { useState } from "react"
 import EditWalletDialog from "@/components/edit-wallet-dialog"
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import { CreditCard } from "lucide-react"
-
-// Color palette
-const COLOR_POSITIVE = '#598c58';
-const COLOR_NEGATIVE = '#c25e5e';
-const COLOR_NEUTRAL = '#7a869a';
+import { COLOR_POSITIVE, COLOR_NEGATIVE, COLOR_NEUTRAL } from "@/utils/colors";
 
 export default function WalletCard({ wallet, funds }: { wallet: any, funds: any[] }) {
     const [open, setOpen] = useState(false)

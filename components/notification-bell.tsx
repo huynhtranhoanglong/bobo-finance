@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { getNotificationsAction } from "@/app/actions/notifications";
 import { NotificationItem } from "@/components/notification-item";
+import { COLOR_BRAND } from "@/utils/colors";
 
 export function NotificationBell() {
     const [notifications, setNotifications] = useState<any[]>([]);
@@ -55,7 +56,7 @@ export function NotificationBell() {
                 <DropdownMenuLabel className="p-3 text-base font-semibold bg-gray-50/50 border-b flex justify-between items-center">
                     <span>Thông báo</span>
                     {unreadCount > 0 && (
-                        <span className="bg-[#598c58] text-white text-xs px-2 py-0.5 rounded-full">
+                        <span style={{ backgroundColor: COLOR_BRAND }} className="text-white text-xs px-2 py-0.5 rounded-full">
                             {unreadCount} mới
                         </span>
                     )}
@@ -87,7 +88,7 @@ export function NotificationBell() {
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="text-xs text-gray-500 w-full hover:text-[#598c58]"
+                            className="text-xs text-gray-500 w-full hover:text-green-600"
                             onClick={() => { }} // TODO: Mark all read
                         >
                             Đánh dấu tất cả đã đọc

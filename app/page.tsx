@@ -12,7 +12,7 @@ import { ensureDefaultFunds } from "@/app/actions/ensure-funds";
 import { PrivacyToggle } from "@/components/ui/privacy-toggle";
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import { DisablePrivacyOnMount } from "@/components/ui/disable-privacy";
-import EditTransactionDialog from "@/components/edit-transaction-dialog"; // Import dialog sửa
+import EditTransactionDialog from "@/components/edit-transaction-dialog";
 import CreateWalletDialog from "@/components/create-wallet-dialog";
 import CreateDebtDialog from "@/components/create-debt-dialog";
 // NEW v1.1.7
@@ -23,6 +23,7 @@ import DebtCard from "@/components/debt-card";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import { AppVersion } from "@/components/app-version";
 import { DEFAULT_TIMEZONE } from "@/utils/timezone";
+import { COLOR_BRAND, COLOR_NEUTRAL } from "@/utils/colors";
 
 // ===================== DEMO MODE DATA =====================
 const DEMO_METRICS = {
@@ -148,12 +149,12 @@ export default async function Home({
         {/* Navigation Links */}
         <div className="grid grid-cols-2 gap-3 mb-6">
           <div className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm cursor-not-allowed">
-            <List size={20} style={{ color: '#7a869a' }} />
-            <span className="text-sm font-medium" style={{ color: '#7a869a' }}>Lịch sử giao dịch</span>
+            <List size={20} style={{ color: COLOR_NEUTRAL }} />
+            <span className="text-sm font-medium" style={{ color: COLOR_NEUTRAL }}>Lịch sử giao dịch</span>
           </div>
           <div className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm cursor-not-allowed">
-            <ArrowRightLeft size={20} style={{ color: '#7a869a' }} />
-            <span className="text-sm font-medium" style={{ color: '#7a869a' }}>Quản lý nợ</span>
+            <ArrowRightLeft size={20} style={{ color: COLOR_NEUTRAL }} />
+            <span className="text-sm font-medium" style={{ color: COLOR_NEUTRAL }}>Quản lý nợ</span>
           </div>
         </div>
 
@@ -303,7 +304,7 @@ export default async function Home({
             {(!debts || debts.length === 0) && (
               <div className="p-6 text-center bg-white rounded-2xl border shadow-sm">
                 <p className="text-lg mb-1">🎉</p>
-                <p style={{ color: '#598c58' }} className="font-medium">Tuyệt vời! Bạn không có khoản nợ nào.</p>
+                <p style={{ color: COLOR_BRAND }} className="font-medium">Tuyệt vời! Bạn không có khoản nợ nào.</p>
               </div>
             )}
           </div>
@@ -314,8 +315,8 @@ export default async function Home({
               href="/transactions"
               className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm hover:shadow-md transition"
             >
-              <List size={20} style={{ color: '#598c58' }} />
-              <span className="text-sm font-medium" style={{ color: '#598c58' }}>Lịch sử giao dịch</span>
+              <List size={20} style={{ color: COLOR_BRAND }} />
+              <span className="text-sm font-medium" style={{ color: COLOR_BRAND }}>Lịch sử giao dịch</span>
             </Link>
           </div>
 

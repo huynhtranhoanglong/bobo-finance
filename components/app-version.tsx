@@ -7,7 +7,7 @@ interface AppVersionProps {
 
 export function AppVersion({ className, light }: AppVersionProps) {
     // CENTRALIZED VERSION CONTROL
-    const VERSION = "v1.3.15";
+    const VERSION = "v1.3.16";
 
     return (
         <p className={cn(

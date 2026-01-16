@@ -4,11 +4,7 @@ import { useState } from "react"
 import { ArrowRight, ArrowRightLeft, CreditCard, Wallet } from "lucide-react"
 import EditTransactionDialog from "./edit-transaction-dialog"
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
-
-// Color constants
-const COLOR_POSITIVE = '#598c58';
-const COLOR_NEGATIVE = '#c25e5e';
-const COLOR_NEUTRAL = '#7a869a';
+import { COLOR_POSITIVE, COLOR_NEGATIVE, COLOR_NEUTRAL } from "@/utils/colors";
 
 export default function TransactionItem({ transaction, wallets, onSuccess }: { transaction: any, wallets: any[], onSuccess?: () => void }) {
     const [isEditOpen, setIsEditOpen] = useState(false);

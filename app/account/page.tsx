@@ -9,6 +9,7 @@ import { getProfileAction, updateProfileAction, signOutAction } from "@/app/acti
 import { ArrowLeft, Loader2, Save, User, LogOut, Mail } from "lucide-react"
 import Link from "next/link"
 import { AppVersion } from "@/components/app-version"
+import { COLOR_BRAND } from "@/utils/colors"
 
 interface Profile {
     id: string
@@ -123,7 +124,7 @@ export default function AccountPage() {
                             type="submit"
                             disabled={saving}
                             className="w-full"
-                            style={{ backgroundColor: '#598c58' }}
+                            style={{ backgroundColor: COLOR_BRAND }}
                         >
                             {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
                             Lưu thay đổi

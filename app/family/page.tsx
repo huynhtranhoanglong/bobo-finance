@@ -27,6 +27,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { AppVersion } from "@/components/app-version"
+import { COLOR_BRAND } from "@/utils/colors"
 
 interface FamilyMember {
     user_id: string
@@ -179,7 +180,7 @@ export default function FamilyPage() {
                             type="submit"
                             disabled={actionLoading}
                             className="w-full"
-                            style={{ backgroundColor: '#598c58' }}
+                            style={{ backgroundColor: COLOR_BRAND }}
                         >
                             {actionLoading ? (
                                 <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang tạo...</>
@@ -294,7 +295,7 @@ export default function FamilyPage() {
                                 <Button
                                     type="submit"
                                     disabled={actionLoading}
-                                    style={{ backgroundColor: '#598c58' }}
+                                    style={{ backgroundColor: COLOR_BRAND }}
                                 >
                                     {actionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <UserPlus size={18} />}
                                 </Button>

@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { updateWalletAction, deleteWalletAction } from "@/app/actions"
 import { Trash2, Loader2 } from "lucide-react"
+import { COLOR_BRAND } from "@/utils/colors"
 
 export default function EditWalletDialog({
     wallet,
@@ -91,7 +92,7 @@ export default function EditWalletDialog({
                         </p>
                     </div>
 
-                    <Button type="submit" disabled={loading} className="mt-4 w-full" style={{ backgroundColor: '#598c58' }}>
+                    <Button type="submit" disabled={loading} className="mt-4 w-full" style={{ backgroundColor: COLOR_BRAND }}>
                         {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang lưu...</> : "Lưu Thay Đổi"}
                     </Button>
 

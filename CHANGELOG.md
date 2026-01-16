@@ -1,5 +1,48 @@
 # Changelog
 
+## [1.3.16] - 2026-01-17
+
+### Code Quality - Centralized Color Palette
+> **Purpose**: Eliminated hardcoded brand colors by creating a centralized color palette file for better maintainability and brand consistency.
+
+- **New File**: `utils/colors.ts`
+  - `COLORS` object with `brand`, `positive`, `negative`, `neutral`, `brandHover` (5 colors)
+  - `withOpacity()` helper function to create rgba colors with opacity
+  - Export aliases: `COLOR_POSITIVE`, `COLOR_NEGATIVE`, `COLOR_NEUTRAL`, `COLOR_BRAND`, `COLOR_BRAND_HOVER`
+  - Type annotation `: string` to prevent TypeScript literal type conflicts
+
+- **Refactored Components** (15 files):
+  - `components/monthly-stats.tsx` - Removed local COLOR_* declarations
+  - `components/debt-card.tsx` - Removed local COLOR_* declarations
+  - `components/fund-group.tsx` - Removed local COLOR_* declarations
+  - `components/wallet-card.tsx` - Removed local COLOR_* declarations
+  - `components/transaction-item.tsx` - Removed local COLOR_* declarations
+  - `components/add-transaction-dialog.tsx` - Replaced inline hex colors
+  - `components/edit-transaction-dialog.tsx` - Replaced inline hex colors
+  - `components/create-wallet-dialog.tsx` - Replaced inline hex colors
+  - `components/edit-wallet-dialog.tsx` - Replaced inline hex colors
+  - `components/create-debt-dialog.tsx` - Replaced inline hex colors
+  - `components/edit-debt-dialog.tsx` - Replaced inline hex colors
+  - `components/feedback-dialog.tsx` - Replaced inline hex colors
+  - `components/notification-bell.tsx` - Replaced inline hex colors
+  - `components/notification-item.tsx` - Replaced inline hex colors
+  - `components/net-worth-section.tsx` - Replaced inline hex colors
+  - `components/financial-progress.tsx` - Replaced inline hex colors
+  - `components/transaction-filters.tsx` - Replaced inline hex colors
+  - `components/ui/pull-to-refresh.tsx` - Replaced inline hex colors
+
+- **Refactored Pages** (6 files):
+  - `app/page.tsx` - Replaced all inline hex colors
+  - `app/login/page.tsx` - Replaced inline hex colors
+  - `app/loading.tsx` - Replaced inline hex colors
+  - `app/account/page.tsx` - Replaced inline hex colors
+  - `app/family/page.tsx` - Replaced inline hex colors
+  - `app/invite/[token]/page.tsx` - Replaced inline hex colors
+  - `app/transactions/page.tsx` - Replaced inline hex colors
+
+> **Benefit**: To change the brand color, now only need to edit ONE file (`utils/colors.ts`). All components will automatically update.
+> **Note**: This is a pure refactoring change. No UI or logic changes.
+
 ## [1.3.15] - 2026-01-17
 
 ### Code Quality - Centralized Constants

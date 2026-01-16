@@ -2,6 +2,7 @@
 
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import { SPENDING_PROGRESS_THRESHOLD_PERCENT } from "@/utils/constants";
+import { COLOR_POSITIVE, COLOR_NEGATIVE, COLOR_NEUTRAL } from "@/utils/colors";
 
 interface MonthlyStatsProps {
     stats: {
@@ -23,11 +24,6 @@ export default function MonthlyStats({ stats }: MonthlyStatsProps) {
     if (!stats) return null;
 
     const { income, expense, remaining, breakdown, min_spend, std_spend, has_debt } = stats;
-
-    // === COLOR PALETTE ===
-    const COLOR_POSITIVE = '#598c58';
-    const COLOR_NEGATIVE = '#c25e5e';
-    const COLOR_NEUTRAL = '#7a869a';
 
     // === PIE CHART CALCULATIONS ===
     const totalBreakdown = breakdown.must_have + breakdown.nice_to_have + breakdown.waste;

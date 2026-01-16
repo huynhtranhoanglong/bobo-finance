@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { COLOR_BRAND } from "@/utils/colors";
 
 export default function Loading() {
     return (
@@ -12,7 +13,7 @@ export default function Loading() {
                     className="animate-pulse"
                     priority
                 />
-                <p className="mt-4 text-sm font-medium text-[#598c58] animate-pulse">Đang tải dữ liệu...</p>
+                <p className="mt-4 text-sm font-medium animate-pulse" style={{ color: COLOR_BRAND }}>Đang tải dữ liệu...</p>
             </div>
         </div>
     );

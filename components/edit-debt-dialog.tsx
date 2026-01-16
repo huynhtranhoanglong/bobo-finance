@@ -9,6 +9,7 @@ import { updateDebtAction, deleteDebtAction } from "@/app/actions"
 import { Plus, Trash2, Loader2 } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { formatCurrency } from "@/utils/format"
+import { COLOR_BRAND } from "@/utils/colors"
 
 export default function EditDebtDialog({ open, setOpen, debt, wallets, onSuccess }: any) {
     const [loading, setLoading] = useState(false);
@@ -77,7 +78,8 @@ export default function EditDebtDialog({ open, setOpen, debt, wallets, onSuccess
 
                     <div className="flex items-center space-x-2 py-2">
                         <div
-                            className={`h-5 w-5 rounded border flex items-center justify-center cursor-pointer transition-colors ${justRecord ? 'bg-[#598c58] border-[#598c58]' : 'border-gray-300 bg-white'}`}
+                            className={`h-5 w-5 rounded border flex items-center justify-center cursor-pointer transition-colors ${justRecord ? 'border-transparent' : 'border-gray-300 bg-white'}`}
+                            style={justRecord ? { backgroundColor: COLOR_BRAND, borderColor: COLOR_BRAND } : {}}
                             onClick={() => setJustRecord(!justRecord)}
                         >
                             {justRecord && <Plus className="h-4 w-4 text-white rotate-45" />}
@@ -104,7 +106,7 @@ export default function EditDebtDialog({ open, setOpen, debt, wallets, onSuccess
                         </p>
                     </div>
 
-                    <Button type="submit" disabled={loading} className="w-full mt-4" style={{ backgroundColor: '#598c58' }}>
+                    <Button type="submit" disabled={loading} className="w-full mt-4" style={{ backgroundColor: COLOR_BRAND }}>
                         {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang lưu...</> : "Lưu thay đổi"}
                     </Button>
 

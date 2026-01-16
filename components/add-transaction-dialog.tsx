@@ -12,6 +12,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { addTransaction } from "@/app/actions"
 import { WalletOption } from "@/components/ui/wallet-option"
 import { formatCurrency } from "@/utils/format"
+import { COLOR_BRAND, COLOR_BRAND_HOVER } from "@/utils/colors"
 
 export default function AddTransactionDialog({ wallets, debts, funds, onSuccess }: { wallets: any[], debts: any[], funds: any[], onSuccess?: () => void }) {
     const [open, setOpen] = useState(false)
@@ -50,7 +51,7 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
             <DialogTrigger asChild>
                 <Button
                     className="fixed bottom-8 right-8 h-14 w-14 rounded-full shadow-lg text-white z-50 hover:scale-105 transition-transform"
-                    style={{ backgroundColor: '#598c58' }}
+                    style={{ backgroundColor: COLOR_BRAND }}
                     size="icon"
                 >
                     <Plus className="h-6 w-6" />
@@ -70,7 +71,8 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                             type="button"
                             variant="outline"
                             onClick={() => setType("expense")}
-                            className={`${type === "expense" ? "bg-[#598c58] text-white hover:bg-[#4a7a49] border-transparent" : "text-gray-500 hover:text-gray-700"}`}
+                            className={`${type === "expense" ? "text-white border-transparent" : "text-gray-500 hover:text-gray-700"}`}
+                            style={type === "expense" ? { backgroundColor: COLOR_BRAND } : {}}
                         >
                             💸 Chi Tiêu
                         </Button>
@@ -78,7 +80,8 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                             type="button"
                             variant="outline"
                             onClick={() => setType("income")}
-                            className={`${type === "income" ? "bg-[#598c58] text-white hover:bg-[#4a7a49] border-transparent" : "text-gray-500 hover:text-gray-700"}`}
+                            className={`${type === "income" ? "text-white border-transparent" : "text-gray-500 hover:text-gray-700"}`}
+                            style={type === "income" ? { backgroundColor: COLOR_BRAND } : {}}
                         >
                             💰 Thu Nhập
                         </Button>
@@ -86,7 +89,8 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                             type="button"
                             variant="outline"
                             onClick={() => setType(type === 'transfer' || type === 'debt_repayment' ? type : 'transfer')}
-                            className={`${(type === "transfer" || type === "debt_repayment") ? "bg-[#598c58] text-white hover:bg-[#4a7a49] border-transparent" : "text-gray-500 hover:text-gray-700"}`}
+                            className={`${(type === "transfer" || type === "debt_repayment") ? "text-white border-transparent" : "text-gray-500 hover:text-gray-700"}`}
+                            style={(type === "transfer" || type === "debt_repayment") ? { backgroundColor: COLOR_BRAND } : {}}
                         >
                             ... Khác
                         </Button>
@@ -231,7 +235,7 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                         <Input name="note" placeholder="..." />
                     </div>
 
-                    <Button type="submit" disabled={loading} className="mt-4 w-full text-lg py-6" style={{ backgroundColor: '#598c58' }}>
+                    <Button type="submit" disabled={loading} className="mt-4 w-full text-lg py-6" style={{ backgroundColor: COLOR_BRAND }}>
                         {loading ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Đang xử lý...</> : "Xác Nhận"}
                     </Button>
                 </form>

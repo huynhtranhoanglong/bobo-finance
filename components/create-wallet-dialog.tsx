@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { createWalletAction } from "@/app/actions"
 import { useRouter } from "next/navigation"
+import { COLOR_BRAND } from "@/utils/colors"
 
 export default function CreateWalletDialog({ funds }: { funds: any[] }) {
     const [open, setOpen] = useState(false)
@@ -65,7 +66,7 @@ export default function CreateWalletDialog({ funds }: { funds: any[] }) {
                         </p>
                     </div>
 
-                    <Button type="submit" disabled={loading} style={{ backgroundColor: '#598c58' }} className="w-full">
+                    <Button type="submit" disabled={loading} style={{ backgroundColor: COLOR_BRAND }} className="w-full">
                         {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang tạo...</> : "Tạo Ví"}
                     </Button>
                 </form>

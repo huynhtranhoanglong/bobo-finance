@@ -9,6 +9,7 @@ import { login, signup, loginWithGoogle } from "./actions";
 import { useState, useEffect, Suspense } from "react";
 import { Eye, EyeOff, AlertCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { COLOR_BRAND } from "@/utils/colors";
 
 function LoginForm() {
     const searchParams = useSearchParams();
@@ -138,7 +139,7 @@ function LoginForm() {
                 <Button
                     formAction={isLogin ? login : signup}
                     className="w-full h-11 hover:opacity-90 rounded-xl"
-                    style={{ backgroundColor: '#598c58' }}
+                    style={{ backgroundColor: COLOR_BRAND }}
                 >
                     {isLogin ? "Đăng nhập" : "Đăng ký"}
                 </Button>
@@ -148,7 +149,7 @@ function LoginForm() {
             <div className="text-center pt-2 border-t">
                 <p className="text-sm text-gray-500">
                     Chưa muốn đăng ký?{" "}
-                    <Link href="/?demo=true" className="font-medium hover:underline" style={{ color: '#598c58' }}>
+                    <Link href="/?demo=true" className="font-medium hover:underline" style={{ color: COLOR_BRAND }}>
                         Dùng thử ngay
                     </Link>
                 </p>

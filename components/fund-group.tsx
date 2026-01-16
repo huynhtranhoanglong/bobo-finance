@@ -5,11 +5,7 @@ import { ChevronDown, ChevronRight, Wallet, Shield, PiggyBank, TrendingUp, Bankn
 import WalletCard from "./wallet-card"
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import { EMERGENCY_FUND_DANGER_MONTHS, EMERGENCY_FUND_SAFE_MONTHS } from "@/utils/constants";
-
-// Color palette
-const COLOR_POSITIVE = '#598c58';
-const COLOR_NEGATIVE = '#c25e5e';
-const COLOR_NEUTRAL = '#7a869a';
+import { COLOR_POSITIVE, COLOR_NEGATIVE, COLOR_NEUTRAL } from "@/utils/colors";
 
 interface FundGroupProps {
     fundName: string;

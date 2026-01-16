@@ -14,6 +14,7 @@ import { useSearchParams } from "next/navigation";
 import { TransactionListSkeleton } from "@/components/ui/skeleton";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import { AppVersion } from "@/components/app-version";
+import { COLOR_BRAND } from "@/utils/colors";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -192,7 +193,7 @@ function TransactionsPageContent() {
                                         onClick={handleLoadMore}
                                         variant="outline"
                                         className="rounded-xl h-12 px-6 gap-2"
-                                        style={{ borderColor: '#598c58', color: '#598c58' }}
+                                        style={{ borderColor: COLOR_BRAND, color: COLOR_BRAND }}
                                     >
                                         Xem thêm ({remainingCount} giao dịch nữa)
                                         <ChevronDown size={18} />

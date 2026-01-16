@@ -7,6 +7,7 @@ import { getInvitationInfoAction, acceptInvitationAction } from "@/app/actions"
 import { Users, Loader2, AlertCircle, CheckCircle, XCircle } from "lucide-react"
 import Link from "next/link"
 import { use } from "react"
+import { COLOR_BRAND } from "@/utils/colors"
 
 interface InvitationInfo {
     id: string
@@ -129,7 +130,7 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
                 </h1>
 
                 <div className="bg-gray-50 rounded-xl p-4 my-4">
-                    <p className="text-2xl font-bold" style={{ color: '#598c58' }}>
+                    <p className="text-2xl font-bold" style={{ color: COLOR_BRAND }}>
                         {invitation?.family_name}
                     </p>
                     <p className="text-sm text-gray-500 mt-1">
@@ -145,7 +146,7 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
                     onClick={handleAccept}
                     disabled={actionLoading}
                     className="w-full mb-3"
-                    style={{ backgroundColor: '#598c58' }}
+                    style={{ backgroundColor: COLOR_BRAND }}
                 >
                     {actionLoading ? (
                         <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang tham gia...</>

@@ -8,8 +8,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { updateTransactionAction, deleteTransactionAction } from "@/app/actions"
 import { Trash2, Loader2 } from "lucide-react"
-
 import { WalletOption } from "@/components/ui/wallet-option"
+import { COLOR_BRAND } from "@/utils/colors"
 
 export default function EditTransactionDialog({ open, setOpen, transaction, wallets, onSuccess }: any) {
     const [loading, setLoading] = useState(false);
@@ -131,7 +131,7 @@ export default function EditTransactionDialog({ open, setOpen, transaction, wall
                         type="submit"
                         disabled={loading}
                         className="w-full mt-4"
-                        style={{ backgroundColor: '#598c58' }}
+                        style={{ backgroundColor: COLOR_BRAND }}
                     >
                         {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang lưu...</> : "Lưu thay đổi"}
                     </Button>

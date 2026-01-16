@@ -916,4 +916,4 @@ Kể từ v1.3.15, tất cả các "magic numbers" quan trọng được tập t
 ---
 
 *Tài liệu này được cập nhật lần cuối: 2026-01-17*
-*Phiên bản ứng dụng: v1.3.15*
+*Phiên bản ứng dụng: v1.3.16*

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { COLOR_BRAND } from "@/utils/colors";
 
 interface PullToRefreshProps {
     children: React.ReactNode;
@@ -117,11 +118,12 @@ export function PullToRefresh({ children, onRefresh }: PullToRefreshProps) {
                 )}>
                     <Loader2
                         className={cn(
-                            "h-6 w-6 text-[#598c58]", // Brand color
+                            "h-6 w-6",
                             loading ? "animate-spin" : ""
                         )}
                         style={{
-                            transform: loading ? '' : `rotate(${currentY * 2}deg)` // Rotate based on pull
+                            color: COLOR_BRAND,
+                            transform: loading ? '' : `rotate(${currentY * 2}deg)`
                         }}
                     />
                 </div>

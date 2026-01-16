@@ -5,11 +5,7 @@ import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import EditDebtDialog from "./edit-debt-dialog";
 import { useRouter } from "next/navigation";
 import { DEBT_PROGRESS_LOW, DEBT_PROGRESS_HIGH } from "@/utils/constants";
-
-// Color palette
-const COLOR_POSITIVE = '#598c58';
-const COLOR_NEGATIVE = '#c25e5e';
-const COLOR_NEUTRAL = '#7a869a';
+import { COLOR_POSITIVE, COLOR_NEGATIVE, COLOR_NEUTRAL } from "@/utils/colors";
 
 interface DebtCardProps {
     debt: {
@@ -52,7 +48,10 @@ export default function DebtCard({ debt, wallets }: DebtCardProps) {
                 <div className="flex justify-between items-start mb-3">
                     <div className="flex flex-col">
                         <span className="font-bold text-gray-800">{name}</span>
-                        <span className={`text-[10px] font-medium uppercase ${debt.type === 'receivable' ? 'text-[#598c58]' : 'text-[#c25e5e]'}`}>
+                        <span
+                            className="text-[10px] font-medium uppercase"
+                            style={{ color: debt.type === 'receivable' ? COLOR_POSITIVE : COLOR_NEGATIVE }}
+                        >
                             {debt.type === 'receivable' ? 'Đang cho vay' : 'Nợ phải trả'}
                         </span>
                     </div>

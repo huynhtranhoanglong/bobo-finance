@@ -1,6 +1,7 @@
 "use client";
 
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
+import { COLOR_BRAND, COLOR_NEUTRAL } from "@/utils/colors";
 
 interface FinancialProgressProps {
     metrics: {
@@ -51,7 +52,7 @@ export default function FinancialProgress({ metrics }: FinancialProgressProps) {
                 <span className="text-sm font-medium text-gray-600">
                     🎯 Mục tiêu: {targetLabel}
                 </span>
-                <span className="text-sm font-bold" style={{ color: '#598c58' }}>
+                <span className="text-sm font-bold" style={{ color: COLOR_BRAND }}>
                     {Math.min(currentProgress, 100).toFixed(1)}%
                 </span>
             </div>
@@ -62,13 +63,13 @@ export default function FinancialProgress({ metrics }: FinancialProgressProps) {
                     className="h-full transition-all duration-500"
                     style={{
                         width: `${Math.min(currentProgress, 100)}%`,
-                        backgroundColor: '#598c58'
+                        backgroundColor: COLOR_BRAND
                     }}
                 />
             </div>
 
             {/* Remaining Text */}
-            <p className="text-sm text-center" style={{ color: '#7a869a' }}>
+            <p className="text-sm text-center" style={{ color: COLOR_NEUTRAL }}>
                 Còn <span className="font-semibold"><PrivacyAmount amount={Math.max(remaining, 0)} /></span> nữa để đạt {targetLabel}
             </p>
         </div>

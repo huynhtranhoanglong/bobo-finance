@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { sendFeedbackAction } from "@/app/actions/send-feedback"
+import { COLOR_BRAND } from "@/utils/colors"
 
 interface FeedbackDialogProps {
     open: boolean
@@ -104,7 +105,7 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
                             type="submit"
                             disabled={loading}
                             className="w-full"
-                            style={{ backgroundColor: '#598c58' }}
+                            style={{ backgroundColor: COLOR_BRAND }}
                         >
                             {loading ? (
                                 <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang gửi...</>

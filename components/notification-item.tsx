@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button"; // Assuming standard button
+import { Button } from "@/components/ui/button";
 import { Check, X, Bell } from "lucide-react";
-import { acceptInvitationAction } from "@/app/actions"; // Main actions
-import { markNotificationReadAction } from "@/app/actions/notifications"; // Notification actions
+import { acceptInvitationAction } from "@/app/actions";
+import { markNotificationReadAction } from "@/app/actions/notifications";
 import { useRouter } from "next/navigation";
+import { COLOR_BRAND, COLOR_BRAND_HOVER } from "@/utils/colors";
 
 interface NotificationItemProps {
     notification: any;
@@ -73,7 +74,8 @@ export function NotificationItem({ notification, onRead }: NotificationItemProps
                         <div className="flex gap-2 mt-2">
                             <Button
                                 size="sm"
-                                className="h-8 bg-[#598c58] hover:bg-[#4a7a49] text-white"
+                                className="h-8 text-white"
+                                style={{ backgroundColor: COLOR_BRAND }}
                                 onClick={handleAccept}
                                 disabled={loading}
                             >

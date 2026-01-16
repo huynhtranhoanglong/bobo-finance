@@ -14,6 +14,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Search, Calendar, ChevronDown, ChevronUp, RotateCcw } from "lucide-react"
+import { COLOR_BRAND } from "@/utils/colors"
 
 export default function TransactionFilters({ wallets }: { wallets: any[] }) {
     const searchParams = useSearchParams()
@@ -121,7 +122,7 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
                 onClick={() => setIsExpanded(!isExpanded)}
             >
                 <div className="flex items-center gap-2">
-                    <Search size={20} style={{ color: '#598c58' }} />
+                    <Search size={20} style={{ color: COLOR_BRAND }} />
                     <span className="font-medium text-gray-700">Bộ lọc & Tìm kiếm</span>
                     {hasActiveFilters && (
                         <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
@@ -171,7 +172,7 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
                     {/* 2. DATE PRESET FILTER */}
                     <div>
                         <Label className="text-sm font-medium text-gray-700 mb-2 block flex items-center gap-2">
-                            <Calendar size={16} style={{ color: '#598c58' }} />
+                            <Calendar size={16} style={{ color: COLOR_BRAND }} />
                             Khoảng thời gian
                         </Label>
                         <Select

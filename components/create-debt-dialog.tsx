@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { addTransaction } from "@/app/actions"
 import { useRouter } from "next/navigation"
 import { WalletOption } from "@/components/ui/wallet-option"
+import { COLOR_BRAND } from "@/utils/colors"
 
 export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
     const [open, setOpen] = useState(false)
@@ -84,7 +85,8 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
 
                     <div className="flex items-center space-x-2 py-2">
                         <div
-                            className={`h-5 w-5 rounded border flex items-center justify-center cursor-pointer transition-colors ${justRecord ? 'bg-[#598c58] border-[#598c58]' : 'border-gray-300 bg-white'}`}
+                            className={`h-5 w-5 rounded border flex items-center justify-center cursor-pointer transition-colors ${justRecord ? 'border-transparent' : 'border-gray-300 bg-white'}`}
+                            style={justRecord ? { backgroundColor: COLOR_BRAND, borderColor: COLOR_BRAND } : {}}
                             onClick={() => setJustRecord(!justRecord)}
                         >
                             {justRecord && <Plus className="h-4 w-4 text-white rotate-45" />}
@@ -135,7 +137,7 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
                         <Input name="note" placeholder="..." />
                     </div>
 
-                    <Button type="submit" disabled={loading} style={{ backgroundColor: '#598c58' }} className="w-full mt-2">
+                    <Button type="submit" disabled={loading} style={{ backgroundColor: COLOR_BRAND }} className="w-full mt-2">
                         {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang xử lý...</> : "Tạo Khoản Nợ"}
                     </Button>
                 </form>
