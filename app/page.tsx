@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import { ArrowRightLeft, List } from "lucide-react";
 
@@ -21,6 +22,7 @@ import FinancialProgress from "@/components/financial-progress";
 import DebtCard from "@/components/debt-card";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import { AppVersion } from "@/components/app-version";
+import { DEFAULT_TIMEZONE } from "@/utils/timezone";
 
 // ===================== DEMO MODE DATA =====================
 const DEMO_METRICS = {
@@ -169,10 +171,16 @@ export default async function Home({
   const currentMonth = now.getMonth() + 1;
   const currentYear = now.getFullYear();
 
+  // v1.3.13: Get user timezone from cookie
+  const cookieStore = await cookies();
+  const userTimezone = cookieStore.get("timezone")?.value || DEFAULT_TIMEZONE;
+
   // v1.2.4: Gộp tất cả API thành 1 RPC call duy nhất
+  // v1.3.13: Added timezone parameter
   const { data: dashboardData } = await supabase.rpc('get_dashboard_data', {
     p_month: currentMonth,
-    p_year: currentYear
+    p_year: currentYear,
+    p_timezone: userTimezone
   });
 
   // Extract data từ response

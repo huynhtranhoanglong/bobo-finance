@@ -481,9 +481,12 @@ Khi bật chế độ bảo mật:
 ## Ghi Chú Kỹ Thuật
 
 ### Múi Giờ
-- Tất cả tính toán theo tháng sử dụng múi giờ Việt Nam (Asia/Ho_Chi_Minh, UTC+7).
-- Ngày bắt đầu tháng: 00:00:00 ngày 1.
-- Ngày kết thúc tháng: 23:59:59 ngày cuối cùng.
+- Kể từ v1.3.13, tất cả tính toán theo tháng sử dụng múi giờ của thiết bị người dùng.
+- Múi giờ được lưu trong Cookie (tên: `timezone`) khi người dùng mở app.
+- Nếu Cookie chưa có, mặc định sử dụng múi giờ Việt Nam (Asia/Ho_Chi_Minh).
+- Ngày bắt đầu tháng: 00:00:00 ngày 1 theo giờ địa phương.
+- Ngày kết thúc tháng: 23:59:59 ngày cuối cùng theo giờ địa phương.
+- Utility `utils/timezone.ts` quản lý tập trung logic múi giờ.
 
 ### Phòng Tránh Chia Cho 0
 - Nếu Chi Tiêu Tối Thiểu = 0, hệ thống tự động đặt thành 1 để tránh lỗi chia cho 0.
@@ -496,4 +499,4 @@ Khi bật chế độ bảo mật:
 ---
 
 *Tài liệu này được cập nhật lần cuối: 2026-01-16*
-*Phiên bản ứng dụng: v1.3.12*
+*Phiên bản ứng dụng: v1.3.13*

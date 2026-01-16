@@ -1,5 +1,35 @@
 # Changelog
 
+## [1.3.13] - 2026-01-16
+
+### Feature - Device Timezone Localization
+> **Change**: All timezone-dependent calculations now use the user's device timezone instead of hardcoded Vietnam timezone.
+> Technical solution: Cookie-based approach for Server Component compatibility.
+
+- **New Files**:
+  - `utils/timezone.ts` - Centralized timezone utility with functions:
+    - `getUserTimezone()` - Returns device timezone
+    - `setTimezoneCookie()` - Saves timezone to cookie
+    - `getTimeBasedGreeting()` - Returns greeting based on local time
+    - `getDatePreset()` - Returns date ranges for filters
+  - `components/timezone-provider.tsx` - Client component that sets timezone cookie on app mount
+
+- **Database**:
+  - Updated `get_dashboard_data` RPC to accept `p_timezone` parameter.
+  - Uses `DROP FUNCTION IF EXISTS` before creating to avoid conflicts.
+  - Defaults to 'Asia/Ho_Chi_Minh' if timezone not provided.
+  - **SQL Script**: `sql_backup/202601162200_timezone_v2.sql`.
+
+- **Frontend Updates**:
+  - `app/layout.tsx` - Added `TimezoneProvider` wrapper.
+  - `app/page.tsx` - Reads timezone from cookie and passes to RPC.
+
+- **Bug Fix**:
+  - Dashboard footer now uses `AppVersion` component instead of hardcoded version.
+
+- **Documentation**:
+  - Updated `LOGIC_CALCULATIONS.md` timezone section.
+
 ## [1.3.12] - 2026-01-16
 
 ### Improvement - Net Worth Calculation
