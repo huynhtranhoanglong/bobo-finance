@@ -12,8 +12,11 @@
   - Critical for PWA users who don't have a browser refresh button.
 
 ### Technical Details
-- **New Component**: `components/ui/pull-to-refresh.tsx`.
-- Integrated into `app/page.tsx` and `app/transactions/page.tsx`.
+- **New Component**: 
+  - `components/ui/pull-to-refresh.tsx` - Handle pull gestures.
+  - `components/app-version.tsx` - Reuseable version footer.
+- Integrated `PullToRefresh` into `app/page.tsx` and `app/transactions/page.tsx`.
+- Integrated `AppVersion` into all main pages to replace hardcoded version strings.
 - Updated version indicator to `v1.3.9`.
 
 ## [1.3.8] - 2026-01-16

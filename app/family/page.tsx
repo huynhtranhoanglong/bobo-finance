@@ -26,6 +26,7 @@ import {
     X
 } from "lucide-react"
 import Link from "next/link"
+import { AppVersion } from "@/components/app-version"
 
 interface FamilyMember {
     user_id: string
@@ -323,6 +324,8 @@ export default function FamilyPage() {
                     </div>
                 </>
             )}
+
+            <AppVersion />
         </main>
     )
 }

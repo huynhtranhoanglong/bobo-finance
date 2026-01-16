@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import { getProfileAction, updateProfileAction, signOutAction } from "@/app/actions"
 import { ArrowLeft, Loader2, Save, User, LogOut, Mail } from "lucide-react"
 import Link from "next/link"
+import { AppVersion } from "@/components/app-version"
 
 interface Profile {
     id: string
@@ -142,9 +143,11 @@ export default function AccountPage() {
                             Đăng xuất
                         </Button>
                     </form>
-                    <p className="text-center text-xs text-gray-400 mt-4">Bobo v1.3.8</p>
-                </div>
-            </div>
-        </main>
+                </Button>
+            </form>
+            <AppVersion />
+        </div>
+            </div >
+        </main >
     )
 }

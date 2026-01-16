@@ -20,6 +20,7 @@ import NetWorthSection from "@/components/net-worth-section";
 import FinancialProgress from "@/components/financial-progress";
 import DebtCard from "@/components/debt-card";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
+import { AppVersion } from "@/components/app-version";
 
 // ===================== DEMO MODE DATA =====================
 const DEMO_METRICS = {

@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
 import { TransactionListSkeleton } from "@/components/ui/skeleton";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
+import { AppVersion } from "@/components/app-version";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -207,6 +208,8 @@ function TransactionsPageContent() {
                     funds={funds || []}
                     onSuccess={handleRefresh}
                 />
+
+                <AppVersion />
             </main>
         </PullToRefresh>
     );
