@@ -219,7 +219,7 @@ export async function updateDebtAction(formData: FormData) {
     });
 
     if (error) return { error: error.message };
-    revalidatePath("/");
+    // revalidatePath("/");
     return { success: true };
 }
 
