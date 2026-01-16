@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.3.6] - 2026-01-16
+
+### Major Feature - Account Management
+> **Note:** Users can now manage their personal profile, including Display Name.
+
+- **New Page: My Account (`/account`)**:
+  - Displays user avatar (initials) and email.
+  - **Edit Profile**: Allows updating **Display Name**. This name will be used across the application (Greeting, Family Members, Wallet Owners).
+  - Logout button integrated into the account page.
+
+- **UI Updates**:
+  - **Greeting Header**: Now says "Chào buổi sáng, [Tên]!" instead of just "Xin chào!".
+  - **User Menu**: Added "Tài khoản" link to the dropdown for quick access.
+  - **Family & Dashboard**: Updated to prioritize showing `display_name` over `email` where applicable.
+
+- **Database Updates**:
+  - Updated `profiles` table with `display_name`, `avatar_url`, `updated_at`.
+  - Added RPC `update_profile` and `get_my_profile`.
+  - Updated `get_dashboard_data` and `get_my_family` to join with `profiles`.
+
+### Technical Details
+- **SQL Script**: `sql_backup/202601161550_account_management.sql`.
+- **New Component**: `app/account/page.tsx`.
+- **Server Actions**: `getProfileAction`, `updateProfileAction`.
+- Updated version indicator to `v1.3.6`.
+
 ## [1.3.5] - 2026-01-16
 
 ### Hotfix - Notification Hub

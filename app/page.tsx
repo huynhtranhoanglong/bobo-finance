@@ -74,6 +74,7 @@ export default async function Home({
 
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+  const { data: profile } = await supabase.rpc('get_my_profile');
 
   // Nếu DEMO MODE -> Dùng dữ liệu mẫu, không query DB
   if (isDemo) {
@@ -234,7 +235,7 @@ export default async function Home({
     <main className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
 
       {/* NEW v1.1.7: Greeting Header */}
-      <GreetingHeader userEmail={user?.email || 'User'} />
+      <GreetingHeader userEmail={user?.email || 'User'} userName={profile?.display_name} />
 
       {/* NEW v1.3.2: Family Banner */}
       {familyInfo && (
@@ -311,7 +312,7 @@ export default async function Home({
 
       {/* Build Version Indicator */}
       <p className="text-center text-xs text-gray-400 mt-8">
-        Build: v1.3.5
+        Build: v1.3.6
       </p>
 
     </main >

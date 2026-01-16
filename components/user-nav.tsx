@@ -35,6 +35,12 @@ export function UserNav({ email }: { email: string }) {
                         </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
+                    <Link href="/account">
+                        <DropdownMenuItem className="cursor-pointer">
+                            <Users className="mr-2 h-4 w-4" />
+                            Tài khoản
+                        </DropdownMenuItem>
+                    </Link>
                     <Link href="/family">
                         <DropdownMenuItem className="cursor-pointer">
                             <Users className="mr-2 h-4 w-4" />
