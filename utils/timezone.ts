@@ -3,6 +3,13 @@
  * v1.3.13
  */
 
+import {
+    GREETING_MORNING_START,
+    GREETING_AFTERNOON_START,
+    GREETING_EVENING_START,
+    GREETING_NIGHT_START
+} from "@/utils/constants";
+
 // Default timezone (fallback)
 export const DEFAULT_TIMEZONE = "Asia/Ho_Chi_Minh";
 
@@ -47,11 +54,11 @@ export function getCurrentHour(): number {
 export function getTimeBasedGreeting(): { text: string; emoji: string } {
     const hour = getCurrentHour();
 
-    if (hour >= 5 && hour < 12) {
+    if (hour >= GREETING_MORNING_START && hour < GREETING_AFTERNOON_START) {
         return { text: "Chào buổi sáng", emoji: "☀️" };
-    } else if (hour >= 12 && hour < 18) {
+    } else if (hour >= GREETING_AFTERNOON_START && hour < GREETING_EVENING_START) {
         return { text: "Chào buổi chiều", emoji: "🌤️" };
-    } else if (hour >= 18 && hour < 22) {
+    } else if (hour >= GREETING_EVENING_START && hour < GREETING_NIGHT_START) {
         return { text: "Chào buổi tối", emoji: "🌙" };
     } else {
         return { text: "Khuya rồi, nghỉ ngơi nhé", emoji: "🌃" };

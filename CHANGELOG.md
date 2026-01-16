@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.3.15] - 2026-01-17
+
+### Code Quality - Centralized Constants
+> **Purpose**: Eliminated "magic numbers" by creating a centralized constants file for better maintainability and code clarity.
+
+- **New File**: `utils/constants.ts`
+  - Contains all configurable constants with descriptive names and JSDoc comments
+  - Financial calculation constants: `SPENDING_CALCULATION_DAYS` (90), `SPENDING_CALCULATION_MONTHS` (3), `MONTHS_IN_YEAR` (12), `RETIREMENT_YEARS` (25)
+  - Spending progress threshold: `SPENDING_PROGRESS_THRESHOLD_PERCENT` (10%)
+  - Debt progress thresholds: `DEBT_PROGRESS_LOW` (30%), `DEBT_PROGRESS_HIGH` (70%)
+  - Emergency fund thresholds: `EMERGENCY_FUND_DANGER_MONTHS` (3), `EMERGENCY_FUND_SAFE_MONTHS` (6)
+  - Greeting time ranges: `GREETING_MORNING_START` (5), `GREETING_AFTERNOON_START` (12), `GREETING_EVENING_START` (18), `GREETING_NIGHT_START` (22)
+
+- **Refactored Components**:
+  - `components/monthly-stats.tsx` - Uses `SPENDING_PROGRESS_THRESHOLD_PERCENT` instead of hardcoded `10`
+  - `components/debt-card.tsx` - Uses `DEBT_PROGRESS_LOW/HIGH` instead of hardcoded `30`, `70`
+  - `components/fund-group.tsx` - Uses `EMERGENCY_FUND_*_MONTHS` instead of hardcoded `3`, `6`
+  - `utils/timezone.ts` - Uses `GREETING_*_START` instead of hardcoded `5`, `12`, `18`, `22`
+
+- **Documentation**:
+  - Added section "9.6. Hằng Số Cấu Hình (Constants)" to `LOGIC_CALCULATIONS.md`
+  - Full mapping table of all constants with values, meanings, and usage locations
+
+> **Note**: This is a pure refactoring change. No logic or behavior changes. SQL constants remain unchanged as PostgreSQL does not support global constants.
+
 ## [1.3.14] - 2026-01-16
 
 ### Bug Fix - Create Wallet/Debt Missing Family ID

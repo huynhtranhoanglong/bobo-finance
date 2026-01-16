@@ -1,6 +1,7 @@
 "use client"
 
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
+import { SPENDING_PROGRESS_THRESHOLD_PERCENT } from "@/utils/constants";
 
 interface MonthlyStatsProps {
     stats: {
@@ -56,12 +57,12 @@ export default function MonthlyStats({ stats }: MonthlyStatsProps) {
     const compareTarget = has_debt ? min_spend : (std_spend || min_spend);
     const spendingProgress = compareTarget > 0 ? (expense / compareTarget) * 100 : 0;
 
-    // Logic màu sắc: so sánh spending với time (±10%)
+    // Logic màu sắc: so sánh spending với time (±threshold)
     const difference = spendingProgress - timeProgress;
     let progressColor = COLOR_NEUTRAL;
-    if (difference < -10) {
+    if (difference < -SPENDING_PROGRESS_THRESHOLD_PERCENT) {
         progressColor = COLOR_POSITIVE; // Tốt, chi tiêu ít hơn tiến độ thời gian
-    } else if (difference > 10) {
+    } else if (difference > SPENDING_PROGRESS_THRESHOLD_PERCENT) {
         progressColor = COLOR_NEGATIVE; // Cảnh báo, chi tiêu vượt tiến độ
     }
 

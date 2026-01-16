@@ -4,6 +4,7 @@ import { useState } from "react";
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import EditDebtDialog from "./edit-debt-dialog";
 import { useRouter } from "next/navigation";
+import { DEBT_PROGRESS_LOW, DEBT_PROGRESS_HIGH } from "@/utils/constants";
 
 // Color palette
 const COLOR_POSITIVE = '#598c58';
@@ -32,9 +33,9 @@ export default function DebtCard({ debt, wallets }: DebtCardProps) {
 
     // Determine color based on progress
     let progressColor = COLOR_NEGATIVE;
-    if (progressPercent >= 70) {
+    if (progressPercent >= DEBT_PROGRESS_HIGH) {
         progressColor = COLOR_POSITIVE; // Almost done
-    } else if (progressPercent >= 30) {
+    } else if (progressPercent >= DEBT_PROGRESS_LOW) {
         progressColor = COLOR_NEUTRAL; // In progress
     }
 

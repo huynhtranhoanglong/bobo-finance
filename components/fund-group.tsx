@@ -4,6 +4,7 @@ import { useState } from "react"
 import { ChevronDown, ChevronRight, Wallet, Shield, PiggyBank, TrendingUp, Banknote } from "lucide-react"
 import WalletCard from "./wallet-card"
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
+import { EMERGENCY_FUND_DANGER_MONTHS, EMERGENCY_FUND_SAFE_MONTHS } from "@/utils/constants";
 
 // Color palette
 const COLOR_POSITIVE = '#598c58';
@@ -66,9 +67,9 @@ export default function FundGroup({ fundName, totalBalance, wallets, fundsList, 
         showEmergencyStatus = true;
         emergencyMonths = totalBalance / minMonthlySpend;
 
-        if (emergencyMonths >= 6) {
+        if (emergencyMonths >= EMERGENCY_FUND_SAFE_MONTHS) {
             emergencyColor = COLOR_POSITIVE;
-        } else if (emergencyMonths >= 3) {
+        } else if (emergencyMonths >= EMERGENCY_FUND_DANGER_MONTHS) {
             emergencyColor = COLOR_NEUTRAL;
         } else {
             emergencyColor = COLOR_NEGATIVE;
