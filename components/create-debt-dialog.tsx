@@ -103,13 +103,11 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
                         <Select name="wallet_id" required={!justRecord}>
                             <SelectTrigger><SelectValue placeholder={justRecord ? "Đang tắt chọn ví" : "Chọn ví"} /></SelectTrigger>
                             <SelectContent>
-                                <SelectContent>
-                                    {wallets.map(w => (
-                                        <SelectItem key={w.id} value={w.id}>
-                                            <WalletOption name={w.name} balance={w.balance} />
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
+                                {wallets.map(w => (
+                                    <SelectItem key={w.id} value={w.id}>
+                                        <WalletOption name={w.name} balance={w.balance} />
+                                    </SelectItem>
+                                ))}
                             </SelectContent>
                         </Select>
                         <p className="text-xs text-gray-500">

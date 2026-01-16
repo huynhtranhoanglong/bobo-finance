@@ -17,9 +17,6 @@ interface FinancialProgressProps {
 export default function FinancialProgress({ metrics }: FinancialProgressProps) {
     if (!metrics) return null;
 
-    const formatMoney = (amount: number) =>
-        new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(amount);
-
     // Determine which milestone to show
     const hasReachedSafety = metrics.safety_progress >= 100;
     const currentProgress = hasReachedSafety ? metrics.freedom_progress : metrics.safety_progress;

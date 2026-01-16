@@ -1,5 +1,47 @@
 # Changelog
 
+## [1.2.8] - 2026-01-16
+
+### Code Quality - Refactoring & Maintainability
+
+- **Centralized Currency Formatting**:
+  - Created `utils/format.ts` with unified formatting functions: `formatCurrency()`, `formatNumber()`, `parseFormattedNumber()`.
+  - Replaced 9 instances of inline `Intl.NumberFormat` calls across components with centralized utility.
+  - Ensures consistent Vietnamese Dong (VND) formatting throughout the application.
+  - **Affected Files**: `wallet-option.tsx`, `privacy-amount.tsx`, `money-input.tsx`, `add-transaction-dialog.tsx`, `edit-debt-dialog.tsx`, `financial-overview.tsx`, `financial-progress.tsx`.
+
+- **Type Definitions**:
+  - Created `types/index.ts` with TypeScript interfaces for core entities: `Wallet`, `Fund`, `Debt`, `Transaction`.
+  - Added type enums: `TransactionType`, `SpendingCategory`, `DebtType`, `DebtInterestLevel`.
+  - Added dashboard data types: `FinancialMetrics`, `MonthlyStatsData`, `DashboardData`.
+  - Prepares codebase for future "Family" feature with better type-safety.
+
+### Bug Fixes
+
+- **Fixed Nested SelectContent**:
+  - Corrected structural bug in `create-debt-dialog.tsx` and `edit-transaction-dialog.tsx` where `<SelectContent>` was incorrectly nested twice.
+  - Dropdown menus for wallet selection now render correctly without HTML structure warnings.
+
+### Code Cleanup
+
+- Removed unused `formatMoney` function from `financial-overview.tsx` and `financial-progress.tsx`.
+- These components now rely on `PrivacyAmount` which uses the centralized `formatCurrency()`.
+
+### Technical Details
+
+- Added `utils/format.ts` - centralized currency formatting utilities.
+- Added `types/index.ts` - TypeScript type definitions for core entities.
+- Modified `components/ui/wallet-option.tsx` - uses `formatCurrency`.
+- Modified `components/ui/privacy-amount.tsx` - uses `formatCurrency`.
+- Modified `components/ui/money-input.tsx` - uses `formatNumber` and `parseFormattedNumber`.
+- Modified `components/add-transaction-dialog.tsx` - uses `formatCurrency`.
+- Modified `components/edit-debt-dialog.tsx` - uses `formatCurrency`, fixed structure.
+- Modified `components/create-debt-dialog.tsx` - fixed nested SelectContent.
+- Modified `components/edit-transaction-dialog.tsx` - fixed nested SelectContent.
+- Modified `components/financial-overview.tsx` - removed unused formatMoney.
+- Modified `components/financial-progress.tsx` - removed unused formatMoney.
+- Updated version indicator to `v1.2.8`.
+
 ## [1.2.7] - 2026-01-16
 
 ### Bug Fixes - UI Display

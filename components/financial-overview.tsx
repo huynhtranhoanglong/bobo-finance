@@ -7,9 +7,6 @@ import { PrivacyAmount } from "@/components/ui/privacy-amount";
 export default function FinancialOverview({ metrics }: { metrics: any }) {
     if (!metrics) return null;
 
-    const formatMoney = (amount: number) =>
-        new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(amount);
-
     return (
         <div className="grid gap-4 md:grid-cols-2 mb-8">
 

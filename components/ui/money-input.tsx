@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
+import { formatNumber, parseFormattedNumber } from "@/utils/format"
 
 interface MoneyInputProps extends Omit<React.ComponentProps<"input">, "onChange"> {
     name: string
@@ -17,29 +18,22 @@ export function MoneyInput({ name, initialValue, className, ...props }: MoneyInp
     // Initialize display value on mount or when initialValue changes
     React.useEffect(() => {
         if (initialValue !== undefined && initialValue !== null) {
-            const formatted = new Intl.NumberFormat("vi-VN").format(initialValue)
-            setDisplayValue(formatted)
+            setDisplayValue(formatNumber(initialValue))
             setRawValue(initialValue.toString())
         }
     }, [initialValue])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const input = e.target.value
+        const number = parseFormattedNumber(input)
 
-        // Remove all non-numeric characters
-        const numericValue = input.replace(/\D/g, "")
-
-        if (numericValue === "") {
+        if (number === 0 && input !== "0") {
             setDisplayValue("")
             setRawValue("")
             return
         }
 
-        // Parse as number and format
-        const number = parseInt(numericValue, 10)
-        const formatted = new Intl.NumberFormat("vi-VN").format(number)
-
-        setDisplayValue(formatted)
+        setDisplayValue(formatNumber(number))
         setRawValue(number.toString())
     }
 

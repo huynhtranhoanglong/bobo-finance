@@ -112,13 +112,11 @@ export default function EditTransactionDialog({ open, setOpen, transaction, wall
                         <Select name="wallet_id" defaultValue={transaction.wallet_id} required>
                             <SelectTrigger><SelectValue placeholder="Chọn ví" /></SelectTrigger>
                             <SelectContent>
-                                <SelectContent>
-                                    {wallets?.map((w: any) => (
-                                        <SelectItem key={w.id} value={w.id}>
-                                            <WalletOption name={w.name} balance={w.balance} />
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
+                                {wallets?.map((w: any) => (
+                                    <SelectItem key={w.id} value={w.id}>
+                                        <WalletOption name={w.name} balance={w.balance} />
+                                    </SelectItem>
+                                ))}
                             </SelectContent>
                         </Select>
                     </div>

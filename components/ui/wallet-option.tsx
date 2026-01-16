@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatCurrency } from '@/utils/format';
 
 interface WalletOptionProps {
     name: string;
@@ -6,17 +7,9 @@ interface WalletOptionProps {
 }
 
 export function WalletOption({ name, balance }: WalletOptionProps) {
-    // Safe number conversion to avoid NaN
-    const safeBalance = Number(balance) || 0;
-
-    const formattedBalance = new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND'
-    }).format(safeBalance);
-
     return (
         <span>
-            {name} ({formattedBalance})
+            {name} ({formatCurrency(balance)})
         </span>
     );
 }

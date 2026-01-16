@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { updateDebtAction, deleteDebtAction } from "@/app/actions"
 import { Plus, Trash2, Loader2 } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { formatCurrency } from "@/utils/format"
 
 export default function EditDebtDialog({ open, setOpen, debt, wallets, onSuccess }: any) {
     const [loading, setLoading] = useState(false);
@@ -70,7 +71,7 @@ export default function EditDebtDialog({ open, setOpen, debt, wallets, onSuccess
                             initialValue={debt.total_amount - debt.remaining_amount}
                         />
                         <p className="text-xs text-gray-500">
-                            Dư nợ còn lại hiện tại: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(debt.remaining_amount)}
+                            Dư nợ còn lại hiện tại: {formatCurrency(debt.remaining_amount)}
                         </p>
                     </div>
 
@@ -95,7 +96,7 @@ export default function EditDebtDialog({ open, setOpen, debt, wallets, onSuccess
                         <Select name="wallet_id" required={!justRecord}>
                             <SelectTrigger><SelectValue placeholder={justRecord ? "Đang tắt chọn ví" : "Chọn ví"} /></SelectTrigger>
                             <SelectContent>
-                                {wallets.map((w: any) => <SelectItem key={w.id} value={w.id}>{w.name} ({new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(w.balance))})</SelectItem>)}
+                                {wallets.map((w: any) => <SelectItem key={w.id} value={w.id}>{w.name} ({formatCurrency(Number(w.balance))})</SelectItem>)}
                             </SelectContent>
                         </Select>
                         <p className="text-xs text-gray-500">
