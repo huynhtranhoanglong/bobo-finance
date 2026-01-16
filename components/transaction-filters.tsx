@@ -13,7 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { Search, Calendar, ChevronDown, ChevronUp } from "lucide-react"
+import { Search, Calendar, ChevronDown, ChevronUp, RotateCcw } from "lucide-react"
 
 export default function TransactionFilters({ wallets }: { wallets: any[] }) {
     const searchParams = useSearchParams()
@@ -129,7 +129,24 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
                         </span>
                     )}
                 </div>
-                {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                {/* Reset Button (Only visible if expanded or filters active) */}
+                <div className="flex items-center gap-2">
+                    {hasActiveFilters && (
+                        <Button
+                            size="sm"
+                            variant="ghost"
+                            className="h-8 w-8 p-0 text-gray-500 hover:text-red-600 hover:bg-red-50"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                replace("/transactions");
+                            }}
+                            title="Mặc định (Xóa bộ lọc)"
+                        >
+                            <RotateCcw size={16} />
+                        </Button>
+                    )}
+                    {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                </div>
             </div>
 
             {/* Collapsible Content */}

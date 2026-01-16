@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { addTransaction } from "@/app/actions"
 import { useRouter } from "next/navigation"
+import { WalletOption } from "@/components/ui/wallet-option"
 
 export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
     const [open, setOpen] = useState(false)
@@ -102,7 +103,13 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
                         <Select name="wallet_id" required={!justRecord}>
                             <SelectTrigger><SelectValue placeholder={justRecord ? "Đang tắt chọn ví" : "Chọn ví"} /></SelectTrigger>
                             <SelectContent>
-                                {wallets.map(w => <SelectItem key={w.id} value={w.id}>{w.name} ({new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(w.balance))})</SelectItem>)}
+                                <SelectContent>
+                                    {wallets.map(w => (
+                                        <SelectItem key={w.id} value={w.id}>
+                                            <WalletOption name={w.name} balance={w.balance} />
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
                             </SelectContent>
                         </Select>
                         <p className="text-xs text-gray-500">

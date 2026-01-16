@@ -9,6 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { updateTransactionAction, deleteTransactionAction } from "@/app/actions"
 import { Trash2, Loader2 } from "lucide-react"
 
+import { WalletOption } from "@/components/ui/wallet-option"
+
 export default function EditTransactionDialog({ open, setOpen, transaction, wallets, onSuccess }: any) {
     const [loading, setLoading] = useState(false);
 
@@ -110,7 +112,13 @@ export default function EditTransactionDialog({ open, setOpen, transaction, wall
                         <Select name="wallet_id" defaultValue={transaction.wallet_id} required>
                             <SelectTrigger><SelectValue placeholder="Chọn ví" /></SelectTrigger>
                             <SelectContent>
-                                {wallets?.map((w: any) => <SelectItem key={w.id} value={w.id}>{w.name}</SelectItem>)}
+                                <SelectContent>
+                                    {wallets?.map((w: any) => (
+                                        <SelectItem key={w.id} value={w.id}>
+                                            <WalletOption name={w.name} balance={w.balance} />
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
                             </SelectContent>
                         </Select>
                     </div>

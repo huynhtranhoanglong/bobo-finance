@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.2.7] - 2026-01-16
+
+### Bug Fixes - UI Display
+- **Fixed "NaN đ" Wallet Balance**:
+  - Corrected an issue where wallet balances in transaction dialogs (Add/Edit Transaction, Create Debt) displayed as `NaN đ` due to missing data fetching.
+  - Updated `app/transactions/page.tsx` to properly retrieve wallet balances from the database.
+
+### UX Improvements - Filters & Refactor
+- **Reset Filter Button**:
+  - Added a "Reset" (Rotate Icon) button to the Transaction Filter section.
+  - Allows users to quickly clear all active search/filter parameters and return to the default view (All transactions, Newest first).
+- **UI Refactoring**:
+  - Created reusable `WalletOption` component to standardize wallet display (`Name (Balance)`) across the application.
+  - Applied consistent pricing formatting (Vietnamese locale) for all wallet dropdowns.
+
+### Technical Details
+- Modified `app/transactions/page.tsx` - added balance field to query.
+- Modified `components/transaction-filters.tsx` - added reset button logic.
+- Created `components/ui/wallet-option.tsx` - new reusable component.
+- Refactored `add-transaction-dialog.tsx`, `edit-transaction-dialog.tsx`, `create-debt-dialog.tsx` to use `WalletOption`.
+- Updated version indicator to `v1.2.7`.
+
 ## [1.2.6] - 2026-01-16
 
 ### Bug Fixes - Timezone Logic

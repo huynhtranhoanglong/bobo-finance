@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { addTransaction } from "@/app/actions"
+import { WalletOption } from "@/components/ui/wallet-option"
 
 export default function AddTransactionDialog({ wallets, debts, funds, onSuccess }: { wallets: any[], debts: any[], funds: any[], onSuccess?: () => void }) {
     const [open, setOpen] = useState(false)
@@ -137,7 +138,11 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                                 <Select name="wallet_id" required>
                                     <SelectTrigger><SelectValue placeholder="Chọn ví" /></SelectTrigger>
                                     <SelectContent>
-                                        {wallets.map(w => <SelectItem key={w.id} value={w.id}>{w.name} ({new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(w.balance))})</SelectItem>)}
+                                        {wallets.map(w => (
+                                            <SelectItem key={w.id} value={w.id}>
+                                                <WalletOption name={w.name} balance={w.balance} />
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -166,7 +171,11 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                                 <Select name="wallet_id" required>
                                     <SelectTrigger><SelectValue placeholder="Chọn" /></SelectTrigger>
                                     <SelectContent>
-                                        {wallets.map(w => <SelectItem key={w.id} value={w.id}>{w.name} ({new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(w.balance))})</SelectItem>)}
+                                        {wallets.map(w => (
+                                            <SelectItem key={w.id} value={w.id}>
+                                                <WalletOption name={w.name} balance={w.balance} />
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -176,7 +185,11 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                                 <Select name="to_wallet_id" required>
                                     <SelectTrigger><SelectValue placeholder="Chọn" /></SelectTrigger>
                                     <SelectContent>
-                                        {wallets.map(w => <SelectItem key={w.id} value={w.id}>{w.name} ({new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(w.balance))})</SelectItem>)}
+                                        {wallets.map(w => (
+                                            <SelectItem key={w.id} value={w.id}>
+                                                <WalletOption name={w.name} balance={w.balance} />
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -189,7 +202,11 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                             <Label>Ví</Label>
                             <Select name="wallet_id" required>
                                 <SelectTrigger><SelectValue placeholder="Chọn ví" /></SelectTrigger>
-                                <SelectContent>{wallets.map(w => <SelectItem key={w.id} value={w.id}>{w.name} ({new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(w.balance))})</SelectItem>)}</SelectContent>
+                                <SelectContent>{wallets.map(w => (
+                                    <SelectItem key={w.id} value={w.id}>
+                                        <WalletOption name={w.name} balance={w.balance} />
+                                    </SelectItem>
+                                ))}</SelectContent>
                             </Select>
                         </div>
                     )}

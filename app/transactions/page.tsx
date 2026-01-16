@@ -44,7 +44,7 @@ function TransactionsPageContent() {
             // Get wallets
             const { data: walletsData } = await supabase
                 .from("wallets")
-                .select("id, name");
+                .select("id, name, balance");
             setWallets(walletsData || []);
 
             // Get debts (for FAB)
