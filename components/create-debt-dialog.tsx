@@ -15,6 +15,7 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const [debtType, setDebtType] = useState("payable")
+    const [justRecord, setJustRecord] = useState(false)
     const router = useRouter()
 
     async function handleSubmit(formData: FormData) {
@@ -75,14 +76,41 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
                     </div>
 
                     <div className="grid gap-2">
+                        <Label>Số tiền đã trả</Label>
+                        <MoneyInput name="paid_amount" placeholder="0" />
+                        <p className="text-xs text-gray-500">Nhập 0 nếu là khoản nợ mới hoàn toàn.</p>
+                    </div>
+
+                    <div className="flex items-center space-x-2 py-2">
+                        <div
+                            className={`h-5 w-5 rounded border flex items-center justify-center cursor-pointer transition-colors ${justRecord ? 'bg-[#598c58] border-[#598c58]' : 'border-gray-300 bg-white'}`}
+                            onClick={() => setJustRecord(!justRecord)}
+                        >
+                            {justRecord && <Plus className="h-4 w-4 text-white rotate-45" />}
+                        </div>
+                        <Label
+                            className="cursor-pointer font-normal"
+                            onClick={() => setJustRecord(!justRecord)}
+                        >
+                            Chỉ ghi sổ nợ (Không tạo giao dịch ví)
+                        </Label>
+                        <input type="hidden" name="just_record" value={justRecord ? "true" : "false"} />
+                    </div>
+
+                    <div className={`grid gap-2 transition-all duration-300 ${justRecord ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
                         <Label>{debtType === 'payable' ? 'Tiền về ví nào?' : 'Lấy tiền từ ví nào?'}</Label>
-                        <Select name="wallet_id" required>
-                            <SelectTrigger><SelectValue placeholder="Chọn ví" /></SelectTrigger>
+                        <Select name="wallet_id" required={!justRecord}>
+                            <SelectTrigger><SelectValue placeholder={justRecord ? "Đang tắt chọn ví" : "Chọn ví"} /></SelectTrigger>
                             <SelectContent>
                                 {wallets.map(w => <SelectItem key={w.id} value={w.id}>{w.name} ({new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(w.balance))})</SelectItem>)}
                             </SelectContent>
                         </Select>
-                        <p className="text-xs text-gray-500">Hệ thống sẽ tự động tạo giao dịch {debtType === 'payable' ? 'Thu nhập' : 'Chi tiêu'} tương ứng.</p>
+                        <p className="text-xs text-gray-500">
+                            {justRecord
+                                ? "Chế độ ghi sổ: Không làm thay đổi số dư ví."
+                                : `Hệ thống sẽ cộng phần CÒN LẠI vào ví (Dư nợ thực tế).`
+                            }
+                        </p>
                     </div>
 
                     <div className="grid gap-2">

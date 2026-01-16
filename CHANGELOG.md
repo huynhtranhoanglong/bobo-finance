@@ -1,6 +1,24 @@
 # Changelog
 
-## [1.2.4] - 2026-01-15
+## [1.2.5] - 2026-01-16
+
+### Features - Enhanced Debt Management (Historical Debts)
+- **Historical Debt Entry**:
+  - Added support for entering existing debts that have been partially paid before using the app.
+  - **New Fields**: 
+    - `Paid Amount`: Users can input the amount already paid.
+    - `Just Record`: Option to only record the debt ledger without creating a transaction or affecting wallet balances.
+  - **Logic**:
+    - If "Just Record" is checked: Records debt with `Remaining = Total - Paid` and progress calculated. No wallet changes.
+    - If "Just Record" is unchecked: Creates an incoming/outgoing transaction only for the *remaining* amount (actual cash flow).
+  - Solves the use case where users want to track long-term debts without disrupting their current wallet balances.
+
+### Technical Details
+- Added `sql_backup/202601160600_create_new_debt_v2.sql` - New RPC `create_new_debt_v2`.
+- Updated `components/create-debt-dialog.tsx` - Added UI for Paid Amount and Just Record mode.
+- Updated `app/actions.ts` - Integrated new RPC logic.
+
+
 
 ### Performance Optimizations
 

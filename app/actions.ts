@@ -67,20 +67,27 @@ export async function addTransaction(formData: FormData) {
     let error;
 
     // CASE 1: TẠO KHOẢN NỢ MỚI (NEW!)
+    // CASE 1: TẠO KHOẢN NỢ MỚI (NEW v1.2.5!)
     if (type === "create_debt") {
         const name = formData.get("debt_name") as string;
         const debt_type = formData.get("debt_type") as string; // payable/receivable
         const interest = formData.get("interest_level") as string;
         const wallet_id = formData.get("wallet_id") as string; // Có thể rỗng nếu user không chọn ví
 
-        const result = await supabase.rpc("create_new_debt", {
+        // New params for Historical Debt
+        const paid_amount = Number(formData.get("paid_amount") || 0);
+        const just_record = formData.get("just_record") === "true"; // Parse boolean
+
+        const result = await supabase.rpc("create_new_debt_v2", {
             p_name: name,
-            p_amount: amount,
+            p_total_amount: amount, // Đây là Tổng Nợ Gốc
+            p_paid_amount: paid_amount,
             p_type: debt_type,
             p_interest: interest,
-            p_wallet_id: wallet_id || null,
+            p_wallet_id: wallet_id || null, // Null nếu just_record = true
             p_note: note,
             p_date: date,
+            p_create_transaction: !just_record // Logic ngược lại: Just Record = True -> Create Trans = False
         });
         error = result.error;
     }
