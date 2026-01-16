@@ -142,7 +142,7 @@ export default function AccountPage() {
                             Đăng xuất
                         </Button>
                     </form>
-                    <p className="text-center text-xs text-gray-400 mt-4">Bobo v1.3.6</p>
+                    <p className="text-center text-xs text-gray-400 mt-4">Bobo v1.3.7</p>
                 </div>
             </div>
         </main>
