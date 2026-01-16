@@ -150,10 +150,10 @@ export async function addTransaction(formData: FormData) {
 }
 // ... (các code cũ giữ nguyên)
 
-// HÀM MỚI: Xóa giao dịch
+// HÀM MỚI: Xóa giao dịch (v1.3.11 - Fix Family Balance)
 export async function deleteTransactionAction(id: string) {
     const supabase = await createClient();
-    const { error } = await supabase.rpc("delete_transaction_v2", { p_transaction_id: id });
+    const { error } = await supabase.rpc("delete_transaction_v3", { p_transaction_id: id });
 
     if (error) return { error: error.message };
     revalidatePath("/"); // Làm mới dữ liệu
@@ -171,7 +171,7 @@ export async function deleteDebtAction(id: string) {
 }
 // ... (code cũ giữ nguyên)
 
-// HÀM MỚI: Sửa giao dịch (v1.0.2 - Update Transaction V2)
+// HÀM MỚI: Sửa giao dịch (v1.3.11 - Fix Family Balance)
 export async function updateTransactionAction(formData: FormData) {
     const supabase = await createClient();
     const id = formData.get("id") as string;
@@ -181,8 +181,8 @@ export async function updateTransactionAction(formData: FormData) {
     const date = formData.get("date") as string; // Lấy ngày từ form (đã format đúng ISO hoặc timestamp)
     const category = formData.get("category") as string || null;
 
-    // Gọi hàm RPC V2 mới
-    const { error } = await supabase.rpc("update_transaction_v2", {
+    // Gọi hàm RPC V3 mới
+    const { error } = await supabase.rpc("update_transaction_v3", {
         p_id: id,
         p_new_amount: amount,
         p_new_note: note,

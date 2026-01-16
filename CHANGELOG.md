@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.11] - 2026-01-16
+
+### Bug Fix - Transaction Logic (Family Mode)
+> **Issue**: Deleting or updating transactions in family mode (shared wallets) did not correctly update the wallet balance or debt status.
+> **Fix**: Implemented new RPC functions `delete_transaction_v3` and `update_transaction_v3` with `SECURITY DEFINER` to ensuring proper permission handling for balance recalculations across family members.
+
+- **Backend**:
+  - Added `sql_backup/202601161815_fix_delete_transaction_v3.sql`.
+  - Updated `app/actions.ts` to call v3 RPC functions.
+
 ## [1.3.10] - 2026-01-16
 
 ### Bug Fix - FAB Positioning
