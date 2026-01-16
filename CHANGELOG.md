@@ -1,5 +1,34 @@
 # Changelog
 
+## [1.3.4] - 2026-01-16
+
+### Major Feature - Notification Hub & Family Invites
+> **Note:** Moved from Email invitations to In-App Notifications for better user experience.
+
+- **Notification Hub**:
+  - Added "Bell" icon to Dashboard header.
+  - Displays list of notifications with "Red Dot" indicator for unread items.
+  - Support for real-time (on refresh) notifications.
+
+- **Improved Family Invitation Flow**:
+  - Invitations are now sent directly to the user's Notification Hub.
+  - **Expiry**: Invitations now expire after **24 hours** (reduced from 7 days).
+  - **New User Support**: If an invited email is not registered, the system queues the notification. When the user registers with that email, they instantly receive the invitation.
+
+- **Notification Item**:
+  - Interactive "Accept" and "Decline" buttons directly within the notification list.
+
+### Technical Details
+- **Database**:
+  - Created `notifications` table (`id`, `user_id`, `type`, `title`, `content`, `data`, `is_read`).
+  - Added Trigger `on_auth_user_created_for_notifications` to handle deferred invites for new users.
+  - Updated `invite_family_member` RPC to create notification records.
+  - Creates `sql_backup/202601161430_notification_hub.sql`.
+- **Frontend**:
+  - Added `NotificationBell` and `NotificationItem` components.
+  - Integrated into `GreetingHeader`.
+  - Updated version indicator to `v1.3.4`.
+
 ## [1.3.3] - 2026-01-16
 
 ### Bug Fixes - Family Feature

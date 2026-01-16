@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { UserNav } from "@/components/user-nav";
 import { PrivacyToggle } from "@/components/ui/privacy-toggle";
+import { NotificationBell } from "@/components/notification-bell";
 
 interface GreetingHeaderProps {
     userEmail?: string;
@@ -34,6 +35,7 @@ export default function GreetingHeader({ userEmail, showControls = true }: Greet
 
             {showControls && (
                 <div className="flex items-center gap-2">
+                    <NotificationBell />
                     <PrivacyToggle />
                     {userEmail && <UserNav email={userEmail} />}
                 </div>
