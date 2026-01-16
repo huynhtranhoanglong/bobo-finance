@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.3.9] - 2026-01-16
+
+### Improvements - Mobile Experience (PWA)
+> **Note**: This release enhances the mobile experience by adding a native-like Pull-to-Refresh gesture.
+
+- **Pull to Refresh**:
+  - Implemented "Pull to Refresh" functionality on the **Dashboard** and **Transaction History** pages.
+  - User can pull down from the top of the screen to reload data.
+  - Added a branded loading spinner (Green `#598c58`) for visual feedback.
+  - Critical for PWA users who don't have a browser refresh button.
+
+### Technical Details
+- **New Component**: `components/ui/pull-to-refresh.tsx`.
+- Integrated into `app/page.tsx` and `app/transactions/page.tsx`.
+- Updated version indicator to `v1.3.9`.
+
 ## [1.3.8] - 2026-01-16
 
 ### Performance - Database Optimization
