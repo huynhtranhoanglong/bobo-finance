@@ -143,66 +143,68 @@ function TransactionsPageContent() {
     const remainingCount = transactions.length - displayCount;
 
     return (
-        <PullToRefresh>
-            <main className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
-                {/* Header */}
-                <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-4">
-                        <Link href="/" className="p-2 hover:bg-gray-200 rounded-full transition">
-                            <ArrowLeft className="h-6 w-6 text-gray-700" />
-                        </Link>
-                        <h1 className="text-2xl font-bold">Lịch sử giao dịch</h1>
+        <>
+            <PullToRefresh>
+                <main className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-4">
+                            <Link href="/" className="p-2 hover:bg-gray-200 rounded-full transition">
+                                <ArrowLeft className="h-6 w-6 text-gray-700" />
+                            </Link>
+                            <h1 className="text-2xl font-bold">Lịch sử giao dịch</h1>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <PrivacyToggle />
+                            {user && <UserNav email={user.email || 'User'} />}
+                        </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <PrivacyToggle />
-                        {user && <UserNav email={user.email || 'User'} />}
-                    </div>
-                </div>
 
-                {/* Filters */}
-                <TransactionFilters wallets={wallets || []} />
+                    {/* Filters */}
+                    <TransactionFilters wallets={wallets || []} />
 
-                {/* Transactions List */}
-                {loading ? (
-                    <TransactionListSkeleton />
-                ) : (
-                    <>
-                        <div className="space-y-3">
-                            {displayedTransactions.map((t: any) => (
-                                <TransactionItem
-                                    key={t.id}
-                                    transaction={t}
-                                    wallets={wallets || []}
-                                    onSuccess={handleRefresh}
-                                />
-                            ))}
+                    {/* Transactions List */}
+                    {loading ? (
+                        <TransactionListSkeleton />
+                    ) : (
+                        <>
+                            <div className="space-y-3">
+                                {displayedTransactions.map((t: any) => (
+                                    <TransactionItem
+                                        key={t.id}
+                                        transaction={t}
+                                        wallets={wallets || []}
+                                        onSuccess={handleRefresh}
+                                    />
+                                ))}
 
-                            {transactions.length === 0 && (
-                                <div className="text-center text-gray-500 py-10 bg-white rounded-2xl border shadow-sm">
-                                    Không tìm thấy giao dịch nào.
+                                {transactions.length === 0 && (
+                                    <div className="text-center text-gray-500 py-10 bg-white rounded-2xl border shadow-sm">
+                                        Không tìm thấy giao dịch nào.
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Load More Button */}
+                            {hasMore && (
+                                <div className="flex justify-center mt-6">
+                                    <Button
+                                        onClick={handleLoadMore}
+                                        variant="outline"
+                                        className="rounded-xl h-12 px-6 gap-2"
+                                        style={{ borderColor: '#598c58', color: '#598c58' }}
+                                    >
+                                        Xem thêm ({remainingCount} giao dịch nữa)
+                                        <ChevronDown size={18} />
+                                    </Button>
                                 </div>
                             )}
-                        </div>
+                        </>
+                    )}
 
-                        {/* Load More Button */}
-                        {hasMore && (
-                            <div className="flex justify-center mt-6">
-                                <Button
-                                    onClick={handleLoadMore}
-                                    variant="outline"
-                                    className="rounded-xl h-12 px-6 gap-2"
-                                    style={{ borderColor: '#598c58', color: '#598c58' }}
-                                >
-                                    Xem thêm ({remainingCount} giao dịch nữa)
-                                    <ChevronDown size={18} />
-                                </Button>
-                            </div>
-                        )}
-                    </>
-                )}
-
-                <AppVersion />
-            </main>
+                    <AppVersion />
+                </main>
+            </PullToRefresh>
             {/* FAB Button - Moved outside PullToRefresh */}
             <AddTransactionDialog
                 wallets={wallets || []}
@@ -210,7 +212,7 @@ function TransactionsPageContent() {
                 funds={funds || []}
                 onSuccess={handleRefresh}
             />
-        </PullToRefresh>
+        </>
     );
 }
 

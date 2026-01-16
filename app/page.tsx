@@ -234,90 +234,92 @@ export default async function Home({
   // ---------------------------------------
 
   return (
-    <PullToRefresh>
-      <main className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
+    <>
+      <PullToRefresh>
+        <main className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
 
-        {/* NEW v1.1.7: Greeting Header */}
-        <GreetingHeader userEmail={user?.email || 'User'} userName={profile?.display_name} />
+          {/* NEW v1.1.7: Greeting Header */}
+          <GreetingHeader userEmail={user?.email || 'User'} userName={profile?.display_name} />
 
-        {/* NEW v1.3.2: Family Banner */}
-        {familyInfo && (
-          <Link href="/family" className="block mb-4">
-            <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 flex items-center justify-between hover:bg-green-100 transition">
-              <div className="flex items-center gap-2">
-                <span>👨‍👩‍👧</span>
-                <span className="font-medium text-green-800">{familyInfo.name}</span>
-                <span className="text-xs text-green-600">• {familyInfo.member_count} thành viên</span>
+          {/* NEW v1.3.2: Family Banner */}
+          {familyInfo && (
+            <Link href="/family" className="block mb-4">
+              <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 flex items-center justify-between hover:bg-green-100 transition">
+                <div className="flex items-center gap-2">
+                  <span>👨‍👩‍👧</span>
+                  <span className="font-medium text-green-800">{familyInfo.name}</span>
+                  <span className="text-xs text-green-600">• {familyInfo.member_count} thành viên</span>
+                </div>
+                <span className="text-green-600 text-sm">Quản lý →</span>
               </div>
-              <span className="text-green-600 text-sm">Quản lý →</span>
-            </div>
-          </Link>
-        )}
-
-        {/* NEW v1.1.7: Net Worth Section */}
-        <NetWorthSection netWorth={metrics?.net_worth || 0} />
-
-        {/* NEW v1.1.7: Financial Progress */}
-        <FinancialProgress metrics={metrics} />
-
-        {/* Stats Tháng Này */}
-        <MonthlyStats stats={monthlyStats} />
-
-        {/* VÍ TIỀN (GOM NHÓM THEO QUỸ) */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold text-gray-800">💳 Ví tiền</h2>
-          <CreateWalletDialog funds={fundsList || []} />
-        </div>
-        <div className="mb-6">
-          {sortedGroups.map((group) => (
-            <FundGroup
-              key={group.name}
-              fundName={group.name}
-              totalBalance={group.balance}
-              wallets={group.wallets}
-              fundsList={fundsList}
-              minMonthlySpend={metrics?.min_monthly_spend}
-            />
-          ))}
-          {wallets?.length === 0 && <p className="text-gray-500 italic">Chưa có ví nào.</p>}
-        </div>
-
-        {/* DEBTS SECTION */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold text-gray-800">💳 Các khoản nợ</h2>
-          <CreateDebtDialog wallets={wallets || []} />
-        </div>
-        <div className="space-y-3 mb-6">
-          {debts?.map((debt: any) => (
-            <DebtCard key={debt.id} debt={debt} wallets={wallets || []} />
-          ))}
-          {(!debts || debts.length === 0) && (
-            <div className="p-6 text-center bg-white rounded-2xl border shadow-sm">
-              <p className="text-lg mb-1">🎉</p>
-              <p style={{ color: '#598c58' }} className="font-medium">Tuyệt vời! Bạn không có khoản nợ nào.</p>
-            </div>
+            </Link>
           )}
-        </div>
 
-        {/* Navigation Links */}
-        <div className="grid grid-cols-1 gap-3 mb-6">
-          <Link
-            href="/transactions"
-            className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm hover:shadow-md transition"
-          >
-            <List size={20} style={{ color: '#598c58' }} />
-            <span className="text-sm font-medium" style={{ color: '#598c58' }}>Lịch sử giao dịch</span>
-          </Link>
-        </div>
+          {/* NEW v1.1.7: Net Worth Section */}
+          <NetWorthSection netWorth={metrics?.net_worth || 0} />
 
-        {/* Build Version Indicator */}
-        <p className="text-center text-xs text-gray-400 mt-8">
-          Build: v1.3.9
-        </p>
+          {/* NEW v1.1.7: Financial Progress */}
+          <FinancialProgress metrics={metrics} />
 
-      </main>
+          {/* Stats Tháng Này */}
+          <MonthlyStats stats={monthlyStats} />
+
+          {/* VÍ TIỀN (GOM NHÓM THEO QUỸ) */}
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-bold text-gray-800">💳 Ví tiền</h2>
+            <CreateWalletDialog funds={fundsList || []} />
+          </div>
+          <div className="mb-6">
+            {sortedGroups.map((group) => (
+              <FundGroup
+                key={group.name}
+                fundName={group.name}
+                totalBalance={group.balance}
+                wallets={group.wallets}
+                fundsList={fundsList}
+                minMonthlySpend={metrics?.min_monthly_spend}
+              />
+            ))}
+            {wallets?.length === 0 && <p className="text-gray-500 italic">Chưa có ví nào.</p>}
+          </div>
+
+          {/* DEBTS SECTION */}
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-bold text-gray-800">💳 Các khoản nợ</h2>
+            <CreateDebtDialog wallets={wallets || []} />
+          </div>
+          <div className="space-y-3 mb-6">
+            {debts?.map((debt: any) => (
+              <DebtCard key={debt.id} debt={debt} wallets={wallets || []} />
+            ))}
+            {(!debts || debts.length === 0) && (
+              <div className="p-6 text-center bg-white rounded-2xl border shadow-sm">
+                <p className="text-lg mb-1">🎉</p>
+                <p style={{ color: '#598c58' }} className="font-medium">Tuyệt vời! Bạn không có khoản nợ nào.</p>
+              </div>
+            )}
+          </div>
+
+          {/* Navigation Links */}
+          <div className="grid grid-cols-1 gap-3 mb-6">
+            <Link
+              href="/transactions"
+              className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm hover:shadow-md transition"
+            >
+              <List size={20} style={{ color: '#598c58' }} />
+              <span className="text-sm font-medium" style={{ color: '#598c58' }}>Lịch sử giao dịch</span>
+            </Link>
+          </div>
+
+          {/* Build Version Indicator */}
+          <p className="text-center text-xs text-gray-400 mt-8">
+            Build: v1.3.9
+          </p>
+
+        </main>
+      </PullToRefresh>
       {/* PHẦN 5: NÚT FAB (THÊM GIAO DỊCH / TẠO VÍ) - Moved outside PullToRefresh to fix sticky */}
       <AddTransactionDialog wallets={wallets || []} debts={debts || []} funds={fundsList || []} />
-    </PullToRefresh>
+    </>
   );
 }
