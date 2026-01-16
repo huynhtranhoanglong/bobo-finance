@@ -23,6 +23,7 @@
 - Updated `components/create-debt-dialog.tsx` - Added UI for Paid Amount and Just Record mode.
 - Updated `components/edit-debt-dialog.tsx` - Added UI for Paid Amount and Just Record mode with difference calculation logic.
 - Updated `app/actions.ts` - Integrated new RPC logic for both create and update.
+- **UX Fix**: Removed server-side `revalidatePath("/")` from `updateDebtAction` to prevent page scroll reset on update. Relies on client-side `router.refresh()` for smoother experience.
 
 
 
