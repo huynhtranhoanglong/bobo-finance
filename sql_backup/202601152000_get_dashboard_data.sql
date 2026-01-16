@@ -122,12 +122,36 @@ begin
     ) w;
     
     -- ============ DEBTS (payable & receivable) ============
+    -- Priority 1: Type (Payable first, then Receivable)
+    -- Priority 2 (Payable): Interest Level (High to Low)
+    -- Priority 3 (Payable): Remaining Amount (Smallest first - Snowball method)
+    -- Priority 2 (Receivable): Remaining Amount (Largest first)
     select json_agg(row_to_json(d)) into v_debts
     from (
-        select id, name, remaining_amount, total_amount, type
+        select id, name, remaining_amount, total_amount, type, interest_level
         from debts
         where remaining_amount > 0 and user_id = auth.uid()
-        order by created_at desc
+        order by 
+            -- 1. Sort by Type: Payable (1) -> Receivable (2)
+            case when type = 'payable' then 1 else 2 end,
+            
+            -- 2. Sort within Payable: Interest Level (High -> Medium -> Low -> None)
+            case 
+                when type = 'payable' then 
+                    case interest_level 
+                        when 'high' then 1 
+                        when 'medium' then 2 
+                        when 'low' then 3 
+                        else 4 
+                    end
+                else 0 
+            end,
+            
+            -- 3. Sort within Payable: Remaining Amount ASC (Smallest first)
+            case when type = 'payable' then remaining_amount else null end asc,
+            
+            -- 4. Sort within Receivable: Remaining Amount DESC (Largest first)
+            case when type = 'receivable' then remaining_amount else null end desc
     ) d;
     
     -- ============ FUNDS ============

@@ -28,6 +28,10 @@
   - `DebtCard`: Aligned colors with brand palette (Green for Receivable, Red for Payable). Updated text to "% đã được trả" for loans given.
   - `Create/Edit Debt`: Context-aware labels ("Số tiền đã được trả") for receivable debts.
   - `AddTransaction`: Excluded "Receivable" debts from the "Debt Repayment" list to prevent logic errors.
+- **Smart Sorting**: Updated Dashboard Debt list sorting logic:
+  1. **Priority 1**: Payable debts (top) -> Receivable loans (bottom).
+  2. **Payable Priority**: High Interest -> Low Interest, then Smallest Amount -> Largest Amount (Snowball method).
+  3. **Receivable Priority**: Largest Amount -> Smallest Amount.
 - **UX Fix**: Removed server-side `revalidatePath("/")` from `updateDebtAction` to prevent page scroll reset on update. Relies on client-side `router.refresh()` for smoother experience.
 
 
