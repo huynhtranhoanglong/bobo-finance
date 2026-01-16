@@ -6,10 +6,12 @@ import { MoneyInput } from "@/components/ui/money-input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { updateDebtAction, deleteDebtAction } from "@/app/actions"
-import { Trash2, Loader2 } from "lucide-react"
+import { Plus, Trash2, Loader2 } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-export default function EditDebtDialog({ open, setOpen, debt, onSuccess }: any) {
+export default function EditDebtDialog({ open, setOpen, debt, wallets, onSuccess }: any) {
     const [loading, setLoading] = useState(false);
+    const [justRecord, setJustRecord] = useState(true);
 
     async function handleUpdate(formData: FormData) {
         setLoading(true);
@@ -58,8 +60,46 @@ export default function EditDebtDialog({ open, setOpen, debt, onSuccess }: any) 
                             initialValue={debt.total_amount}
                             required
                         />
+                    </div>
+
+                    <div className="grid gap-2">
+                        <Label>Số tiền đã trả</Label>
+                        <MoneyInput
+                            name="paid_amount"
+                            // Mặc định tính Paid = Total - Remaining nếu chưa có dữ liệu paid riêng
+                            initialValue={debt.total_amount - debt.remaining_amount}
+                        />
                         <p className="text-xs text-gray-500">
-                            Thay đổi tổng vay sẽ tự động cập nhật dư nợ còn lại tương ứng.
+                            Dư nợ còn lại hiện tại: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(debt.remaining_amount)}
+                        </p>
+                    </div>
+
+                    <div className="flex items-center space-x-2 py-2">
+                        <div
+                            className={`h-5 w-5 rounded border flex items-center justify-center cursor-pointer transition-colors ${justRecord ? 'bg-[#598c58] border-[#598c58]' : 'border-gray-300 bg-white'}`}
+                            onClick={() => setJustRecord(!justRecord)}
+                        >
+                            {justRecord && <Plus className="h-4 w-4 text-white rotate-45" />}
+                        </div>
+                        <Label
+                            className="cursor-pointer font-normal"
+                            onClick={() => setJustRecord(!justRecord)}
+                        >
+                            Chỉ ghi sổ nợ (Không tính toán lại ví)
+                        </Label>
+                        <input type="hidden" name="just_record" value={justRecord ? "true" : "false"} />
+                    </div>
+
+                    <div className={`grid gap-2 transition-all duration-300 ${justRecord ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
+                        <Label>Chọn ví để cập nhật chênh lệch (nếu có)</Label>
+                        <Select name="wallet_id" required={!justRecord}>
+                            <SelectTrigger><SelectValue placeholder={justRecord ? "Đang tắt chọn ví" : "Chọn ví"} /></SelectTrigger>
+                            <SelectContent>
+                                {wallets.map((w: any) => <SelectItem key={w.id} value={w.id}>{w.name} ({new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(w.balance))})</SelectItem>)}
+                            </SelectContent>
+                        </Select>
+                        <p className="text-xs text-gray-500">
+                            Nếu dư nợ thay đổi, chênh lệch sẽ được tự động cộng/trừ vào ví này.
                         </p>
                     </div>
 

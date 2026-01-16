@@ -17,9 +17,10 @@ interface DebtCardProps {
         remaining_amount: number;
         total_amount: number;
     };
+    wallets?: any[];
 }
 
-export default function DebtCard({ debt }: DebtCardProps) {
+export default function DebtCard({ debt, wallets }: DebtCardProps) {
     const [isEditOpen, setIsEditOpen] = useState(false);
     const router = useRouter(); // To refresh page after update
     const { name, remaining_amount, total_amount } = debt;
@@ -91,6 +92,7 @@ export default function DebtCard({ debt }: DebtCardProps) {
                     open={isEditOpen}
                     setOpen={setIsEditOpen}
                     debt={debt}
+                    wallets={wallets}
                     onSuccess={handleSuccess}
                 />
             )}

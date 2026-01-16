@@ -136,7 +136,7 @@ export default async function Home({
         <h2 className="text-lg font-bold mb-4 text-gray-800">💳 Các khoản nợ</h2>
         <div className="space-y-3 mb-6">
           {DEMO_DEBTS.map((debt) => (
-            <DebtCard key={debt.id} debt={debt} />
+            <DebtCard key={debt.id} debt={debt} wallets={DEMO_WALLETS} />
           ))}
         </div>
 
@@ -270,7 +270,7 @@ export default async function Home({
       </div>
       <div className="space-y-3 mb-6">
         {debts?.map((debt: any) => (
-          <DebtCard key={debt.id} debt={debt} />
+          <DebtCard key={debt.id} debt={debt} wallets={wallets || []} />
         ))}
         {(!debts || debts.length === 0) && (
           <div className="p-6 text-center bg-white rounded-2xl border shadow-sm">

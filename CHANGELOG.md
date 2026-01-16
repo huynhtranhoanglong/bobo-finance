@@ -11,12 +11,18 @@
   - **Logic**:
     - If "Just Record" is checked: Records debt with `Remaining = Total - Paid` and progress calculated. No wallet changes.
     - If "Just Record" is unchecked: Creates an incoming/outgoing transaction only for the *remaining* amount (actual cash flow).
-  - Solves the use case where users want to track long-term debts without disrupting their current wallet balances.
+  - **Solves the use case where users want to track long-term debts without disrupting their current wallet balances.
+- **Enhanced Debt Editing**:
+  - Updated **Edit Debt Dialog** to support modifying "Paid Amount".
+  - **Just Record Mode**: Consistent with creation, users can choose to update the debt ledger only.
+  - **Smart Wallet Sync**: If "Just Record" is disabled, the system automatically calculates the difference (new remaining vs old remaining) and creates an adjustment transaction (Income/Expense) to keep the wallet balance accurate.
 
 ### Technical Details
 - Added `sql_backup/202601160600_create_new_debt_v2.sql` - New RPC `create_new_debt_v2`.
+- Added `sql_backup/202601160800_update_debt_v2.sql` - New RPC `update_debt_v2`.
 - Updated `components/create-debt-dialog.tsx` - Added UI for Paid Amount and Just Record mode.
-- Updated `app/actions.ts` - Integrated new RPC logic.
+- Updated `components/edit-debt-dialog.tsx` - Added UI for Paid Amount and Just Record mode with difference calculation logic.
+- Updated `app/actions.ts` - Integrated new RPC logic for both create and update.
 
 
 
