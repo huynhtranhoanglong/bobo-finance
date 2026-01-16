@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.3.12] - 2026-01-16
+
+### Improvement - Net Worth Calculation
+> **Change**: Updated the Net Worth formula to include receivable debts (money others owe you).
+> **Old Formula**: Total Assets - Payable Debts
+> **New Formula**: Total Assets - Payable Debts + Receivable Debts
+
+- **Database**:
+  - Updated `get_dashboard_data` RPC function to calculate and include `total_receivable` in the response.
+  - Added a new variable to query the sum of all receivable debts with remaining balance > 0.
+  - Net Worth now correctly reflects the user's true wealth by including money that will be collected from others.
+  - **SQL Script**: `sql_backup/202601162050_fix_net_worth_calculation.sql`.
+
+- **Documentation**:
+  - Updated `LOGIC_CALCULATIONS.md` with the new formula explanation.
+  - Added section "2.3. Tổng Khoản Cho Vay (Total Receivable Debts)" for clarity.
+
 ## [1.3.11] - 2026-01-16
 
 ### Bug Fix - Transaction Logic (Family Mode)
