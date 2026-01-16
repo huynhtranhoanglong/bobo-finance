@@ -121,13 +121,13 @@ begin
         order by w.balance desc
     ) w;
     
-    -- ============ DEBTS (payable only) ============
+    -- ============ DEBTS (payable & receivable) ============
     select json_agg(row_to_json(d)) into v_debts
     from (
-        select id, name, remaining_amount, total_amount
+        select id, name, remaining_amount, total_amount, type
         from debts
-        where type = 'payable' and remaining_amount > 0 and user_id = auth.uid()
-        order by remaining_amount desc
+        where remaining_amount > 0 and user_id = auth.uid()
+        order by created_at desc
     ) d;
     
     -- ============ FUNDS ============

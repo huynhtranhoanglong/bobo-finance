@@ -23,6 +23,8 @@
 - Updated `components/create-debt-dialog.tsx` - Added UI for Paid Amount and Just Record mode.
 - Updated `components/edit-debt-dialog.tsx` - Added UI for Paid Amount and Just Record mode with difference calculation logic.
 - Updated `app/actions.ts` - Integrated new RPC logic for both create and update.
+- **Data Query Fix**: Updated `get_dashboard_data` RPC to include 'receivable' (loans I gave) in the Debts list, previously hidden by a filter.
+- **UI Update**: `DebtCard` now displays a tag indicating "Nợ phải trả" (Payable) or "Đang cho vay" (Receivable).
 - **UX Fix**: Removed server-side `revalidatePath("/")` from `updateDebtAction` to prevent page scroll reset on update. Relies on client-side `router.refresh()` for smoother experience.
 
 

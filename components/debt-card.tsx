@@ -16,6 +16,7 @@ interface DebtCardProps {
         name: string;
         remaining_amount: number;
         total_amount: number;
+        type: string;
     };
     wallets?: any[];
 }
@@ -47,9 +48,13 @@ export default function DebtCard({ debt, wallets }: DebtCardProps) {
                 onClick={() => setIsEditOpen(true)}
                 className="p-4 bg-white rounded-2xl border shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.01] transition-all duration-200"
             >
-                {/* Header: Name */}
                 <div className="flex justify-between items-start mb-3">
-                    <span className="font-bold text-gray-800">{name}</span>
+                    <div className="flex flex-col">
+                        <span className="font-bold text-gray-800">{name}</span>
+                        <span className={`text-[10px] font-medium uppercase ${debt.type === 'receivable' ? 'text-blue-600' : 'text-red-500'}`}>
+                            {debt.type === 'receivable' ? 'Đang cho vay' : 'Nợ phải trả'}
+                        </span>
+                    </div>
                     <span
                         className="text-xs px-2 py-1 rounded-full font-medium"
                         style={{
