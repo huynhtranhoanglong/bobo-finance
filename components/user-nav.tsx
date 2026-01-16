@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import { LogOut, MessageSquare, User } from "lucide-react"
+import { LogOut, MessageSquare, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { signOutAction } from "@/app/actions"
 import { FeedbackDialog } from "@/components/feedback-dialog"
+import Link from "next/link"
 
 export function UserNav({ email }: { email: string }) {
     const [feedbackOpen, setFeedbackOpen] = useState(false)
@@ -34,6 +35,12 @@ export function UserNav({ email }: { email: string }) {
                         </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
+                    <Link href="/family">
+                        <DropdownMenuItem className="cursor-pointer">
+                            <Users className="mr-2 h-4 w-4" />
+                            Gia đình
+                        </DropdownMenuItem>
+                    </Link>
                     <DropdownMenuItem
                         onClick={() => setFeedbackOpen(true)}
                         className="cursor-pointer"

@@ -1,5 +1,55 @@
 # Changelog
 
+## [1.3.2] - 2026-01-16
+
+### Major Feature - Family (Phase 3: User Interface)
+
+> **Note:** This release adds the complete UI for managing families. Users can now create families, invite members, and manage their household finances together.
+
+- **New Page: `/family`**:
+  - Users without family see a "Create Family" form.
+  - Family owners can view members, invite new people, and remove members.
+  - Family members can view the member list and leave the family.
+  - Pending invitations displayed with cancel option.
+
+- **New Page: `/invite/[token]`**:
+  - Invitation acceptance page for invited users.
+  - Shows family name, inviter name, and join button.
+  - Handles expired/used invitation gracefully.
+
+- **Dashboard Updates**:
+  - Family banner displayed below greeting for users in a family.
+  - Shows family name and member count with link to management page.
+  - Quick access to family settings via banner click.
+
+- **User Menu**:
+  - Added "Gia đình" (Family) link in user dropdown.
+  - Icon: Users icon for easy recognition.
+
+- **New Server Actions**:
+  - `createFamilyAction` - Create a new family.
+  - `getMyFamilyAction` - Get current family info.
+  - `inviteMemberAction` - Send email invitation.
+  - `getInvitationInfoAction` - Get invitation details.
+  - `acceptInvitationAction` - Join a family.
+  - `leaveFamilyAction` - Leave current family.
+  - `removeMemberAction` - Remove a member (owner only).
+  - `cancelInvitationAction` - Cancel pending invitation.
+  - `updateFamilyNameAction` - Rename family.
+
+### Technical Details
+
+- **New Files**:
+  - `app/family/page.tsx` - Family management page.
+  - `app/invite/[token]/page.tsx` - Invitation acceptance page.
+
+- **Modified Files**:
+  - `app/actions.ts` - Added 9 family-related server actions.
+  - `app/page.tsx` - Added family banner and updated version.
+  - `components/user-nav.tsx` - Added Family link to dropdown.
+
+- Updated version indicator to `v1.3.2`.
+
 ## [1.3.1] - 2026-01-16
 
 ### Major Feature - Family (Phase 2: Dashboard Integration)

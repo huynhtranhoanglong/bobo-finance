@@ -178,6 +178,7 @@ export default async function Home({
   const debts = dashboardData?.debts || [];
   const metrics = dashboardData?.metrics;
   const fundsList = dashboardData?.funds || [];
+  const familyInfo = dashboardData?.family;
 
   // --- LOGIC GROUPING WALLETS (v1.0.7) ---
   const fundGroups: Record<string, { name: string, balance: number, wallets: any[] }> = {};
@@ -234,6 +235,20 @@ export default async function Home({
 
       {/* NEW v1.1.7: Greeting Header */}
       <GreetingHeader userEmail={user?.email || 'User'} />
+
+      {/* NEW v1.3.2: Family Banner */}
+      {familyInfo && (
+        <Link href="/family" className="block mb-4">
+          <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 flex items-center justify-between hover:bg-green-100 transition">
+            <div className="flex items-center gap-2">
+              <span>👨‍👩‍👧</span>
+              <span className="font-medium text-green-800">{familyInfo.name}</span>
+              <span className="text-xs text-green-600">• {familyInfo.member_count} thành viên</span>
+            </div>
+            <span className="text-green-600 text-sm">Quản lý →</span>
+          </div>
+        </Link>
+      )}
 
       {/* NEW v1.1.7: Net Worth Section */}
       <NetWorthSection netWorth={metrics?.net_worth || 0} />
@@ -296,7 +311,7 @@ export default async function Home({
 
       {/* Build Version Indicator */}
       <p className="text-center text-xs text-gray-400 mt-8">
-        Build: v1.3.1
+        Build: v1.3.2
       </p>
 
     </main >
