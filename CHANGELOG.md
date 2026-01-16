@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.7] - 2026-01-16
+
+### Bug Fix - Transaction History Empty
+> **Issue**: Family/Account owners saw an empty transaction history page due to RLS Infinite Recursion.
+> **Fix**: Updated RLS policies to use a `SECURITY DEFINER` helper function (`get_user_family_id`), breaking the recursion loop.
+
+- **Database**:
+  - Updated RLS policies for `family_members`, `families`, `transactions`, `wallets`, `debts`, `funds`.
+  - Redefined `get_user_family_id()` to ensure it returns the correct family context without triggering RLS loops.
+
 ## [1.3.6] - 2026-01-16
 
 ### Major Feature - Account Management
