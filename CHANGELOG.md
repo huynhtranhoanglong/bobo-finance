@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.3.14] - 2026-01-16
+
+### Bug Fix - Create Wallet Missing Family ID
+> **Issue**: When a family member creates a new wallet, the `family_id` was not being set, causing the wallet to not appear on the family dashboard.
+> **Fix**: Updated `create_wallet_with_initial_balance` RPC to automatically attach `family_id` using `get_user_family_id()`.
+
+- **Database**:
+  - Fixed `create_wallet_with_initial_balance` function to include `family_id` and `visibility` columns.
+  - Also fixes the initial balance transaction to include `family_id`.
+  - **SQL Script**: `sql_backup/202601162220_fix_create_wallet_family_id.sql`.
+
 ## [1.3.13] - 2026-01-16
 
 ### Feature - Device Timezone Localization
