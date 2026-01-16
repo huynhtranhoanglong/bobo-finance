@@ -312,7 +312,7 @@ export default async function Home({
 
       {/* Build Version Indicator */}
       <p className="text-center text-xs text-gray-400 mt-8">
-        Build: v1.3.7
+        Build: v1.3.8
       </p>
 
     </main >

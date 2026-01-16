@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.3.8] - 2026-01-16
+
+### Performance - Database Optimization
+> **Note**: This release focuses on optimizing database performance to ensure the app remains fast as data grows.
+
+- **Query Optimization**:
+  - Rewrote **`get_dashboard_data` RPC** to use **Single Pass Aggregation**.
+  - Previously: Dashboard loaded via ~10 separate queries.
+  - Now: Dashboard loads via ~2 optimized queries.
+  - Result: Significantly reduced database load and faster dashboard response time.
+
+- **Indexing**:
+  - Added Composite Index `idx_transactions_filter` on `(family_id, user_id, date)`.
+  - Added Index `idx_transactions_date`.
+  - Result: Drastically improved filtering speed for Transaction History and Monthly Stats.
+
+- **RLS Optimization**:
+  - Updated `get_user_family_id()` helper to be `STABLE`.
+  - Helps Postgres cache permission checks, reducing redundant computations during RLS policy execution.
+
+### Technical Details
+- **SQL Script**: `sql_backup/202601161630_optimize_performance_v1.3.8.sql`.
+- **Modified RPC**: `get_dashboard_data`.
+- Updated version indicator to `v1.3.8`.
+
 ## [1.3.7] - 2026-01-16
 
 ### Bug Fix - Transaction History Empty
