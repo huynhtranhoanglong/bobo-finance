@@ -201,16 +201,15 @@ function TransactionsPageContent() {
                     </>
                 )}
 
-                {/* FAB Button */}
-                <AddTransactionDialog
-                    wallets={wallets || []}
-                    debts={debts || []}
-                    funds={funds || []}
-                    onSuccess={handleRefresh}
-                />
-
                 <AppVersion />
             </main>
+            {/* FAB Button - Moved outside PullToRefresh */}
+            <AddTransactionDialog
+                wallets={wallets || []}
+                debts={debts || []}
+                funds={funds || []}
+                onSuccess={handleRefresh}
+            />
         </PullToRefresh>
     );
 }

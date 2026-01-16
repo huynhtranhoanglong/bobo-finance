@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.10] - 2026-01-16
+
+### Bug Fix - FAB Positioning
+> **Issue**: The Floating Action Button (FAB) was not sticky and scrolled with the page content.
+> **Cause**: The "Pull to Refresh" feature introduced a CSS transform that broke the `fixed` positioning context of child elements.
+> **Fix**: Moved the `<AddTransactionDialog>` (FAB) component outside of the `<PullToRefresh>` wrapper in both Dashboard and Transaction History pages.
+
+- **Files Updated**:
+  - `app/page.tsx`: Moved FAB outside `PullToRefresh`.
+  - `app/transactions/page.tsx`: Moved FAB outside `PullToRefresh`.
+  - `components/app-version.tsx`: Updated version to v1.3.10.
+
 ## [1.3.9] - 2026-01-16
 
 ### Improvements - Mobile Experience (PWA)

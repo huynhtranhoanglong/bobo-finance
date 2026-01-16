@@ -310,15 +310,14 @@ export default async function Home({
           </Link>
         </div>
 
-        {/* PHẦN 5: NÚT FAB (THÊM GIAO DỊCH / TẠO VÍ) */}
-        <AddTransactionDialog wallets={wallets || []} debts={debts || []} funds={fundsList || []} />
-
         {/* Build Version Indicator */}
         <p className="text-center text-xs text-gray-400 mt-8">
           Build: v1.3.9
         </p>
 
       </main>
+      {/* PHẦN 5: NÚT FAB (THÊM GIAO DỊCH / TẠO VÍ) - Moved outside PullToRefresh to fix sticky */}
+      <AddTransactionDialog wallets={wallets || []} debts={debts || []} funds={fundsList || []} />
     </PullToRefresh>
   );
 }
