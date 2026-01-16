@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.2.6] - 2026-01-16
+
+### Bug Fixes - Timezone Logic
+- **Fixed Transaction Filtering Issue**:
+  - Previously, filtering by "Today" or "Yesterday" used UTC time, causing discrepancies for users in different timezones (e.g., Vietnam UTC+7).
+  - **New Logic**: 
+    - Frontend now generates date strings based on **Local Device Time**.
+    - Backend query applies the local date range [00:00:00 - 23:59:59] converted correctly to UTC.
+  - Users will now see accurate results matching their local day when using filters.
+
+### Technical Details
+- Updated `components/transaction-filters.tsx` to use local date construction.
+- Updated `app/transactions/page.tsx` to force local parsing with `T00:00:00` suffix.
+- Updated version indicator to `v1.2.6`.
+
 ## [1.2.5] - 2026-01-16
 
 ### Features - Enhanced Debt Management (Historical Debts)

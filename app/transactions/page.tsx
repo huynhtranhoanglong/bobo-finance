@@ -101,11 +101,14 @@ function TransactionsPageContent() {
                 query = query.eq("type", type);
             }
             if (from_date) {
-                query = query.gte("date", new Date(from_date).toISOString());
+                // FIX v1.2.6: Append T00:00:00 to force Local Time 00:00:00
+                const fromDateLocal = new Date(from_date + "T00:00:00");
+                query = query.gte("date", fromDateLocal.toISOString());
             }
             if (to_date) {
-                const toDateEnd = new Date(to_date);
-                toDateEnd.setDate(toDateEnd.getDate() + 1);
+                // FIX v1.2.6: Append T00:00:00 to force Local Time 00:00:00
+                const toDateEnd = new Date(to_date + "T00:00:00");
+                toDateEnd.setDate(toDateEnd.getDate() + 1); // Add 1 day to get End of Day (00:00 next day)
                 query = query.lt("date", toDateEnd.toISOString());
             }
 

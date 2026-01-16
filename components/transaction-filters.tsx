@@ -40,12 +40,20 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
         replace(`/transactions?${params.toString()}`)
     }
 
-    // Handle preset date range selection
+    // Handle preset date range selection - FIX v1.2.6 (Local Time)
     const handleDatePresetChange = (preset: string) => {
         const params = new URLSearchParams(searchParams)
         const now = new Date()
         let fromDate: Date | null = null
         let toDate: Date | null = null
+
+        // Helper to format date as YYYY-MM-DD in LOCAL TIME
+        const formatDateLocal = (date: Date) => {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        };
 
         switch (preset) {
             case 'today':
@@ -90,8 +98,9 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
         }
 
         if (fromDate && toDate) {
-            params.set('from_date', fromDate.toISOString().split('T')[0])
-            params.set('to_date', toDate.toISOString().split('T')[0])
+            // FIX: Use manual formatting to preserve Local Date
+            params.set('from_date', formatDateLocal(fromDate))
+            params.set('to_date', formatDateLocal(toDate))
             params.set('date_preset', preset)
         }
 
