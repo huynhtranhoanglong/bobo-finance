@@ -59,8 +59,8 @@ const DEMO_WALLETS = [
 ];
 
 const DEMO_DEBTS = [
-  { id: "d1", name: "Vay mua laptop", remaining_amount: 15000000, total_amount: 25000000 },
-  { id: "d2", name: "Nợ thẻ tín dụng", remaining_amount: 10000000, total_amount: 10000000 }
+  { id: "d1", name: "Vay mua laptop", remaining_amount: 15000000, total_amount: 25000000, type: 'payable' },
+  { id: "d2", name: "Nợ thẻ tín dụng", remaining_amount: 10000000, total_amount: 10000000, type: 'payable' }
 ];
 // ===========================================================
 
