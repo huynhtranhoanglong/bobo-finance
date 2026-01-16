@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.5] - 2026-01-16
+
+### Hotfix - Notification Hub
+> **Critical Fix:** Fixed an issue where inviting a family member caused a database error.
+
+- **Fixed: Column `display_name` does not exist**:
+  - Root cause: RPC scripts referenced `profiles.display_name` which is not present in the database schema.
+  - Fix: Updated `invite_family_member` and `handle_new_user_notifications` to use `auth.users.email` instead.
+  - **SQL Script**: `sql_backup/202601161445_hotfix_notification_hub.sql`.
+
 ## [1.3.4] - 2026-01-16
 
 ### Major Feature - Notification Hub & Family Invites
