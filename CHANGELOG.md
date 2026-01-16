@@ -1,5 +1,42 @@
 # Changelog
 
+## [1.3.1] - 2026-01-16
+
+### Major Feature - Family (Phase 2: Dashboard Integration)
+
+> **Note:** This release updates the Dashboard to support family data. Users in a family now see aggregated data from all family members.
+
+- **Updated `get_dashboard_data` RPC**:
+  - Now checks if user belongs to a family using `get_user_family_id()`.
+  - If user has family → queries use `family_id` to fetch aggregated data.
+  - If user has no family → queries use `user_id` (personal data, unchanged behavior).
+  - Returns additional `family` object with family name, member count, and owner status.
+  - Wallet and debt lists now include `owner_name` for family context.
+
+- **Updated Transaction Creation**:
+  - `create_transaction_and_update_wallet` - auto-attaches `family_id`.
+  - `create_new_debt_v2` - auto-attaches `family_id` to both debt and transaction.
+  - `pay_debt` - auto-attaches `family_id` to repayment transaction.
+  - `transfer_funds` - auto-attaches `family_id` to transfer transactions.
+  - `update_debt_v2` - auto-attaches `family_id` to adjustment transaction.
+
+- **Backward Compatibility**:
+  - Users without a family continue to see personal data as before.
+  - No changes to the frontend UI required.
+
+### Technical Details
+
+- **SQL Scripts Added**:
+  - `sql_backup/202601161200_get_dashboard_data_v2.sql` - Family-aware dashboard data fetching.
+  - `sql_backup/202601161230_update_rpc_family.sql` - Updated 5 RPC functions to auto-attach family_id.
+
+- **Query Logic**:
+  - Family wallets: Only `visibility = 'shared'` wallets are included.
+  - Family debts/transactions: All records with matching `family_id`.
+  - Prepared for future private wallet feature.
+
+- Updated version indicator to `v1.3.1`.
+
 ## [1.3.0] - 2026-01-16
 
 ### Major Feature - Family (Phase 1: Database Foundation)
