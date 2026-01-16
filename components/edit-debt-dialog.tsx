@@ -63,7 +63,7 @@ export default function EditDebtDialog({ open, setOpen, debt, wallets, onSuccess
                     </div>
 
                     <div className="grid gap-2">
-                        <Label>Số tiền đã trả</Label>
+                        <Label>{debt.type === 'receivable' ? 'Số tiền đã được trả' : 'Số tiền đã trả'}</Label>
                         <MoneyInput
                             name="paid_amount"
                             // Mặc định tính Paid = Total - Remaining nếu chưa có dữ liệu paid riêng

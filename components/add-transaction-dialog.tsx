@@ -146,7 +146,7 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                                 <Select name="debt_id" required>
                                     <SelectTrigger><SelectValue placeholder="Chọn khoản nợ" /></SelectTrigger>
                                     <SelectContent>
-                                        {debts.map(d => (
+                                        {debts.filter(d => d.type === 'payable').map(d => (
                                             <SelectItem key={d.id} value={d.id}>
                                                 {d.name} (Còn: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(d.remaining_amount)})
                                             </SelectItem>

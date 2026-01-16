@@ -76,7 +76,7 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
                     </div>
 
                     <div className="grid gap-2">
-                        <Label>Số tiền đã trả</Label>
+                        <Label>{debtType === 'receivable' ? 'Số tiền đã được trả' : 'Số tiền đã trả'}</Label>
                         <MoneyInput name="paid_amount" placeholder="0" />
                         <p className="text-xs text-gray-500">Nhập 0 nếu là khoản nợ mới hoàn toàn.</p>
                     </div>

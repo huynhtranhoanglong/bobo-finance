@@ -51,7 +51,7 @@ export default function DebtCard({ debt, wallets }: DebtCardProps) {
                 <div className="flex justify-between items-start mb-3">
                     <div className="flex flex-col">
                         <span className="font-bold text-gray-800">{name}</span>
-                        <span className={`text-[10px] font-medium uppercase ${debt.type === 'receivable' ? 'text-blue-600' : 'text-red-500'}`}>
+                        <span className={`text-[10px] font-medium uppercase ${debt.type === 'receivable' ? 'text-[#598c58]' : 'text-[#c25e5e]'}`}>
                             {debt.type === 'receivable' ? 'Đang cho vay' : 'Nợ phải trả'}
                         </span>
                     </div>
@@ -62,7 +62,7 @@ export default function DebtCard({ debt, wallets }: DebtCardProps) {
                             color: progressColor
                         }}
                     >
-                        {progressPercent.toFixed(0)}% đã trả
+                        {progressPercent.toFixed(0)}% {debt.type === 'receivable' ? 'đã được trả' : 'đã trả'}
                     </span>
                 </div>
 
