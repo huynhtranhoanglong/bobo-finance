@@ -77,3 +77,19 @@ export const GREETING_EVENING_START = 18;
 
 /** Khuya bắt đầu từ 22:00 */
 export const GREETING_NIGHT_START = 22;
+
+
+// === GREETING TEXTS & ICONS ===
+// Dùng để hiển thị lời chào (Tránh hard code string)
+
+export const GREETING_TEXT_MORNING = "Chào buổi sáng";
+export const GREETING_ICON_MORNING = "☀️";
+
+export const GREETING_TEXT_AFTERNOON = "Chào buổi chiều";
+export const GREETING_ICON_AFTERNOON = "🌤️";
+
+export const GREETING_TEXT_EVENING = "Chào buổi tối";
+export const GREETING_ICON_EVENING = "🌙";
+
+export const GREETING_TEXT_NIGHT = "Khuya rồi, nghỉ ngơi nhé";
+export const GREETING_ICON_NIGHT = "🌃";

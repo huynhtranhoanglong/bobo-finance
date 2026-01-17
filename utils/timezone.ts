@@ -7,7 +7,15 @@ import {
     GREETING_MORNING_START,
     GREETING_AFTERNOON_START,
     GREETING_EVENING_START,
-    GREETING_NIGHT_START
+    GREETING_NIGHT_START,
+    GREETING_TEXT_MORNING,
+    GREETING_ICON_MORNING,
+    GREETING_TEXT_AFTERNOON,
+    GREETING_ICON_AFTERNOON,
+    GREETING_TEXT_EVENING,
+    GREETING_ICON_EVENING,
+    GREETING_TEXT_NIGHT,
+    GREETING_ICON_NIGHT
 } from "@/utils/constants";
 
 // Default timezone (fallback)
@@ -55,13 +63,13 @@ export function getTimeBasedGreeting(): { text: string; emoji: string } {
     const hour = getCurrentHour();
 
     if (hour >= GREETING_MORNING_START && hour < GREETING_AFTERNOON_START) {
-        return { text: "Chào buổi sáng", emoji: "☀️" };
+        return { text: GREETING_TEXT_MORNING, emoji: GREETING_ICON_MORNING };
     } else if (hour >= GREETING_AFTERNOON_START && hour < GREETING_EVENING_START) {
-        return { text: "Chào buổi chiều", emoji: "🌤️" };
+        return { text: GREETING_TEXT_AFTERNOON, emoji: GREETING_ICON_AFTERNOON };
     } else if (hour >= GREETING_EVENING_START && hour < GREETING_NIGHT_START) {
-        return { text: "Chào buổi tối", emoji: "🌙" };
+        return { text: GREETING_TEXT_EVENING, emoji: GREETING_ICON_EVENING };
     } else {
-        return { text: "Khuya rồi, nghỉ ngơi nhé", emoji: "🌃" };
+        return { text: GREETING_TEXT_NIGHT, emoji: GREETING_ICON_NIGHT };
     }
 }
 

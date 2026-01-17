@@ -82,7 +82,7 @@ export default function AccountPage() {
                     <div className="w-24 h-24 rounded-full bg-green-100 flex items-center justify-center text-green-700 text-3xl font-bold mb-4 border-4 border-white shadow-sm">
                         {initials}
                     </div>
-                    <h2 className="text-xl font-bold text-gray-800">{profile.display_name}</h2>
+                    <h2 className="text-xl font-bold text-gray-800">{profile.display_name || profile.email}</h2>
                     <p className="text-gray-500">{profile.email}</p>
                 </div>
 

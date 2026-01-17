@@ -799,10 +799,10 @@ Emergency Months = Total Emergency Fund Balance / Min Monthly Spend
 
 | Giờ | Lời chào | Emoji |
 |-----|----------|-------|
-| 05:00 - 11:59 | Chào buổi sáng | ☀️ |
-| 12:00 - 17:59 | Chào buổi chiều | 🌤️ |
-| 18:00 - 21:59 | Chào buổi tối | 🌙 |
-| 22:00 - 04:59 | Khuya rồi, nghỉ ngơi nhé | 🌃 |
+| 05:00 - 11:59 | `GREETING_TEXT_MORNING` | `GREETING_ICON_MORNING` |
+| 12:00 - 17:59 | `GREETING_TEXT_AFTERNOON` | `GREETING_ICON_AFTERNOON` |
+| 18:00 - 21:59 | `GREETING_TEXT_EVENING` | `GREETING_ICON_EVENING` |
+| 22:00 - 04:59 | `GREETING_TEXT_NIGHT` | `GREETING_ICON_NIGHT` |
 
 > **🔧 Frontend:** `utils/timezone.ts` → `getTimeBasedGreeting()`
 
@@ -910,10 +910,12 @@ Kể từ v1.3.15, tất cả các "magic numbers" quan trọng được tập t
 | `GREETING_AFTERNOON_START` | 12 | Buổi chiều bắt đầu từ 12:00 | `timezone.ts` |
 | `GREETING_EVENING_START` | 18 | Buổi tối bắt đầu từ 18:00 | `timezone.ts` |
 | `GREETING_NIGHT_START` | 22 | Khuya bắt đầu từ 22:00 | `timezone.ts` |
+| `GREETING_TEXT_*` | (text) | Văn bản lời chào | `constants.ts` |
+| `GREETING_ICON_*` | (icon) | Icon lời chào | `constants.ts` |
 
 > ⚠️ **Lưu ý**: Các hằng số trong SQL (`90`, `3`, `12`, `25`) được giữ nguyên do PostgreSQL không hỗ trợ "global constants". Nếu cần thay đổi, phải sửa cả SQL và file `constants.ts`.
 
 ---
 
 *Tài liệu này được cập nhật lần cuối: 2026-01-17*
-*Phiên bản ứng dụng: v1.3.16*
+*Phiên bản ứng dụng: v1.3.17*

@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.3.17] - 2026-01-17
+
+### UX Improvement - Greeting Logic & Refactoring
+> **Purpose**: Improved the greeting display logic to avoid showing email as a fallback name, and eliminated hardcoded strings in the greeting component.
+
+- **Frontend Updates**:
+  - `components/greeting-header.tsx`: Refactored to use centralized logic from `utils/timezone.ts`. The greeting now **only** shows the name if explicitly set by the user. If no name is set, it displays a simple greeting (e.g., "☀️ Chào buổi sáng!") without the email.
+  - `app/account/page.tsx`: Updated to fallback to email for the heading (`H2`) if the display name is empty, ensuring the user still knows which account they are viewing.
+
+- **Code Quality - Constants**:
+  - `utils/constants.ts`: Added constants for all greeting texts and icons (`GREETING_TEXT_*`, `GREETING_ICON_*`).
+  - `utils/timezone.ts`: Updated to use constants instead of hardcoded strings.
+
+- **Database**:
+  - Updated `get_my_profile` RPC logic to **STOP defaulting display_name to email**. It now returns `null` if no name is set.
+  - **SQL Script**: `sql_backup/202601170900_update_get_my_profile_v2.sql`.
+
 ## [1.3.16] - 2026-01-17
 
 ### Code Quality - Centralized Color Palette
