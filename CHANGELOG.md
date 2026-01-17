@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.3.19] - 2026-01-17
+
+### Code Quality - Centralized UI Labels (i18n Preparation)
+> **Purpose**: Created a centralized labels file to prepare for internationalization (i18n) support and ensure consistency in UI text across the application.
+
+- **New File**: `utils/labels.ts`
+  - Contains ~180 label constants organized by functional groups
+  - Groups: Common, Transactions, Wallets, Debts, Dashboard, Filters, Login, etc.
+  - Follows naming convention: `LABEL_[CONTEXT]_[DESCRIPTION]`
+
+- **Refactored Components** (6 files):
+  - `components/add-transaction-dialog.tsx` - All button labels, form labels, placeholders refactored
+  - `components/monthly-stats.tsx` - Section titles, stat labels, progress messages
+  - `components/debt-card.tsx` - Debt type labels, progress text
+  - `components/edit-wallet-dialog.tsx` - All form labels, confirmation dialogs
+  - `components/create-debt-dialog.tsx` - Form labels, interest level options
+  - `components/financial-progress.tsx` - Target labels (prepared for future refactor)
+
+- **Consistency Improvements**:
+  - Standardized debt type naming: "Đi Vay" / "Cho Vay"
+  - Standardized spending category names: "Thiết yếu", "Thứ yếu", "Lãng phí"
+  - All error messages now use `LABEL_ERROR_PREFIX`
+  - All loading states now use corresponding labels (`LABEL_LOADING`, `LABEL_SAVING`, `LABEL_DELETING`)
+
+> **Note**: This is the first phase of i18n preparation. Remaining components will be refactored in subsequent updates.
+
 ## [1.3.18] - 2026-01-17
 
 ### Bug Fix - Duplicate Funds in Create Wallet Dialog

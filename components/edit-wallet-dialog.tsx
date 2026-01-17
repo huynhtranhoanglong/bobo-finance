@@ -10,6 +10,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { updateWalletAction, deleteWalletAction } from "@/app/actions"
 import { Trash2, Loader2 } from "lucide-react"
 import { COLOR_BRAND } from "@/utils/colors"
+import {
+    LABEL_ERROR_PREFIX, LABEL_SAVING, LABEL_DELETING, LABEL_EDIT_WALLET, LABEL_WALLET_NAME,
+    LABEL_BELONGS_TO_FUND, LABEL_CURRENT_BALANCE, LABEL_BALANCE_ADJUSTMENT_NOTE,
+    LABEL_SAVE_CHANGES, LABEL_OR, LABEL_DELETE_WALLET, LABEL_DELETE_WALLET_CONFIRM
+} from "@/utils/labels"
 
 export default function EditWalletDialog({
     wallet,
@@ -26,21 +31,20 @@ export default function EditWalletDialog({
 
     async function handleUpdate(formData: FormData) {
         setLoading(true);
-        // Append ID vì form không tự gửi nếu disable input (hoặc hidden input)
         formData.append("id", wallet.id);
 
         const result = await updateWalletAction(formData);
         setLoading(false);
 
         if (result?.error) {
-            alert("Lỗi: " + result.error);
+            alert(LABEL_ERROR_PREFIX + result.error);
         } else {
             setOpen(false);
         }
     }
 
     async function handleDelete() {
-        if (!confirm("CẢNH BÁO: Xóa ví này sẽ XÓA SẠCH toàn bộ giao dịch liên quan!\n\nHành động này không thể hoàn tác.\nBạn có chắc chắn muốn xóa?")) {
+        if (!confirm(LABEL_DELETE_WALLET_CONFIRM)) {
             return;
         }
 
@@ -49,7 +53,7 @@ export default function EditWalletDialog({
         setLoading(false);
 
         if (result?.error) {
-            alert("Lỗi: " + result.error);
+            alert(LABEL_ERROR_PREFIX + result.error);
         } else {
             setOpen(false);
         }
@@ -59,18 +63,18 @@ export default function EditWalletDialog({
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="sm:max-w-[425px]" onOpenAutoFocus={(e) => e.preventDefault()}>
                 <DialogHeader>
-                    <DialogTitle className="text-center text-xl">Chỉnh Sửa Ví</DialogTitle>
+                    <DialogTitle className="text-center text-xl">{LABEL_EDIT_WALLET}</DialogTitle>
                 </DialogHeader>
 
                 <form action={handleUpdate} className="grid gap-4 py-4">
 
                     <div className="grid gap-2">
-                        <Label>Tên Ví</Label>
+                        <Label>{LABEL_WALLET_NAME}</Label>
                         <Input name="name" defaultValue={wallet.name} required />
                     </div>
 
                     <div className="grid gap-2">
-                        <Label>Thuộc Quỹ</Label>
+                        <Label>{LABEL_BELONGS_TO_FUND}</Label>
                         <Select name="fund_id" defaultValue={wallet.funds?.id || wallet.fund_id} required>
                             <SelectTrigger><SelectValue /></SelectTrigger>
                             <SelectContent>
@@ -80,7 +84,7 @@ export default function EditWalletDialog({
                     </div>
 
                     <div className="grid gap-2">
-                        <Label>Số dư hiện tại</Label>
+                        <Label>{LABEL_CURRENT_BALANCE}</Label>
                         <MoneyInput
                             name="balance"
                             initialValue={Number(wallet.balance)}
@@ -88,17 +92,17 @@ export default function EditWalletDialog({
                             className="font-bold text-lg"
                         />
                         <p className="text-xs text-blue-600">
-                            *Hệ thống sẽ tự động tạo giao dịch điều chỉnh (Thu/Chi) nếu số dư thay đổi.
+                            {LABEL_BALANCE_ADJUSTMENT_NOTE}
                         </p>
                     </div>
 
                     <Button type="submit" disabled={loading} className="mt-4 w-full" style={{ backgroundColor: COLOR_BRAND }}>
-                        {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang lưu...</> : "Lưu Thay Đổi"}
+                        {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {LABEL_SAVING}</> : LABEL_SAVE_CHANGES}
                     </Button>
 
                     <div className="relative flex py-2 items-center">
                         <div className="flex-grow border-t border-gray-200"></div>
-                        <span className="flex-shrink-0 mx-4 text-gray-400 text-xs">Hoặc</span>
+                        <span className="flex-shrink-0 mx-4 text-gray-400 text-xs">{LABEL_OR}</span>
                         <div className="flex-grow border-t border-gray-200"></div>
                     </div>
 
@@ -110,7 +114,7 @@ export default function EditWalletDialog({
                         className="w-full flex gap-2"
                     >
                         {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 size={16} />}
-                        {loading ? "Đang xoá..." : "Xóa Ví Này"}
+                        {loading ? LABEL_DELETING : LABEL_DELETE_WALLET}
                     </Button>
 
                 </form>

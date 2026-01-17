@@ -6,6 +6,10 @@ import EditDebtDialog from "./edit-debt-dialog";
 import { useRouter } from "next/navigation";
 import { DEBT_PROGRESS_LOW, DEBT_PROGRESS_HIGH } from "@/utils/constants";
 import { COLOR_POSITIVE, COLOR_NEGATIVE, COLOR_NEUTRAL } from "@/utils/colors";
+import {
+    LABEL_DEBT_PAYABLE_STATUS, LABEL_DEBT_RECEIVABLE_STATUS, LABEL_PAID_PERCENT,
+    LABEL_RECEIVED_PERCENT, LABEL_REMAINING_DEBT
+} from "@/utils/labels";
 
 interface DebtCardProps {
     debt: {
@@ -52,7 +56,7 @@ export default function DebtCard({ debt, wallets }: DebtCardProps) {
                             className="text-[10px] font-medium uppercase"
                             style={{ color: debt.type === 'receivable' ? COLOR_POSITIVE : COLOR_NEGATIVE }}
                         >
-                            {debt.type === 'receivable' ? 'Đang cho vay' : 'Nợ phải trả'}
+                            {debt.type === 'receivable' ? LABEL_DEBT_RECEIVABLE_STATUS : LABEL_DEBT_PAYABLE_STATUS}
                         </span>
                     </div>
                     <span
@@ -62,13 +66,13 @@ export default function DebtCard({ debt, wallets }: DebtCardProps) {
                             color: progressColor
                         }}
                     >
-                        {progressPercent.toFixed(0)}% {debt.type === 'receivable' ? 'đã được trả' : 'đã trả'}
+                        {progressPercent.toFixed(0)}% {debt.type === 'receivable' ? LABEL_RECEIVED_PERCENT : LABEL_PAID_PERCENT}
                     </span>
                 </div>
 
                 {/* Amount Info */}
                 <div className="flex justify-between items-center mb-3 text-sm">
-                    <span style={{ color: COLOR_NEUTRAL }}>Còn nợ</span>
+                    <span style={{ color: COLOR_NEUTRAL }}>{LABEL_REMAINING_DEBT}</span>
                     <div>
                         <span className="font-bold" style={{ color: COLOR_NEGATIVE }}>
                             <PrivacyAmount amount={remaining_amount} />

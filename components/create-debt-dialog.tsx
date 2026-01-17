@@ -12,6 +12,13 @@ import { addTransaction } from "@/app/actions"
 import { useRouter } from "next/navigation"
 import { WalletOption } from "@/components/ui/wallet-option"
 import { COLOR_BRAND } from "@/utils/colors"
+import {
+    LABEL_ERROR_PREFIX, LABEL_LOADING, LABEL_CREATE_DEBT, LABEL_DEBT_PAYABLE_FULL, LABEL_DEBT_RECEIVABLE,
+    LABEL_DEBT_NAME, LABEL_DEBT_AMOUNT, LABEL_AMOUNT_PAID, LABEL_AMOUNT_RECEIVED, LABEL_NEW_DEBT_NOTE,
+    LABEL_JUST_RECORD, LABEL_WALLET_RECEIVE, LABEL_WALLET_TAKE, LABEL_WALLET_DISABLED, LABEL_SELECT_WALLET,
+    LABEL_JUST_RECORD_NOTE, LABEL_WALLET_SYNC_NOTE, LABEL_INTEREST_LEVEL, LABEL_INTEREST_NONE,
+    LABEL_INTEREST_LOW, LABEL_INTEREST_MEDIUM, LABEL_INTEREST_HIGH, LABEL_NOTE
+} from "@/utils/labels"
 
 export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
     const [open, setOpen] = useState(false)
@@ -22,7 +29,6 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
 
     async function handleSubmit(formData: FormData) {
         setLoading(true);
-        // Force type to create_debt for the action
         formData.append("type", "create_debt");
         formData.append("debt_type", debtType);
 
@@ -30,7 +36,7 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
         setLoading(false);
 
         if (result?.error) {
-            alert("Lỗi: " + result.error);
+            alert(LABEL_ERROR_PREFIX + result.error);
         } else {
             setOpen(false);
             router.refresh();
@@ -47,7 +53,7 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
 
             <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto" onOpenAutoFocus={(e) => e.preventDefault()}>
                 <DialogHeader>
-                    <DialogTitle>Tạo Khoản Nợ Mới</DialogTitle>
+                    <DialogTitle>{LABEL_CREATE_DEBT}</DialogTitle>
                 </DialogHeader>
 
                 <form action={handleSubmit} className="grid gap-4 py-4">
@@ -57,30 +63,30 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
                             className={`cursor-pointer px-4 py-2 rounded-md border transition-all ${debtType === 'payable' ? 'bg-red-50 border-red-500 text-red-700 font-bold shadow-sm' : 'bg-white border-transparent text-gray-500 hover:bg-gray-100'}`}
                             onClick={() => setDebtType('payable')}
                         >
-                            Đi Vay (Nợ)
+                            {LABEL_DEBT_PAYABLE_FULL}
                         </div>
                         <div
                             className={`cursor-pointer px-4 py-2 rounded-md border transition-all ${debtType === 'receivable' ? 'bg-green-50 border-green-500 text-green-700 font-bold shadow-sm' : 'bg-white border-transparent text-gray-500 hover:bg-gray-100'}`}
                             onClick={() => setDebtType('receivable')}
                         >
-                            Cho Vay
+                            {LABEL_DEBT_RECEIVABLE}
                         </div>
                     </div>
 
                     <div className="grid gap-2">
-                        <Label>Tên khoản nợ</Label>
+                        <Label>{LABEL_DEBT_NAME}</Label>
                         <Input name="debt_name" placeholder="Vd: Vay ngân hàng, Cho Tuấn mượn..." required />
                     </div>
 
                     <div className="grid gap-2">
-                        <Label>Số tiền nợ</Label>
+                        <Label>{LABEL_DEBT_AMOUNT}</Label>
                         <MoneyInput name="amount" placeholder="0" required />
                     </div>
 
                     <div className="grid gap-2">
-                        <Label>{debtType === 'receivable' ? 'Số tiền đã được trả' : 'Số tiền đã trả'}</Label>
+                        <Label>{debtType === 'receivable' ? LABEL_AMOUNT_RECEIVED : LABEL_AMOUNT_PAID}</Label>
                         <MoneyInput name="paid_amount" placeholder="0" />
-                        <p className="text-xs text-gray-500">Nhập 0 nếu là khoản nợ mới hoàn toàn.</p>
+                        <p className="text-xs text-gray-500">{LABEL_NEW_DEBT_NOTE}</p>
                     </div>
 
                     <div className="flex items-center space-x-2 py-2">
@@ -95,15 +101,15 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
                             className="cursor-pointer font-normal"
                             onClick={() => setJustRecord(!justRecord)}
                         >
-                            Chỉ ghi sổ nợ (Không tạo giao dịch ví)
+                            {LABEL_JUST_RECORD}
                         </Label>
                         <input type="hidden" name="just_record" value={justRecord ? "true" : "false"} />
                     </div>
 
                     <div className={`grid gap-2 transition-all duration-300 ${justRecord ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
-                        <Label>{debtType === 'payable' ? 'Tiền về ví nào?' : 'Lấy tiền từ ví nào?'}</Label>
+                        <Label>{debtType === 'payable' ? LABEL_WALLET_RECEIVE : LABEL_WALLET_TAKE}</Label>
                         <Select name="wallet_id" required={!justRecord}>
-                            <SelectTrigger><SelectValue placeholder={justRecord ? "Đang tắt chọn ví" : "Chọn ví"} /></SelectTrigger>
+                            <SelectTrigger><SelectValue placeholder={justRecord ? LABEL_WALLET_DISABLED : LABEL_SELECT_WALLET} /></SelectTrigger>
                             <SelectContent>
                                 {wallets.map(w => (
                                     <SelectItem key={w.id} value={w.id}>
@@ -113,32 +119,29 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
                             </SelectContent>
                         </Select>
                         <p className="text-xs text-gray-500">
-                            {justRecord
-                                ? "Chế độ ghi sổ: Không làm thay đổi số dư ví."
-                                : `Hệ thống sẽ cộng phần CÒN LẠI vào ví (Dư nợ thực tế).`
-                            }
+                            {justRecord ? LABEL_JUST_RECORD_NOTE : LABEL_WALLET_SYNC_NOTE}
                         </p>
                     </div>
 
                     <div className="grid gap-2">
-                        <Label>Mức lãi suất</Label>
+                        <Label>{LABEL_INTEREST_LEVEL}</Label>
                         <Select name="interest_level" defaultValue="none">
                             <SelectTrigger><SelectValue /></SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="none">Không lãi (Người thân)</SelectItem>
-                                <SelectItem value="low">Lãi thấp</SelectItem>
-                                <SelectItem value="medium">Lãi trung bình</SelectItem>
-                                <SelectItem value="high">Lãi cao (Thẻ tín dụng/Nóng)</SelectItem>
+                                <SelectItem value="none">{LABEL_INTEREST_NONE}</SelectItem>
+                                <SelectItem value="low">{LABEL_INTEREST_LOW}</SelectItem>
+                                <SelectItem value="medium">{LABEL_INTEREST_MEDIUM}</SelectItem>
+                                <SelectItem value="high">{LABEL_INTEREST_HIGH}</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
                     <div className="grid gap-2">
-                        <Label>Ghi chú</Label>
+                        <Label>{LABEL_NOTE}</Label>
                         <Input name="note" placeholder="..." />
                     </div>
 
                     <Button type="submit" disabled={loading} style={{ backgroundColor: COLOR_BRAND }} className="w-full mt-2">
-                        {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang xử lý...</> : "Tạo Khoản Nợ"}
+                        {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {LABEL_LOADING}</> : LABEL_CREATE_DEBT}
                     </Button>
                 </form>
             </DialogContent>
