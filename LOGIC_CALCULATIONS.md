@@ -774,6 +774,28 @@ Khi một thành viên rời khỏi gia đình:
 
 ---
 
+### 7.4. Quỹ (Funds) Trong Chia Sẻ Gia Đình
+
+**Cơ chế hiện tại:**
+- Mỗi user khi đăng nhập lần đầu được tạo **4 quỹ mặc định riêng** (Daily, Emergency, Sinking, Investment).
+- Khi tham gia gia đình, các quỹ này được gắn `family_id`.
+- Điều này dẫn đến việc gia đình 3 thành viên có 12 bản ghi quỹ (4 × 3 người) với tên trùng lặp.
+
+**Xử lý hiển thị:**
+- Khi lấy danh sách quỹ cho dropdown, sử dụng **`DISTINCT ON (name)`** để chỉ trả về 1 quỹ duy nhất cho mỗi tên.
+- Đảm bảo dropdown "Thuộc Quỹ" luôn hiển thị đúng 4 mục không trùng lặp.
+
+> **🔧 Backend:**
+> ```sql
+> SELECT DISTINCT ON (name) id, name FROM funds 
+> WHERE family_id = v_family_id 
+> ORDER BY name
+> ```
+> - RPC: `get_dashboard_data()` (v1.3.18)
+> - File: `202601170830_fix_duplicate_funds.sql`
+
+---
+
 ## 8. Các Chỉ Số Phụ Hiển Thị
 
 ### 8.1. Số Tháng Chi Tiêu Dự Phòng (Emergency Fund Months)
@@ -851,7 +873,7 @@ Khi bật chế độ bảo mật:
 
 | Function | Mô tả | File |
 |----------|-------|------|
-| `get_dashboard_data(p_month, p_year, p_timezone)` | Lấy toàn bộ dữ liệu Dashboard | `202601162200_timezone_v2.sql` |
+| `get_dashboard_data(p_month, p_year, p_timezone)` | Lấy toàn bộ dữ liệu Dashboard | `202601170830_fix_duplicate_funds.sql` |
 | `create_transaction_and_update_wallet(...)` | Tạo giao dịch + cập nhật ví | `202601161230_update_rpc_family.sql` |
 | `update_transaction_v3(...)` | Sửa giao dịch | `202601161815_fix_delete_transaction_v3.sql` |
 | `delete_transaction_v3(...)` | Xóa giao dịch | `202601161815_fix_delete_transaction_v3.sql` |
@@ -918,4 +940,4 @@ Kể từ v1.3.15, tất cả các "magic numbers" quan trọng được tập t
 ---
 
 *Tài liệu này được cập nhật lần cuối: 2026-01-17*
-*Phiên bản ứng dụng: v1.3.17*
+*Phiên bản ứng dụng: v1.3.18*
