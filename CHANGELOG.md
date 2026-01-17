@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.18] - 2026-01-17
+
+### Bug Fix - Duplicate Funds in Create Wallet Dialog
+> **Issue**: When a family owner opens the "Create Wallet" dialog, the "Fund" dropdown shows duplicate entries (e.g., 12 items instead of 4) because each family member has their own set of default funds.
+> **Fix**: Updated `get_dashboard_data` RPC to use `DISTINCT ON (name)` to return only unique fund names.
+
+- **Database**:
+  - Updated `get_dashboard_data` RPC function.
+  - Query now returns deduplicated funds list based on fund name.
+  - **SQL Script**: `sql_backup/202601170830_fix_duplicate_funds.sql`.
+
+> **Note**: This fix maintains the existing database structure for future flexibility (allowing users to customize funds if needed).
+
 ## [1.3.17] - 2026-01-17
 
 ### UX Improvement - Greeting Logic & Refactoring
