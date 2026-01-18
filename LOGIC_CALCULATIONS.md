@@ -937,7 +937,33 @@ Kể từ v1.3.15, tất cả các "magic numbers" quan trọng được tập t
 
 > ⚠️ **Lưu ý**: Các hằng số trong SQL (`90`, `3`, `12`, `25`) được giữ nguyên do PostgreSQL không hỗ trợ "global constants". Nếu cần thay đổi, phải sửa cả SQL và file `constants.ts`.
 
+### 9.7. Nhãn UI (Labels) - i18n Preparation
+
+Kể từ v1.3.19, tất cả text UI được tập trung trong file `utils/labels.ts` để chuẩn bị cho đa ngôn ngữ:
+
+| Nhóm | Ví dụ | Số lượng |
+|------|-------|----------|
+| Common | `LABEL_LOADING`, `LABEL_SAVE`, `LABEL_CANCEL` | ~15 |
+| Transactions | `LABEL_INCOME`, `LABEL_EXPENSE`, `LABEL_TRANSFER` | ~20 |
+| Wallets | `LABEL_CREATE_WALLET`, `LABEL_WALLET_NAME` | ~15 |
+| Debts | `LABEL_DEBT_PAYABLE`, `LABEL_DEBT_RECEIVABLE` | ~25 |
+| Dashboard | `LABEL_MONTHLY_STATS`, `LABEL_FINANCIAL_PROGRESS` | ~20 |
+| Filters | `LABEL_DATE_TODAY`, `LABEL_SORT_NEWEST` | ~20 |
+| Login | `LABEL_LOGIN_TITLE`, `LABEL_PASSWORD` | ~15 |
+| Notifications | `LABEL_NOTIFICATIONS`, `LABEL_ACCEPT` | ~10 |
+| Feedback | `LABEL_FEEDBACK_TITLE`, `LABEL_SEND_FEEDBACK` | ~10 |
+| Confirmations | `LABEL_DELETE_WALLET_CONFIRM` | ~5 |
+
+**Naming Convention**: `LABEL_[CONTEXT]_[DESCRIPTION]`
+
+Ví dụ:
+- `LABEL_WALLET_NAME` → Label cho tên ví
+- `LABEL_DELETE_WALLET_CONFIRM` → Message xác nhận xóa ví
+
+**Components đã refactor**: 17 files (dialogs, dashboard, navigation, pages)
+
 ---
 
-*Tài liệu này được cập nhật lần cuối: 2026-01-17*
-*Phiên bản ứng dụng: v1.3.18*
+*Tài liệu này được cập nhật lần cuối: 2026-01-18*
+*Phiên bản ứng dụng: v1.3.19*
+

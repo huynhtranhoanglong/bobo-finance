@@ -1,30 +1,28 @@
 # Changelog
 
-## [1.3.19] - 2026-01-17
+## [1.3.19] - 2026-01-18
 
 ### Code Quality - Centralized UI Labels (i18n Preparation)
 > **Purpose**: Created a centralized labels file to prepare for internationalization (i18n) support and ensure consistency in UI text across the application.
 
 - **New File**: `utils/labels.ts`
-  - Contains ~180 label constants organized by functional groups
-  - Groups: Common, Transactions, Wallets, Debts, Dashboard, Filters, Login, etc.
+  - Contains ~200 label constants organized by functional groups
+  - Groups: Common, Transactions, Wallets, Debts, Dashboard, Filters, Login, Notifications, Feedback
   - Follows naming convention: `LABEL_[CONTEXT]_[DESCRIPTION]`
 
-- **Refactored Components** (6 files):
-  - `components/add-transaction-dialog.tsx` - All button labels, form labels, placeholders refactored
-  - `components/monthly-stats.tsx` - Section titles, stat labels, progress messages
-  - `components/debt-card.tsx` - Debt type labels, progress text
-  - `components/edit-wallet-dialog.tsx` - All form labels, confirmation dialogs
-  - `components/create-debt-dialog.tsx` - Form labels, interest level options
-  - `components/financial-progress.tsx` - Target labels (prepared for future refactor)
+- **Refactored Components** (17 files):
+  - **Dialogs**: `add-transaction-dialog.tsx`, `edit-transaction-dialog.tsx`, `create-wallet-dialog.tsx`, `edit-wallet-dialog.tsx`, `create-debt-dialog.tsx`, `edit-debt-dialog.tsx`, `feedback-dialog.tsx`
+  - **Dashboard**: `monthly-stats.tsx`, `debt-card.tsx`, `financial-progress.tsx`, `fund-group.tsx`
+  - **Navigation**: `user-nav.tsx`, `notification-bell.tsx`, `notification-item.tsx`, `transaction-filters.tsx`
+  - **Pages**: `app/login/page.tsx`
 
 - **Consistency Improvements**:
   - Standardized debt type naming: "Đi Vay" / "Cho Vay"
   - Standardized spending category names: "Thiết yếu", "Thứ yếu", "Lãng phí"
   - All error messages now use `LABEL_ERROR_PREFIX`
-  - All loading states now use corresponding labels (`LABEL_LOADING`, `LABEL_SAVING`, `LABEL_DELETING`)
+  - All loading states now use corresponding labels (`LABEL_LOADING`, `LABEL_SAVING`, `LABEL_DELETING`, `LABEL_CREATING`, `LABEL_SENDING`)
 
-> **Note**: This is the first phase of i18n preparation. Remaining components will be refactored in subsequent updates.
+> **Note**: This completes the i18n preparation phase. Future work can add multi-language support by replacing `utils/labels.ts` with a proper i18n library.
 
 ## [1.3.18] - 2026-01-17
 
