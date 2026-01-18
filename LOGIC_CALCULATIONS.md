@@ -51,15 +51,15 @@ Hệ thống phân loại giao dịch thành các loại sau:
 > - Enum PostgreSQL: `transaction_type AS ENUM ('income', 'expense', 'transfer_in', 'transfer_out', 'debt_repayment')`
 > - Cột: `transactions.type`
 
-### 1.3. Phân Loại Mức Độ Chi Tiêu
+### 1.3. Phân Loại Chi Tiêu
 
 Mỗi khoản chi tiêu được phân loại theo mức độ cần thiết:
 
-| Category Level | Mô tả | Ví dụ |
-|----------------|-------|-------|
-| `must_have` | Thiết yếu, bắt buộc | Tiền nhà, điện nước, ăn uống cơ bản |
-| `nice_to_have` | Không bắt buộc nhưng nâng cao chất lượng sống | Giải trí, du lịch |
-| `waste` | Lãng phí, không cần thiết | Mua xong hối hận |
+| Key (Database) | Hiển thị | Mô tả | Ví dụ |
+|----------------|----------|-------|-------|
+| `must_have` | ✅ Thiết yếu | Bắt buộc phải chi | Tiền nhà, điện nước, ăn uống |
+| `nice_to_have` | 🟡 Thứ yếu | Không bắt buộc nhưng nâng cao chất lượng sống | Giải trí, du lịch |
+| `waste` | 🔴 Lãng phí | Không cần thiết | Mua xong hối hận |
 
 > **🔧 Backend:**
 > - Enum PostgreSQL: `spending_category AS ENUM ('must_have', 'nice_to_have', 'waste')`
@@ -965,5 +965,5 @@ Ví dụ:
 ---
 
 *Tài liệu này được cập nhật lần cuối: 2026-01-18*
-*Phiên bản ứng dụng: v1.3.19*
+*Phiên bản ứng dụng: v1.3.21*
 

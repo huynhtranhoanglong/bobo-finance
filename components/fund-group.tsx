@@ -36,7 +36,7 @@ const getFundIcon = (fundName: string) => {
 const getDisplayName = (fundName: string) => {
     const nameMap: Record<string, string> = {
         'Daily Expenses': 'Tiền mặt',
-        'Emergency Fund': 'Quỹ dự phòng khẩn cấp',
+        'Emergency Fund': 'Quỹ dự phòng',
         'Sinking Fund': 'Quỹ kế hoạch',
         'Investment Fund': 'Quỹ đầu tư',
         'Invesment Fund': 'Quỹ đầu tư',

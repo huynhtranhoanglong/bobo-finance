@@ -46,11 +46,11 @@ export const LABEL_WALLET = "Ví";
 export const LABEL_TAKE_FROM_WALLET = "Lấy tiền từ ví";
 
 // === SPENDING CATEGORIES ===
-export const LABEL_CATEGORY_LEVEL = "Mức độ";
-export const LABEL_CATEGORY_MUST_HAVE = "🔴 Must Have";
-export const LABEL_CATEGORY_NICE_TO_HAVE = "🟡 Nice to Have";
-export const LABEL_CATEGORY_WASTE = "⚫ Waste";
-export const LABEL_SELECT_CATEGORY = "Chọn mức độ";
+export const LABEL_CATEGORY_LEVEL = "Phân loại";
+export const LABEL_CATEGORY_MUST_HAVE = "✅ Thiết yếu";
+export const LABEL_CATEGORY_NICE_TO_HAVE = "🟡 Thứ yếu";
+export const LABEL_CATEGORY_WASTE = "🔴 Lãng phí";
+export const LABEL_SELECT_CATEGORY = "Chọn phân loại";
 
 // === INCOME SOURCES ===
 export const LABEL_INCOME_SOURCE = "Nguồn thu";

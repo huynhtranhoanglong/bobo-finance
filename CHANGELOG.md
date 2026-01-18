@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.3.21] - 2026-01-18
+
+### UI Consistency - Spending Categories & Fund Names
+> **Purpose**: Unified spending category labels from English to Vietnamese and fixed fund display names for better user experience and i18n preparation.
+
+- **Spending Category Labels** (`utils/labels.ts`):
+  - Changed field label from "Mức độ" to **"Phân loại"** for clearer meaning
+  - Changed placeholder from "Chọn mức độ" to **"Chọn phân loại"**
+  - Unified category names to Vietnamese with logical emoji colors:
+    - `🔴 Must Have` → **`✅ Thiết yếu`** (green = good/essential)
+    - `🟡 Nice to Have` → **`🟡 Thứ yếu`** (yellow = neutral)
+    - `⚫ Waste` → **`🔴 Lãng phí`** (red = wasteful)
+
+- **Fund Display Name** (`components/fund-group.tsx`):
+  - Updated `getDisplayName()` translation for Emergency Fund:
+    - "Quỹ dự phòng khẩn cấp" → **"Quỹ dự phòng"** (shorter, cleaner)
+  - **i18n Note**: Database still stores English keys (e.g., `"Emergency Fund"`) for future multi-language support
+
+- **Documentation** (`LOGIC_CALCULATIONS.md`):
+  - Updated section 1.3 to "Phân Loại Chi Tiêu" with new display names
+  - Updated document version to v1.3.21
+
+> **Note**: No logic changes. Database values remain unchanged (`must_have`, `nice_to_have`, `waste`).
+
 ## [1.3.20] - 2026-01-18
 
 ### Code Quality - UI Labels Consistency & Pages Refactoring
