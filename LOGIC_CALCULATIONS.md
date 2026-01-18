@@ -747,14 +747,32 @@ Khi người dùng tham gia một gia đình:
 
 ### 7.2. Ví Chia Sẻ vs Ví Riêng Tư
 
-| Visibility | Ai thấy | Tính vào tổng gia đình |
-|------------|---------|------------------------|
-| `shared` | Tất cả thành viên | ✅ Có |
-| `private` | Chỉ chủ sở hữu | ❌ Không |
+| Visibility | Ai thấy | Tính vào tổng gia đình | Trang hiển thị |
+|------------|---------|------------------------|----------------|
+| `shared` | Tất cả thành viên | ✅ Có | Dashboard chính |
+| `private` | Chỉ chủ sở hữu | ❌ Không | Trang `/private` |
+
+**Điều kiện hiển thị UI:**
+- Toggle "Ví riêng tư" trong dialog tạo ví: **Chỉ hiển thị khi user thuộc gia đình**
+- Menu "Ví riêng tư" trong dropdown user: **Chỉ hiển thị khi user thuộc gia đình**
+- User không có gia đình: Không cần phân biệt shared/private, tất cả ví đều là của riêng họ
+
+**Tạo ví riêng tư:**
+1. Mở dialog "Tạo ví mới" trên Dashboard hoặc trang `/private`
+2. Bật toggle "Ví riêng tư"
+3. Ví sẽ được tạo với `visibility = 'private'`
+
+**Xem ví riêng tư:**
+- Truy cập trang `/private` từ menu dropdown user
+- Hoặc click vào icon khóa bên cạnh avatar
 
 > **🔧 Backend:**
 > - Cột: `wallets.visibility` (mặc định `'shared'`)
-> - Điều kiện query: `visibility = 'shared'` khi query cho gia đình
+> - RPC tạo ví: `create_wallet_with_initial_balance(p_name, p_fund_id, p_initial_balance, p_visibility)`
+> - RPC xem ví private: `get_private_dashboard_data()` - trả về `{ total_balance, wallets, wallet_count }`
+> - Điều kiện query Dashboard: `visibility = 'shared'` khi query cho gia đình
+> - File: `202601181800_private_wallet_feature.sql`
+
 
 ---
 
@@ -965,5 +983,5 @@ Ví dụ:
 ---
 
 *Tài liệu này được cập nhật lần cuối: 2026-01-18*
-*Phiên bản ứng dụng: v1.3.21*
+*Phiên bản ứng dụng: v1.4.0*
 

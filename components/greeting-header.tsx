@@ -7,11 +7,12 @@ import { getTimeBasedGreeting } from "@/utils/timezone";
 
 interface GreetingHeaderProps {
     userEmail?: string;
-    userName?: string; // NEW PROP
+    userName?: string;
+    hasFamily?: boolean; // v1.4.0: For private wallet menu
     showControls?: boolean;
 }
 
-export default function GreetingHeader({ userEmail, userName, showControls = true }: GreetingHeaderProps) {
+export default function GreetingHeader({ userEmail, userName, hasFamily = false, showControls = true }: GreetingHeaderProps) {
     const { text, emoji } = getTimeBasedGreeting();
 
     return (
@@ -24,7 +25,7 @@ export default function GreetingHeader({ userEmail, userName, showControls = tru
                 <div className="flex items-center gap-2">
                     <NotificationBell />
                     <PrivacyToggle />
-                    {userEmail && <UserNav email={userEmail} />}
+                    {userEmail && <UserNav email={userEmail} hasFamily={hasFamily} />}
                 </div>
             )}
         </div>

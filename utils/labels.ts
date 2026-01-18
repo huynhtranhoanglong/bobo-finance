@@ -280,3 +280,16 @@ export const LABEL_DISPLAY_NAME = "Tên hiển thị";
 export const LABEL_DISPLAY_NAME_PLACEHOLDER = "Nhập tên hiển thị của bạn";
 export const LABEL_DISPLAY_NAME_NOTE = "Tên này sẽ hiển thị trong Gia đình và lời chào.";
 export const LABEL_UPDATE_SUCCESS = "Cập nhật thành công!";
+
+// === PRIVATE WALLET (v1.4.0) ===
+export const LABEL_WALLET_VISIBILITY = "Loại ví";
+export const LABEL_WALLET_SHARED = "Chia sẻ với gia đình";
+export const LABEL_WALLET_PRIVATE = "Ví riêng tư";
+export const LABEL_WALLET_PRIVATE_NOTE = "Ví riêng tư chỉ bạn thấy, không tính vào tổng tài sản gia đình.";
+export const LABEL_PRIVATE_DASHBOARD = "Ví riêng tư";
+export const LABEL_PRIVATE_DASHBOARD_TITLE = "Ví riêng tư của tôi";
+export const LABEL_PRIVATE_DASHBOARD_EMPTY = "Bạn chưa có ví riêng tư nào.";
+export const LABEL_PRIVATE_DASHBOARD_NOTE = "Các ví ở đây chỉ bạn thấy và không được tính vào tài sản gia đình.";
+export const LABEL_TOTAL_PRIVATE_BALANCE = "Tổng số dư ví riêng";
+export const LABEL_CREATE_PRIVATE_WALLET = "Tạo ví riêng tư";
+

@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import { LogOut, MessageSquare, Users } from "lucide-react"
+import { LogOut, MessageSquare, Users, Lock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
@@ -13,9 +13,14 @@ import {
 import { signOutAction } from "@/app/actions"
 import { FeedbackDialog } from "@/components/feedback-dialog"
 import Link from "next/link"
-import { LABEL_ACCOUNT, LABEL_FAMILY, LABEL_FEEDBACK, LABEL_LOGOUT } from "@/utils/labels"
+import { LABEL_ACCOUNT, LABEL_FAMILY, LABEL_FEEDBACK, LABEL_LOGOUT, LABEL_PRIVATE_DASHBOARD } from "@/utils/labels"
 
-export function UserNav({ email }: { email: string }) {
+interface UserNavProps {
+    email: string;
+    hasFamily?: boolean; // v1.4.0: Để hiển thị menu ví riêng tư
+}
+
+export function UserNav({ email, hasFamily = false }: UserNavProps) {
     const [feedbackOpen, setFeedbackOpen] = useState(false)
 
     return (
@@ -48,6 +53,15 @@ export function UserNav({ email }: { email: string }) {
                             {LABEL_FAMILY}
                         </DropdownMenuItem>
                     </Link>
+                    {/* v1.4.0: Private Wallet - chỉ hiển thị khi có gia đình */}
+                    {hasFamily && (
+                        <Link href="/private">
+                            <DropdownMenuItem className="cursor-pointer">
+                                <Lock className="mr-2 h-4 w-4" />
+                                {LABEL_PRIVATE_DASHBOARD}
+                            </DropdownMenuItem>
+                        </Link>
+                    )}
                     <DropdownMenuItem
                         onClick={() => setFeedbackOpen(true)}
                         className="cursor-pointer"

@@ -252,7 +252,7 @@ export default async function Home({
         <main className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
 
           {/* NEW v1.1.7: Greeting Header */}
-          <GreetingHeader userEmail={user?.email || 'User'} userName={profile?.display_name} />
+          <GreetingHeader userEmail={user?.email || 'User'} userName={profile?.display_name} hasFamily={!!familyInfo} />
 
           {/* NEW v1.3.2: Family Banner */}
           {familyInfo && (
@@ -280,7 +280,7 @@ export default async function Home({
           {/* VÍ TIỀN (GOM NHÓM THEO QUỸ) */}
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-bold text-gray-800">💳 {LABEL_SECTION_WALLETS}</h2>
-            <CreateWalletDialog funds={fundsList || []} />
+            <CreateWalletDialog funds={fundsList || []} hasFamily={!!familyInfo} />
           </div>
           <div className="mb-6">
             {sortedGroups.map((group) => (

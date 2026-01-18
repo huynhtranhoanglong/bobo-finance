@@ -1,5 +1,62 @@
 # Changelog
 
+## [1.4.0] - 2026-01-18
+
+### Major Feature - Private Wallets
+> **Purpose**: Allow family members to create private wallets that are only visible to themselves and not counted in the family's total assets.
+
+- **New Feature: Private Wallet Toggle**:
+  - Added "Ví riêng tư" (Private Wallet) toggle in Create Wallet Dialog.
+  - Toggle only appears when user belongs to a family.
+  - When enabled, wallet is created with `visibility = 'private'`.
+  - Private wallets are excluded from family dashboard and total assets.
+
+- **New Page: Private Dashboard (`/private`)**:
+  - Dedicated page to view and manage private wallets.
+  - Displays total balance of all private wallets.
+  - Shows list of private wallets with standard wallet cards.
+  - Create new private wallet button (defaults to private).
+  - Only accessible by users who belong to a family.
+  - Users without family are redirected to main dashboard.
+
+- **User Menu Update**:
+  - Added "Ví riêng tư" menu item in user dropdown.
+  - Menu item only visible when user belongs to a family.
+  - Uses Lock icon for visual distinction.
+
+- **Database Changes**:
+  - Updated `create_wallet_with_initial_balance` RPC to accept `p_visibility` parameter.
+  - Added validation: users without family always get `visibility = 'shared'`.
+  - Created new `get_private_dashboard_data` RPC function.
+  - **SQL Script**: `sql_backup/202601181800_private_wallet_feature.sql`.
+
+- **New UI Component**:
+  - Added `components/ui/switch.tsx` - Toggle switch component.
+  - Installed `@radix-ui/react-switch` dependency.
+
+- **Labels Added** (`utils/labels.ts`):
+  - `LABEL_WALLET_VISIBILITY`, `LABEL_WALLET_SHARED`, `LABEL_WALLET_PRIVATE`
+  - `LABEL_WALLET_PRIVATE_NOTE`, `LABEL_PRIVATE_DASHBOARD`, `LABEL_PRIVATE_DASHBOARD_TITLE`
+  - `LABEL_PRIVATE_DASHBOARD_EMPTY`, `LABEL_PRIVATE_DASHBOARD_NOTE`
+  - `LABEL_TOTAL_PRIVATE_BALANCE`, `LABEL_CREATE_PRIVATE_WALLET`
+
+- **Documentation**:
+  - Updated `LOGIC_CALCULATIONS.md` section 7.2 with comprehensive private wallet details.
+
+### Technical Details
+- **New Files**:
+  - `app/private/page.tsx` - Private dashboard page.
+  - `components/ui/switch.tsx` - Switch component.
+  - `sql_backup/202601181800_private_wallet_feature.sql` - Database migrations.
+  
+- **Modified Files**:
+  - `components/create-wallet-dialog.tsx` - Added visibility toggle and props.
+  - `components/user-nav.tsx` - Added private wallet menu item.
+  - `components/greeting-header.tsx` - Added hasFamily prop forwarding.
+  - `app/page.tsx` - Pass hasFamily to components.
+  - `app/actions.ts` - Updated createWalletAction, added getPrivateDashboardAction.
+  - `utils/labels.ts` - Added private wallet labels.
+
 ## [1.3.21] - 2026-01-18
 
 ### UI Consistency - Spending Categories & Fund Names
