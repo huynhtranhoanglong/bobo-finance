@@ -290,6 +290,35 @@ export const vi = {
     FUND_EMERGENCY: "Quỹ dự phòng",
     FUND_SINKING: "Quỹ kế hoạch",
     FUND_INVESTMENT: "Quỹ đầu tư",
+
+    // === INVITE PAGE ===
+    LABEL_INVITE_TITLE: "Lời mời tham gia gia đình",
+    LABEL_INVITE_EXPIRED: "Lời mời không còn hiệu lực",
+    LABEL_INVITE_USED: "Lời mời này đã được sử dụng.",
+    LABEL_INVITE_EXPIRED_MSG: "Lời mời này đã hết hạn.",
+    LABEL_INVITE_INVALID: "Lời mời không hợp lệ hoặc đã hết hạn.",
+    LABEL_INVITE_NOT_FOUND: "Không tìm thấy lời mời này.",
+    LABEL_BACK_TO_LOGIN: "Về trang đăng nhập",
+    LABEL_BACK_TO_HOME: "Về trang chủ",
+    LABEL_WELCOME: "Chào mừng!",
+    LABEL_JOINED_FAMILY: "Bạn đã tham gia gia đình thành công.",
+    LABEL_REDIRECTING: "Đang chuyển hướng...",
+    LABEL_JOIN_FAMILY: "Tham gia gia đình",
+    LABEL_JOINING: "Đang tham gia...",
+    LABEL_LATER: "Để sau",
+    LABEL_INVITED_BY: "Được mời bởi",
+    LABEL_SHARE_DATA_NOTE: "Bạn sẽ cùng chia sẻ dữ liệu tài chính với các thành viên trong gia đình.",
+
+    // === TRANSACTION ITEM ===
+    LABEL_TRANSACTION: "Giao dịch",
+    LABEL_DELETED_WALLET: "Ví đã xóa",
+    LABEL_PRIVATE_WALLETS_COUNT: "ví riêng tư",
+
+    // === ERROR ===
+    LABEL_ERROR: "Lỗi",
+
+    // === DEMO MODE (extended) ===
+    LABEL_DEBT_MANAGEMENT: "Quản lý nợ",
 } as const;
 
 export type TranslationKeys = keyof typeof vi;

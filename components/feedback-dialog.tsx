@@ -1,18 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import { MessageSquare, Send, X, Loader2 } from "lucide-react"
+import { MessageSquare, Send, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { sendFeedbackAction } from "@/app/actions/send-feedback"
 import { COLOR_BRAND } from "@/utils/colors"
-import {
-    LABEL_ERROR_PREFIX, LABEL_FEEDBACK_TITLE, LABEL_FEEDBACK_THANKS, LABEL_FEEDBACK_REVIEW,
-    LABEL_FEEDBACK_FEATURE, LABEL_FEEDBACK_UI, LABEL_FEEDBACK_SUBJECT,
-    LABEL_FEEDBACK_CONTENT, LABEL_SENDING, LABEL_SEND_FEEDBACK
-} from "@/utils/labels"
+import { useTranslation } from "@/components/providers/language-provider"
 
 interface FeedbackDialogProps {
     open: boolean
@@ -20,6 +16,7 @@ interface FeedbackDialogProps {
 }
 
 export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
+    const { t } = useTranslation()
     const [feedbackType, setFeedbackType] = useState<"feature" | "ui">("feature")
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
@@ -32,7 +29,7 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
         setLoading(false)
 
         if (result?.error) {
-            alert(LABEL_ERROR_PREFIX + result.error)
+            alert(t.LABEL_ERROR_PREFIX + result.error)
         } else {
             setSuccess(true)
             // Auto close after 2 seconds
@@ -49,15 +46,15 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
                 <DialogHeader>
                     <DialogTitle className="text-center text-xl flex items-center justify-center gap-2">
                         <MessageSquare className="h-5 w-5" />
-                        {LABEL_FEEDBACK_TITLE}
+                        {t.LABEL_FEEDBACK_TITLE}
                     </DialogTitle>
                 </DialogHeader>
 
                 {success ? (
                     <div className="py-8 text-center">
                         <div className="text-5xl mb-4">✅</div>
-                        <p className="text-lg font-medium text-green-600">{LABEL_FEEDBACK_THANKS}</p>
-                        <p className="text-sm text-gray-500 mt-2">{LABEL_FEEDBACK_REVIEW}</p>
+                        <p className="text-lg font-medium text-green-600">{t.LABEL_FEEDBACK_THANKS}</p>
+                        <p className="text-sm text-gray-500 mt-2">{t.LABEL_FEEDBACK_REVIEW}</p>
                     </div>
                 ) : (
                     <form action={handleSubmit} className="grid gap-4 py-4">
@@ -69,7 +66,7 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
                                 onClick={() => setFeedbackType("feature")}
                                 className={feedbackType === "feature" ? "bg-blue-600 hover:bg-blue-700" : ""}
                             >
-                                {LABEL_FEEDBACK_FEATURE}
+                                {t.LABEL_FEEDBACK_FEATURE}
                             </Button>
                             <Button
                                 type="button"
@@ -77,13 +74,13 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
                                 onClick={() => setFeedbackType("ui")}
                                 className={feedbackType === "ui" ? "bg-purple-600 hover:bg-purple-700" : ""}
                             >
-                                {LABEL_FEEDBACK_UI}
+                                {t.LABEL_FEEDBACK_UI}
                             </Button>
                         </div>
 
                         {/* Tiêu đề */}
                         <div className="grid gap-2">
-                            <Label htmlFor="title">{LABEL_FEEDBACK_SUBJECT}</Label>
+                            <Label htmlFor="title">{t.LABEL_FEEDBACK_SUBJECT}</Label>
                             <Input
                                 id="title"
                                 name="title"
@@ -94,7 +91,7 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
 
                         {/* Nội dung */}
                         <div className="grid gap-2">
-                            <Label htmlFor="content">{LABEL_FEEDBACK_CONTENT}</Label>
+                            <Label htmlFor="content">{t.LABEL_FEEDBACK_CONTENT}</Label>
                             <textarea
                                 id="content"
                                 name="content"
@@ -113,11 +110,11 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
                             style={{ backgroundColor: COLOR_BRAND }}
                         >
                             {loading ? (
-                                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {LABEL_SENDING}</>
+                                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {t.LABEL_SENDING}</>
                             ) : (
                                 <>
                                     <Send className="mr-2 h-4 w-4" />
-                                    {LABEL_SEND_FEEDBACK}
+                                    {t.LABEL_SEND_FEEDBACK}
                                 </>
                             )}
                         </Button>

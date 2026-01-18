@@ -12,11 +12,7 @@ import { Switch } from "@/components/ui/switch"
 import { createWalletAction } from "@/app/actions"
 import { useRouter } from "next/navigation"
 import { COLOR_BRAND } from "@/utils/colors"
-import {
-    LABEL_ERROR_PREFIX, LABEL_CREATE_WALLET, LABEL_WALLET_NAME, LABEL_WALLET_NAME_PLACEHOLDER,
-    LABEL_BELONGS_TO_FUND, LABEL_SELECT_PARENT_FUND, LABEL_INITIAL_BALANCE, LABEL_INITIAL_BALANCE_NOTE,
-    LABEL_CREATING, LABEL_WALLET_PRIVATE, LABEL_WALLET_PRIVATE_NOTE
-} from "@/utils/labels"
+import { useTranslation } from "@/components/providers/language-provider"
 
 interface CreateWalletDialogProps {
     funds: any[];
@@ -25,6 +21,7 @@ interface CreateWalletDialogProps {
 }
 
 export default function CreateWalletDialog({ funds, hasFamily = false, defaultPrivate = false }: CreateWalletDialogProps) {
+    const { t } = useTranslation()
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const [isPrivate, setIsPrivate] = useState(defaultPrivate)
@@ -38,7 +35,7 @@ export default function CreateWalletDialog({ funds, hasFamily = false, defaultPr
         const result = await createWalletAction(formData);
         setLoading(false);
         if (result?.error) {
-            alert(LABEL_ERROR_PREFIX + result.error);
+            alert(t.LABEL_ERROR_PREFIX + result.error);
         } else {
             setOpen(false);
             setIsPrivate(defaultPrivate); // Reset về default
@@ -56,19 +53,19 @@ export default function CreateWalletDialog({ funds, hasFamily = false, defaultPr
 
             <DialogContent className="sm:max-w-[425px]" onOpenAutoFocus={(e) => e.preventDefault()}>
                 <DialogHeader>
-                    <DialogTitle>{LABEL_CREATE_WALLET}</DialogTitle>
+                    <DialogTitle>{t.LABEL_CREATE_WALLET}</DialogTitle>
                 </DialogHeader>
 
                 <form action={handleSubmit} className="grid gap-4 py-4">
                     <div className="grid gap-2">
-                        <Label>{LABEL_WALLET_NAME}</Label>
-                        <Input name="name" placeholder={LABEL_WALLET_NAME_PLACEHOLDER} required />
+                        <Label>{t.LABEL_WALLET_NAME}</Label>
+                        <Input name="name" placeholder={t.LABEL_WALLET_NAME_PLACEHOLDER} required />
                     </div>
 
                     <div className="grid gap-2">
-                        <Label>{LABEL_BELONGS_TO_FUND}</Label>
+                        <Label>{t.LABEL_BELONGS_TO_FUND}</Label>
                         <Select name="fund_id" required>
-                            <SelectTrigger><SelectValue placeholder={LABEL_SELECT_PARENT_FUND} /></SelectTrigger>
+                            <SelectTrigger><SelectValue placeholder={t.LABEL_SELECT_PARENT_FUND} /></SelectTrigger>
                             <SelectContent>
                                 {funds?.map((f: any) => <SelectItem key={f.id} value={f.id}>{f.name}</SelectItem>)}
                             </SelectContent>
@@ -76,10 +73,10 @@ export default function CreateWalletDialog({ funds, hasFamily = false, defaultPr
                     </div>
 
                     <div className="grid gap-2">
-                        <Label>{LABEL_INITIAL_BALANCE}</Label>
+                        <Label>{t.LABEL_INITIAL_BALANCE}</Label>
                         <MoneyInput name="initial_balance" placeholder="0" required />
                         <p className="text-xs text-gray-500">
-                            {LABEL_INITIAL_BALANCE_NOTE}
+                            {t.LABEL_INITIAL_BALANCE_NOTE}
                         </p>
                     </div>
 
@@ -90,10 +87,10 @@ export default function CreateWalletDialog({ funds, hasFamily = false, defaultPr
                                 <Lock className="h-4 w-4 text-gray-500" />
                                 <div>
                                     <Label htmlFor="private-toggle" className="cursor-pointer font-medium">
-                                        {LABEL_WALLET_PRIVATE}
+                                        {t.LABEL_WALLET_PRIVATE}
                                     </Label>
                                     <p className="text-xs text-gray-500 mt-0.5">
-                                        {LABEL_WALLET_PRIVATE_NOTE}
+                                        {t.LABEL_WALLET_PRIVATE_NOTE}
                                     </p>
                                 </div>
                             </div>
@@ -106,7 +103,7 @@ export default function CreateWalletDialog({ funds, hasFamily = false, defaultPr
                     )}
 
                     <Button type="submit" disabled={loading} style={{ backgroundColor: COLOR_BRAND }} className="w-full">
-                        {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {LABEL_CREATING}</> : LABEL_CREATE_WALLET}
+                        {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {t.LABEL_CREATING}</> : t.LABEL_CREATE_WALLET}
                     </Button>
                 </form>
             </DialogContent>

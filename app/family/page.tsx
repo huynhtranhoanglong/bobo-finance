@@ -28,14 +28,7 @@ import {
 import Link from "next/link"
 import { AppVersion } from "@/components/app-version"
 import { COLOR_BRAND } from "@/utils/colors"
-import {
-    LABEL_ERROR_PREFIX, LABEL_FAMILY_PAGE_TITLE, LABEL_NO_FAMILY, LABEL_NO_FAMILY_DESC,
-    LABEL_FAMILY_NAME, LABEL_FAMILY_NAME_PLACEHOLDER, LABEL_CREATE_FAMILY, LABEL_CREATING,
-    LABEL_MEMBERS, LABEL_MEMBERS_TITLE, LABEL_OWNER_BADGE, LABEL_PENDING_INVITATIONS,
-    LABEL_INVITE_NEW_MEMBER, LABEL_INVITE_EMAIL_PLACEHOLDER, LABEL_INVITE_NOTE,
-    LABEL_LEAVE_FAMILY, LABEL_LEAVE_OWNER_NOTE, LABEL_LEAVE_MEMBER_NOTE,
-    LABEL_CONFIRM_LEAVE_FAMILY, LABEL_INVITE_SENT
-} from "@/utils/labels"
+import { useTranslation } from "@/components/providers/language-provider"
 
 interface FamilyMember {
     user_id: string
@@ -62,6 +55,7 @@ interface FamilyData {
 }
 
 export default function FamilyPage() {
+    const { t } = useTranslation()
     const router = useRouter()
     const [loading, setLoading] = useState(true)
     const [familyData, setFamilyData] = useState<FamilyData | null>(null)
@@ -85,7 +79,7 @@ export default function FamilyPage() {
         setActionLoading(true)
         const result = await createFamilyAction(formData)
         if (result.error) {
-            alert(LABEL_ERROR_PREFIX + result.error)
+            alert(t.LABEL_ERROR_PREFIX + result.error)
         } else {
             fetchFamilyData()
         }
@@ -97,9 +91,9 @@ export default function FamilyPage() {
         setActionLoading(true)
         const result = await inviteMemberAction(formData)
         if (result.error) {
-            alert(LABEL_ERROR_PREFIX + result.error)
+            alert(t.LABEL_ERROR_PREFIX + result.error)
         } else {
-            alert(LABEL_INVITE_SENT)
+            alert(t.LABEL_INVITE_SENT)
             fetchFamilyData()
         }
         setActionLoading(false)
@@ -107,12 +101,12 @@ export default function FamilyPage() {
 
     // Leave family
     async function handleLeave() {
-        if (!confirm(LABEL_CONFIRM_LEAVE_FAMILY)) return
+        if (!confirm(t.LABEL_CONFIRM_LEAVE_FAMILY)) return
 
         setActionLoading(true)
         const result = await leaveFamilyAction()
         if (result.error) {
-            alert(LABEL_ERROR_PREFIX + result.error)
+            alert(t.LABEL_ERROR_PREFIX + result.error)
         } else {
             router.push("/")
         }
@@ -121,12 +115,12 @@ export default function FamilyPage() {
 
     // Remove member
     async function handleRemove(userId: string, name: string) {
-        if (!confirm(`Bạn có chắc muốn xóa ${name} khỏi gia đình?`)) return
+        if (!confirm(t.LABEL_CONFIRM_REMOVE_MEMBER.replace("{name}", name))) return
 
         setActionLoading(true)
         const result = await removeMemberAction(userId)
         if (result.error) {
-            alert(LABEL_ERROR_PREFIX + result.error)
+            alert(t.LABEL_ERROR_PREFIX + result.error)
         } else {
             fetchFamilyData()
         }
@@ -138,7 +132,7 @@ export default function FamilyPage() {
         setActionLoading(true)
         const result = await cancelInvitationAction(invitationId)
         if (result.error) {
-            alert(LABEL_ERROR_PREFIX + result.error)
+            alert(t.LABEL_ERROR_PREFIX + result.error)
         } else {
             fetchFamilyData()
         }
@@ -160,7 +154,7 @@ export default function FamilyPage() {
                 <Link href="/" className="p-2 hover:bg-gray-100 rounded-xl transition">
                     <ArrowLeft size={24} />
                 </Link>
-                <h1 className="text-2xl font-bold">👨‍👩‍👧 {LABEL_FAMILY_PAGE_TITLE}</h1>
+                <h1 className="text-2xl font-bold">👨‍👩‍👧 {t.LABEL_FAMILY_PAGE_TITLE}</h1>
             </div>
 
             {/* STATE 1: No Family */}
@@ -168,18 +162,18 @@ export default function FamilyPage() {
                 <div className="bg-white rounded-2xl p-6 shadow-sm border">
                     <div className="text-center mb-6">
                         <Users size={48} className="mx-auto text-gray-300 mb-4" />
-                        <h2 className="text-lg font-semibold text-gray-800">{LABEL_NO_FAMILY}</h2>
+                        <h2 className="text-lg font-semibold text-gray-800">{t.LABEL_NO_FAMILY}</h2>
                         <p className="text-sm text-gray-500 mt-1">
-                            {LABEL_NO_FAMILY_DESC}
+                            {t.LABEL_NO_FAMILY_DESC}
                         </p>
                     </div>
 
                     <form action={handleCreateFamily} className="space-y-4">
                         <div>
-                            <Label>{LABEL_FAMILY_NAME}</Label>
+                            <Label>{t.LABEL_FAMILY_NAME}</Label>
                             <Input
                                 name="name"
-                                placeholder={LABEL_FAMILY_NAME_PLACEHOLDER}
+                                placeholder={t.LABEL_FAMILY_NAME_PLACEHOLDER}
                                 required
                                 className="mt-1"
                             />
@@ -191,9 +185,9 @@ export default function FamilyPage() {
                             style={{ backgroundColor: COLOR_BRAND }}
                         >
                             {actionLoading ? (
-                                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {LABEL_CREATING}</>
+                                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {t.LABEL_CREATING}</>
                             ) : (
-                                <><UserPlus className="mr-2 h-4 w-4" /> {LABEL_CREATE_FAMILY}</>
+                                <><UserPlus className="mr-2 h-4 w-4" /> {t.LABEL_CREATE_FAMILY}</>
                             )}
                         </Button>
                     </form>
@@ -212,10 +206,10 @@ export default function FamilyPage() {
                             <div>
                                 <h2 className="text-lg font-bold text-gray-800">{familyData.name}</h2>
                                 <p className="text-sm text-gray-500">
-                                    {familyData.members?.length || 0} {LABEL_MEMBERS}
+                                    {familyData.members?.length || 0} {t.LABEL_MEMBERS}
                                     {familyData.is_owner && (
                                         <span className="ml-2 text-amber-600 font-medium">
-                                            <Crown className="inline h-3 w-3" /> {LABEL_OWNER_BADGE}
+                                            <Crown className="inline h-3 w-3" /> {t.LABEL_OWNER_BADGE}
                                         </span>
                                     )}
                                 </p>
@@ -225,7 +219,7 @@ export default function FamilyPage() {
 
                     {/* Members List */}
                     <div className="bg-white rounded-2xl p-5 shadow-sm border mb-4">
-                        <h3 className="font-semibold text-gray-700 mb-3">{LABEL_MEMBERS_TITLE}</h3>
+                        <h3 className="font-semibold text-gray-700 mb-3">{t.LABEL_MEMBERS_TITLE}</h3>
                         <div className="space-y-3">
                             {familyData.members?.map((member) => (
                                 <div key={member.user_id} className="flex items-center justify-between py-2 border-b last:border-b-0">
@@ -264,7 +258,7 @@ export default function FamilyPage() {
                     {familyData.is_owner && familyData.pending_invitations && familyData.pending_invitations.length > 0 && (
                         <div className="bg-white rounded-2xl p-5 shadow-sm border mb-4">
                             <h3 className="font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                                <Clock size={16} /> {LABEL_PENDING_INVITATIONS}
+                                <Clock size={16} /> {t.LABEL_PENDING_INVITATIONS}
                             </h3>
                             <div className="space-y-2">
                                 {familyData.pending_invitations.map((inv) => (
@@ -291,12 +285,12 @@ export default function FamilyPage() {
                     {/* Invite Form (Owner only) */}
                     {familyData.is_owner && (
                         <div className="bg-white rounded-2xl p-5 shadow-sm border mb-4">
-                            <h3 className="font-semibold text-gray-700 mb-3">{LABEL_INVITE_NEW_MEMBER}</h3>
+                            <h3 className="font-semibold text-gray-700 mb-3">{t.LABEL_INVITE_NEW_MEMBER}</h3>
                             <form action={handleInvite} className="flex gap-2">
                                 <Input
                                     name="email"
                                     type="email"
-                                    placeholder={LABEL_INVITE_EMAIL_PLACEHOLDER}
+                                    placeholder={t.LABEL_INVITE_EMAIL_PLACEHOLDER}
                                     required
                                     className="flex-1"
                                 />
@@ -309,7 +303,7 @@ export default function FamilyPage() {
                                 </Button>
                             </form>
                             <p className="text-xs text-gray-500 mt-2">
-                                {LABEL_INVITE_NOTE}
+                                {t.LABEL_INVITE_NOTE}
                             </p>
                         </div>
                     )}
@@ -323,12 +317,12 @@ export default function FamilyPage() {
                             className="w-full text-red-600 border-red-200 hover:bg-red-50"
                         >
                             <LogOut className="mr-2 h-4 w-4" />
-                            {LABEL_LEAVE_FAMILY}
+                            {t.LABEL_LEAVE_FAMILY}
                         </Button>
                         <p className="text-xs text-center text-gray-500 mt-2">
                             {familyData.is_owner
-                                ? LABEL_LEAVE_OWNER_NOTE
-                                : LABEL_LEAVE_MEMBER_NOTE}
+                                ? t.LABEL_LEAVE_OWNER_NOTE
+                                : t.LABEL_LEAVE_MEMBER_NOTE}
                         </p>
                     </div>
                 </>

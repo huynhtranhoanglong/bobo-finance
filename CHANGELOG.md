@@ -1,5 +1,46 @@
 # Changelog
 
+## [1.4.2] - 2026-01-19
+
+### Complete Multi-Language Support (i18n)
+> **Purpose**: Complete the i18n integration started in v1.4.1. All UI components and pages now support language switching.
+
+- **Updated Components (10 files)**:
+  - `edit-transaction-dialog.tsx` - Full i18n support.
+  - `create-debt-dialog.tsx` - Full i18n support.
+  - `edit-debt-dialog.tsx` - Full i18n support.
+  - `edit-wallet-dialog.tsx` - Full i18n support.
+  - `create-wallet-dialog.tsx` - Full i18n support.
+  - `transaction-filters.tsx` - Full i18n support (search, date presets, type filters).
+  - `transaction-item.tsx` - Full i18n support.
+  - `feedback-dialog.tsx` - Full i18n support.
+  - `notification-bell.tsx` - Full i18n support.
+  - `notification-item.tsx` - Full i18n support.
+
+- **Updated Pages (5 files)**:
+  - `app/login/page.tsx` - Full i18n for login/register form.
+  - `app/transactions/page.tsx` - Full i18n for transaction history.
+  - `app/family/page.tsx` - Full i18n for family management.
+  - `app/account/page.tsx` - Full i18n for account settings.
+  - `app/invite/[token]/page.tsx` - Full i18n for invitation page.
+
+- **New Labels Added (~18 labels)**:
+  - Invite page: `LABEL_INVITE_TITLE`, `LABEL_INVITE_EXPIRED`, `LABEL_INVITE_USED`, `LABEL_INVITE_EXPIRED_MSG`, `LABEL_INVITE_INVALID`, `LABEL_INVITE_NOT_FOUND`, `LABEL_BACK_TO_LOGIN`, `LABEL_BACK_TO_HOME`, `LABEL_WELCOME`, `LABEL_JOINED_FAMILY`, `LABEL_REDIRECTING`, `LABEL_JOIN_FAMILY`, `LABEL_JOINING`, `LABEL_LATER`, `LABEL_INVITED_BY`, `LABEL_SHARE_DATA_NOTE`.
+  - Transaction: `LABEL_TRANSACTION`, `LABEL_DELETED_WALLET`.
+  - Others: `LABEL_ERROR`, `LABEL_DEBT_MANAGEMENT`.
+
+- **Translation Files Updated**:
+  - `utils/i18n/vi.ts` - Added ~18 new labels (now ~320 labels total).
+  - `utils/i18n/en.ts` - Added ~18 new labels (now ~320 labels total).
+
+### Technical Details
+- All client components now use `useTranslation()` hook from `language-provider.tsx`.
+- Server Components (`app/page.tsx`, `app/private/page.tsx`) continue using `utils/labels.ts` for backward compatibility.
+- Child components of server pages (FundGroup, DebtCard, etc.) already use i18n from v1.4.1.
+- Build verified successfully with TypeScript.
+
+> **Note**: No logic changes. This is a pure UI text update to complete internationalization support.
+
 ## [1.4.1] - 2026-01-19
 
 ### Feature - Multi-Language Support (i18n)

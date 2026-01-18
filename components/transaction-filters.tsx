@@ -15,16 +15,10 @@ import {
 } from "@/components/ui/select"
 import { Search, Calendar, ChevronDown, ChevronUp, RotateCcw } from "lucide-react"
 import { COLOR_BRAND } from "@/utils/colors"
-import {
-    LABEL_FILTER_SEARCH, LABEL_FILTERING, LABEL_RESET_FILTER, LABEL_SEARCH_BY_NOTE,
-    LABEL_SEARCH_PLACEHOLDER, LABEL_DATE_RANGE, LABEL_DATE_ALL_TIME, LABEL_DATE_TODAY,
-    LABEL_DATE_YESTERDAY, LABEL_DATE_LAST_7_DAYS, LABEL_DATE_THIS_WEEK, LABEL_DATE_THIS_MONTH,
-    LABEL_DATE_LAST_MONTH, LABEL_TYPE, LABEL_ALL, LABEL_INCOME, LABEL_EXPENSE, LABEL_DEBT_REPAYMENT,
-    LABEL_TRANSFER_OUT, LABEL_TRANSFER_IN, LABEL_WALLET, LABEL_ALL_WALLETS, LABEL_SORT,
-    LABEL_SORT_NEWEST, LABEL_SORT_OLDEST, LABEL_SORT_AMOUNT_HIGH, LABEL_SORT_AMOUNT_LOW
-} from "@/utils/labels"
+import { useTranslation } from "@/components/providers/language-provider"
 
 export default function TransactionFilters({ wallets }: { wallets: any[] }) {
+    const { t } = useTranslation()
     const searchParams = useSearchParams()
     const { replace } = useRouter()
     const [isExpanded, setIsExpanded] = useState(false)
@@ -131,10 +125,10 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
             >
                 <div className="flex items-center gap-2">
                     <Search size={20} style={{ color: COLOR_BRAND }} />
-                    <span className="font-medium text-gray-700">{LABEL_FILTER_SEARCH}</span>
+                    <span className="font-medium text-gray-700">{t.LABEL_FILTER_SEARCH}</span>
                     {hasActiveFilters && (
                         <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
-                            {LABEL_FILTERING}
+                            {t.LABEL_FILTERING}
                         </span>
                     )}
                 </div>
@@ -149,7 +143,7 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
                                 e.stopPropagation();
                                 replace("/transactions");
                             }}
-                            title={LABEL_RESET_FILTER}
+                            title={t.LABEL_RESET_FILTER}
                         >
                             <RotateCcw size={16} />
                         </Button>
@@ -164,10 +158,10 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
                     {/* 1. SEARCH - Full Width */}
                     <div>
                         <Label className="text-sm font-medium text-gray-700 mb-2 block">
-                            {LABEL_SEARCH_BY_NOTE}
+                            {t.LABEL_SEARCH_BY_NOTE}
                         </Label>
                         <Input
-                            placeholder={LABEL_SEARCH_PLACEHOLDER}
+                            placeholder={t.LABEL_SEARCH_PLACEHOLDER}
                             className="h-11 rounded-xl"
                             defaultValue={searchParams.get("q")?.toString()}
                             onChange={(e) => handleSearch(e.target.value)}
@@ -181,23 +175,23 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
                     <div>
                         <Label className="text-sm font-medium text-gray-700 mb-2 block flex items-center gap-2">
                             <Calendar size={16} style={{ color: COLOR_BRAND }} />
-                            {LABEL_DATE_RANGE}
+                            {t.LABEL_DATE_RANGE}
                         </Label>
                         <Select
                             value={searchParams.get("date_preset")?.toString() || "all"}
                             onValueChange={handleDatePresetChange}
                         >
                             <SelectTrigger className="h-11 rounded-xl">
-                                <SelectValue placeholder={LABEL_DATE_ALL_TIME} />
+                                <SelectValue placeholder={t.LABEL_DATE_ALL_TIME} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="all">{LABEL_DATE_ALL_TIME}</SelectItem>
-                                <SelectItem value="today">{LABEL_DATE_TODAY}</SelectItem>
-                                <SelectItem value="yesterday">{LABEL_DATE_YESTERDAY}</SelectItem>
-                                <SelectItem value="last7days">{LABEL_DATE_LAST_7_DAYS}</SelectItem>
-                                <SelectItem value="thisweek">{LABEL_DATE_THIS_WEEK}</SelectItem>
-                                <SelectItem value="thismonth">{LABEL_DATE_THIS_MONTH}</SelectItem>
-                                <SelectItem value="lastmonth">{LABEL_DATE_LAST_MONTH}</SelectItem>
+                                <SelectItem value="all">{t.LABEL_DATE_ALL_TIME}</SelectItem>
+                                <SelectItem value="today">{t.LABEL_DATE_TODAY}</SelectItem>
+                                <SelectItem value="yesterday">{t.LABEL_DATE_YESTERDAY}</SelectItem>
+                                <SelectItem value="last7days">{t.LABEL_DATE_LAST_7_DAYS}</SelectItem>
+                                <SelectItem value="thisweek">{t.LABEL_DATE_THIS_WEEK}</SelectItem>
+                                <SelectItem value="thismonth">{t.LABEL_DATE_THIS_MONTH}</SelectItem>
+                                <SelectItem value="lastmonth">{t.LABEL_DATE_LAST_MONTH}</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
@@ -205,36 +199,36 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
                     {/* 3. TYPE & WALLET FILTERS */}
                     <div className="grid grid-cols-2 gap-3">
                         <div>
-                            <Label className="text-sm font-medium text-gray-700 mb-2 block">{LABEL_TYPE}</Label>
+                            <Label className="text-sm font-medium text-gray-700 mb-2 block">{t.LABEL_TYPE}</Label>
                             <Select
                                 value={searchParams.get("type")?.toString() || "all"}
                                 onValueChange={(val) => handleFilterChange("type", val)}
                             >
                                 <SelectTrigger className="h-11 rounded-xl">
-                                    <SelectValue placeholder={LABEL_ALL} />
+                                    <SelectValue placeholder={t.LABEL_ALL} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">{LABEL_ALL}</SelectItem>
-                                    <SelectItem value="income">{LABEL_INCOME}</SelectItem>
-                                    <SelectItem value="expense">{LABEL_EXPENSE}</SelectItem>
-                                    <SelectItem value="debt_repayment">{LABEL_DEBT_REPAYMENT}</SelectItem>
-                                    <SelectItem value="transfer_out">{LABEL_TRANSFER_OUT}</SelectItem>
-                                    <SelectItem value="transfer_in">{LABEL_TRANSFER_IN}</SelectItem>
+                                    <SelectItem value="all">{t.LABEL_ALL}</SelectItem>
+                                    <SelectItem value="income">{t.LABEL_INCOME}</SelectItem>
+                                    <SelectItem value="expense">{t.LABEL_EXPENSE}</SelectItem>
+                                    <SelectItem value="debt_repayment">{t.LABEL_DEBT_REPAYMENT}</SelectItem>
+                                    <SelectItem value="transfer_out">{t.LABEL_TRANSFER_OUT}</SelectItem>
+                                    <SelectItem value="transfer_in">{t.LABEL_TRANSFER_IN}</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
 
                         <div>
-                            <Label className="text-sm font-medium text-gray-700 mb-2 block">{LABEL_WALLET}</Label>
+                            <Label className="text-sm font-medium text-gray-700 mb-2 block">{t.LABEL_WALLET}</Label>
                             <Select
                                 value={searchParams.get("wallet")?.toString() || "all"}
                                 onValueChange={(val) => handleFilterChange("wallet", val)}
                             >
                                 <SelectTrigger className="h-11 rounded-xl">
-                                    <SelectValue placeholder={LABEL_ALL} />
+                                    <SelectValue placeholder={t.LABEL_ALL} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">{LABEL_ALL_WALLETS}</SelectItem>
+                                    <SelectItem value="all">{t.LABEL_ALL_WALLETS}</SelectItem>
                                     {wallets.map((w) => (
                                         <SelectItem key={w.id} value={w.id}>
                                             {w.name}
@@ -250,19 +244,19 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
 
                     {/* 4. SORT - Bottom */}
                     <div>
-                        <Label className="text-sm font-medium text-gray-700 mb-2 block">{LABEL_SORT}</Label>
+                        <Label className="text-sm font-medium text-gray-700 mb-2 block">{t.LABEL_SORT}</Label>
                         <Select
                             value={searchParams.get("sort")?.toString() || "date_desc"}
                             onValueChange={(val) => handleFilterChange("sort", val)}
                         >
                             <SelectTrigger className="h-11 rounded-xl">
-                                <SelectValue placeholder={LABEL_SORT_NEWEST} />
+                                <SelectValue placeholder={t.LABEL_SORT_NEWEST} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="date_desc">{LABEL_SORT_NEWEST}</SelectItem>
-                                <SelectItem value="date_asc">{LABEL_SORT_OLDEST}</SelectItem>
-                                <SelectItem value="amount_desc">{LABEL_SORT_AMOUNT_HIGH}</SelectItem>
-                                <SelectItem value="amount_asc">{LABEL_SORT_AMOUNT_LOW}</SelectItem>
+                                <SelectItem value="date_desc">{t.LABEL_SORT_NEWEST}</SelectItem>
+                                <SelectItem value="date_asc">{t.LABEL_SORT_OLDEST}</SelectItem>
+                                <SelectItem value="amount_desc">{t.LABEL_SORT_AMOUNT_HIGH}</SelectItem>
+                                <SelectItem value="amount_asc">{t.LABEL_SORT_AMOUNT_LOW}</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>

@@ -10,11 +10,7 @@ import { ArrowLeft, Loader2, Save, User, LogOut, Mail } from "lucide-react"
 import Link from "next/link"
 import { AppVersion } from "@/components/app-version"
 import { COLOR_BRAND } from "@/utils/colors"
-import {
-    LABEL_ERROR_PREFIX, LABEL_ACCOUNT_PAGE_TITLE, LABEL_PERSONAL_INFO,
-    LABEL_DISPLAY_NAME, LABEL_DISPLAY_NAME_PLACEHOLDER, LABEL_DISPLAY_NAME_NOTE,
-    LABEL_UPDATE_SUCCESS, LABEL_SAVE_CHANGES, LABEL_SAVING, LABEL_LOGOUT, LABEL_EMAIL
-} from "@/utils/labels"
+import { useTranslation } from "@/components/providers/language-provider"
 
 interface Profile {
     id: string
@@ -25,6 +21,7 @@ interface Profile {
 }
 
 export default function AccountPage() {
+    const { t } = useTranslation()
     const router = useRouter()
     const [loading, setLoading] = useState(true)
     const [profile, setProfile] = useState<Profile | null>(null)
@@ -50,9 +47,9 @@ export default function AccountPage() {
         const result = await updateProfileAction(formData)
 
         if (result.error) {
-            setMessage({ type: 'error', text: LABEL_ERROR_PREFIX + result.error })
+            setMessage({ type: 'error', text: t.LABEL_ERROR_PREFIX + result.error })
         } else {
-            setMessage({ type: 'success', text: LABEL_UPDATE_SUCCESS })
+            setMessage({ type: 'success', text: t.LABEL_UPDATE_SUCCESS })
             fetchProfile() // Refresh data
         }
         setSaving(false)
@@ -77,7 +74,7 @@ export default function AccountPage() {
                 <Link href="/" className="p-2 hover:bg-gray-100 rounded-xl transition">
                     <ArrowLeft size={24} />
                 </Link>
-                <h1 className="text-2xl font-bold">👤 {LABEL_ACCOUNT_PAGE_TITLE}</h1>
+                <h1 className="text-2xl font-bold">👤 {t.LABEL_ACCOUNT_PAGE_TITLE}</h1>
             </div>
 
             <div className="max-w-lg mx-auto space-y-4">
@@ -94,25 +91,25 @@ export default function AccountPage() {
                 {/* Edit Form */}
                 <div className="bg-white rounded-2xl p-6 shadow-sm border">
                     <h3 className="font-semibold text-gray-700 mb-4 flex items-center gap-2">
-                        <User size={18} /> {LABEL_PERSONAL_INFO}
+                        <User size={18} /> {t.LABEL_PERSONAL_INFO}
                     </h3>
 
                     <form action={handleUpdate} className="space-y-4">
                         <div>
-                            <Label htmlFor="display_name" className="text-gray-600">{LABEL_DISPLAY_NAME}</Label>
+                            <Label htmlFor="display_name" className="text-gray-600">{t.LABEL_DISPLAY_NAME}</Label>
                             <Input
                                 id="display_name"
                                 name="display_name"
                                 defaultValue={profile.display_name}
-                                placeholder={LABEL_DISPLAY_NAME_PLACEHOLDER}
+                                placeholder={t.LABEL_DISPLAY_NAME_PLACEHOLDER}
                                 required
                                 className="mt-1"
                             />
-                            <p className="text-xs text-gray-400 mt-1">{LABEL_DISPLAY_NAME_NOTE}</p>
+                            <p className="text-xs text-gray-400 mt-1">{t.LABEL_DISPLAY_NAME_NOTE}</p>
                         </div>
 
                         <div>
-                            <Label className="text-gray-600">{LABEL_EMAIL}</Label>
+                            <Label className="text-gray-600">{t.LABEL_EMAIL}</Label>
                             <div className="flex items-center gap-2 mt-1 p-2 bg-gray-50 rounded-md border text-gray-500">
                                 <Mail size={16} />
                                 <span className="text-sm">{profile.email}</span>
@@ -132,7 +129,7 @@ export default function AccountPage() {
                             style={{ backgroundColor: COLOR_BRAND }}
                         >
                             {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
-                            {saving ? LABEL_SAVING : LABEL_SAVE_CHANGES}
+                            {saving ? t.LABEL_SAVING : t.LABEL_SAVE_CHANGES}
                         </Button>
                     </form>
                 </div>
@@ -146,7 +143,7 @@ export default function AccountPage() {
                             type="submit"
                         >
                             <LogOut className="mr-2 h-4 w-4" />
-                            {LABEL_LOGOUT}
+                            {t.LABEL_LOGOUT}
                         </Button>
                     </form>
                     <AppVersion />

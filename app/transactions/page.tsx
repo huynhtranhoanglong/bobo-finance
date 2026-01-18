@@ -15,14 +15,12 @@ import { TransactionListSkeleton } from "@/components/ui/skeleton";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import { AppVersion } from "@/components/app-version";
 import { COLOR_BRAND } from "@/utils/colors";
-import {
-    LABEL_TRANSACTION_HISTORY, LABEL_NO_TRANSACTIONS, LABEL_LOAD_MORE_TRANSACTIONS,
-    LABEL_TRANSACTIONS_MORE, LABEL_LOADING_PAGE
-} from "@/utils/labels";
+import { useTranslation } from "@/components/providers/language-provider";
 
 const ITEMS_PER_PAGE = 10;
 
 function TransactionsPageContent() {
+    const { t } = useTranslation();
     const searchParams = useSearchParams();
     const [transactions, setTransactions] = useState<any[]>([]);
     const [wallets, setWallets] = useState<any[]>([]);
@@ -157,7 +155,7 @@ function TransactionsPageContent() {
                             <Link href="/" className="p-2 hover:bg-gray-200 rounded-full transition">
                                 <ArrowLeft className="h-6 w-6 text-gray-700" />
                             </Link>
-                            <h1 className="text-2xl font-bold">{LABEL_TRANSACTION_HISTORY}</h1>
+                            <h1 className="text-2xl font-bold">{t.LABEL_TRANSACTION_HISTORY}</h1>
                         </div>
                         <div className="flex items-center gap-2">
                             <PrivacyToggle />
@@ -185,7 +183,7 @@ function TransactionsPageContent() {
 
                                 {transactions.length === 0 && (
                                     <div className="text-center text-gray-500 py-10 bg-white rounded-2xl border shadow-sm">
-                                        {LABEL_NO_TRANSACTIONS}
+                                        {t.LABEL_NO_TRANSACTIONS}
                                     </div>
                                 )}
                             </div>
@@ -199,7 +197,7 @@ function TransactionsPageContent() {
                                         className="rounded-xl h-12 px-6 gap-2"
                                         style={{ borderColor: COLOR_BRAND, color: COLOR_BRAND }}
                                     >
-                                        {LABEL_LOAD_MORE_TRANSACTIONS} ({remainingCount} {LABEL_TRANSACTIONS_MORE})
+                                        {t.LABEL_LOAD_MORE_TRANSACTIONS} ({remainingCount} {t.LABEL_TRANSACTIONS_MORE})
                                         <ChevronDown size={18} />
                                     </Button>
                                 </div>
@@ -222,10 +220,11 @@ function TransactionsPageContent() {
 }
 
 export default function TransactionsPage() {
+    const { t } = useTranslation();
     return (
         <Suspense fallback={
             <div className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
-                <div className="text-center text-gray-500 py-10">{LABEL_LOADING_PAGE}</div>
+                <div className="text-center text-gray-500 py-10">{t.LABEL_LOADING_PAGE}</div>
             </div>
         }>
             <TransactionsPageContent />

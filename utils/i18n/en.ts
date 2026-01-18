@@ -292,4 +292,33 @@ export const en: Record<TranslationKeys, string> = {
     FUND_EMERGENCY: "Emergency Fund",
     FUND_SINKING: "Sinking Fund",
     FUND_INVESTMENT: "Investment Fund",
+
+    // === INVITE PAGE ===
+    LABEL_INVITE_TITLE: "Family Invitation",
+    LABEL_INVITE_EXPIRED: "Invitation Expired",
+    LABEL_INVITE_USED: "This invitation has already been used.",
+    LABEL_INVITE_EXPIRED_MSG: "This invitation has expired.",
+    LABEL_INVITE_INVALID: "Invalid or expired invitation.",
+    LABEL_INVITE_NOT_FOUND: "Invitation not found.",
+    LABEL_BACK_TO_LOGIN: "Back to Login",
+    LABEL_BACK_TO_HOME: "Back to Home",
+    LABEL_WELCOME: "Welcome!",
+    LABEL_JOINED_FAMILY: "You have successfully joined the family.",
+    LABEL_REDIRECTING: "Redirecting...",
+    LABEL_JOIN_FAMILY: "Join Family",
+    LABEL_JOINING: "Joining...",
+    LABEL_LATER: "Later",
+    LABEL_INVITED_BY: "Invited by",
+    LABEL_SHARE_DATA_NOTE: "You will share financial data with family members.",
+
+    // === TRANSACTION ITEM ===
+    LABEL_TRANSACTION: "Transaction",
+    LABEL_DELETED_WALLET: "Deleted Wallet",
+    LABEL_PRIVATE_WALLETS_COUNT: "private wallets",
+
+    // === ERROR ===
+    LABEL_ERROR: "Error",
+
+    // === DEMO MODE (extended) ===
+    LABEL_DEBT_MANAGEMENT: "Debt Management",
 } as const;

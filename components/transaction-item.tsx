@@ -5,8 +5,10 @@ import { ArrowRight, ArrowRightLeft, CreditCard, Wallet } from "lucide-react"
 import EditTransactionDialog from "./edit-transaction-dialog"
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import { COLOR_POSITIVE, COLOR_NEGATIVE, COLOR_NEUTRAL } from "@/utils/colors";
+import { useTranslation } from "@/components/providers/language-provider";
 
 export default function TransactionItem({ transaction, wallets, onSuccess }: { transaction: any, wallets: any[], onSuccess?: () => void }) {
+    const { t } = useTranslation()
     const [isEditOpen, setIsEditOpen] = useState(false);
 
     // Format date
@@ -62,10 +64,10 @@ export default function TransactionItem({ transaction, wallets, onSuccess }: { t
                         </div>
                         <div className="flex-1 min-w-0">
                             <p className="font-semibold text-gray-900 truncate">
-                                {transaction.note || (transaction.type === 'debt_repayment' ? 'Trả nợ' : 'Giao dịch')}
+                                {transaction.note || (transaction.type === 'debt_repayment' ? t.LABEL_DEBT_REPAYMENT : t.LABEL_TRANSACTION)}
                             </p>
                             <p className="text-xs text-gray-600 mt-0.5">
-                                {transaction.wallets?.name || "Ví đã xóa"}
+                                {transaction.wallets?.name || t.LABEL_DELETED_WALLET}
                             </p>
                             <p className="text-xs text-gray-500 mt-0.5">
                                 {formatDate(transaction.date)}

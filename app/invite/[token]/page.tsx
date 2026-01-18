@@ -8,6 +8,7 @@ import { Users, Loader2, AlertCircle, CheckCircle, XCircle } from "lucide-react"
 import Link from "next/link"
 import { use } from "react"
 import { COLOR_BRAND } from "@/utils/colors"
+import { useTranslation } from "@/components/providers/language-provider"
 
 interface InvitationInfo {
     id: string
@@ -20,6 +21,7 @@ interface InvitationInfo {
 }
 
 export default function InvitePage({ params }: { params: Promise<{ token: string }> }) {
+    const { t } = useTranslation()
     const resolvedParams = use(params)
     const router = useRouter()
     const [loading, setLoading] = useState(true)
@@ -32,16 +34,16 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
         async function fetchInvitation() {
             const result = await getInvitationInfoAction(resolvedParams.token)
             if (result.error) {
-                setError("Lời mời không hợp lệ hoặc đã hết hạn.")
+                setError(t.LABEL_INVITE_INVALID)
             } else if (!result.data) {
-                setError("Không tìm thấy lời mời này.")
+                setError(t.LABEL_INVITE_NOT_FOUND)
             } else {
                 setInvitation(result.data)
             }
             setLoading(false)
         }
         fetchInvitation()
-    }, [resolvedParams.token])
+    }, [resolvedParams.token, t])
 
     async function handleAccept() {
         setActionLoading(true)
@@ -69,11 +71,11 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
             <main className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
                 <div className="bg-white rounded-2xl p-8 shadow-sm border max-w-sm w-full text-center">
                     <XCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-                    <h1 className="text-xl font-bold text-gray-800 mb-2">Lỗi</h1>
+                    <h1 className="text-xl font-bold text-gray-800 mb-2">{t.LABEL_ERROR}</h1>
                     <p className="text-gray-600 mb-6">{error}</p>
                     <Link href="/login">
                         <Button variant="outline" className="w-full">
-                            Về trang đăng nhập
+                            {t.LABEL_BACK_TO_LOGIN}
                         </Button>
                     </Link>
                 </div>
@@ -87,9 +89,9 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
             <main className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
                 <div className="bg-white rounded-2xl p-8 shadow-sm border max-w-sm w-full text-center">
                     <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-4" />
-                    <h1 className="text-xl font-bold text-gray-800 mb-2">Chào mừng!</h1>
-                    <p className="text-gray-600">Bạn đã tham gia gia đình thành công.</p>
-                    <p className="text-sm text-gray-400 mt-2">Đang chuyển hướng...</p>
+                    <h1 className="text-xl font-bold text-gray-800 mb-2">{t.LABEL_WELCOME}</h1>
+                    <p className="text-gray-600">{t.LABEL_JOINED_FAMILY}</p>
+                    <p className="text-sm text-gray-400 mt-2">{t.LABEL_REDIRECTING}</p>
                 </div>
             </main>
         )
@@ -101,15 +103,15 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
             <main className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
                 <div className="bg-white rounded-2xl p-8 shadow-sm border max-w-sm w-full text-center">
                     <AlertCircle className="h-12 w-12 text-amber-500 mx-auto mb-4" />
-                    <h1 className="text-xl font-bold text-gray-800 mb-2">Lời mời không còn hiệu lực</h1>
+                    <h1 className="text-xl font-bold text-gray-800 mb-2">{t.LABEL_INVITE_EXPIRED}</h1>
                     <p className="text-gray-600 mb-6">
                         {invitation.status === 'accepted'
-                            ? "Lời mời này đã được sử dụng."
-                            : "Lời mời này đã hết hạn."}
+                            ? t.LABEL_INVITE_USED
+                            : t.LABEL_INVITE_EXPIRED_MSG}
                     </p>
                     <Link href="/">
                         <Button variant="outline" className="w-full">
-                            Về trang chủ
+                            {t.LABEL_BACK_TO_HOME}
                         </Button>
                     </Link>
                 </div>
@@ -126,7 +128,7 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
                 </div>
 
                 <h1 className="text-xl font-bold text-gray-800 mb-2">
-                    Lời mời tham gia gia đình
+                    {t.LABEL_INVITE_TITLE}
                 </h1>
 
                 <div className="bg-gray-50 rounded-xl p-4 my-4">
@@ -134,12 +136,12 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
                         {invitation?.family_name}
                     </p>
                     <p className="text-sm text-gray-500 mt-1">
-                        Được mời bởi {invitation?.invited_by_name}
+                        {t.LABEL_INVITED_BY} {invitation?.invited_by_name}
                     </p>
                 </div>
 
                 <p className="text-gray-600 mb-6">
-                    Bạn sẽ cùng chia sẻ dữ liệu tài chính với các thành viên trong gia đình.
+                    {t.LABEL_SHARE_DATA_NOTE}
                 </p>
 
                 <Button
@@ -149,15 +151,15 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
                     style={{ backgroundColor: COLOR_BRAND }}
                 >
                     {actionLoading ? (
-                        <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang tham gia...</>
+                        <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {t.LABEL_JOINING}</>
                     ) : (
-                        "Tham gia gia đình"
+                        t.LABEL_JOIN_FAMILY
                     )}
                 </Button>
 
                 <Link href="/">
                     <Button variant="ghost" className="w-full text-gray-500">
-                        Để sau
+                        {t.LABEL_LATER}
                     </Button>
                 </Link>
             </div>

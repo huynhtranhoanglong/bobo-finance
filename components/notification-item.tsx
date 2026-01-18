@@ -6,8 +6,8 @@ import { Check, X, Bell } from "lucide-react";
 import { acceptInvitationAction } from "@/app/actions";
 import { markNotificationReadAction } from "@/app/actions/notifications";
 import { useRouter } from "next/navigation";
-import { COLOR_BRAND, COLOR_BRAND_HOVER } from "@/utils/colors";
-import { LABEL_LOADING, LABEL_ACCEPT, LABEL_DECLINE } from "@/utils/labels";
+import { COLOR_BRAND } from "@/utils/colors";
+import { useTranslation } from "@/components/providers/language-provider";
 
 interface NotificationItemProps {
     notification: any;
@@ -15,6 +15,7 @@ interface NotificationItemProps {
 }
 
 export function NotificationItem({ notification, onRead }: NotificationItemProps) {
+    const { t } = useTranslation();
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const { id, type, title, content, data, is_read, created_at } = notification;
@@ -80,9 +81,9 @@ export function NotificationItem({ notification, onRead }: NotificationItemProps
                                 onClick={handleAccept}
                                 disabled={loading}
                             >
-                                {loading ? LABEL_LOADING : (
+                                {loading ? t.LABEL_LOADING : (
                                     <>
-                                        <Check size={14} className="mr-1" /> {LABEL_ACCEPT}
+                                        <Check size={14} className="mr-1" /> {t.LABEL_ACCEPT}
                                     </>
                                 )}
                             </Button>
@@ -93,7 +94,7 @@ export function NotificationItem({ notification, onRead }: NotificationItemProps
                                 onClick={handleDecline}
                                 disabled={loading}
                             >
-                                <X size={14} className="mr-1" /> {LABEL_DECLINE}
+                                <X size={14} className="mr-1" /> {t.LABEL_DECLINE}
                             </Button>
                         </div>
                     )}
