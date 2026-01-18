@@ -8,6 +8,11 @@ import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { sendFeedbackAction } from "@/app/actions/send-feedback"
 import { COLOR_BRAND } from "@/utils/colors"
+import {
+    LABEL_ERROR_PREFIX, LABEL_FEEDBACK_TITLE, LABEL_FEEDBACK_THANKS, LABEL_FEEDBACK_REVIEW,
+    LABEL_FEEDBACK_FEATURE, LABEL_FEEDBACK_UI, LABEL_FEEDBACK_SUBJECT,
+    LABEL_FEEDBACK_CONTENT, LABEL_SENDING, LABEL_SEND_FEEDBACK
+} from "@/utils/labels"
 
 interface FeedbackDialogProps {
     open: boolean
@@ -27,7 +32,7 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
         setLoading(false)
 
         if (result?.error) {
-            alert("Lỗi: " + result.error)
+            alert(LABEL_ERROR_PREFIX + result.error)
         } else {
             setSuccess(true)
             // Auto close after 2 seconds
@@ -44,15 +49,15 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
                 <DialogHeader>
                     <DialogTitle className="text-center text-xl flex items-center justify-center gap-2">
                         <MessageSquare className="h-5 w-5" />
-                        Góp Ý Cho Bobo
+                        {LABEL_FEEDBACK_TITLE}
                     </DialogTitle>
                 </DialogHeader>
 
                 {success ? (
                     <div className="py-8 text-center">
                         <div className="text-5xl mb-4">✅</div>
-                        <p className="text-lg font-medium text-green-600">Cảm ơn bạn đã góp ý!</p>
-                        <p className="text-sm text-gray-500 mt-2">Chúng tôi sẽ xem xét ý kiến của bạn.</p>
+                        <p className="text-lg font-medium text-green-600">{LABEL_FEEDBACK_THANKS}</p>
+                        <p className="text-sm text-gray-500 mt-2">{LABEL_FEEDBACK_REVIEW}</p>
                     </div>
                 ) : (
                     <form action={handleSubmit} className="grid gap-4 py-4">
@@ -64,7 +69,7 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
                                 onClick={() => setFeedbackType("feature")}
                                 className={feedbackType === "feature" ? "bg-blue-600 hover:bg-blue-700" : ""}
                             >
-                                🔧 Tính năng
+                                {LABEL_FEEDBACK_FEATURE}
                             </Button>
                             <Button
                                 type="button"
@@ -72,13 +77,13 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
                                 onClick={() => setFeedbackType("ui")}
                                 className={feedbackType === "ui" ? "bg-purple-600 hover:bg-purple-700" : ""}
                             >
-                                🎨 Giao diện
+                                {LABEL_FEEDBACK_UI}
                             </Button>
                         </div>
 
                         {/* Tiêu đề */}
                         <div className="grid gap-2">
-                            <Label htmlFor="title">Tiêu đề</Label>
+                            <Label htmlFor="title">{LABEL_FEEDBACK_SUBJECT}</Label>
                             <Input
                                 id="title"
                                 name="title"
@@ -89,7 +94,7 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
 
                         {/* Nội dung */}
                         <div className="grid gap-2">
-                            <Label htmlFor="content">Nội dung góp ý</Label>
+                            <Label htmlFor="content">{LABEL_FEEDBACK_CONTENT}</Label>
                             <textarea
                                 id="content"
                                 name="content"
@@ -108,11 +113,11 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
                             style={{ backgroundColor: COLOR_BRAND }}
                         >
                             {loading ? (
-                                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang gửi...</>
+                                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {LABEL_SENDING}</>
                             ) : (
                                 <>
                                     <Send className="mr-2 h-4 w-4" />
-                                    Gửi Góp Ý
+                                    {LABEL_SEND_FEEDBACK}
                                 </>
                             )}
                         </Button>

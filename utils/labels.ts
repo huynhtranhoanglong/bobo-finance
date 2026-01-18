@@ -219,5 +219,25 @@ export const LABEL_FEEDBACK_SUCCESS = "Cảm ơn bạn đã góp ý!";
 
 // === CONFIRMATION DIALOGS ===
 export const LABEL_DELETE_WALLET_CONFIRM = "CẢNH BÁO: Xóa ví này sẽ XÓA SẠCH toàn bộ giao dịch liên quan!\n\nHành động này không thể hoàn tác.\nBạn có chắc chắn muốn xóa?";
-export const LABEL_DELETE_DEBT_CONFIRM = "Bạn có chắc chắn muốn xóa khoản nợ này?";
-export const LABEL_DELETE_TRANSACTION_CONFIRM = "Bạn có chắc chắn muốn xóa giao dịch này?";
+export const LABEL_DELETE_DEBT_CONFIRM = "CẢNH BÁO: Xóa khoản nợ \"{name}\" sẽ xóa luôn TẤT CẢ lịch sử trả nợ liên quan và hoàn tiền lại về ví. Bạn có chắc không?";
+export const LABEL_DELETE_TRANSACTION_CONFIRM = "Bạn có chắc chắn muốn xóa giao dịch này? Tiền sẽ được hoàn lại ví.";
+
+// === NEW LABELS (Phase 3 additions) ===
+export const LABEL_CATEGORY = "Danh mục";
+export const LABEL_DATE_TIME = "Thời gian";
+export const LABEL_CREATING = "Đang tạo...";
+export const LABEL_SENDING = "Đang gửi...";
+export const LABEL_WALLET_NAME_PLACEHOLDER = "Ví dụ: Hũ chi tiêu, Ví đầu tư...";
+export const LABEL_SELECT_PARENT_FUND = "Chọn quỹ cha";
+export const LABEL_INITIAL_BALANCE_NOTE = "Hệ thống sẽ tự động tạo giao dịch số dư đầu kỳ.";
+export const LABEL_TOTAL_DEBT_AMOUNT = "Tổng số nợ gốc";
+export const LABEL_CURRENT_REMAINING = "Dư nợ còn lại hiện tại";
+export const LABEL_JUST_RECORD_EDIT = "Chỉ ghi sổ nợ (Không tính toán lại ví)";
+export const LABEL_WALLET_UPDATE_DIFF = "Chọn ví để cập nhật chênh lệch (nếu có)";
+export const LABEL_WALLET_DIFF_NOTE = "Nếu dư nợ thay đổi, chênh lệch sẽ được tự động cộng/trừ vào ví này.";
+export const LABEL_FEEDBACK_THANKS = "Cảm ơn bạn đã góp ý!";
+export const LABEL_FEEDBACK_REVIEW = "Chúng tôi sẽ xem xét ý kiến của bạn.";
+export const LABEL_SEND_FEEDBACK = "Gửi Góp Ý";
+export const LABEL_NEW = "mới";
+export const LABEL_MARK_ALL_READ = "Đánh dấu tất cả đã đọc";
+

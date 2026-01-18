@@ -11,6 +11,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { createWalletAction } from "@/app/actions"
 import { useRouter } from "next/navigation"
 import { COLOR_BRAND } from "@/utils/colors"
+import {
+    LABEL_ERROR_PREFIX, LABEL_CREATE_WALLET, LABEL_WALLET_NAME, LABEL_WALLET_NAME_PLACEHOLDER,
+    LABEL_BELONGS_TO_FUND, LABEL_SELECT_PARENT_FUND, LABEL_INITIAL_BALANCE, LABEL_INITIAL_BALANCE_NOTE,
+    LABEL_CREATING
+} from "@/utils/labels"
 
 export default function CreateWalletDialog({ funds }: { funds: any[] }) {
     const [open, setOpen] = useState(false)
@@ -22,7 +27,7 @@ export default function CreateWalletDialog({ funds }: { funds: any[] }) {
         const result = await createWalletAction(formData);
         setLoading(false);
         if (result?.error) {
-            alert("Lỗi: " + result.error);
+            alert(LABEL_ERROR_PREFIX + result.error);
         } else {
             setOpen(false);
             router.refresh(); // Refresh dashboard
@@ -39,19 +44,19 @@ export default function CreateWalletDialog({ funds }: { funds: any[] }) {
 
             <DialogContent className="sm:max-w-[425px]" onOpenAutoFocus={(e) => e.preventDefault()}>
                 <DialogHeader>
-                    <DialogTitle>Tạo Ví Mới</DialogTitle>
+                    <DialogTitle>{LABEL_CREATE_WALLET}</DialogTitle>
                 </DialogHeader>
 
                 <form action={handleSubmit} className="grid gap-4 py-4">
                     <div className="grid gap-2">
-                        <Label>Tên Ví</Label>
-                        <Input name="name" placeholder="Ví dụ: Hũ chi tiêu, Ví đầu tư..." required />
+                        <Label>{LABEL_WALLET_NAME}</Label>
+                        <Input name="name" placeholder={LABEL_WALLET_NAME_PLACEHOLDER} required />
                     </div>
 
                     <div className="grid gap-2">
-                        <Label>Thuộc Quỹ (Fund)</Label>
+                        <Label>{LABEL_BELONGS_TO_FUND}</Label>
                         <Select name="fund_id" required>
-                            <SelectTrigger><SelectValue placeholder="Chọn quỹ cha" /></SelectTrigger>
+                            <SelectTrigger><SelectValue placeholder={LABEL_SELECT_PARENT_FUND} /></SelectTrigger>
                             <SelectContent>
                                 {funds?.map((f: any) => <SelectItem key={f.id} value={f.id}>{f.name}</SelectItem>)}
                             </SelectContent>
@@ -59,15 +64,15 @@ export default function CreateWalletDialog({ funds }: { funds: any[] }) {
                     </div>
 
                     <div className="grid gap-2">
-                        <Label>Số dư ban đầu</Label>
+                        <Label>{LABEL_INITIAL_BALANCE}</Label>
                         <MoneyInput name="initial_balance" placeholder="0" required />
                         <p className="text-xs text-gray-500">
-                            Hệ thống sẽ tự động tạo giao dịch số dư đầu kỳ.
+                            {LABEL_INITIAL_BALANCE_NOTE}
                         </p>
                     </div>
 
                     <Button type="submit" disabled={loading} style={{ backgroundColor: COLOR_BRAND }} className="w-full">
-                        {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang tạo...</> : "Tạo Ví"}
+                        {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {LABEL_CREATING}</> : LABEL_CREATE_WALLET}
                     </Button>
                 </form>
             </DialogContent>

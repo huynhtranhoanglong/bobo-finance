@@ -13,6 +13,10 @@ import {
 import { getNotificationsAction } from "@/app/actions/notifications";
 import { NotificationItem } from "@/components/notification-item";
 import { COLOR_BRAND } from "@/utils/colors";
+import {
+    LABEL_NOTIFICATIONS, LABEL_NEW, LABEL_LOADING_PAGE,
+    LABEL_NO_NOTIFICATIONS, LABEL_MARK_ALL_READ
+} from "@/utils/labels";
 
 export function NotificationBell() {
     const [notifications, setNotifications] = useState<any[]>([]);
@@ -54,10 +58,10 @@ export function NotificationBell() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-[350px] p-0 shadow-xl border-gray-100 rounded-xl overflow-hidden bg-white">
                 <DropdownMenuLabel className="p-3 text-base font-semibold bg-gray-50/50 border-b flex justify-between items-center">
-                    <span>Thông báo</span>
+                    <span>{LABEL_NOTIFICATIONS}</span>
                     {unreadCount > 0 && (
                         <span style={{ backgroundColor: COLOR_BRAND }} className="text-white text-xs px-2 py-0.5 rounded-full">
-                            {unreadCount} mới
+                            {unreadCount} {LABEL_NEW}
                         </span>
                     )}
                 </DropdownMenuLabel>
@@ -65,12 +69,12 @@ export function NotificationBell() {
                 <div className="max-h-[400px] overflow-y-auto">
                     {loading && notifications.length === 0 ? (
                         <div className="p-8 text-center text-gray-400 text-sm">
-                            Đang tải...
+                            {LABEL_LOADING_PAGE}
                         </div>
                     ) : notifications.length === 0 ? (
                         <div className="p-8 text-center text-gray-400 text-sm flex flex-col items-center gap-2">
                             <Bell className="h-8 w-8 opacity-20" />
-                            <p>Không có thông báo mới</p>
+                            <p>{LABEL_NO_NOTIFICATIONS}</p>
                         </div>
                     ) : (
                         notifications.map((notification) => (
@@ -91,7 +95,7 @@ export function NotificationBell() {
                             className="text-xs text-gray-500 w-full hover:text-green-600"
                             onClick={() => { }} // TODO: Mark all read
                         >
-                            Đánh dấu tất cả đã đọc
+                            {LABEL_MARK_ALL_READ}
                         </Button>
                     </div>
                 )}

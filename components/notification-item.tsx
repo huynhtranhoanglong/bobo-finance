@@ -7,6 +7,7 @@ import { acceptInvitationAction } from "@/app/actions";
 import { markNotificationReadAction } from "@/app/actions/notifications";
 import { useRouter } from "next/navigation";
 import { COLOR_BRAND, COLOR_BRAND_HOVER } from "@/utils/colors";
+import { LABEL_LOADING, LABEL_ACCEPT, LABEL_DECLINE } from "@/utils/labels";
 
 interface NotificationItemProps {
     notification: any;
@@ -79,9 +80,9 @@ export function NotificationItem({ notification, onRead }: NotificationItemProps
                                 onClick={handleAccept}
                                 disabled={loading}
                             >
-                                {loading ? "Đang xử lý..." : (
+                                {loading ? LABEL_LOADING : (
                                     <>
-                                        <Check size={14} className="mr-1" /> Chấp nhận
+                                        <Check size={14} className="mr-1" /> {LABEL_ACCEPT}
                                     </>
                                 )}
                             </Button>
@@ -92,7 +93,7 @@ export function NotificationItem({ notification, onRead }: NotificationItemProps
                                 onClick={handleDecline}
                                 disabled={loading}
                             >
-                                <X size={14} className="mr-1" /> Từ chối
+                                <X size={14} className="mr-1" /> {LABEL_DECLINE}
                             </Button>
                         </div>
                     )}
