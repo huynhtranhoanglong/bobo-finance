@@ -1,5 +1,53 @@
 # Changelog
 
+## [1.4.1] - 2026-01-19
+
+### Feature - Multi-Language Support (i18n)
+> **Purpose**: Enable users to switch between Vietnamese and English languages throughout the application.
+
+- **Language Switcher**:
+  - Added language toggle button in User Menu dropdown.
+  - Displays current language flag (🇻🇳 / 🇬🇧) with toggle preview.
+  - One-click switch between Vietnamese and English.
+  - Language preference saved to Cookie (persists across sessions).
+
+- **Translation System**:
+  - Created centralized i18n module in `utils/i18n/`.
+  - Vietnamese translations: `vi.ts` (~200 labels).
+  - English translations: `en.ts` (~200 labels).
+  - Type-safe translations using TypeScript.
+
+- **Language Provider**:
+  - Created `LanguageProvider` React Context.
+  - `useTranslation()` hook for accessing translations.
+  - `useLanguage()` hook for language control.
+  - Cookie-based persistence for Server Component compatibility.
+
+- **Updated Components**:
+  - `user-nav.tsx` - Added language switcher UI.
+  - `add-transaction-dialog.tsx` - Dynamic translations.
+  - `monthly-stats.tsx` - Dynamic translations.
+  - `financial-progress.tsx` - Dynamic translations.
+  - `fund-group.tsx` - Dynamic fund name translations.
+  - `debt-card.tsx` - Dynamic translations.
+
+- **New Labels**:
+  - `LABEL_LANGUAGE` - "Ngôn ngữ" / "Language"
+  - `FUND_DAILY_EXPENSES`, `FUND_EMERGENCY`, `FUND_SINKING`, `FUND_INVESTMENT` - Fund name translations.
+
+### Technical Details
+- **New Files**:
+  - `utils/i18n/vi.ts` - Vietnamese translations.
+  - `utils/i18n/en.ts` - English translations.
+  - `utils/i18n/index.ts` - Module exports.
+  - `components/providers/language-provider.tsx` - Language context and hooks.
+
+- **Modified Files**:
+  - `app/layout.tsx` - Wrapped with LanguageProvider.
+  - 6 components updated to use `useTranslation()` hook.
+
+> **Note**: No logic changes. This is a pure UI text update for internationalization support. Existing `utils/labels.ts` retained for backward compatibility.
+
 ## [1.4.0] - 2026-01-18
 
 ### Major Feature - Private Wallets

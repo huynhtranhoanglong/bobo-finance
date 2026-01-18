@@ -2,10 +2,7 @@
 
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import { COLOR_BRAND, COLOR_NEUTRAL } from "@/utils/colors";
-import {
-    LABEL_FINANCIAL_PROGRESS, LABEL_MIN_MONTHLY_SPEND, LABEL_STD_MONTHLY_SPEND,
-    LABEL_PER_MONTH, LABEL_TARGET, LABEL_SAFETY_TARGET, LABEL_FREEDOM_TARGET
-} from "@/utils/labels";
+import { useTranslation } from "@/components/providers/language-provider";
 
 interface FinancialProgressProps {
     metrics: {
@@ -20,33 +17,35 @@ interface FinancialProgressProps {
 }
 
 export default function FinancialProgress({ metrics }: FinancialProgressProps) {
+    const { t } = useTranslation();
+
     if (!metrics) return null;
 
     // Determine which milestone to show
     const hasReachedSafety = metrics.safety_progress >= 100;
     const currentProgress = hasReachedSafety ? metrics.freedom_progress : metrics.safety_progress;
     const currentTarget = hasReachedSafety ? metrics.freedom_target : metrics.safety_target;
-    const targetLabel = hasReachedSafety ? LABEL_FREEDOM_TARGET : LABEL_SAFETY_TARGET;
+    const targetLabel = hasReachedSafety ? t.LABEL_FREEDOM_TARGET : t.LABEL_SAFETY_TARGET;
     const remaining = currentTarget - metrics.net_worth;
 
     return (
         <div className="bg-white p-5 rounded-2xl shadow-sm border mb-6">
-            <h3 className="text-lg font-bold text-gray-800 mb-4">{LABEL_FINANCIAL_PROGRESS}</h3>
+            <h3 className="text-lg font-bold text-gray-800 mb-4">{t.LABEL_FINANCIAL_PROGRESS}</h3>
 
             {/* Spending Stats - 2 columns */}
             <div className="grid grid-cols-2 gap-3 mb-5">
                 <div className="p-3 bg-gray-50 rounded-xl">
-                    <p className="text-xs text-gray-500 mb-1">{LABEL_MIN_MONTHLY_SPEND}</p>
+                    <p className="text-xs text-gray-500 mb-1">{t.LABEL_MIN_MONTHLY_SPEND}</p>
                     <p className="font-semibold text-gray-800 text-sm">
                         <PrivacyAmount amount={metrics.min_monthly_spend} />
-                        <span className="text-gray-400 font-normal">{LABEL_PER_MONTH}</span>
+                        <span className="text-gray-400 font-normal">{t.LABEL_PER_MONTH}</span>
                     </p>
                 </div>
                 <div className="p-3 bg-gray-50 rounded-xl">
-                    <p className="text-xs text-gray-500 mb-1">{LABEL_STD_MONTHLY_SPEND}</p>
+                    <p className="text-xs text-gray-500 mb-1">{t.LABEL_STD_MONTHLY_SPEND}</p>
                     <p className="font-semibold text-gray-800 text-sm">
                         <PrivacyAmount amount={metrics.std_monthly_spend} />
-                        <span className="text-gray-400 font-normal">{LABEL_PER_MONTH}</span>
+                        <span className="text-gray-400 font-normal">{t.LABEL_PER_MONTH}</span>
                     </p>
                 </div>
             </div>
@@ -54,7 +53,7 @@ export default function FinancialProgress({ metrics }: FinancialProgressProps) {
             {/* Progress Label */}
             <div className="flex justify-between items-center mb-2">
                 <span className="text-sm font-medium text-gray-600">
-                    {LABEL_TARGET} {targetLabel}
+                    {t.LABEL_TARGET} {targetLabel}
                 </span>
                 <span className="text-sm font-bold" style={{ color: COLOR_BRAND }}>
                     {Math.min(currentProgress, 100).toFixed(1)}%
@@ -74,7 +73,13 @@ export default function FinancialProgress({ metrics }: FinancialProgressProps) {
 
             {/* Remaining Text */}
             <p className="text-sm text-center" style={{ color: COLOR_NEUTRAL }}>
-                Còn <span className="font-semibold"><PrivacyAmount amount={Math.max(remaining, 0)} /></span> nữa để đạt {targetLabel}
+                {t.LABEL_REMAINING_TO_TARGET
+                    .replace("{amount}", "")
+                    .replace("{target}", targetLabel)
+                    .split("")[0] === "C"
+                    ? <>Còn <span className="font-semibold"><PrivacyAmount amount={Math.max(remaining, 0)} /></span> nữa để đạt {targetLabel}</>
+                    : <><span className="font-semibold"><PrivacyAmount amount={Math.max(remaining, 0)} /></span> more to reach {targetLabel}</>
+                }
             </p>
         </div>
     );

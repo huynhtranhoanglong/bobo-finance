@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import { LogOut, MessageSquare, Users, Lock } from "lucide-react"
+import { LogOut, MessageSquare, Users, Lock, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
@@ -13,7 +13,8 @@ import {
 import { signOutAction } from "@/app/actions"
 import { FeedbackDialog } from "@/components/feedback-dialog"
 import Link from "next/link"
-import { LABEL_ACCOUNT, LABEL_FAMILY, LABEL_FEEDBACK, LABEL_LOGOUT, LABEL_PRIVATE_DASHBOARD } from "@/utils/labels"
+import { useLanguage } from "@/components/providers/language-provider"
+import { LANGUAGE_FLAGS, type Language } from "@/utils/i18n"
 
 interface UserNavProps {
     email: string;
@@ -23,6 +24,13 @@ interface UserNavProps {
 
 export function UserNav({ email, hasFamily = false, hasPrivateWallets = false }: UserNavProps) {
     const [feedbackOpen, setFeedbackOpen] = useState(false)
+    const { t, language, setLanguage, languageFlag } = useLanguage()
+
+    // Toggle between vi and en
+    const handleLanguageToggle = () => {
+        const newLang: Language = language === "vi" ? "en" : "vi"
+        setLanguage(newLang)
+    }
 
     return (
         <>
@@ -35,23 +43,34 @@ export function UserNav({ email, hasFamily = false, hasPrivateWallets = false }:
                 <DropdownMenuContent className="w-56" align="end" forceMount>
                     <DropdownMenuLabel className="font-normal">
                         <div className="flex flex-col space-y-1">
-                            <p className="text-sm font-medium leading-none">{LABEL_ACCOUNT}</p>
+                            <p className="text-sm font-medium leading-none">{t.LABEL_ACCOUNT}</p>
                             <p className="text-xs leading-none text-muted-foreground">
                                 {email}
                             </p>
                         </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
+
+                    {/* v1.4.1: Language Switcher */}
+                    <DropdownMenuItem
+                        onClick={handleLanguageToggle}
+                        className="cursor-pointer"
+                    >
+                        <Globe className="mr-2 h-4 w-4" />
+                        {t.LABEL_LANGUAGE}: {languageFlag} → {LANGUAGE_FLAGS[language === "vi" ? "en" : "vi"]}
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+
                     <Link href="/account">
                         <DropdownMenuItem className="cursor-pointer">
                             <Users className="mr-2 h-4 w-4" />
-                            {LABEL_ACCOUNT}
+                            {t.LABEL_ACCOUNT}
                         </DropdownMenuItem>
                     </Link>
                     <Link href="/family">
                         <DropdownMenuItem className="cursor-pointer">
                             <Users className="mr-2 h-4 w-4" />
-                            {LABEL_FAMILY}
+                            {t.LABEL_FAMILY}
                         </DropdownMenuItem>
                     </Link>
                     {/* v1.4.0: Private Wallet - chỉ hiển thị khi có gia đình VÀ đã có ví riêng tư */}
@@ -59,7 +78,7 @@ export function UserNav({ email, hasFamily = false, hasPrivateWallets = false }:
                         <Link href="/private">
                             <DropdownMenuItem className="cursor-pointer">
                                 <Lock className="mr-2 h-4 w-4" />
-                                {LABEL_PRIVATE_DASHBOARD}
+                                {t.LABEL_PRIVATE_DASHBOARD}
                             </DropdownMenuItem>
                         </Link>
                     )}
@@ -68,12 +87,12 @@ export function UserNav({ email, hasFamily = false, hasPrivateWallets = false }:
                         className="cursor-pointer"
                     >
                         <MessageSquare className="mr-2 h-4 w-4" />
-                        {LABEL_FEEDBACK}
+                        {t.LABEL_FEEDBACK}
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={async () => await signOutAction()} className="text-red-600 focus:text-red-600 cursor-pointer">
                         <LogOut className="mr-2 h-4 w-4" />
-                        {LABEL_LOGOUT}
+                        {t.LABEL_LOGOUT}
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

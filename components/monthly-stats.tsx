@@ -3,11 +3,7 @@
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import { SPENDING_PROGRESS_THRESHOLD_PERCENT } from "@/utils/constants";
 import { COLOR_POSITIVE, COLOR_NEGATIVE, COLOR_NEUTRAL } from "@/utils/colors";
-import {
-    LABEL_MONTHLY_STATS, LABEL_MONTHLY_INCOME, LABEL_MONTHLY_EXPENSE, LABEL_MONTHLY_REMAINING,
-    LABEL_ESSENTIAL, LABEL_SECONDARY, LABEL_WASTEFUL, LABEL_TIME_PROGRESS, LABEL_SPENDING_PROGRESS,
-    LABEL_HAS_DEBT_WARNING, LABEL_SPENDING_COMPARE
-} from "@/utils/labels";
+import { useTranslation } from "@/components/providers/language-provider";
 
 interface MonthlyStatsProps {
     stats: {
@@ -26,6 +22,8 @@ interface MonthlyStatsProps {
 }
 
 export default function MonthlyStats({ stats }: MonthlyStatsProps) {
+    const { t } = useTranslation();
+
     if (!stats) return null;
 
     const { income, expense, remaining, breakdown, min_spend, std_spend, has_debt } = stats;
@@ -69,21 +67,21 @@ export default function MonthlyStats({ stats }: MonthlyStatsProps) {
 
     return (
         <div className="bg-white p-5 rounded-2xl shadow-sm border mb-6">
-            <h2 className="text-lg font-bold text-gray-800 mb-4">{LABEL_MONTHLY_STATS}</h2>
+            <h2 className="text-lg font-bold text-gray-800 mb-4">{t.LABEL_MONTHLY_STATS}</h2>
 
             {/* 1. TỔNG QUAN: 2 HÀNG */}
             {/* Hàng 1: Thu Nhập + Chi Tiêu */}
             <div className="grid grid-cols-2 gap-3 mb-3">
                 {/* Thu Nhập */}
                 <div className="p-4 rounded-xl text-center" style={{ backgroundColor: `${COLOR_POSITIVE}15` }}>
-                    <p className="text-xs uppercase font-semibold mb-1" style={{ color: COLOR_NEUTRAL }}>{LABEL_MONTHLY_INCOME}</p>
+                    <p className="text-xs uppercase font-semibold mb-1" style={{ color: COLOR_NEUTRAL }}>{t.LABEL_MONTHLY_INCOME}</p>
                     <p className="font-bold text-base" style={{ color: COLOR_POSITIVE }}>
                         <PrivacyAmount amount={income} />
                     </p>
                 </div>
                 {/* Chi Tiêu */}
                 <div className="p-4 rounded-xl text-center" style={{ backgroundColor: `${COLOR_NEGATIVE}15` }}>
-                    <p className="text-xs uppercase font-semibold mb-1" style={{ color: COLOR_NEUTRAL }}>{LABEL_MONTHLY_EXPENSE}</p>
+                    <p className="text-xs uppercase font-semibold mb-1" style={{ color: COLOR_NEUTRAL }}>{t.LABEL_MONTHLY_EXPENSE}</p>
                     <p className="font-bold text-base" style={{ color: COLOR_NEGATIVE }}>
                         <PrivacyAmount amount={expense} />
                     </p>
@@ -91,7 +89,7 @@ export default function MonthlyStats({ stats }: MonthlyStatsProps) {
             </div>
             {/* Hàng 2: Còn Lại (full width) */}
             <div className="p-4 rounded-xl text-center mb-6" style={{ backgroundColor: `${COLOR_NEUTRAL}10` }}>
-                <p className="text-xs uppercase font-semibold mb-1" style={{ color: COLOR_NEUTRAL }}>{LABEL_MONTHLY_REMAINING}</p>
+                <p className="text-xs uppercase font-semibold mb-1" style={{ color: COLOR_NEUTRAL }}>{t.LABEL_MONTHLY_REMAINING}</p>
                 <p className="font-bold text-xl" style={{ color: remaining >= 0 ? COLOR_POSITIVE : COLOR_NEGATIVE }}>
                     <PrivacyAmount amount={remaining} />
                 </p>
@@ -113,15 +111,15 @@ export default function MonthlyStats({ stats }: MonthlyStatsProps) {
                 <div className="flex justify-center gap-4 text-xs">
                     <div className="flex items-center gap-1">
                         <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLOR_POSITIVE }} />
-                        <span className="text-gray-600">{LABEL_ESSENTIAL} {Math.round(pctMustHave)}%</span>
+                        <span className="text-gray-600">{t.LABEL_ESSENTIAL} {Math.round(pctMustHave)}%</span>
                     </div>
                     <div className="flex items-center gap-1">
                         <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLOR_NEUTRAL }} />
-                        <span className="text-gray-600">{LABEL_SECONDARY} {Math.round(pctNiceToHave)}%</span>
+                        <span className="text-gray-600">{t.LABEL_SECONDARY} {Math.round(pctNiceToHave)}%</span>
                     </div>
                     <div className="flex items-center gap-1">
                         <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLOR_NEGATIVE }} />
-                        <span className="text-gray-600">{LABEL_WASTEFUL} {Math.round(pctWaste)}%</span>
+                        <span className="text-gray-600">{t.LABEL_WASTEFUL} {Math.round(pctWaste)}%</span>
                     </div>
                 </div>
             </div>
@@ -131,7 +129,7 @@ export default function MonthlyStats({ stats }: MonthlyStatsProps) {
                 {/* Thanh Tiến độ Thời gian */}
                 <div className="mb-4">
                     <div className="flex justify-between items-center mb-1">
-                        <span className="text-sm font-medium text-gray-600">{LABEL_TIME_PROGRESS}</span>
+                        <span className="text-sm font-medium text-gray-600">{t.LABEL_TIME_PROGRESS}</span>
                         <span className="text-sm font-bold" style={{ color: COLOR_NEUTRAL }}>
                             {Math.round(timeProgress)}%
                         </span>
@@ -147,7 +145,7 @@ export default function MonthlyStats({ stats }: MonthlyStatsProps) {
                 {/* Thanh Tiến độ Chi tiêu */}
                 <div className="mb-3">
                     <div className="flex justify-between items-center mb-1">
-                        <span className="text-sm font-medium text-gray-600">{LABEL_SPENDING_PROGRESS}</span>
+                        <span className="text-sm font-medium text-gray-600">{t.LABEL_SPENDING_PROGRESS}</span>
                         <span className="text-sm font-bold" style={{ color: progressColor }}>
                             {Math.round(Math.min(spendingProgress, 100))}%
                         </span>
@@ -166,8 +164,8 @@ export default function MonthlyStats({ stats }: MonthlyStatsProps) {
                 {/* Dòng diễn giải */}
                 <p className="text-xs text-center" style={{ color: COLOR_NEUTRAL }}>
                     {has_debt
-                        ? LABEL_HAS_DEBT_WARNING
-                        : LABEL_SPENDING_COMPARE
+                        ? t.LABEL_HAS_DEBT_WARNING
+                        : t.LABEL_SPENDING_COMPARE
                     }
                 </p>
             </div>

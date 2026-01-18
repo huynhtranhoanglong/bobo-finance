@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { PrivacyProvider } from "@/components/providers/privacy-provider";
+import { LanguageProvider } from "@/components/providers/language-provider";
 import { TimezoneProvider } from "@/components/timezone-provider";
 
 const geistSans = Geist({
@@ -29,11 +30,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <TimezoneProvider>
-          <PrivacyProvider>
-            {children}
-          </PrivacyProvider>
-        </TimezoneProvider>
+        <LanguageProvider>
+          <TimezoneProvider>
+            <PrivacyProvider>
+              {children}
+            </PrivacyProvider>
+          </TimezoneProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

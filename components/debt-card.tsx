@@ -6,10 +6,7 @@ import EditDebtDialog from "./edit-debt-dialog";
 import { useRouter } from "next/navigation";
 import { DEBT_PROGRESS_LOW, DEBT_PROGRESS_HIGH } from "@/utils/constants";
 import { COLOR_POSITIVE, COLOR_NEGATIVE, COLOR_NEUTRAL } from "@/utils/colors";
-import {
-    LABEL_DEBT_PAYABLE_STATUS, LABEL_DEBT_RECEIVABLE_STATUS, LABEL_PAID_PERCENT,
-    LABEL_RECEIVED_PERCENT, LABEL_REMAINING_DEBT
-} from "@/utils/labels";
+import { useTranslation } from "@/components/providers/language-provider";
 
 interface DebtCardProps {
     debt: {
@@ -25,6 +22,7 @@ interface DebtCardProps {
 export default function DebtCard({ debt, wallets }: DebtCardProps) {
     const [isEditOpen, setIsEditOpen] = useState(false);
     const router = useRouter(); // To refresh page after update
+    const { t } = useTranslation();
     const { name, remaining_amount, total_amount } = debt;
 
     // Calculate progress (% paid)
@@ -56,7 +54,7 @@ export default function DebtCard({ debt, wallets }: DebtCardProps) {
                             className="text-[10px] font-medium uppercase"
                             style={{ color: debt.type === 'receivable' ? COLOR_POSITIVE : COLOR_NEGATIVE }}
                         >
-                            {debt.type === 'receivable' ? LABEL_DEBT_RECEIVABLE_STATUS : LABEL_DEBT_PAYABLE_STATUS}
+                            {debt.type === 'receivable' ? t.LABEL_DEBT_RECEIVABLE_STATUS : t.LABEL_DEBT_PAYABLE_STATUS}
                         </span>
                     </div>
                     <span
@@ -66,13 +64,13 @@ export default function DebtCard({ debt, wallets }: DebtCardProps) {
                             color: progressColor
                         }}
                     >
-                        {progressPercent.toFixed(0)}% {debt.type === 'receivable' ? LABEL_RECEIVED_PERCENT : LABEL_PAID_PERCENT}
+                        {progressPercent.toFixed(0)}% {debt.type === 'receivable' ? t.LABEL_RECEIVED_PERCENT : t.LABEL_PAID_PERCENT}
                     </span>
                 </div>
 
                 {/* Amount Info */}
                 <div className="flex justify-between items-center mb-3 text-sm">
-                    <span style={{ color: COLOR_NEUTRAL }}>{LABEL_REMAINING_DEBT}</span>
+                    <span style={{ color: COLOR_NEUTRAL }}>{t.LABEL_REMAINING_DEBT}</span>
                     <div>
                         <span className="font-bold" style={{ color: COLOR_NEGATIVE }}>
                             <PrivacyAmount amount={remaining_amount} />

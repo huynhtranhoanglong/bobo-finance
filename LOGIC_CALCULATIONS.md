@@ -955,33 +955,39 @@ Kể từ v1.3.15, tất cả các "magic numbers" quan trọng được tập t
 
 > ⚠️ **Lưu ý**: Các hằng số trong SQL (`90`, `3`, `12`, `25`) được giữ nguyên do PostgreSQL không hỗ trợ "global constants". Nếu cần thay đổi, phải sửa cả SQL và file `constants.ts`.
 
-### 9.7. Nhãn UI (Labels) - i18n Preparation
+### 9.7. Đa Ngôn Ngữ (i18n) - Multi-Language Support
 
-Kể từ v1.3.19, tất cả text UI được tập trung trong file `utils/labels.ts` để chuẩn bị cho đa ngôn ngữ:
+Kể từ v1.4.1, ứng dụng hỗ trợ chuyển đổi giữa Tiếng Việt và Tiếng Anh:
 
-| Nhóm | Ví dụ | Số lượng |
-|------|-------|----------|
-| Common | `LABEL_LOADING`, `LABEL_SAVE`, `LABEL_CANCEL` | ~15 |
-| Transactions | `LABEL_INCOME`, `LABEL_EXPENSE`, `LABEL_TRANSFER` | ~20 |
-| Wallets | `LABEL_CREATE_WALLET`, `LABEL_WALLET_NAME` | ~15 |
-| Debts | `LABEL_DEBT_PAYABLE`, `LABEL_DEBT_RECEIVABLE` | ~25 |
-| Dashboard | `LABEL_MONTHLY_STATS`, `LABEL_FINANCIAL_PROGRESS` | ~20 |
-| Filters | `LABEL_DATE_TODAY`, `LABEL_SORT_NEWEST` | ~20 |
-| Login | `LABEL_LOGIN_TITLE`, `LABEL_PASSWORD` | ~15 |
-| Notifications | `LABEL_NOTIFICATIONS`, `LABEL_ACCEPT` | ~10 |
-| Feedback | `LABEL_FEEDBACK_TITLE`, `LABEL_SEND_FEEDBACK` | ~10 |
-| Confirmations | `LABEL_DELETE_WALLET_CONFIRM` | ~5 |
+**Cấu trúc:**
 
-**Naming Convention**: `LABEL_[CONTEXT]_[DESCRIPTION]`
+| File | Mô tả |
+|------|-------|
+| `utils/i18n/vi.ts` | Translations tiếng Việt (~200 labels) |
+| `utils/i18n/en.ts` | Translations tiếng Anh (~200 labels) |
+| `utils/i18n/index.ts` | Module exports và types |
+| `components/providers/language-provider.tsx` | React Context và hooks |
 
-Ví dụ:
-- `LABEL_WALLET_NAME` → Label cho tên ví
-- `LABEL_DELETE_WALLET_CONFIRM` → Message xác nhận xóa ví
+**Sử dụng trong Component:**
+```tsx
+import { useTranslation } from "@/components/providers/language-provider";
 
-**Components đã refactor**: 17 files (dialogs, dashboard, navigation, pages)
+function MyComponent() {
+    const { t } = useTranslation();
+    return <p>{t.LABEL_SAVE}</p>; // "Lưu" hoặc "Save"
+}
+```
+
+**Lưu trữ Preference:**
+- Cookie name: `language`
+- Giá trị: `vi` hoặc `en`
+- Thời hạn: 1 năm
+
+> **Lưu ý**: File `utils/labels.ts` cũ được giữ lại để backward compatible. Khuyến khích dùng `useTranslation()` cho components mới.
 
 ---
 
-*Tài liệu này được cập nhật lần cuối: 2026-01-18*
-*Phiên bản ứng dụng: v1.4.0*
+*Tài liệu này được cập nhật lần cuối: 2026-01-19*
+*Phiên bản ứng dụng: v1.4.1*
+
 

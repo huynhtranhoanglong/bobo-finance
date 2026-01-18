@@ -6,7 +6,7 @@ import WalletCard from "./wallet-card"
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import { EMERGENCY_FUND_DANGER_MONTHS, EMERGENCY_FUND_SAFE_MONTHS } from "@/utils/constants";
 import { COLOR_POSITIVE, COLOR_NEGATIVE, COLOR_NEUTRAL } from "@/utils/colors";
-import { LABEL_NO_WALLETS_IN_FUND, LABEL_MONTHS } from "@/utils/labels";
+import { useTranslation } from "@/components/providers/language-provider";
 
 interface FundGroupProps {
     fundName: string;
@@ -22,6 +22,7 @@ const getFundIcon = (fundName: string) => {
         'Tiền mặt': Banknote,
         'Daily Expenses': Banknote,
         'Quỹ dự phòng khẩn cấp': Shield,
+        'Quỹ dự phòng': Shield,
         'Emergency Fund': Shield,
         'Quỹ kế hoạch': PiggyBank,
         'Sinking Fund': PiggyBank,
@@ -32,29 +33,31 @@ const getFundIcon = (fundName: string) => {
     return iconMap[fundName] || Wallet;
 };
 
-// Get Vietnamese name for display (handles both old and new names)
-const getDisplayName = (fundName: string) => {
-    const nameMap: Record<string, string> = {
-        'Daily Expenses': 'Tiền mặt',
-        'Emergency Fund': 'Quỹ dự phòng',
-        'Quỹ dự phòng khẩn cấp': 'Quỹ dự phòng', // Legacy Vietnamese name
-        'Sinking Fund': 'Quỹ kế hoạch',
-        'Investment Fund': 'Quỹ đầu tư',
-        'Invesment Fund': 'Quỹ đầu tư',
-    };
-    return nameMap[fundName] || fundName;
-};
-
 // Check if this is an Emergency Fund
 const isEmergencyFund = (fundName: string) => {
-    return fundName === 'Emergency Fund' || fundName === 'Quỹ dự phòng khẩn cấp';
+    return fundName === 'Emergency Fund' || fundName === 'Quỹ dự phòng khẩn cấp' || fundName === 'Quỹ dự phòng';
 };
 
 export default function FundGroup({ fundName, totalBalance, wallets, fundsList, minMonthlySpend }: FundGroupProps) {
     const [isOpen, setIsOpen] = useState(false);
+    const { t, language } = useTranslation();
+
+    const IconComponent = getFundIcon(fundName);
+
+    // Get display name based on current language
+    const getDisplayName = (name: string) => {
+        const viNames: Record<string, string> = {
+            'Daily Expenses': t.FUND_DAILY_EXPENSES,
+            'Emergency Fund': t.FUND_EMERGENCY,
+            'Quỹ dự phòng khẩn cấp': t.FUND_EMERGENCY,
+            'Sinking Fund': t.FUND_SINKING,
+            'Investment Fund': t.FUND_INVESTMENT,
+            'Invesment Fund': t.FUND_INVESTMENT,
+        };
+        return viNames[name] || name;
+    };
 
     const displayName = getDisplayName(fundName);
-    const IconComponent = getFundIcon(fundName);
 
     // Emergency Fund Status calculation
     let emergencyMonths = 0;
@@ -98,7 +101,7 @@ export default function FundGroup({ fundName, totalBalance, wallets, fundsList, 
                                         color: emergencyColor
                                     }}
                                 >
-                                    ~{emergencyMonths.toFixed(1)} {LABEL_MONTHS}
+                                    ~{emergencyMonths.toFixed(1)} {t.LABEL_MONTHS}
                                 </span>
                             )}
                         </div>
@@ -114,7 +117,7 @@ export default function FundGroup({ fundName, totalBalance, wallets, fundsList, 
             {isOpen && (
                 <div className="px-4 pb-4 space-y-2">
                     {wallets.length === 0 ? (
-                        <p className="text-sm italic text-center py-3" style={{ color: COLOR_NEUTRAL }}>{LABEL_NO_WALLETS_IN_FUND}</p>
+                        <p className="text-sm italic text-center py-3" style={{ color: COLOR_NEUTRAL }}>{t.LABEL_NO_WALLETS_IN_FUND}</p>
                     ) : (
                         wallets.map(wallet => (
                             <WalletCard key={wallet.id} wallet={wallet} funds={fundsList} />
