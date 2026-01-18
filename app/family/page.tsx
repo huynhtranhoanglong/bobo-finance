@@ -28,6 +28,14 @@ import {
 import Link from "next/link"
 import { AppVersion } from "@/components/app-version"
 import { COLOR_BRAND } from "@/utils/colors"
+import {
+    LABEL_ERROR_PREFIX, LABEL_FAMILY_PAGE_TITLE, LABEL_NO_FAMILY, LABEL_NO_FAMILY_DESC,
+    LABEL_FAMILY_NAME, LABEL_FAMILY_NAME_PLACEHOLDER, LABEL_CREATE_FAMILY, LABEL_CREATING,
+    LABEL_MEMBERS, LABEL_MEMBERS_TITLE, LABEL_OWNER_BADGE, LABEL_PENDING_INVITATIONS,
+    LABEL_INVITE_NEW_MEMBER, LABEL_INVITE_EMAIL_PLACEHOLDER, LABEL_INVITE_NOTE,
+    LABEL_LEAVE_FAMILY, LABEL_LEAVE_OWNER_NOTE, LABEL_LEAVE_MEMBER_NOTE,
+    LABEL_CONFIRM_LEAVE_FAMILY, LABEL_INVITE_SENT
+} from "@/utils/labels"
 
 interface FamilyMember {
     user_id: string
@@ -77,7 +85,7 @@ export default function FamilyPage() {
         setActionLoading(true)
         const result = await createFamilyAction(formData)
         if (result.error) {
-            alert("Lỗi: " + result.error)
+            alert(LABEL_ERROR_PREFIX + result.error)
         } else {
             fetchFamilyData()
         }
@@ -89,9 +97,9 @@ export default function FamilyPage() {
         setActionLoading(true)
         const result = await inviteMemberAction(formData)
         if (result.error) {
-            alert("Lỗi: " + result.error)
+            alert(LABEL_ERROR_PREFIX + result.error)
         } else {
-            alert("Đã gửi lời mời!")
+            alert(LABEL_INVITE_SENT)
             fetchFamilyData()
         }
         setActionLoading(false)
@@ -99,12 +107,12 @@ export default function FamilyPage() {
 
     // Leave family
     async function handleLeave() {
-        if (!confirm("Bạn có chắc muốn rời gia đình? Dữ liệu của bạn sẽ trở về cá nhân.")) return
+        if (!confirm(LABEL_CONFIRM_LEAVE_FAMILY)) return
 
         setActionLoading(true)
         const result = await leaveFamilyAction()
         if (result.error) {
-            alert("Lỗi: " + result.error)
+            alert(LABEL_ERROR_PREFIX + result.error)
         } else {
             router.push("/")
         }
@@ -118,7 +126,7 @@ export default function FamilyPage() {
         setActionLoading(true)
         const result = await removeMemberAction(userId)
         if (result.error) {
-            alert("Lỗi: " + result.error)
+            alert(LABEL_ERROR_PREFIX + result.error)
         } else {
             fetchFamilyData()
         }
@@ -130,7 +138,7 @@ export default function FamilyPage() {
         setActionLoading(true)
         const result = await cancelInvitationAction(invitationId)
         if (result.error) {
-            alert("Lỗi: " + result.error)
+            alert(LABEL_ERROR_PREFIX + result.error)
         } else {
             fetchFamilyData()
         }
@@ -152,7 +160,7 @@ export default function FamilyPage() {
                 <Link href="/" className="p-2 hover:bg-gray-100 rounded-xl transition">
                     <ArrowLeft size={24} />
                 </Link>
-                <h1 className="text-2xl font-bold">👨‍👩‍👧 Gia đình</h1>
+                <h1 className="text-2xl font-bold">👨‍👩‍👧 {LABEL_FAMILY_PAGE_TITLE}</h1>
             </div>
 
             {/* STATE 1: No Family */}
@@ -160,18 +168,18 @@ export default function FamilyPage() {
                 <div className="bg-white rounded-2xl p-6 shadow-sm border">
                     <div className="text-center mb-6">
                         <Users size={48} className="mx-auto text-gray-300 mb-4" />
-                        <h2 className="text-lg font-semibold text-gray-800">Bạn chưa có gia đình</h2>
+                        <h2 className="text-lg font-semibold text-gray-800">{LABEL_NO_FAMILY}</h2>
                         <p className="text-sm text-gray-500 mt-1">
-                            Tạo gia đình để cùng quản lý tài chính với người thân
+                            {LABEL_NO_FAMILY_DESC}
                         </p>
                     </div>
 
                     <form action={handleCreateFamily} className="space-y-4">
                         <div>
-                            <Label>Tên gia đình</Label>
+                            <Label>{LABEL_FAMILY_NAME}</Label>
                             <Input
                                 name="name"
-                                placeholder="Ví dụ: Gia đình Nguyễn"
+                                placeholder={LABEL_FAMILY_NAME_PLACEHOLDER}
                                 required
                                 className="mt-1"
                             />
@@ -183,9 +191,9 @@ export default function FamilyPage() {
                             style={{ backgroundColor: COLOR_BRAND }}
                         >
                             {actionLoading ? (
-                                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang tạo...</>
+                                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {LABEL_CREATING}</>
                             ) : (
-                                <><UserPlus className="mr-2 h-4 w-4" /> Tạo gia đình</>
+                                <><UserPlus className="mr-2 h-4 w-4" /> {LABEL_CREATE_FAMILY}</>
                             )}
                         </Button>
                     </form>
@@ -204,10 +212,10 @@ export default function FamilyPage() {
                             <div>
                                 <h2 className="text-lg font-bold text-gray-800">{familyData.name}</h2>
                                 <p className="text-sm text-gray-500">
-                                    {familyData.members?.length || 0} thành viên
+                                    {familyData.members?.length || 0} {LABEL_MEMBERS}
                                     {familyData.is_owner && (
                                         <span className="ml-2 text-amber-600 font-medium">
-                                            <Crown className="inline h-3 w-3" /> Bạn là chủ nhà
+                                            <Crown className="inline h-3 w-3" /> {LABEL_OWNER_BADGE}
                                         </span>
                                     )}
                                 </p>
@@ -217,7 +225,7 @@ export default function FamilyPage() {
 
                     {/* Members List */}
                     <div className="bg-white rounded-2xl p-5 shadow-sm border mb-4">
-                        <h3 className="font-semibold text-gray-700 mb-3">Thành viên</h3>
+                        <h3 className="font-semibold text-gray-700 mb-3">{LABEL_MEMBERS_TITLE}</h3>
                         <div className="space-y-3">
                             {familyData.members?.map((member) => (
                                 <div key={member.user_id} className="flex items-center justify-between py-2 border-b last:border-b-0">
@@ -256,7 +264,7 @@ export default function FamilyPage() {
                     {familyData.is_owner && familyData.pending_invitations && familyData.pending_invitations.length > 0 && (
                         <div className="bg-white rounded-2xl p-5 shadow-sm border mb-4">
                             <h3 className="font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                                <Clock size={16} /> Đang chờ
+                                <Clock size={16} /> {LABEL_PENDING_INVITATIONS}
                             </h3>
                             <div className="space-y-2">
                                 {familyData.pending_invitations.map((inv) => (
@@ -283,12 +291,12 @@ export default function FamilyPage() {
                     {/* Invite Form (Owner only) */}
                     {familyData.is_owner && (
                         <div className="bg-white rounded-2xl p-5 shadow-sm border mb-4">
-                            <h3 className="font-semibold text-gray-700 mb-3">Mời thành viên mới</h3>
+                            <h3 className="font-semibold text-gray-700 mb-3">{LABEL_INVITE_NEW_MEMBER}</h3>
                             <form action={handleInvite} className="flex gap-2">
                                 <Input
                                     name="email"
                                     type="email"
-                                    placeholder="Email người muốn mời"
+                                    placeholder={LABEL_INVITE_EMAIL_PLACEHOLDER}
                                     required
                                     className="flex-1"
                                 />
@@ -301,7 +309,7 @@ export default function FamilyPage() {
                                 </Button>
                             </form>
                             <p className="text-xs text-gray-500 mt-2">
-                                Người được mời cần đăng nhập cùng email và vào link mời để tham gia.
+                                {LABEL_INVITE_NOTE}
                             </p>
                         </div>
                     )}
@@ -315,12 +323,12 @@ export default function FamilyPage() {
                             className="w-full text-red-600 border-red-200 hover:bg-red-50"
                         >
                             <LogOut className="mr-2 h-4 w-4" />
-                            Rời gia đình
+                            {LABEL_LEAVE_FAMILY}
                         </Button>
                         <p className="text-xs text-center text-gray-500 mt-2">
                             {familyData.is_owner
-                                ? "Nếu bạn rời đi, quyền chủ nhà sẽ chuyển cho người tiếp theo."
-                                : "Dữ liệu của bạn sẽ trở về chế độ cá nhân."}
+                                ? LABEL_LEAVE_OWNER_NOTE
+                                : LABEL_LEAVE_MEMBER_NOTE}
                         </p>
                     </div>
                 </>

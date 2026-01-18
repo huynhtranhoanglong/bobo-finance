@@ -24,6 +24,10 @@ import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import { AppVersion } from "@/components/app-version";
 import { DEFAULT_TIMEZONE } from "@/utils/timezone";
 import { COLOR_BRAND, COLOR_NEUTRAL } from "@/utils/colors";
+import {
+  LABEL_SECTION_WALLETS, LABEL_SECTION_DEBTS, LABEL_NO_WALLETS, LABEL_NO_DEBTS_CONGRATS,
+  LABEL_TRANSACTION_HISTORY, LABEL_MEMBERS, LABEL_MANAGE, LABEL_DEMO_BANNER, LABEL_DEMO_LOGIN_CTA
+} from "@/utils/labels";
 
 // ===================== DEMO MODE DATA =====================
 const DEMO_METRICS = {
@@ -108,7 +112,7 @@ export default async function Home({
         {/* DEMO MODE BANNER */}
         <div className="mb-4 p-3 bg-amber-100 border border-amber-300 rounded-lg text-center">
           <p className="text-amber-800 text-sm font-medium">
-            🎮 Chế độ Demo - Dữ liệu mẫu | <Link href="/login" className="underline font-bold">Đăng nhập để sử dụng thật</Link>
+            {LABEL_DEMO_BANNER} | <Link href="/login" className="underline font-bold">{LABEL_DEMO_LOGIN_CTA}</Link>
           </p>
         </div>
 
@@ -124,7 +128,7 @@ export default async function Home({
         {/* Stats Tháng Này */}
         <MonthlyStats stats={DEMO_MONTHLY_STATS} />
 
-        <h2 className="text-lg font-bold mb-4 text-gray-800">💳 Ví tiền</h2>
+        <h2 className="text-lg font-bold mb-4 text-gray-800">💳 {LABEL_SECTION_WALLETS}</h2>
         <div className="mb-6">
           {demoSortedGroups.map((group) => (
             <FundGroup
@@ -139,7 +143,7 @@ export default async function Home({
         </div>
 
         {/* DEBTS SECTION */}
-        <h2 className="text-lg font-bold mb-4 text-gray-800">💳 Các khoản nợ</h2>
+        <h2 className="text-lg font-bold mb-4 text-gray-800">💳 {LABEL_SECTION_DEBTS}</h2>
         <div className="space-y-3 mb-6">
           {DEMO_DEBTS.map((debt) => (
             <DebtCard key={debt.id} debt={debt} wallets={DEMO_WALLETS} />
@@ -150,7 +154,7 @@ export default async function Home({
         <div className="grid grid-cols-2 gap-3 mb-6">
           <div className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm cursor-not-allowed">
             <List size={20} style={{ color: COLOR_NEUTRAL }} />
-            <span className="text-sm font-medium" style={{ color: COLOR_NEUTRAL }}>Lịch sử giao dịch</span>
+            <span className="text-sm font-medium" style={{ color: COLOR_NEUTRAL }}>{LABEL_TRANSACTION_HISTORY}</span>
           </div>
           <div className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm cursor-not-allowed">
             <ArrowRightLeft size={20} style={{ color: COLOR_NEUTRAL }} />
@@ -257,9 +261,9 @@ export default async function Home({
                 <div className="flex items-center gap-2">
                   <span>👨‍👩‍👧</span>
                   <span className="font-medium text-green-800">{familyInfo.name}</span>
-                  <span className="text-xs text-green-600">• {familyInfo.member_count} thành viên</span>
+                  <span className="text-xs text-green-600">• {familyInfo.member_count} {LABEL_MEMBERS}</span>
                 </div>
-                <span className="text-green-600 text-sm">Quản lý →</span>
+                <span className="text-green-600 text-sm">{LABEL_MANAGE}</span>
               </div>
             </Link>
           )}
@@ -275,7 +279,7 @@ export default async function Home({
 
           {/* VÍ TIỀN (GOM NHÓM THEO QUỸ) */}
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold text-gray-800">💳 Ví tiền</h2>
+            <h2 className="text-lg font-bold text-gray-800">💳 {LABEL_SECTION_WALLETS}</h2>
             <CreateWalletDialog funds={fundsList || []} />
           </div>
           <div className="mb-6">
@@ -289,12 +293,12 @@ export default async function Home({
                 minMonthlySpend={metrics?.min_monthly_spend}
               />
             ))}
-            {wallets?.length === 0 && <p className="text-gray-500 italic">Chưa có ví nào.</p>}
+            {wallets?.length === 0 && <p className="text-gray-500 italic">{LABEL_NO_WALLETS}</p>}
           </div>
 
           {/* DEBTS SECTION */}
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold text-gray-800">💳 Các khoản nợ</h2>
+            <h2 className="text-lg font-bold text-gray-800">💳 {LABEL_SECTION_DEBTS}</h2>
             <CreateDebtDialog wallets={wallets || []} />
           </div>
           <div className="space-y-3 mb-6">
@@ -304,7 +308,7 @@ export default async function Home({
             {(!debts || debts.length === 0) && (
               <div className="p-6 text-center bg-white rounded-2xl border shadow-sm">
                 <p className="text-lg mb-1">🎉</p>
-                <p style={{ color: COLOR_BRAND }} className="font-medium">Tuyệt vời! Bạn không có khoản nợ nào.</p>
+                <p style={{ color: COLOR_BRAND }} className="font-medium">{LABEL_NO_DEBTS_CONGRATS}</p>
               </div>
             )}
           </div>
@@ -316,7 +320,7 @@ export default async function Home({
               className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm hover:shadow-md transition"
             >
               <List size={20} style={{ color: COLOR_BRAND }} />
-              <span className="text-sm font-medium" style={{ color: COLOR_BRAND }}>Lịch sử giao dịch</span>
+              <span className="text-sm font-medium" style={{ color: COLOR_BRAND }}>{LABEL_TRANSACTION_HISTORY}</span>
             </Link>
           </div>
 

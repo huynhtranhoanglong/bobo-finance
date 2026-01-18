@@ -15,6 +15,10 @@ import { TransactionListSkeleton } from "@/components/ui/skeleton";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import { AppVersion } from "@/components/app-version";
 import { COLOR_BRAND } from "@/utils/colors";
+import {
+    LABEL_TRANSACTION_HISTORY, LABEL_NO_TRANSACTIONS, LABEL_LOAD_MORE_TRANSACTIONS,
+    LABEL_TRANSACTIONS_MORE, LABEL_LOADING_PAGE
+} from "@/utils/labels";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -153,7 +157,7 @@ function TransactionsPageContent() {
                             <Link href="/" className="p-2 hover:bg-gray-200 rounded-full transition">
                                 <ArrowLeft className="h-6 w-6 text-gray-700" />
                             </Link>
-                            <h1 className="text-2xl font-bold">Lịch sử giao dịch</h1>
+                            <h1 className="text-2xl font-bold">{LABEL_TRANSACTION_HISTORY}</h1>
                         </div>
                         <div className="flex items-center gap-2">
                             <PrivacyToggle />
@@ -181,7 +185,7 @@ function TransactionsPageContent() {
 
                                 {transactions.length === 0 && (
                                     <div className="text-center text-gray-500 py-10 bg-white rounded-2xl border shadow-sm">
-                                        Không tìm thấy giao dịch nào.
+                                        {LABEL_NO_TRANSACTIONS}
                                     </div>
                                 )}
                             </div>
@@ -195,7 +199,7 @@ function TransactionsPageContent() {
                                         className="rounded-xl h-12 px-6 gap-2"
                                         style={{ borderColor: COLOR_BRAND, color: COLOR_BRAND }}
                                     >
-                                        Xem thêm ({remainingCount} giao dịch nữa)
+                                        {LABEL_LOAD_MORE_TRANSACTIONS} ({remainingCount} {LABEL_TRANSACTIONS_MORE})
                                         <ChevronDown size={18} />
                                     </Button>
                                 </div>
@@ -221,7 +225,7 @@ export default function TransactionsPage() {
     return (
         <Suspense fallback={
             <div className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
-                <div className="text-center text-gray-500 py-10">Đang tải...</div>
+                <div className="text-center text-gray-500 py-10">{LABEL_LOADING_PAGE}</div>
             </div>
         }>
             <TransactionsPageContent />

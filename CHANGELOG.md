@@ -1,5 +1,37 @@
 # Changelog
 
+## [1.3.20] - 2026-01-18
+
+### Code Quality - UI Labels Consistency & Pages Refactoring
+> **Purpose**: Completed the centralization of UI labels across all pages and standardized text capitalization rules for improved consistency and i18n readiness.
+
+- **Labels File Update** (`utils/labels.ts`):
+  - Added ~25 new labels for Dashboard, Transactions, Family, and Account pages
+  - Updated version header to v1.3.20
+  - Added documentation for capitalization rules (Sentence case standard)
+  - Standardized all labels to use Sentence case (e.g., "Thu nhập" instead of "Thu Nhập")
+  
+- **New Labels Added**:
+  - **Dashboard**: `LABEL_SECTION_WALLETS`, `LABEL_SECTION_DEBTS`
+  - **Transactions**: `LABEL_NO_TRANSACTIONS`, `LABEL_LOAD_MORE_TRANSACTIONS`, `LABEL_TRANSACTIONS_MORE`
+  - **Family Page**: `LABEL_FAMILY_PAGE_TITLE`, `LABEL_NO_FAMILY`, `LABEL_NO_FAMILY_DESC`, `LABEL_FAMILY_NAME`, `LABEL_FAMILY_NAME_PLACEHOLDER`, `LABEL_CREATE_FAMILY`, `LABEL_MEMBERS_TITLE`, `LABEL_OWNER_BADGE`, `LABEL_PENDING_INVITATIONS`, `LABEL_INVITE_NEW_MEMBER`, `LABEL_INVITE_EMAIL_PLACEHOLDER`, `LABEL_INVITE_NOTE`, `LABEL_LEAVE_FAMILY`, `LABEL_LEAVE_OWNER_NOTE`, `LABEL_LEAVE_MEMBER_NOTE`, `LABEL_CONFIRM_LEAVE_FAMILY`, `LABEL_INVITE_SENT`
+  - **Account Page**: `LABEL_ACCOUNT_PAGE_TITLE`, `LABEL_PERSONAL_INFO`, `LABEL_DISPLAY_NAME`, `LABEL_DISPLAY_NAME_PLACEHOLDER`, `LABEL_DISPLAY_NAME_NOTE`, `LABEL_UPDATE_SUCCESS`
+
+- **Pages Refactored** (4 files):
+  - `app/page.tsx`: Replaced hardcoded text with labels for wallets section, debts section, transaction history link, family banner, demo mode
+  - `app/transactions/page.tsx`: Replaced hardcoded text with labels for page title, empty state, load more button
+  - `app/family/page.tsx`: Replaced all hardcoded Vietnamese text with centralized labels
+  - `app/account/page.tsx`: Replaced all hardcoded Vietnamese text with centralized labels
+
+- **Capitalization Standardization**:
+  - All transaction types: "Thu nhập", "Chi tiêu", "Chuyển ví", "Trả nợ"
+  - All dialog titles: "Thêm giao dịch", "Chỉnh sửa giao dịch", "Tạo ví mới", etc.
+  - All buttons: "Xác nhận", "Lưu thay đổi", "Gửi góp ý"
+  - All debt types: "Đi vay", "Cho vay"
+
+> **Note**: No logic changes. This is a pure UI text refactoring for better consistency and i18n preparation.
+
+
 ## [1.3.19] - 2026-01-18
 
 ### Code Quality - Centralized UI Labels (i18n Preparation)

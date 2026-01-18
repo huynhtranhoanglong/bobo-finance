@@ -1,11 +1,16 @@
 /**
  * Centralized UI Labels - Bobo Finance
- * v1.3.19
+ * v1.3.20
  *
  * File này chứa tất cả text hiển thị trên UI.
  * Mục đích: Chuẩn bị cho tính năng đa ngôn ngữ (i18n) và đảm bảo nhất quán.
  *
  * ⚠️ LƯU Ý: Khi thay đổi text, cần kiểm tra tất cả các nơi sử dụng.
+ * 
+ * QUY TẮC VIẾT HOA/THƯỜNG:
+ * - Tiêu đề section: Sentence case ("Ví tiền", "Các khoản nợ")
+ * - Nút bấm: Sentence case ("Xác nhận", "Lưu thay đổi")
+ * - Labels form: Sentence case ("Số tiền", "Ghi chú")
  */
 
 // === COMMON LABELS ===
@@ -15,7 +20,7 @@ export const LABEL_DELETING = "Đang xoá...";
 export const LABEL_SAVE = "Lưu";
 export const LABEL_CANCEL = "Hủy";
 export const LABEL_DELETE = "Xóa";
-export const LABEL_CONFIRM = "Xác Nhận";
+export const LABEL_CONFIRM = "Xác nhận";
 export const LABEL_OR = "Hoặc";
 export const LABEL_ERROR_PREFIX = "Lỗi: ";
 export const LABEL_SELECT = "Chọn";
@@ -24,21 +29,21 @@ export const LABEL_NOTE = "Ghi chú";
 export const LABEL_AMOUNT = "Số tiền";
 
 // === TRANSACTION TYPES ===
-export const LABEL_INCOME = "Thu Nhập";
-export const LABEL_EXPENSE = "Chi Tiêu";
-export const LABEL_TRANSFER = "Chuyển Ví";
-export const LABEL_DEBT_REPAYMENT = "Trả Nợ";
+export const LABEL_INCOME = "Thu nhập";
+export const LABEL_EXPENSE = "Chi tiêu";
+export const LABEL_TRANSFER = "Chuyển ví";
+export const LABEL_DEBT_REPAYMENT = "Trả nợ";
 export const LABEL_OTHER = "Khác";
 
 // === TRANSACTION DIALOG ===
-export const LABEL_ADD_TRANSACTION = "Thêm Giao Dịch";
-export const LABEL_EDIT_TRANSACTION = "Chỉnh Sửa Giao Dịch";
+export const LABEL_ADD_TRANSACTION = "Thêm giao dịch";
+export const LABEL_EDIT_TRANSACTION = "Chỉnh sửa giao dịch";
 export const LABEL_DELETE_TRANSACTION = "Xóa giao dịch";
 export const LABEL_SELECT_WALLET = "Chọn ví";
 export const LABEL_FROM_WALLET = "Từ ví";
 export const LABEL_TO_WALLET = "Đến ví";
 export const LABEL_WALLET = "Ví";
-export const LABEL_TAKE_FROM_WALLET = "Lấy tiền từ Ví";
+export const LABEL_TAKE_FROM_WALLET = "Lấy tiền từ ví";
 
 // === SPENDING CATEGORIES ===
 export const LABEL_CATEGORY_LEVEL = "Mức độ";
@@ -55,35 +60,37 @@ export const LABEL_SELECT_SOURCE = "Chọn nguồn";
 
 // === WALLET LABELS ===
 export const LABEL_WALLETS = "Ví tiền";
-export const LABEL_CREATE_WALLET = "Tạo Ví Mới";
-export const LABEL_EDIT_WALLET = "Chỉnh Sửa Ví";
-export const LABEL_DELETE_WALLET = "Xóa Ví Này";
-export const LABEL_WALLET_NAME = "Tên Ví";
+export const LABEL_SECTION_WALLETS = "Ví tiền"; // Tiêu đề section trên Dashboard
+export const LABEL_CREATE_WALLET = "Tạo ví mới";
+export const LABEL_EDIT_WALLET = "Chỉnh sửa ví";
+export const LABEL_DELETE_WALLET = "Xóa ví này";
+export const LABEL_WALLET_NAME = "Tên ví";
 export const LABEL_CURRENT_BALANCE = "Số dư hiện tại";
 export const LABEL_INITIAL_BALANCE = "Số dư ban đầu";
-export const LABEL_BELONGS_TO_FUND = "Thuộc Quỹ";
-export const LABEL_SAVE_CHANGES = "Lưu Thay Đổi";
+export const LABEL_BELONGS_TO_FUND = "Thuộc quỹ";
+export const LABEL_SAVE_CHANGES = "Lưu thay đổi";
 export const LABEL_NO_WALLETS = "Chưa có ví nào.";
 export const LABEL_NO_WALLETS_IN_FUND = "Chưa có ví nào trong quỹ này.";
 export const LABEL_BALANCE_ADJUSTMENT_NOTE = "*Hệ thống sẽ tự động tạo giao dịch điều chỉnh (Thu/Chi) nếu số dư thay đổi.";
 
 // === DEBT LABELS ===
 export const LABEL_DEBTS = "Các khoản nợ";
-export const LABEL_CREATE_DEBT = "Tạo Khoản Nợ Mới";
-export const LABEL_EDIT_DEBT = "Chỉnh Sửa Khoản Nợ";
-export const LABEL_DELETE_DEBT = "Xóa Khoản Nợ";
+export const LABEL_SECTION_DEBTS = "Các khoản nợ"; // Tiêu đề section trên Dashboard
+export const LABEL_CREATE_DEBT = "Tạo khoản nợ mới";
+export const LABEL_EDIT_DEBT = "Chỉnh sửa khoản nợ";
+export const LABEL_DELETE_DEBT = "Xóa khoản nợ";
 export const LABEL_DEBT_NAME = "Tên khoản nợ";
 export const LABEL_DEBT_AMOUNT = "Số tiền nợ";
 export const LABEL_DEBT_TO_PAY = "Khoản nợ cần trả";
 export const LABEL_SELECT_DEBT = "Chọn khoản nợ";
 export const LABEL_NO_DEBTS = "Không có khoản nợ nào!";
-export const LABEL_NO_DEBTS_CONGRATS = "🎉 Tuyệt vời! Bạn không có khoản nợ nào.";
+export const LABEL_NO_DEBTS_CONGRATS = "Tuyệt vời! Bạn không có khoản nợ nào.";
 export const LABEL_REMAINING_DEBT = "Còn nợ";
 
 // === DEBT TYPES ===
-export const LABEL_DEBT_PAYABLE = "Đi Vay";
-export const LABEL_DEBT_RECEIVABLE = "Cho Vay";
-export const LABEL_DEBT_PAYABLE_FULL = "Đi Vay (Nợ)";
+export const LABEL_DEBT_PAYABLE = "Đi vay";
+export const LABEL_DEBT_RECEIVABLE = "Cho vay";
+export const LABEL_DEBT_PAYABLE_FULL = "Đi vay (Nợ)";
 export const LABEL_DEBT_PAYABLE_STATUS = "Nợ phải trả";
 export const LABEL_DEBT_RECEIVABLE_STATUS = "Đang cho vay";
 
@@ -114,9 +121,9 @@ export const LABEL_INTEREST_HIGH = "Lãi cao (Thẻ tín dụng/Nóng)";
 // === DASHBOARD SECTIONS ===
 export const LABEL_MONTHLY_STATS = "📊 Thống kê tháng này";
 export const LABEL_FINANCIAL_PROGRESS = "📈 Tiến độ tài chính";
-export const LABEL_MONTHLY_INCOME = "Thu Nhập";
-export const LABEL_MONTHLY_EXPENSE = "Chi Tiêu";
-export const LABEL_MONTHLY_REMAINING = "Còn Lại";
+export const LABEL_MONTHLY_INCOME = "Thu nhập";
+export const LABEL_MONTHLY_EXPENSE = "Chi tiêu";
+export const LABEL_MONTHLY_REMAINING = "Còn lại";
 
 // === SPENDING BREAKDOWN ===
 export const LABEL_ESSENTIAL = "Thiết yếu";
@@ -209,12 +216,12 @@ export const LABEL_ACCEPT = "Chấp nhận";
 export const LABEL_DECLINE = "Từ chối";
 
 // === FEEDBACK ===
-export const LABEL_FEEDBACK_TITLE = "Gửi Góp Ý";
+export const LABEL_FEEDBACK_TITLE = "Gửi góp ý";
 export const LABEL_FEEDBACK_FEATURE = "🔧 Tính năng";
 export const LABEL_FEEDBACK_UI = "🎨 Giao diện";
 export const LABEL_FEEDBACK_SUBJECT = "Tiêu đề";
 export const LABEL_FEEDBACK_CONTENT = "Nội dung góp ý";
-export const LABEL_FEEDBACK_SEND = "Gửi Góp Ý";
+export const LABEL_FEEDBACK_SEND = "Gửi góp ý";
 export const LABEL_FEEDBACK_SUCCESS = "Cảm ơn bạn đã góp ý!";
 
 // === CONFIRMATION DIALOGS ===
@@ -237,7 +244,39 @@ export const LABEL_WALLET_UPDATE_DIFF = "Chọn ví để cập nhật chênh l�
 export const LABEL_WALLET_DIFF_NOTE = "Nếu dư nợ thay đổi, chênh lệch sẽ được tự động cộng/trừ vào ví này.";
 export const LABEL_FEEDBACK_THANKS = "Cảm ơn bạn đã góp ý!";
 export const LABEL_FEEDBACK_REVIEW = "Chúng tôi sẽ xem xét ý kiến của bạn.";
-export const LABEL_SEND_FEEDBACK = "Gửi Góp Ý";
+export const LABEL_SEND_FEEDBACK = "Gửi góp ý";
 export const LABEL_NEW = "mới";
 export const LABEL_MARK_ALL_READ = "Đánh dấu tất cả đã đọc";
 
+// === TRANSACTIONS PAGE ===
+export const LABEL_NO_TRANSACTIONS = "Không tìm thấy giao dịch nào.";
+export const LABEL_LOAD_MORE_TRANSACTIONS = "Xem thêm";
+export const LABEL_TRANSACTIONS_MORE = "giao dịch nữa";
+
+// === FAMILY PAGE ===
+export const LABEL_FAMILY_PAGE_TITLE = "Gia đình";
+export const LABEL_NO_FAMILY = "Bạn chưa có gia đình";
+export const LABEL_NO_FAMILY_DESC = "Tạo gia đình để cùng quản lý tài chính với người thân";
+export const LABEL_FAMILY_NAME = "Tên gia đình";
+export const LABEL_FAMILY_NAME_PLACEHOLDER = "Ví dụ: Gia đình Nguyễn";
+export const LABEL_CREATE_FAMILY = "Tạo gia đình";
+export const LABEL_MEMBERS_TITLE = "Thành viên";
+export const LABEL_OWNER_BADGE = "Bạn là chủ nhà";
+export const LABEL_PENDING_INVITATIONS = "Đang chờ";
+export const LABEL_INVITE_NEW_MEMBER = "Mời thành viên mới";
+export const LABEL_INVITE_EMAIL_PLACEHOLDER = "Email người muốn mời";
+export const LABEL_INVITE_NOTE = "Người được mời cần đăng nhập cùng email và vào link mời để tham gia.";
+export const LABEL_LEAVE_FAMILY = "Rời gia đình";
+export const LABEL_LEAVE_OWNER_NOTE = "Nếu bạn rời đi, quyền chủ nhà sẽ chuyển cho người tiếp theo.";
+export const LABEL_LEAVE_MEMBER_NOTE = "Dữ liệu của bạn sẽ trở về chế độ cá nhân.";
+export const LABEL_CONFIRM_LEAVE_FAMILY = "Bạn có chắc muốn rời gia đình? Dữ liệu của bạn sẽ trở về cá nhân.";
+export const LABEL_CONFIRM_REMOVE_MEMBER = "Bạn có chắc muốn xóa {name} khỏi gia đình?";
+export const LABEL_INVITE_SENT = "Đã gửi lời mời!";
+
+// === ACCOUNT PAGE ===
+export const LABEL_ACCOUNT_PAGE_TITLE = "Tài khoản";
+export const LABEL_PERSONAL_INFO = "Thông tin cá nhân";
+export const LABEL_DISPLAY_NAME = "Tên hiển thị";
+export const LABEL_DISPLAY_NAME_PLACEHOLDER = "Nhập tên hiển thị của bạn";
+export const LABEL_DISPLAY_NAME_NOTE = "Tên này sẽ hiển thị trong Gia đình và lời chào.";
+export const LABEL_UPDATE_SUCCESS = "Cập nhật thành công!";
