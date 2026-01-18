@@ -196,6 +196,17 @@ export default async function Home({
   const fundsList = dashboardData?.funds || [];
   const familyInfo = dashboardData?.family;
 
+  // v1.4.0: Check if user has private wallets (for showing/hiding menu)
+  let hasPrivateWallets = false;
+  if (familyInfo) {
+    const { count } = await supabase
+      .from('wallets')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', user?.id)
+      .eq('visibility', 'private');
+    hasPrivateWallets = (count || 0) > 0;
+  }
+
   // --- LOGIC GROUPING WALLETS (v1.0.7) ---
   const fundGroups: Record<string, { name: string, balance: number, wallets: any[] }> = {};
 
@@ -252,7 +263,7 @@ export default async function Home({
         <main className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
 
           {/* NEW v1.1.7: Greeting Header */}
-          <GreetingHeader userEmail={user?.email || 'User'} userName={profile?.display_name} hasFamily={!!familyInfo} />
+          <GreetingHeader userEmail={user?.email || 'User'} userName={profile?.display_name} hasFamily={!!familyInfo} hasPrivateWallets={hasPrivateWallets} />
 
           {/* NEW v1.3.2: Family Banner */}
           {familyInfo && (

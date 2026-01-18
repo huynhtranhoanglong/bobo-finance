@@ -17,10 +17,11 @@ import { LABEL_ACCOUNT, LABEL_FAMILY, LABEL_FEEDBACK, LABEL_LOGOUT, LABEL_PRIVAT
 
 interface UserNavProps {
     email: string;
-    hasFamily?: boolean; // v1.4.0: Để hiển thị menu ví riêng tư
+    hasFamily?: boolean;
+    hasPrivateWallets?: boolean; // v1.4.0: Only show menu when user has private wallets
 }
 
-export function UserNav({ email, hasFamily = false }: UserNavProps) {
+export function UserNav({ email, hasFamily = false, hasPrivateWallets = false }: UserNavProps) {
     const [feedbackOpen, setFeedbackOpen] = useState(false)
 
     return (
@@ -53,8 +54,8 @@ export function UserNav({ email, hasFamily = false }: UserNavProps) {
                             {LABEL_FAMILY}
                         </DropdownMenuItem>
                     </Link>
-                    {/* v1.4.0: Private Wallet - chỉ hiển thị khi có gia đình */}
-                    {hasFamily && (
+                    {/* v1.4.0: Private Wallet - chỉ hiển thị khi có gia đình VÀ đã có ví riêng tư */}
+                    {hasFamily && hasPrivateWallets && (
                         <Link href="/private">
                             <DropdownMenuItem className="cursor-pointer">
                                 <Lock className="mr-2 h-4 w-4" />

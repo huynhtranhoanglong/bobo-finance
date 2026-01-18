@@ -21,7 +21,8 @@
 
 - **User Menu Update**:
   - Added "Ví riêng tư" menu item in user dropdown.
-  - Menu item only visible when user belongs to a family.
+  - Menu item only visible when user belongs to a family **AND** has at least one private wallet.
+  - Users can create their first private wallet via the Dashboard's Create Wallet dialog.
   - Uses Lock icon for visual distinction.
 
 - **Database Changes**:
