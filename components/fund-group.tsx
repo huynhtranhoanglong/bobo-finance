@@ -37,6 +37,7 @@ const getDisplayName = (fundName: string) => {
     const nameMap: Record<string, string> = {
         'Daily Expenses': 'Tiền mặt',
         'Emergency Fund': 'Quỹ dự phòng',
+        'Quỹ dự phòng khẩn cấp': 'Quỹ dự phòng', // Legacy Vietnamese name
         'Sinking Fund': 'Quỹ kế hoạch',
         'Investment Fund': 'Quỹ đầu tư',
         'Invesment Fund': 'Quỹ đầu tư',
