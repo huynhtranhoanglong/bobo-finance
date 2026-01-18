@@ -13,6 +13,7 @@ import {
 import { signOutAction } from "@/app/actions"
 import { FeedbackDialog } from "@/components/feedback-dialog"
 import Link from "next/link"
+import { LABEL_ACCOUNT, LABEL_FAMILY, LABEL_FEEDBACK, LABEL_LOGOUT } from "@/utils/labels"
 
 export function UserNav({ email }: { email: string }) {
     const [feedbackOpen, setFeedbackOpen] = useState(false)
@@ -28,7 +29,7 @@ export function UserNav({ email }: { email: string }) {
                 <DropdownMenuContent className="w-56" align="end" forceMount>
                     <DropdownMenuLabel className="font-normal">
                         <div className="flex flex-col space-y-1">
-                            <p className="text-sm font-medium leading-none">Tài khoản</p>
+                            <p className="text-sm font-medium leading-none">{LABEL_ACCOUNT}</p>
                             <p className="text-xs leading-none text-muted-foreground">
                                 {email}
                             </p>
@@ -38,13 +39,13 @@ export function UserNav({ email }: { email: string }) {
                     <Link href="/account">
                         <DropdownMenuItem className="cursor-pointer">
                             <Users className="mr-2 h-4 w-4" />
-                            Tài khoản
+                            {LABEL_ACCOUNT}
                         </DropdownMenuItem>
                     </Link>
                     <Link href="/family">
                         <DropdownMenuItem className="cursor-pointer">
                             <Users className="mr-2 h-4 w-4" />
-                            Gia đình
+                            {LABEL_FAMILY}
                         </DropdownMenuItem>
                     </Link>
                     <DropdownMenuItem
@@ -52,12 +53,12 @@ export function UserNav({ email }: { email: string }) {
                         className="cursor-pointer"
                     >
                         <MessageSquare className="mr-2 h-4 w-4" />
-                        Góp ý
+                        {LABEL_FEEDBACK}
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={async () => await signOutAction()} className="text-red-600 focus:text-red-600 cursor-pointer">
                         <LogOut className="mr-2 h-4 w-4" />
-                        Đăng xuất
+                        {LABEL_LOGOUT}
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

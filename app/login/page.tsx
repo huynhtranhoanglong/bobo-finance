@@ -10,6 +10,11 @@ import { useState, useEffect, Suspense } from "react";
 import { Eye, EyeOff, AlertCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { COLOR_BRAND } from "@/utils/colors";
+import {
+    LABEL_LOGIN_TITLE, LABEL_REGISTER_TITLE, LABEL_LOGIN, LABEL_REGISTER, LABEL_TAGLINE,
+    LABEL_GOOGLE_LOGIN, LABEL_OR_EMAIL, LABEL_EMAIL, LABEL_PASSWORD, LABEL_TRY_DEMO,
+    LABEL_TRY_NOW, LABEL_WRONG_CREDENTIALS, LABEL_CHECK_EMAIL, LABEL_LOADING_PAGE
+} from "@/utils/labels";
 
 function LoginForm() {
     const searchParams = useSearchParams();
@@ -37,10 +42,10 @@ function LoginForm() {
                     />
                 </div>
                 <h1 className="text-2xl font-bold tracking-tight">
-                    {isLogin ? "Đăng nhập Bobo" : "Đăng ký tài khoản"}
+                    {isLogin ? LABEL_LOGIN_TITLE : LABEL_REGISTER_TITLE}
                 </h1>
                 <p className="text-sm text-gray-500 mt-2">
-                    Quản lý tiền thông minh, đơn giản, an toàn. 🔒
+                    {LABEL_TAGLINE}
                 </p>
             </div>
 
@@ -51,14 +56,14 @@ function LoginForm() {
                     onClick={() => setIsLogin(true)}
                     className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all duration-200 z-10 ${isLogin ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}
                 >
-                    Đăng nhập
+                    {LABEL_LOGIN}
                 </button>
                 <button
                     type="button"
                     onClick={() => setIsLogin(false)}
                     className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all duration-200 z-10 ${!isLogin ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}
                 >
-                    Đăng ký
+                    {LABEL_REGISTER}
                 </button>
             </div>
 
@@ -73,8 +78,8 @@ function LoginForm() {
                     )}
                     <span>
                         {message === "Could not authenticate"
-                            ? "Sai tài khoản hoặc mật khẩu!"
-                            : message.includes("Check") ? "Vui lòng kiểm tra email để xác nhận!" : message}
+                            ? LABEL_WRONG_CREDENTIALS
+                            : message.includes("Check") ? LABEL_CHECK_EMAIL : message}
                     </span>
                 </div>
             )}
@@ -90,7 +95,7 @@ function LoginForm() {
                     <svg className="h-5 w-5" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
                         <path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
                     </svg>
-                    Đăng nhập bằng Google
+                    {LABEL_GOOGLE_LOGIN}
                 </Button>
             </form>
 
@@ -99,14 +104,14 @@ function LoginForm() {
                     <span className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-white px-2 text-gray-500">Hoặc tiếp tục với email</span>
+                    <span className="bg-white px-2 text-gray-500">{LABEL_OR_EMAIL}</span>
                 </div>
             </div>
 
             {/* Main Login/Register Form */}
             <form className="space-y-4">
                 <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">{LABEL_EMAIL}</Label>
                     <Input
                         id="email"
                         name="email"
@@ -117,7 +122,7 @@ function LoginForm() {
                     />
                 </div>
                 <div className="space-y-2">
-                    <Label htmlFor="password">Mật khẩu</Label>
+                    <Label htmlFor="password">{LABEL_PASSWORD}</Label>
                     <div className="relative">
                         <Input
                             id="password"
@@ -141,16 +146,16 @@ function LoginForm() {
                     className="w-full h-11 hover:opacity-90 rounded-xl"
                     style={{ backgroundColor: COLOR_BRAND }}
                 >
-                    {isLogin ? "Đăng nhập" : "Đăng ký"}
+                    {isLogin ? LABEL_LOGIN : LABEL_REGISTER}
                 </Button>
             </form>
 
             {/* Link Demo Mode */}
             <div className="text-center pt-2 border-t">
                 <p className="text-sm text-gray-500">
-                    Chưa muốn đăng ký?{" "}
+                    {LABEL_TRY_DEMO}{" "}
                     <Link href="/?demo=true" className="font-medium hover:underline" style={{ color: COLOR_BRAND }}>
-                        Dùng thử ngay
+                        {LABEL_TRY_NOW}
                     </Link>
                 </p>
             </div>
@@ -161,7 +166,7 @@ function LoginForm() {
 export default function LoginPage() {
     return (
         <div className="flex min-h-screen w-full items-center justify-center p-4 bg-gray-50">
-            <Suspense fallback={<div className="text-center">Đang tải...</div>}>
+            <Suspense fallback={<div className="text-center">{LABEL_LOADING_PAGE}</div>}>
                 <LoginForm />
             </Suspense>
         </div>

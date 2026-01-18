@@ -15,6 +15,14 @@ import {
 } from "@/components/ui/select"
 import { Search, Calendar, ChevronDown, ChevronUp, RotateCcw } from "lucide-react"
 import { COLOR_BRAND } from "@/utils/colors"
+import {
+    LABEL_FILTER_SEARCH, LABEL_FILTERING, LABEL_RESET_FILTER, LABEL_SEARCH_BY_NOTE,
+    LABEL_SEARCH_PLACEHOLDER, LABEL_DATE_RANGE, LABEL_DATE_ALL_TIME, LABEL_DATE_TODAY,
+    LABEL_DATE_YESTERDAY, LABEL_DATE_LAST_7_DAYS, LABEL_DATE_THIS_WEEK, LABEL_DATE_THIS_MONTH,
+    LABEL_DATE_LAST_MONTH, LABEL_TYPE, LABEL_ALL, LABEL_INCOME, LABEL_EXPENSE, LABEL_DEBT_REPAYMENT,
+    LABEL_TRANSFER_OUT, LABEL_TRANSFER_IN, LABEL_WALLET, LABEL_ALL_WALLETS, LABEL_SORT,
+    LABEL_SORT_NEWEST, LABEL_SORT_OLDEST, LABEL_SORT_AMOUNT_HIGH, LABEL_SORT_AMOUNT_LOW
+} from "@/utils/labels"
 
 export default function TransactionFilters({ wallets }: { wallets: any[] }) {
     const searchParams = useSearchParams()
@@ -123,10 +131,10 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
             >
                 <div className="flex items-center gap-2">
                     <Search size={20} style={{ color: COLOR_BRAND }} />
-                    <span className="font-medium text-gray-700">Bộ lọc & Tìm kiếm</span>
+                    <span className="font-medium text-gray-700">{LABEL_FILTER_SEARCH}</span>
                     {hasActiveFilters && (
                         <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
-                            Đang lọc
+                            {LABEL_FILTERING}
                         </span>
                     )}
                 </div>
@@ -141,7 +149,7 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
                                 e.stopPropagation();
                                 replace("/transactions");
                             }}
-                            title="Mặc định (Xóa bộ lọc)"
+                            title={LABEL_RESET_FILTER}
                         >
                             <RotateCcw size={16} />
                         </Button>
@@ -156,10 +164,10 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
                     {/* 1. SEARCH - Full Width */}
                     <div>
                         <Label className="text-sm font-medium text-gray-700 mb-2 block">
-                            Tìm kiếm theo ghi chú
+                            {LABEL_SEARCH_BY_NOTE}
                         </Label>
                         <Input
-                            placeholder="Nhập từ khóa..."
+                            placeholder={LABEL_SEARCH_PLACEHOLDER}
                             className="h-11 rounded-xl"
                             defaultValue={searchParams.get("q")?.toString()}
                             onChange={(e) => handleSearch(e.target.value)}
@@ -173,23 +181,23 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
                     <div>
                         <Label className="text-sm font-medium text-gray-700 mb-2 block flex items-center gap-2">
                             <Calendar size={16} style={{ color: COLOR_BRAND }} />
-                            Khoảng thời gian
+                            {LABEL_DATE_RANGE}
                         </Label>
                         <Select
                             value={searchParams.get("date_preset")?.toString() || "all"}
                             onValueChange={handleDatePresetChange}
                         >
                             <SelectTrigger className="h-11 rounded-xl">
-                                <SelectValue placeholder="Toàn thời gian" />
+                                <SelectValue placeholder={LABEL_DATE_ALL_TIME} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="all">Toàn thời gian</SelectItem>
-                                <SelectItem value="today">Hôm nay</SelectItem>
-                                <SelectItem value="yesterday">Hôm qua</SelectItem>
-                                <SelectItem value="last7days">7 ngày qua</SelectItem>
-                                <SelectItem value="thisweek">Tuần này</SelectItem>
-                                <SelectItem value="thismonth">Tháng này</SelectItem>
-                                <SelectItem value="lastmonth">Tháng trước</SelectItem>
+                                <SelectItem value="all">{LABEL_DATE_ALL_TIME}</SelectItem>
+                                <SelectItem value="today">{LABEL_DATE_TODAY}</SelectItem>
+                                <SelectItem value="yesterday">{LABEL_DATE_YESTERDAY}</SelectItem>
+                                <SelectItem value="last7days">{LABEL_DATE_LAST_7_DAYS}</SelectItem>
+                                <SelectItem value="thisweek">{LABEL_DATE_THIS_WEEK}</SelectItem>
+                                <SelectItem value="thismonth">{LABEL_DATE_THIS_MONTH}</SelectItem>
+                                <SelectItem value="lastmonth">{LABEL_DATE_LAST_MONTH}</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
@@ -197,36 +205,36 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
                     {/* 3. TYPE & WALLET FILTERS */}
                     <div className="grid grid-cols-2 gap-3">
                         <div>
-                            <Label className="text-sm font-medium text-gray-700 mb-2 block">Loại</Label>
+                            <Label className="text-sm font-medium text-gray-700 mb-2 block">{LABEL_TYPE}</Label>
                             <Select
                                 value={searchParams.get("type")?.toString() || "all"}
                                 onValueChange={(val) => handleFilterChange("type", val)}
                             >
                                 <SelectTrigger className="h-11 rounded-xl">
-                                    <SelectValue placeholder="Tất cả" />
+                                    <SelectValue placeholder={LABEL_ALL} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">Tất cả</SelectItem>
-                                    <SelectItem value="income">Thu nhập</SelectItem>
-                                    <SelectItem value="expense">Chi tiêu</SelectItem>
-                                    <SelectItem value="debt_repayment">Trả nợ</SelectItem>
-                                    <SelectItem value="transfer_out">Chuyển đi</SelectItem>
-                                    <SelectItem value="transfer_in">Nhận về</SelectItem>
+                                    <SelectItem value="all">{LABEL_ALL}</SelectItem>
+                                    <SelectItem value="income">{LABEL_INCOME}</SelectItem>
+                                    <SelectItem value="expense">{LABEL_EXPENSE}</SelectItem>
+                                    <SelectItem value="debt_repayment">{LABEL_DEBT_REPAYMENT}</SelectItem>
+                                    <SelectItem value="transfer_out">{LABEL_TRANSFER_OUT}</SelectItem>
+                                    <SelectItem value="transfer_in">{LABEL_TRANSFER_IN}</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
 
                         <div>
-                            <Label className="text-sm font-medium text-gray-700 mb-2 block">Ví</Label>
+                            <Label className="text-sm font-medium text-gray-700 mb-2 block">{LABEL_WALLET}</Label>
                             <Select
                                 value={searchParams.get("wallet")?.toString() || "all"}
                                 onValueChange={(val) => handleFilterChange("wallet", val)}
                             >
                                 <SelectTrigger className="h-11 rounded-xl">
-                                    <SelectValue placeholder="Tất cả" />
+                                    <SelectValue placeholder={LABEL_ALL} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">Tất cả ví</SelectItem>
+                                    <SelectItem value="all">{LABEL_ALL_WALLETS}</SelectItem>
                                     {wallets.map((w) => (
                                         <SelectItem key={w.id} value={w.id}>
                                             {w.name}
@@ -242,19 +250,19 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
 
                     {/* 4. SORT - Bottom */}
                     <div>
-                        <Label className="text-sm font-medium text-gray-700 mb-2 block">Sắp xếp</Label>
+                        <Label className="text-sm font-medium text-gray-700 mb-2 block">{LABEL_SORT}</Label>
                         <Select
                             value={searchParams.get("sort")?.toString() || "date_desc"}
                             onValueChange={(val) => handleFilterChange("sort", val)}
                         >
                             <SelectTrigger className="h-11 rounded-xl">
-                                <SelectValue placeholder="Mới nhất" />
+                                <SelectValue placeholder={LABEL_SORT_NEWEST} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="date_desc">Mới nhất</SelectItem>
-                                <SelectItem value="date_asc">Cũ nhất</SelectItem>
-                                <SelectItem value="amount_desc">Số tiền lớn nhất</SelectItem>
-                                <SelectItem value="amount_asc">Số tiền nhỏ nhất</SelectItem>
+                                <SelectItem value="date_desc">{LABEL_SORT_NEWEST}</SelectItem>
+                                <SelectItem value="date_asc">{LABEL_SORT_OLDEST}</SelectItem>
+                                <SelectItem value="amount_desc">{LABEL_SORT_AMOUNT_HIGH}</SelectItem>
+                                <SelectItem value="amount_asc">{LABEL_SORT_AMOUNT_LOW}</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
