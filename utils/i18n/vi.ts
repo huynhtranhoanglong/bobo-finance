@@ -347,6 +347,11 @@ export const vi = {
     LABEL_FEEDBACK_CONTENT_PLACEHOLDER: "Mô tả chi tiết ý kiến của bạn...",
     ERROR_SAME_WALLET_TRANSFER: "Không thể chuyển tiền vào chính ví đó.",
     NOTE_DEBT_ADJUSTMENT: "Điều chỉnh khi chỉnh sửa nợ",
+
+    // === PLACEHOLDERS (v1.4.9) ===
+    LABEL_DEBT_NAME_PLACEHOLDER: "Vd: Vay mua nhà, Cho bạn mượn...",
+    LABEL_ENTER_NOTE: "Nhập ghi chú...",
+    LABEL_EMAIL_EXAMPLE: "email@vidu.com",
 } as const;
 
 export type TranslationKeys = keyof typeof vi;

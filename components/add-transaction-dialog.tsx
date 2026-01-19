@@ -251,7 +251,7 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
 
                     <div className="grid gap-2">
                         <Label>{t.LABEL_NOTE}</Label>
-                        <Input name="note" placeholder="..." />
+                        <Input name="note" placeholder={t.LABEL_ENTER_NOTE} />
                     </div>
 
                     <Button type="submit" disabled={loading} className="mt-4 w-full text-lg py-6" style={{ backgroundColor: COLOR_BRAND }}>

@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.4.9] - 2026-01-19
+
+### Placeholder Translations (i18n)
+> **Purpose**: Ensure all input placeholders are fully translated, removing remaining hardcoded Vietnamese text.
+
+- **Translation Updates**:
+  - Added translation keys for debt name placeholder (`LABEL_DEBT_NAME_PLACEHOLDER`).
+  - Added translation keys for note input placeholder (`LABEL_ENTER_NOTE`).
+  - Added translation keys for email example (`LABEL_EMAIL_EXAMPLE`).
+
+- **Component Updates**:
+  - `CreateDebtDialog`: Now uses translated placeholders for debt name and note.
+  - `AddTransactionDialog`: Now uses translated placeholder for transaction note.
+  - `LoginPage`: Now uses translated placeholder for email input.
+
+### Technical Details
+- Updated `utils/i18n/vi.ts` and `utils/i18n/en.ts`.
+- No logic changes, purely UI text refinement.
+
 ## [1.4.8] - 2026-01-19
 
 ### Update Income Categories

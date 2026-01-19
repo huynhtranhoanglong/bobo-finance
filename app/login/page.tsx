@@ -130,7 +130,7 @@ function LoginForm() {
                         id="email"
                         name="email"
                         type="email"
-                        placeholder="email@example.com"
+                        placeholder={t.LABEL_EMAIL_EXAMPLE}
                         required
                         className="h-11 rounded-xl"
                     />
