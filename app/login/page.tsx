@@ -11,9 +11,12 @@ import { Eye, EyeOff, AlertCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { COLOR_BRAND } from "@/utils/colors";
 import { useTranslation } from "@/components/providers/language-provider";
+import { Switch } from "@/components/ui/switch";
+import { useLanguage } from "@/components/providers/language-provider";
 
 function LoginForm() {
     const { t } = useTranslation();
+    const { language, setLanguage } = useLanguage();
     const searchParams = useSearchParams();
     const message = searchParams.get("message");
     const [isLogin, setIsLogin] = useState(true);
@@ -24,8 +27,22 @@ function LoginForm() {
         setShowPassword(false);
     }, [isLogin]);
 
+    const handleLanguageChange = (checked: boolean) => {
+        setLanguage(checked ? "vi" : "en");
+    };
+
     return (
-        <div className="w-full max-w-sm space-y-6 p-6 sm:p-8 bg-white rounded-xl shadow-lg border">
+        <div className="w-full max-w-sm space-y-6 p-6 sm:p-8 bg-white rounded-xl shadow-lg border relative">
+            {/* Language Toggle - Top Right */}
+            <div className="absolute top-4 right-4 flex items-center gap-2">
+                <span className={`text-xs font-bold ${language === 'en' ? 'text-gray-900' : 'text-gray-400'}`}>EN</span>
+                <Switch
+                    checked={language === 'vi'}
+                    onCheckedChange={handleLanguageChange}
+                    className="data-[state=checked]:bg-green-600"
+                />
+                <span className={`text-xs font-bold ${language === 'vi' ? 'text-gray-900' : 'text-gray-400'}`}>VN</span>
+            </div>
             {/* Logo + Tiêu đề */}
             <div className="text-center">
                 <div className="flex justify-center mb-4">
