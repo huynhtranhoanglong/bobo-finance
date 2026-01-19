@@ -46,15 +46,22 @@ export default function FundGroup({ fundName, totalBalance, wallets, fundsList, 
 
     // Get display name based on current language
     const getDisplayName = (name: string) => {
-        const viNames: Record<string, string> = {
+        // Map both Vietnamese and English fund names to their translated versions
+        const fundNameMap: Record<string, string> = {
+            // English names
             'Daily Expenses': t.FUND_DAILY_EXPENSES,
             'Emergency Fund': t.FUND_EMERGENCY,
-            'Quỹ dự phòng khẩn cấp': t.FUND_EMERGENCY,
             'Sinking Fund': t.FUND_SINKING,
             'Investment Fund': t.FUND_INVESTMENT,
-            'Invesment Fund': t.FUND_INVESTMENT,
+            'Invesment Fund': t.FUND_INVESTMENT, // typo version
+            // Vietnamese names - also need to be translated
+            'Tiền mặt': t.FUND_DAILY_EXPENSES,
+            'Quỹ dự phòng khẩn cấp': t.FUND_EMERGENCY,
+            'Quỹ dự phòng': t.FUND_EMERGENCY,
+            'Quỹ kế hoạch': t.FUND_SINKING,
+            'Quỹ đầu tư': t.FUND_INVESTMENT,
         };
-        return viNames[name] || name;
+        return fundNameMap[name] || name;
     };
 
     const displayName = getDisplayName(fundName);

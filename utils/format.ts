@@ -1,15 +1,16 @@
 /**
  * Utility functions for formatting currency and numbers
- * Supports both Vietnamese (vi-VN) and US English (en-US) locales
- * v1.4.2
+ * Supports both Vietnamese (vi-VN) and US English (en-US) formatting styles
+ * Currency is always VND, only the formatting style changes
+ * v1.4.3
  */
 
 export type LocaleType = 'vi' | 'en';
 
 /**
- * Format a number as currency based on locale
- * - Vietnamese: "1.000.000 ₫"
- * - English (US): "$1,000,000"
+ * Format a number as Vietnamese Dong currency
+ * - Vietnamese format: "1.000.000 ₫" (symbol after, dot as thousands separator)
+ * - English format: "₫1,000,000" (symbol before, comma as thousands separator)
  */
 export function formatCurrency(
     amount: number,
@@ -19,13 +20,14 @@ export function formatCurrency(
     const safeAmount = Number(amount) || 0;
 
     if (locale === 'en') {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
+        // US format: ₫ symbol before, comma as thousands separator
+        const formatted = new Intl.NumberFormat('en-US', {
             maximumFractionDigits: options?.maximumFractionDigits ?? 0
-        }).format(safeAmount / 25000); // Rough VND to USD conversion
+        }).format(safeAmount);
+        return `₫${formatted}`;
     }
 
+    // Vietnamese format: ₫ symbol after, dot as thousands separator
     return new Intl.NumberFormat('vi-VN', {
         style: 'currency',
         currency: 'VND',

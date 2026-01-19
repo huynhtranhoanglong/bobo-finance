@@ -330,4 +330,8 @@ export const en: Record<TranslationKeys, string> = {
 
     // === NET WORTH ===
     LABEL_NET_WORTH: "Net Worth",
+
+    // === PRIVACY TOGGLE ===
+    LABEL_SHOW_BALANCE: "Show balance",
+    LABEL_HIDE_BALANCE: "Hide balance (Private)",
 } as const;

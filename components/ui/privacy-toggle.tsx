@@ -4,9 +4,11 @@ import { usePrivacy } from "@/components/providers/privacy-provider";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useTranslation } from "@/components/providers/language-provider";
 
 export function PrivacyToggle() {
     const { isPrivacyMode, togglePrivacy } = usePrivacy();
+    const { t } = useTranslation();
 
     return (
         <TooltipProvider>
@@ -22,7 +24,7 @@ export function PrivacyToggle() {
                     </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                    <p>{isPrivacyMode ? "Hiện số dư" : "Ẩn số dư (Riêng tư)"}</p>
+                    <p>{isPrivacyMode ? t.LABEL_SHOW_BALANCE : t.LABEL_HIDE_BALANCE}</p>
                 </TooltipContent>
             </Tooltip>
         </TooltipProvider>

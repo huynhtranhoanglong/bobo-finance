@@ -328,6 +328,10 @@ export const vi = {
 
     // === NET WORTH ===
     LABEL_NET_WORTH: "Tài sản ròng",
+
+    // === PRIVACY TOGGLE ===
+    LABEL_SHOW_BALANCE: "Hiện số dư",
+    LABEL_HIDE_BALANCE: "Ẩn số dư (Riêng tư)",
 } as const;
 
 export type TranslationKeys = keyof typeof vi;
