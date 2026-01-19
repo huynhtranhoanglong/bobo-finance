@@ -20,6 +20,7 @@ export default function EditDebtDialog({ open, setOpen, debt, wallets, onSuccess
     async function handleUpdate(formData: FormData) {
         setLoading(true);
         formData.append("id", debt.id);
+        formData.append("adjustment_note", t.NOTE_DEBT_ADJUSTMENT); // Send translated note
         const res = await updateDebtAction(formData);
         if (res?.error) {
             alert(res.error);

@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.4.6] - 2026-01-19
+
+### UI/UX & i18n Completeness
+> **Purpose**: Finalize internationalization by ensuring all remaining hardcoded strings and placeholders are properly translated.
+
+- **Feedback Dialog**:
+  - Replaced hardcoded placeholders with dynamic translations (`LABEL_FEEDBACK_SUBJECT_PLACEHOLDER`, `LABEL_FEEDBACK_CONTENT_PLACEHOLDER`).
+  - Added new translation keys for feedback inputs.
+
+- **Transaction Improvements**:
+  - **Add Transaction**: Added client-side validation to prevent transferring funds to the same wallet.
+  - **Edit Debt**: Added translated note "Adjustment when editing debt" (`NOTE_DEBT_ADJUSTMENT`) when updating debts.
+
+- **Translation Updates**:
+  - Added missing keys to `vi.ts` and `en.ts`.
+  - Updated Server Actions to use English fallbacks for errors to ensure compatibility.
+
+### Technical Details
+- Modified `components/feedback-dialog.tsx`, `components/add-transaction-dialog.tsx`, `components/edit-debt-dialog.tsx`.
+- Updated `app/actions.ts` to improve error messaging and note handling.
+
 ## [1.4.3] - 2026-01-19
 
 ### Complete i18n Overhaul - Comprehensive Language Support
@@ -1524,3 +1545,22 @@
   - `components/app-version.tsx`: Bumped version to `v1.4.4`.
 
 > **Note**: This ensures a consistent language experience from the very first interaction with the app.
+
+## [1.4.5] - 2026-01-19
+
+### Code Quality - i18n Audit & Fixes
+> **Purpose**: A comprehensive audit to identify and fix remaining hardcoded Vietnamese text to ensure a 100% English-compatible experience.
+
+- **Fixed Hardcoded Strings**:
+  - **Financial Overview**: "An Toàn Tài Chính", "Tự Do Tài Chính", "Tiến độ", "Chi tiêu tối thiểu" -> Converted to dynamic labels.
+  - **Feedback Dialog**: Input placeholders (Subject, Content) now support English.
+  - **Create Debt Dialog**: Input placeholder for Debt Name is now localized.
+  - **Demo Dashboard**: Wallet names and Debt names in Demo mode are now fully localized (e.g., "Tiền mặt" -> "Cash").
+
+- **New Labels Added**:
+  - `LABEL_FINANCIAL_SAFETY_TITLE`, `LABEL_FINANCIAL_FREEDOM_TITLE`, `LABEL_PROGRESS`
+  - `LABEL_FEEDBACK_PLACEHOLDER_FEATURE`, `LABEL_FEEDBACK_PLACEHOLDER_UI`, `LABEL_FEEDBACK_PLACEHOLDER_CONTENT`
+  - `LABEL_DEBT_NAME_PLACEHOLDER`
+  - 8+ Labels for Demo data (Wallet names, Debt names).
+
+> **Result**: The application now supports full English immersion without any residual Vietnamese text in the UI.

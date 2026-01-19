@@ -115,7 +115,7 @@ export async function addTransaction(formData: FormData) {
         const from_wallet_id = formData.get("wallet_id") as string;
         const to_wallet_id = formData.get("to_wallet_id") as string;
 
-        if (from_wallet_id === to_wallet_id) return { error: "Không thể chuyển vào chính ví đó!" };
+        if (from_wallet_id === to_wallet_id) return { error: "Cannot transfer to the same wallet!" };
 
         const result = await supabase.rpc("transfer_funds", {
             p_from_wallet_id: from_wallet_id,
@@ -218,7 +218,7 @@ export async function updateDebtAction(formData: FormData) {
         p_new_paid: paid,
         p_wallet_id: wallet_id || null, // Null nếu just_record = true hoặc ko chọn
         p_update_wallet: !just_record, // Ngược lại với Just Record
-        p_note: "Điều chỉnh khi chỉnh sửa nợ"
+        p_note: (formData.get("adjustment_note") as string) || "Debt adjustment"
     });
 
     if (error) return { error: error.message };

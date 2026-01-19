@@ -341,4 +341,10 @@ export const en: Record<TranslationKeys, string> = {
     LABEL_LANGUAGE_VIETNAMESE: "Vietnamese",
     LABEL_LANGUAGE_ENGLISH: "English",
     LABEL_LANGUAGE_NOTE: "Change the display language of the application.",
+
+    // === MISSING LABELS (v1.4.6) ===
+    LABEL_FEEDBACK_SUBJECT_PLACEHOLDER: "Ex: Add Excel export...",
+    LABEL_FEEDBACK_CONTENT_PLACEHOLDER: "Describe your feedback in detail...",
+    ERROR_SAME_WALLET_TRANSFER: "Cannot transfer to the same wallet.",
+    NOTE_DEBT_ADJUSTMENT: "Adjustment when editing debt",
 } as const;

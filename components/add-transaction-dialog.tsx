@@ -26,6 +26,17 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
         // CASE: CÁC LOẠI GIAO DỊCH
         formData.append("type", type);
 
+        // Client-side validation for Transfer
+        if (type === 'transfer') {
+            const fromWallet = formData.get("wallet_id");
+            const toWallet = formData.get("to_wallet_id");
+            if (fromWallet && toWallet && fromWallet === toWallet) {
+                alert(t.LABEL_ERROR_PREFIX + t.ERROR_SAME_WALLET_TRANSFER);
+                setLoading(false);
+                return;
+            }
+        }
+
         const result = await addTransaction(formData);
         setLoading(false);
 

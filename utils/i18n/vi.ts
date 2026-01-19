@@ -339,6 +339,12 @@ export const vi = {
     LABEL_LANGUAGE_VIETNAMESE: "Tiếng Việt",
     LABEL_LANGUAGE_ENGLISH: "Tiếng Anh",
     LABEL_LANGUAGE_NOTE: "Thay đổi ngôn ngữ hiển thị của ứng dụng.",
+
+    // === MISSING LABELS (v1.4.6) ===
+    LABEL_FEEDBACK_SUBJECT_PLACEHOLDER: "VD: Thêm tính năng xuất Excel...",
+    LABEL_FEEDBACK_CONTENT_PLACEHOLDER: "Mô tả chi tiết ý kiến của bạn...",
+    ERROR_SAME_WALLET_TRANSFER: "Không thể chuyển tiền vào chính ví đó.",
+    NOTE_DEBT_ADJUSTMENT: "Điều chỉnh khi chỉnh sửa nợ",
 } as const;
 
 export type TranslationKeys = keyof typeof vi;
