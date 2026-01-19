@@ -121,9 +121,9 @@ export const en: Record<TranslationKeys, string> = {
     LABEL_MONTHLY_REMAINING: "Remaining",
 
     // === SPENDING BREAKDOWN ===
-    LABEL_ESSENTIAL: "Essential",
-    LABEL_SECONDARY: "Nice to Have",
-    LABEL_WASTEFUL: "Wasteful",
+    LABEL_ESSENTIAL: "Must have",
+    LABEL_SECONDARY: "Nice to have",
+    LABEL_WASTEFUL: "Waste",
 
     // === PROGRESS LABELS ===
     LABEL_TIME_PROGRESS: "⏱️ Time Progress",

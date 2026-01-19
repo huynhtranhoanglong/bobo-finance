@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.4.7] - 2026-01-19
+
+### Statistics Labels Update
+> **Purpose**: Improve English terminology for spending categories in the "This Month's Stats" section.
+
+- **English Translations**:
+  - `Essential` -> `Must have`
+  - `Nice to Have` -> `Nice to have`
+  - `Wasteful` -> `Waste`
+- **Vietnamese Translations**: Unchanged.
+
+### Technical Details
+- Updated `utils/i18n/en.ts` only.
+
 ## [1.4.6] - 2026-01-19
 
 ### UI/UX & i18n Completeness
