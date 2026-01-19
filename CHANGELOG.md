@@ -3,7 +3,7 @@
 ## [1.4.3] - 2026-01-19
 
 ### Complete i18n Overhaul - Comprehensive Language Support
-> **Purpose**: Address remaining hardcoded Vietnamese text throughout the application for complete bilingual support.
+> **Purpose**: Address all remaining hardcoded Vietnamese text throughout the application for complete bilingual support.
 
 - **Dashboard Refactored**:
   - Converted to Client Component architecture for i18n compatibility.
@@ -15,9 +15,10 @@
   - Created `PrivateDashboardClient` component with full i18n.
 
 - **Currency Format by Locale**:
-  - Updated `formatCurrency()` to support both Vietnamese (VND ₫) and US English (USD $).
-  - `PrivacyAmount` component now uses current language locale for formatting.
-  - **Note**: USD amounts are converted from VND using approximate rate for display purposes.
+  - Updated `formatCurrency()` to support locale-aware formatting.
+  - Vietnamese (vi): `1.000.000 ₫` (symbol after, dot separator)
+  - English (en): `₫1,000,000` (symbol before, comma separator)
+  - **Note**: Currency is always VND, only the formatting style changes.
 
 - **Greeting System Internationalized**:
   - `GreetingHeader` now uses translated greetings based on time of day.
@@ -32,7 +33,25 @@
   - Transaction History button now uses translated label.
 
 - **Fund Names Fully Translated**:
-  - `FundGroup` component translates fund names (`Daily Expenses`, `Emergency Fund`, `Sinking Fund`, `Investment Fund`) based on current language.
+  - `FundGroup` component translates ALL fund names based on current language:
+    - "Tiền mặt" / "Daily Expenses" → Cash
+    - "Quỹ dự phòng" / "Emergency Fund" → Emergency Fund
+    - "Quỹ kế hoạch" / "Sinking Fund" → Sinking Fund
+    - "Quỹ đầu tư" / "Investment Fund" → Investment Fund
+
+- **Privacy Toggle Translated**:
+  - Hover text "Ẩn số dư (Riêng tư)" → "Hide balance (Private)"
+  - Added `LABEL_SHOW_BALANCE`, `LABEL_HIDE_BALANCE`.
+
+- **Loading Screen Translated**:
+  - "Đang tải dữ liệu..." → "Loading data..."
+  - Added `LABEL_LOADING_DATA`, `LABEL_LOADING_PAGE`.
+
+- **Language Settings Moved to Account Page**:
+  - Removed language toggle from user dropdown menu.
+  - Added dedicated "Language Settings" section in Account page.
+  - Beautiful UI with flag icons and checkmarks.
+  - Language preference saved to cookie for persistence across sessions.
 
 ### Technical Details
 - **New Files**:
@@ -43,11 +62,15 @@
 - **Modified Files**:
   - `app/page.tsx` - Now delegates to DashboardClient.
   - `app/private/page.tsx` - Now delegates to PrivateDashboardClient.
+  - `app/account/page.tsx` - Added Language Settings section.
+  - `app/loading.tsx` - Converted to Client Component for i18n.
   - `components/greeting-header.tsx` - Uses useTranslation for greetings.
   - `components/net-worth-section.tsx` - Uses useTranslation.
   - `components/ui/privacy-amount.tsx` - Uses locale-aware formatting.
+  - `components/ui/privacy-toggle.tsx` - Uses useTranslation for hover text.
+  - `components/user-nav.tsx` - Removed language toggle.
   - `utils/format.ts` - Added locale support for currency formatting.
-  - `utils/i18n/vi.ts`, `utils/i18n/en.ts` - Added greeting and net worth labels.
+  - `utils/i18n/vi.ts`, `utils/i18n/en.ts` - Added ~10 new labels.
 
 > **Note**: No logic changes. This is a pure UI text update to ensure complete internationalization support.
 
