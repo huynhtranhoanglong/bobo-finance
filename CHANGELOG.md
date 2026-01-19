@@ -19,6 +19,11 @@
 - **Updated Components**:
   - `add-transaction-dialog.tsx`: Uses `EXPENSE_CATEGORIES` and `INCOME_CATEGORIES` from config.
   - `edit-transaction-dialog.tsx`: Uses `EXPENSE_CATEGORIES` and `INCOME_CATEGORIES` from config.
+  - `monthly-stats.tsx`: Pie chart legend now uses same labels as dialogs (synced via config).
+
+- **Label Consistency**:
+  - Dialog and Dashboard chart now use the same labels: "Thiết yếu/Essential", "Thứ yếu/Nice to Have", "Lãng phí/Wasteful".
+  - Previously, chart used different labels: "Must have", "Nice to have", "Waste".
 
 ### Technical Details
 - **Database**: `sql_backup/202601191930_add_other_expense_category.sql` - Added enum value.

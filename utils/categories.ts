@@ -7,18 +7,20 @@
  */
 
 import type { TranslationKeys } from "@/utils/i18n/vi";
+import { COLOR_POSITIVE, COLOR_NEUTRAL, COLOR_NEGATIVE } from "@/utils/colors";
 
 // === EXPENSE CATEGORIES ===
 export interface ExpenseCategory {
     key: string;
     labelKey: TranslationKeys;
     countInChart: boolean;  // Whether to count in pie chart breakdown
+    color?: string;         // Color for chart display (only for chartable categories)
 }
 
 export const EXPENSE_CATEGORIES: ExpenseCategory[] = [
-    { key: 'must_have', labelKey: 'LABEL_CATEGORY_MUST_HAVE', countInChart: true },
-    { key: 'nice_to_have', labelKey: 'LABEL_CATEGORY_NICE_TO_HAVE', countInChart: true },
-    { key: 'waste', labelKey: 'LABEL_CATEGORY_WASTE', countInChart: true },
+    { key: 'must_have', labelKey: 'LABEL_CATEGORY_MUST_HAVE', countInChart: true, color: COLOR_POSITIVE },
+    { key: 'nice_to_have', labelKey: 'LABEL_CATEGORY_NICE_TO_HAVE', countInChart: true, color: COLOR_NEUTRAL },
+    { key: 'waste', labelKey: 'LABEL_CATEGORY_WASTE', countInChart: true, color: COLOR_NEGATIVE },
     { key: 'other_expense', labelKey: 'LABEL_CATEGORY_OTHER_EXPENSE', countInChart: false },
 ];
 
