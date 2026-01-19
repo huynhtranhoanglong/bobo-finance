@@ -1507,3 +1507,20 @@
   - Added `sql_backup/` folder containing all current PL/pgSQL functions and schema for reference and recovery.
 - **Documentation**:
   - Added `pdd.md` (Product Definition Document) detailing project architecture, database schema, and business logic.
+
+## [1.4.4] - 2026-01-19
+
+### Feature - Login Page Language Toggle
+> **Purpose**: Allow users to switch languages directly from the login screen immediately upon visiting the site.
+
+- **Login Page Toggle**:
+  - Added a language toggle switch (VN/EN) at the top right of the Login card.
+  - Persistent selection: Language choice is saved to cookies immediately.
+  - Interactive: Form labels (Login, Register, Email, Password) update instantly when toggled.
+
+### Technical Details
+- **Modified Files**:
+  - `app/login/page.tsx`: Integrated `Switch` component and `useLanguage` hook.
+  - `components/app-version.tsx`: Bumped version to `v1.4.4`.
+
+> **Note**: This ensures a consistent language experience from the very first interaction with the app.
