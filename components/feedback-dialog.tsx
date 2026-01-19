@@ -84,7 +84,7 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
                             <Input
                                 id="title"
                                 name="title"
-                                placeholder={feedbackType === "feature" ? "VD: Thêm tính năng xuất Excel" : "VD: Màu sắc khó nhìn trên Dark Mode"}
+                                placeholder={feedbackType === "feature" ? t.LABEL_FEEDBACK_SUBJECT_PLACEHOLDER : t.LABEL_FEEDBACK_SUBJECT_PLACEHOLDER}
                                 required
                             />
                         </div>
@@ -97,7 +97,7 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
                                 name="content"
                                 rows={4}
                                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                                placeholder="Mô tả chi tiết ý kiến của bạn..."
+                                placeholder={t.LABEL_FEEDBACK_CONTENT_PLACEHOLDER}
                                 required
                             />
                         </div>

@@ -26,6 +26,17 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
         // CASE: CÁC LOẠI GIAO DỊCH
         formData.append("type", type);
 
+        // Client-side validation for Transfer
+        if (type === 'transfer') {
+            const fromWallet = formData.get("wallet_id");
+            const toWallet = formData.get("to_wallet_id");
+            if (fromWallet && toWallet && fromWallet === toWallet) {
+                alert(t.LABEL_ERROR_PREFIX + t.ERROR_SAME_WALLET_TRANSFER);
+                setLoading(false);
+                return;
+            }
+        }
+
         const result = await addTransaction(formData);
         setLoading(false);
 
@@ -226,7 +237,15 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                     {type === "income" && (
                         <div className="grid gap-2">
                             <Label>{t.LABEL_INCOME_SOURCE}</Label>
-                            <Select name="category" required><SelectTrigger><SelectValue placeholder={t.LABEL_SELECT_SOURCE} /></SelectTrigger><SelectContent><SelectItem value="salary">{t.LABEL_SALARY}</SelectItem><SelectItem value="other_income">{t.LABEL_OTHER_INCOME}</SelectItem></SelectContent></Select>
+                            <Select name="category" required>
+                                <SelectTrigger><SelectValue placeholder={t.LABEL_SELECT_SOURCE} /></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="main_income">{t.LABEL_INCOME_MAIN}</SelectItem>
+                                    <SelectItem value="bonus">{t.LABEL_INCOME_BONUS}</SelectItem>
+                                    <SelectItem value="investment">{t.LABEL_INCOME_INVESTMENT}</SelectItem>
+                                    <SelectItem value="other_income">{t.LABEL_INCOME_OTHER}</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
                     )}
 

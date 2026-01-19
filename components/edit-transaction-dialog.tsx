@@ -86,8 +86,10 @@ export default function EditTransactionDialog({ open, setOpen, transaction, wall
                                             </>
                                         ) : (
                                             <>
-                                                <SelectItem value="salary">{t.LABEL_SALARY}</SelectItem>
-                                                <SelectItem value="other_income">{t.LABEL_OTHER_INCOME}</SelectItem>
+                                                <SelectItem value="main_income">{t.LABEL_INCOME_MAIN}</SelectItem>
+                                                <SelectItem value="bonus">{t.LABEL_INCOME_BONUS}</SelectItem>
+                                                <SelectItem value="investment">{t.LABEL_INCOME_INVESTMENT}</SelectItem>
+                                                <SelectItem value="other_income">{t.LABEL_INCOME_OTHER}</SelectItem>
                                             </>
                                         )}
                                     </SelectContent>

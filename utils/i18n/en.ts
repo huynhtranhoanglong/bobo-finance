@@ -49,8 +49,10 @@ export const en: Record<TranslationKeys, string> = {
 
     // === INCOME SOURCES ===
     LABEL_INCOME_SOURCE: "Income Source",
-    LABEL_SALARY: "💵 Salary",
-    LABEL_OTHER_INCOME: "💎 Other",
+    LABEL_INCOME_MAIN: "💰 Main Income",
+    LABEL_INCOME_BONUS: "🎁 Bonus",
+    LABEL_INCOME_INVESTMENT: "📈 Investment & Side Job",
+    LABEL_INCOME_OTHER: "📦 Other",
     LABEL_SELECT_SOURCE: "Select Source",
 
     // === WALLET LABELS ===
@@ -121,9 +123,9 @@ export const en: Record<TranslationKeys, string> = {
     LABEL_MONTHLY_REMAINING: "Remaining",
 
     // === SPENDING BREAKDOWN ===
-    LABEL_ESSENTIAL: "Essential",
-    LABEL_SECONDARY: "Nice to Have",
-    LABEL_WASTEFUL: "Wasteful",
+    LABEL_ESSENTIAL: "Must have",
+    LABEL_SECONDARY: "Nice to have",
+    LABEL_WASTEFUL: "Waste",
 
     // === PROGRESS LABELS ===
     LABEL_TIME_PROGRESS: "⏱️ Time Progress",
@@ -341,4 +343,10 @@ export const en: Record<TranslationKeys, string> = {
     LABEL_LANGUAGE_VIETNAMESE: "Vietnamese",
     LABEL_LANGUAGE_ENGLISH: "English",
     LABEL_LANGUAGE_NOTE: "Change the display language of the application.",
+
+    // === MISSING LABELS (v1.4.6) ===
+    LABEL_FEEDBACK_SUBJECT_PLACEHOLDER: "Ex: Add Excel export...",
+    LABEL_FEEDBACK_CONTENT_PLACEHOLDER: "Describe your feedback in detail...",
+    ERROR_SAME_WALLET_TRANSFER: "Cannot transfer to the same wallet.",
+    NOTE_DEBT_ADJUSTMENT: "Adjustment when editing debt",
 } as const;
