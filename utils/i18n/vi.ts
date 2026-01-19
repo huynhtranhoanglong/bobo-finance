@@ -319,6 +319,15 @@ export const vi = {
 
     // === DEMO MODE (extended) ===
     LABEL_DEBT_MANAGEMENT: "Quản lý nợ",
+
+    // === GREETINGS ===
+    GREETING_MORNING: "Chào buổi sáng",
+    GREETING_AFTERNOON: "Chào buổi chiều",
+    GREETING_EVENING: "Chào buổi tối",
+    GREETING_NIGHT: "Khuya rồi, nghỉ ngơi nhé",
+
+    // === NET WORTH ===
+    LABEL_NET_WORTH: "Tài sản ròng",
 } as const;
 
 export type TranslationKeys = keyof typeof vi;

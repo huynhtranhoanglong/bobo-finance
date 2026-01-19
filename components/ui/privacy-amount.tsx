@@ -1,7 +1,8 @@
 "use client";
 
 import { usePrivacy } from "@/components/providers/privacy-provider";
-import { formatCurrency } from "@/utils/format";
+import { useLanguage } from "@/components/providers/language-provider";
+import { formatCurrency, type LocaleType } from "@/utils/format";
 
 interface PrivacyAmountProps {
     amount: number;
@@ -10,11 +11,11 @@ interface PrivacyAmountProps {
 
 export function PrivacyAmount({ amount, className = "" }: PrivacyAmountProps) {
     const { isPrivacyMode } = usePrivacy();
+    const { language } = useLanguage();
 
     if (isPrivacyMode) {
         return <span className={className}>******</span>;
     }
 
-    return <span className={className}>{formatCurrency(amount)}</span>;
+    return <span className={className}>{formatCurrency(amount, language as LocaleType)}</span>;
 }
-

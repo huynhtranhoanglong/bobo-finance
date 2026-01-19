@@ -1,5 +1,56 @@
 # Changelog
 
+## [1.4.3] - 2026-01-19
+
+### Complete i18n Overhaul - Comprehensive Language Support
+> **Purpose**: Address remaining hardcoded Vietnamese text throughout the application for complete bilingual support.
+
+- **Dashboard Refactored**:
+  - Converted to Client Component architecture for i18n compatibility.
+  - Created `DashboardClient` component with full translation support.
+  - Created `DemoDashboard` component for demo mode with i18n.
+  - **Removed Family Card** from dashboard for cleaner UI.
+
+- **Private Dashboard Refactored**:
+  - Created `PrivateDashboardClient` component with full i18n.
+
+- **Currency Format by Locale**:
+  - Updated `formatCurrency()` to support both Vietnamese (VND ₫) and US English (USD $).
+  - `PrivacyAmount` component now uses current language locale for formatting.
+  - **Note**: USD amounts are converted from VND using approximate rate for display purposes.
+
+- **Greeting System Internationalized**:
+  - `GreetingHeader` now uses translated greetings based on time of day.
+  - Added: `GREETING_MORNING`, `GREETING_AFTERNOON`, `GREETING_EVENING`, `GREETING_NIGHT`.
+
+- **Net Worth Section**:
+  - `NetWorthSection` now uses `LABEL_NET_WORTH` from translations.
+
+- **Section Titles Translated**:
+  - `LABEL_SECTION_WALLETS` (Ví tiền / Wallets)
+  - `LABEL_SECTION_DEBTS` (Các khoản nợ / Debts)
+  - Transaction History button now uses translated label.
+
+- **Fund Names Fully Translated**:
+  - `FundGroup` component translates fund names (`Daily Expenses`, `Emergency Fund`, `Sinking Fund`, `Investment Fund`) based on current language.
+
+### Technical Details
+- **New Files**:
+  - `components/dashboard-client.tsx` - Client wrapper for Dashboard.
+  - `components/demo-dashboard.tsx` - Demo mode dashboard with i18n.
+  - `components/private-dashboard-client.tsx` - Client wrapper for Private Dashboard.
+
+- **Modified Files**:
+  - `app/page.tsx` - Now delegates to DashboardClient.
+  - `app/private/page.tsx` - Now delegates to PrivateDashboardClient.
+  - `components/greeting-header.tsx` - Uses useTranslation for greetings.
+  - `components/net-worth-section.tsx` - Uses useTranslation.
+  - `components/ui/privacy-amount.tsx` - Uses locale-aware formatting.
+  - `utils/format.ts` - Added locale support for currency formatting.
+  - `utils/i18n/vi.ts`, `utils/i18n/en.ts` - Added greeting and net worth labels.
+
+> **Note**: No logic changes. This is a pure UI text update to ensure complete internationalization support.
+
 ## [1.4.2] - 2026-01-19
 
 ### Complete Multi-Language Support (i18n)

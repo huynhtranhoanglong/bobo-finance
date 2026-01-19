@@ -3,7 +3,7 @@
 import { UserNav } from "@/components/user-nav";
 import { PrivacyToggle } from "@/components/ui/privacy-toggle";
 import { NotificationBell } from "@/components/notification-bell";
-import { getTimeBasedGreeting } from "@/utils/timezone";
+import { useTranslation } from "@/components/providers/language-provider";
 
 interface GreetingHeaderProps {
     userEmail?: string;
@@ -20,12 +20,31 @@ export default function GreetingHeader({
     hasPrivateWallets = false,
     showControls = true
 }: GreetingHeaderProps) {
-    const { text, emoji } = getTimeBasedGreeting();
+    const { t } = useTranslation();
+
+    // Get greeting based on time of day
+    const hour = new Date().getHours();
+    let greetingKey: 'GREETING_MORNING' | 'GREETING_AFTERNOON' | 'GREETING_EVENING' | 'GREETING_NIGHT';
+    let emoji: string;
+
+    if (hour >= 5 && hour < 12) {
+        greetingKey = 'GREETING_MORNING';
+        emoji = "☀️";
+    } else if (hour >= 12 && hour < 18) {
+        greetingKey = 'GREETING_AFTERNOON';
+        emoji = "🌤️";
+    } else if (hour >= 18 && hour < 22) {
+        greetingKey = 'GREETING_EVENING';
+        emoji = "🌙";
+    } else {
+        greetingKey = 'GREETING_NIGHT';
+        emoji = "🌃";
+    }
 
     return (
         <div className="flex items-center justify-between mb-6">
             <h1 className="text-2xl font-bold text-gray-900">
-                {emoji} {text}{userName ? `, ${userName}!` : "!"}
+                {emoji} {t[greetingKey]}{userName ? `, ${userName}!` : "!"}
             </h1>
 
             {showControls && (

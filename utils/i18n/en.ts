@@ -321,4 +321,13 @@ export const en: Record<TranslationKeys, string> = {
 
     // === DEMO MODE (extended) ===
     LABEL_DEBT_MANAGEMENT: "Debt Management",
+
+    // === GREETINGS ===
+    GREETING_MORNING: "Good morning",
+    GREETING_AFTERNOON: "Good afternoon",
+    GREETING_EVENING: "Good evening",
+    GREETING_NIGHT: "It's late, get some rest",
+
+    // === NET WORTH ===
+    LABEL_NET_WORTH: "Net Worth",
 } as const;
