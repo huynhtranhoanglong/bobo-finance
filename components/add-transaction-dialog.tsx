@@ -13,6 +13,7 @@ import { WalletOption } from "@/components/ui/wallet-option"
 import { formatCurrency } from "@/utils/format"
 import { COLOR_BRAND } from "@/utils/colors"
 import { useTranslation } from "@/components/providers/language-provider"
+import { EXPENSE_CATEGORIES, INCOME_CATEGORIES } from "@/utils/categories"
 
 export default function AddTransactionDialog({ wallets, debts, funds, onSuccess }: { wallets: any[], debts: any[], funds: any[], onSuccess?: () => void }) {
     const [open, setOpen] = useState(false)
@@ -231,7 +232,14 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                     {type === "expense" && (
                         <div className="grid gap-2">
                             <Label>{t.LABEL_CATEGORY_LEVEL}</Label>
-                            <Select name="category" required><SelectTrigger><SelectValue placeholder={t.LABEL_SELECT_CATEGORY} /></SelectTrigger><SelectContent><SelectItem value="must_have">{t.LABEL_CATEGORY_MUST_HAVE}</SelectItem><SelectItem value="nice_to_have">{t.LABEL_CATEGORY_NICE_TO_HAVE}</SelectItem><SelectItem value="waste">{t.LABEL_CATEGORY_WASTE}</SelectItem></SelectContent></Select>
+                            <Select name="category" required>
+                                <SelectTrigger><SelectValue placeholder={t.LABEL_SELECT_CATEGORY} /></SelectTrigger>
+                                <SelectContent>
+                                    {EXPENSE_CATEGORIES.map(cat => (
+                                        <SelectItem key={cat.key} value={cat.key}>{t[cat.labelKey]}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                         </div>
                     )}
                     {type === "income" && (
@@ -240,10 +248,9 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                             <Select name="category" required>
                                 <SelectTrigger><SelectValue placeholder={t.LABEL_SELECT_SOURCE} /></SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="main_income">{t.LABEL_INCOME_MAIN}</SelectItem>
-                                    <SelectItem value="bonus">{t.LABEL_INCOME_BONUS}</SelectItem>
-                                    <SelectItem value="investment">{t.LABEL_INCOME_INVESTMENT}</SelectItem>
-                                    <SelectItem value="other_income">{t.LABEL_INCOME_OTHER}</SelectItem>
+                                    {INCOME_CATEGORIES.map(cat => (
+                                        <SelectItem key={cat.key} value={cat.key}>{t[cat.labelKey]}</SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </div>

@@ -42,9 +42,10 @@ export const en: Record<TranslationKeys, string> = {
 
     // === SPENDING CATEGORIES ===
     LABEL_CATEGORY_LEVEL: "Category",
-    LABEL_CATEGORY_MUST_HAVE: "✅ Essential",
-    LABEL_CATEGORY_NICE_TO_HAVE: "🟡 Nice to Have",
-    LABEL_CATEGORY_WASTE: "🔴 Wasteful",
+    LABEL_CATEGORY_MUST_HAVE: "✅ Must have",
+    LABEL_CATEGORY_NICE_TO_HAVE: "🟡 Nice to have",
+    LABEL_CATEGORY_WASTE: "🔴 Waste",
+    LABEL_CATEGORY_OTHER_EXPENSE: "📦 Other",
     LABEL_SELECT_CATEGORY: "Select Category",
 
     // === INCOME SOURCES ===

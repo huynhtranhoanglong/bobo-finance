@@ -4,6 +4,7 @@ import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import { SPENDING_PROGRESS_THRESHOLD_PERCENT } from "@/utils/constants";
 import { COLOR_POSITIVE, COLOR_NEGATIVE, COLOR_NEUTRAL } from "@/utils/colors";
 import { useTranslation } from "@/components/providers/language-provider";
+import { getChartableExpenseCategories } from "@/utils/categories";
 
 interface MonthlyStatsProps {
     stats: {
@@ -109,18 +110,17 @@ export default function MonthlyStats({ stats }: MonthlyStatsProps) {
 
                 {/* Legend - Horizontal dưới chart */}
                 <div className="flex justify-center gap-4 text-xs">
-                    <div className="flex items-center gap-1">
-                        <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLOR_POSITIVE }} />
-                        <span className="text-gray-600">{t.LABEL_ESSENTIAL} {Math.round(pctMustHave)}%</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLOR_NEUTRAL }} />
-                        <span className="text-gray-600">{t.LABEL_SECONDARY} {Math.round(pctNiceToHave)}%</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLOR_NEGATIVE }} />
-                        <span className="text-gray-600">{t.LABEL_WASTEFUL} {Math.round(pctWaste)}%</span>
-                    </div>
+                    {getChartableExpenseCategories().map(cat => {
+                        const pct = cat.key === 'must_have' ? pctMustHave
+                            : cat.key === 'nice_to_have' ? pctNiceToHave
+                                : pctWaste;
+                        return (
+                            <div key={cat.key} className="flex items-center gap-1">
+                                <span className="w-3 h-3 rounded-full" style={{ backgroundColor: cat.color }} />
+                                <span className="text-gray-600">{t[cat.labelKey].replace(/^[^\s]+\s/, '')} {Math.round(pct)}%</span>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
 

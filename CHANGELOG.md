@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.4.11] - 2026-01-19
+
+### Feature: Add "Other" Expense Category + Refactor
+> **Purpose**: Add a new expense category "Other" for special transactions (currency exchange, adjustments) and refactor category management for better maintainability.
+
+- **New Category**:
+  - Added `other_expense` category with label "📦 Khác" / "📦 Other".
+  - This category is **NOT** counted in the pie chart breakdown (neutral category).
+  - Still counted in total monthly expense.
+
+- **Refactored Category Management**:
+  - Created `utils/categories.ts` for centralized category configuration.
+  - `EXPENSE_CATEGORIES`: Array with `key`, `labelKey`, `countInChart` flag.
+  - `INCOME_CATEGORIES`: Array with `key`, `labelKey`.
+  - Adding/modifying categories now only requires editing one file.
+
+- **Updated Components**:
+  - `add-transaction-dialog.tsx`: Uses `EXPENSE_CATEGORIES` and `INCOME_CATEGORIES` from config.
+  - `edit-transaction-dialog.tsx`: Uses `EXPENSE_CATEGORIES` and `INCOME_CATEGORIES` from config.
+  - `monthly-stats.tsx`: Pie chart legend now uses same labels as dialogs (synced via config).
+
+- **Label Consistency**:
+  - Dialog and Dashboard chart now use the same labels: "Thiết yếu/Must have", "Thứ yếu/Nice to have", "Lãng phí/Waste".
+  - Previously inconsistent: Dialog used "Essential/Nice to Have/Wasteful", Chart used "Must have/Nice to have/Waste".
+
+### Technical Details
+- **Database**: `sql_backup/202601191930_add_other_expense_category.sql` - Added enum value.
+- **New File**: `utils/categories.ts` - Centralized category configuration.
+- **i18n**: Added `LABEL_CATEGORY_OTHER_EXPENSE` to both `vi.ts` and `en.ts`.
+- **Documentation**: Updated `LOGIC_CALCULATIONS.md` section 1.3 with new category.
+
 ## [1.4.10] - 2026-01-19
 
 ### Fix: Fund Dropdown i18n

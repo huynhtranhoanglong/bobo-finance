@@ -64,15 +64,17 @@ Hệ thống phân loại giao dịch thành các loại sau:
 
 **B. Chi Tiêu (Expense):**
 
-| Key (Database) | Hiển thị | Mô tả | Ví dụ |
-|----------------|----------|-------|-------|
-| `must_have` | ✅ Thiết yếu | Bắt buộc phải chi | Tiền nhà, điện nước, ăn uống |
-| `nice_to_have` | 🟡 Thứ yếu | Không bắt buộc nhưng nâng cao chất lượng sống | Giải trí, du lịch |
-| `waste` | 🔴 Lãng phí | Không cần thiết | Mua xong hối hận |
+| Key (Database) | Hiển thị | Mô tả | Tính vào biểu đồ |
+|----------------|----------|-------|------------------|
+| `must_have` | ✅ Thiết yếu | Bắt buộc phải chi (tiền nhà, điện nước, ăn uống) | ✅ Có |
+| `nice_to_have` | 🟡 Thứ yếu | Không bắt buộc nhưng nâng cao chất lượng sống (giải trí, du lịch) | ✅ Có |
+| `waste` | 🔴 Lãng phí | Không cần thiết (mua xong hối hận) | ✅ Có |
+| `other_expense` | 📦 Khác | Đặc biệt, trung lập (đổi tiền, điều chỉnh số dư) | ❌ Không |
 
 > **🔧 Backend:**
 > - Enum PostgreSQL: `spending_category` (chứa cả income categories)
 > - Cột: `transactions.category_level`
+> - File cấu hình: `utils/categories.ts` (quản lý danh mục tập trung)
 
 ---
 

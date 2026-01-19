@@ -43,6 +43,7 @@ export const vi = {
     LABEL_CATEGORY_MUST_HAVE: "✅ Thiết yếu",
     LABEL_CATEGORY_NICE_TO_HAVE: "🟡 Thứ yếu",
     LABEL_CATEGORY_WASTE: "🔴 Lãng phí",
+    LABEL_CATEGORY_OTHER_EXPENSE: "📦 Khác",
     LABEL_SELECT_CATEGORY: "Chọn phân loại",
 
     // === INCOME SOURCES ===
