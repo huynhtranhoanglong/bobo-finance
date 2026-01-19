@@ -6,11 +6,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { getProfileAction, updateProfileAction, signOutAction } from "@/app/actions"
-import { ArrowLeft, Loader2, Save, User, LogOut, Mail } from "lucide-react"
+import { ArrowLeft, Loader2, Save, User, LogOut, Mail, Globe, Check } from "lucide-react"
 import Link from "next/link"
 import { AppVersion } from "@/components/app-version"
 import { COLOR_BRAND } from "@/utils/colors"
-import { useTranslation } from "@/components/providers/language-provider"
+import { useTranslation, useLanguage } from "@/components/providers/language-provider"
+import { Language } from "@/utils/i18n"
 
 interface Profile {
     id: string
@@ -22,6 +23,7 @@ interface Profile {
 
 export default function AccountPage() {
     const { t } = useTranslation()
+    const { language, setLanguage } = useLanguage()
     const router = useRouter()
     const [loading, setLoading] = useState(true)
     const [profile, setProfile] = useState<Profile | null>(null)
@@ -53,6 +55,10 @@ export default function AccountPage() {
             fetchProfile() // Refresh data
         }
         setSaving(false)
+    }
+
+    const handleLanguageChange = (lang: Language) => {
+        setLanguage(lang)
     }
 
     if (loading) {
@@ -132,6 +138,45 @@ export default function AccountPage() {
                             {saving ? t.LABEL_SAVING : t.LABEL_SAVE_CHANGES}
                         </Button>
                     </form>
+                </div>
+
+                {/* Language Settings */}
+                <div className="bg-white rounded-2xl p-6 shadow-sm border">
+                    <h3 className="font-semibold text-gray-700 mb-4 flex items-center gap-2">
+                        <Globe size={18} /> {t.LABEL_LANGUAGE_SETTINGS}
+                    </h3>
+
+                    <div className="space-y-3">
+                        <button
+                            onClick={() => handleLanguageChange('vi')}
+                            className={`w-full flex items-center justify-between p-3 rounded-xl border transition ${language === 'vi'
+                                    ? 'border-green-500 bg-green-50'
+                                    : 'border-gray-200 hover:bg-gray-50'
+                                }`}
+                        >
+                            <div className="flex items-center gap-3">
+                                <span className="text-2xl">🇻🇳</span>
+                                <span className="font-medium">{t.LABEL_LANGUAGE_VIETNAMESE}</span>
+                            </div>
+                            {language === 'vi' && <Check size={20} style={{ color: COLOR_BRAND }} />}
+                        </button>
+
+                        <button
+                            onClick={() => handleLanguageChange('en')}
+                            className={`w-full flex items-center justify-between p-3 rounded-xl border transition ${language === 'en'
+                                    ? 'border-green-500 bg-green-50'
+                                    : 'border-gray-200 hover:bg-gray-50'
+                                }`}
+                        >
+                            <div className="flex items-center gap-3">
+                                <span className="text-2xl">🇬🇧</span>
+                                <span className="font-medium">{t.LABEL_LANGUAGE_ENGLISH}</span>
+                            </div>
+                            {language === 'en' && <Check size={20} style={{ color: COLOR_BRAND }} />}
+                        </button>
+                    </div>
+
+                    <p className="text-xs text-gray-400 mt-3">{t.LABEL_LANGUAGE_NOTE}</p>
                 </div>
 
                 {/* Logout Section */}

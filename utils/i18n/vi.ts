@@ -6,6 +6,8 @@
 export const vi = {
     // === COMMON LABELS ===
     LABEL_LOADING: "Đang xử lý...",
+    LABEL_LOADING_DATA: "Đang tải dữ liệu...",
+    LABEL_LOADING_PAGE: "Đang tải trang...",
     LABEL_SAVING: "Đang lưu...",
     LABEL_DELETING: "Đang xoá...",
     LABEL_SAVE: "Lưu",
@@ -191,7 +193,6 @@ export const vi = {
     LABEL_TRY_NOW: "Dùng thử ngay",
     LABEL_WRONG_CREDENTIALS: "Sai tài khoản hoặc mật khẩu!",
     LABEL_CHECK_EMAIL: "Vui lòng kiểm tra email để xác nhận!",
-    LABEL_LOADING_PAGE: "Đang tải...",
 
     // === DEMO MODE ===
     LABEL_DEMO_BANNER: "🎮 Chế độ Demo - Dữ liệu mẫu",
@@ -332,6 +333,12 @@ export const vi = {
     // === PRIVACY TOGGLE ===
     LABEL_SHOW_BALANCE: "Hiện số dư",
     LABEL_HIDE_BALANCE: "Ẩn số dư (Riêng tư)",
+
+    // === LANGUAGE SETTINGS ===
+    LABEL_LANGUAGE_SETTINGS: "Cài đặt ngôn ngữ",
+    LABEL_LANGUAGE_VIETNAMESE: "Tiếng Việt",
+    LABEL_LANGUAGE_ENGLISH: "Tiếng Anh",
+    LABEL_LANGUAGE_NOTE: "Thay đổi ngôn ngữ hiển thị của ứng dụng.",
 } as const;
 
 export type TranslationKeys = keyof typeof vi;

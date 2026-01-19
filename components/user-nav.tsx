@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import { LogOut, MessageSquare, Users, Lock, Globe } from "lucide-react"
+import { LogOut, MessageSquare, Users, Lock, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
@@ -14,7 +14,6 @@ import { signOutAction } from "@/app/actions"
 import { FeedbackDialog } from "@/components/feedback-dialog"
 import Link from "next/link"
 import { useLanguage } from "@/components/providers/language-provider"
-import { LANGUAGE_FLAGS, type Language } from "@/utils/i18n"
 
 interface UserNavProps {
     email: string;
@@ -24,13 +23,7 @@ interface UserNavProps {
 
 export function UserNav({ email, hasFamily = false, hasPrivateWallets = false }: UserNavProps) {
     const [feedbackOpen, setFeedbackOpen] = useState(false)
-    const { t, language, setLanguage, languageFlag } = useLanguage()
-
-    // Toggle between vi and en
-    const handleLanguageToggle = () => {
-        const newLang: Language = language === "vi" ? "en" : "vi"
-        setLanguage(newLang)
-    }
+    const { t } = useLanguage()
 
     return (
         <>
@@ -51,20 +44,10 @@ export function UserNav({ email, hasFamily = false, hasPrivateWallets = false }:
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
 
-                    {/* v1.4.1: Language Switcher */}
-                    <DropdownMenuItem
-                        onClick={handleLanguageToggle}
-                        className="cursor-pointer"
-                    >
-                        <Globe className="mr-2 h-4 w-4" />
-                        {t.LABEL_LANGUAGE}: {languageFlag} → {LANGUAGE_FLAGS[language === "vi" ? "en" : "vi"]}
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-
                     <Link href="/account">
                         <DropdownMenuItem className="cursor-pointer">
-                            <Users className="mr-2 h-4 w-4" />
-                            {t.LABEL_ACCOUNT}
+                            <User className="mr-2 h-4 w-4" />
+                            {t.LABEL_ACCOUNT_PAGE_TITLE}
                         </DropdownMenuItem>
                     </Link>
                     <Link href="/family">

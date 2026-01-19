@@ -7,7 +7,9 @@ import type { TranslationKeys } from "./vi";
 
 export const en: Record<TranslationKeys, string> = {
     // === COMMON LABELS ===
-    LABEL_LOADING: "Processing...",
+    LABEL_LOADING: "Loading...",
+    LABEL_LOADING_DATA: "Loading data...",
+    LABEL_LOADING_PAGE: "Loading page...",
     LABEL_SAVING: "Saving...",
     LABEL_DELETING: "Deleting...",
     LABEL_SAVE: "Save",
@@ -193,7 +195,6 @@ export const en: Record<TranslationKeys, string> = {
     LABEL_TRY_NOW: "Try Demo",
     LABEL_WRONG_CREDENTIALS: "Invalid email or password!",
     LABEL_CHECK_EMAIL: "Please check your email to confirm!",
-    LABEL_LOADING_PAGE: "Loading...",
 
     // === DEMO MODE ===
     LABEL_DEMO_BANNER: "🎮 Demo Mode - Sample Data",
@@ -334,4 +335,10 @@ export const en: Record<TranslationKeys, string> = {
     // === PRIVACY TOGGLE ===
     LABEL_SHOW_BALANCE: "Show balance",
     LABEL_HIDE_BALANCE: "Hide balance (Private)",
+
+    // === LANGUAGE SETTINGS ===
+    LABEL_LANGUAGE_SETTINGS: "Language Settings",
+    LABEL_LANGUAGE_VIETNAMESE: "Vietnamese",
+    LABEL_LANGUAGE_ENGLISH: "English",
+    LABEL_LANGUAGE_NOTE: "Change the display language of the application.",
 } as const;
