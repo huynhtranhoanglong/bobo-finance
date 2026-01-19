@@ -47,8 +47,10 @@ export const vi = {
 
     // === INCOME SOURCES ===
     LABEL_INCOME_SOURCE: "Nguồn thu",
-    LABEL_SALARY: "💵 Lương",
-    LABEL_OTHER_INCOME: "💎 Khác",
+    LABEL_INCOME_MAIN: "💰 Thu nhập chính",
+    LABEL_INCOME_BONUS: "🎁 Thưởng",
+    LABEL_INCOME_INVESTMENT: "📈 Đầu tư & Nghề phụ",
+    LABEL_INCOME_OTHER: "📦 Khác",
     LABEL_SELECT_SOURCE: "Chọn nguồn",
 
     // === WALLET LABELS ===

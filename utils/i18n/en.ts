@@ -49,8 +49,10 @@ export const en: Record<TranslationKeys, string> = {
 
     // === INCOME SOURCES ===
     LABEL_INCOME_SOURCE: "Income Source",
-    LABEL_SALARY: "💵 Salary",
-    LABEL_OTHER_INCOME: "💎 Other",
+    LABEL_INCOME_MAIN: "💰 Main Income",
+    LABEL_INCOME_BONUS: "🎁 Bonus",
+    LABEL_INCOME_INVESTMENT: "📈 Investment & Side Job",
+    LABEL_INCOME_OTHER: "📦 Other",
     LABEL_SELECT_SOURCE: "Select Source",
 
     // === WALLET LABELS ===

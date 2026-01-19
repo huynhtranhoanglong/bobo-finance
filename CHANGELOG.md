@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.4.8] - 2026-01-19
+
+### Update Income Categories
+> **Purpose**: Expand income classification to reflect modern financial needs accurately.
+
+- **New Categories**:
+  - `Main Income` (Thu nhập chính): Salary, main business revenue.
+  - `Bonus` (Thưởng): Tet bonus, project bonus.
+  - `Investment & Side Job` (Đầu tư & Nghề phụ): Interest, freelance, side hustle.
+  - `Other` (Khác): Gifts, lottery, etc.
+- **Migration**:
+  - Auto-migrated old `Salary` transactions to `Main Income`.
+
+### Technical Details
+- **Database**:
+  - Added new enum values to `spending_category`: `main_income`, `bonus`, `investment`.
+  - Created migration script `202601191600_update_income_categories.sql`.
+- **Frontend**:
+  - Updated `AddTransactionDialog` and `EditTransactionDialog`.
+  - Updated Localization files (`vi.ts`, `en.ts`).
+  - Updated `LOGIC_CALCULATIONS.md`.
+
 ## [1.4.7] - 2026-01-19
 
 ### Statistics Labels Update
@@ -1578,3 +1600,4 @@
   - 8+ Labels for Demo data (Wallet names, Debt names).
 
 > **Result**: The application now supports full English immersion without any residual Vietnamese text in the UI.
+
