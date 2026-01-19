@@ -70,7 +70,7 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
 
                     <div className="grid gap-2">
                         <Label>{t.LABEL_DEBT_NAME}</Label>
-                        <Input name="debt_name" placeholder="Vd: Vay ngân hàng, Cho Tuấn mượn..." required />
+                        <Input name="debt_name" placeholder={t.LABEL_DEBT_NAME_PLACEHOLDER} required />
                     </div>
 
                     <div className="grid gap-2">
@@ -132,7 +132,7 @@ export default function CreateDebtDialog({ wallets }: { wallets: any[] }) {
                     </div>
                     <div className="grid gap-2">
                         <Label>{t.LABEL_NOTE}</Label>
-                        <Input name="note" placeholder="..." />
+                        <Input name="note" placeholder={t.LABEL_ENTER_NOTE} />
                     </div>
 
                     <Button type="submit" disabled={loading} style={{ backgroundColor: COLOR_BRAND }} className="w-full mt-2">

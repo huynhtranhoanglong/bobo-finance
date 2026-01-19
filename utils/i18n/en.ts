@@ -349,4 +349,9 @@ export const en: Record<TranslationKeys, string> = {
     LABEL_FEEDBACK_CONTENT_PLACEHOLDER: "Describe your feedback in detail...",
     ERROR_SAME_WALLET_TRANSFER: "Cannot transfer to the same wallet.",
     NOTE_DEBT_ADJUSTMENT: "Adjustment when editing debt",
+
+    // === PLACEHOLDERS (v1.4.9) ===
+    LABEL_DEBT_NAME_PLACEHOLDER: "e.g., Home loan, Lent to friend...",
+    LABEL_ENTER_NOTE: "Enter note...",
+    LABEL_EMAIL_EXAMPLE: "email@example.com",
 } as const;
