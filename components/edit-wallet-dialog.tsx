@@ -56,6 +56,23 @@ export default function EditWalletDialog({
         }
     }
 
+    // Helper to translate fund names
+    const getDisplayName = (name: string) => {
+        const fundNameMap: Record<string, string> = {
+            'Daily Expenses': t.FUND_DAILY_EXPENSES,
+            'Emergency Fund': t.FUND_EMERGENCY,
+            'Sinking Fund': t.FUND_SINKING,
+            'Investment Fund': t.FUND_INVESTMENT,
+            'Invesment Fund': t.FUND_INVESTMENT,
+            'Tiền mặt': t.FUND_DAILY_EXPENSES,
+            'Quỹ dự phòng khẩn cấp': t.FUND_EMERGENCY,
+            'Quỹ dự phòng': t.FUND_EMERGENCY,
+            'Quỹ kế hoạch': t.FUND_SINKING,
+            'Quỹ đầu tư': t.FUND_INVESTMENT,
+        };
+        return fundNameMap[name] || name;
+    };
+
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="sm:max-w-[425px]" onOpenAutoFocus={(e) => e.preventDefault()}>
@@ -75,7 +92,7 @@ export default function EditWalletDialog({
                         <Select name="fund_id" defaultValue={wallet.funds?.id || wallet.fund_id} required>
                             <SelectTrigger><SelectValue /></SelectTrigger>
                             <SelectContent>
-                                {funds.map((f: any) => <SelectItem key={f.id} value={f.id}>{f.name}</SelectItem>)}
+                                {funds.map((f: any) => <SelectItem key={f.id} value={f.id}>{getDisplayName(f.name)}</SelectItem>)}
                             </SelectContent>
                         </Select>
                     </div>

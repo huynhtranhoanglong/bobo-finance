@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.10] - 2026-01-19
+
+### Fix: Fund Dropdown i18n
+> **Purpose**: Fix the issue where "Belongs to fund" dropdown options in Edit/Create Wallet dialogs were hardcoded and did not respect the selected language.
+
+- **Component Updates**:
+  - `EditWalletDialog` & `CreateWalletDialog`: Implemented `getDisplayName` helper to translate fund names (e.g., "Tiền mặt" <-> "Daily Expenses") based on current language locale.
+
+### Technical Details
+- Added translation mapping logic in components.
+- No database changes required.
+
 ## [1.4.9] - 2026-01-19
 
 ### Placeholder Translations (i18n)
