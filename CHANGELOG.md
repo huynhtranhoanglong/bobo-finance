@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.4.12] - 2026-01-20
+
+### Documentation - Color System Guide
+> **Purpose**: Document the existing color system and identify hardcoded values for future refactoring.
+
+- **New Documentation File**: `COLOR_GUIDE.md`
+  - **Brand Palette**: Documented colors from `utils/colors.ts`.
+  - **UI Theme**: Documented Tailwind CSS variables from `app/globals.css`.
+  - **Hardcode Report**: Identified hardcoded hex values in `app/actions/send-feedback.ts` and `components/ui/switch.tsx`.
+  - **Refactor Plan**: Proposed steps to unify color usage via Tailwind config and utility constants.
+
+### Technical Details
+- **New File**: `COLOR_GUIDE.md` created.
+- No code changes in this release, only documentation.
+
 ## [1.4.11] - 2026-01-19
 
 ### Feature: Add "Other" Expense Category + Refactor
