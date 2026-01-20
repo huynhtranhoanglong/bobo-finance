@@ -1,245 +1,152 @@
-# Hướng Dẫn Hệ Thống Màu Sắc - Bobo Finance
+# Color System Guide - Bobo Finance
 
-> Tài liệu này ghi lại toàn bộ hệ thống màu sắc đang được sử dụng trong ứng dụng Bobo Finance.
-> Mục đích: Làm chuẩn để đối chiếu, phát hiện hardcode và refactor UI nhất quán.
-
----
-
-## 1. Bảng Màu Chính (Brand Palette) - v1.5.0
-
-Được định nghĩa tập trung tại `utils/colors.ts`. Đây là nguồn sự thật (SSOT) cho logic màu sắc trong code TypeScript.
-
-### 1.1. Màu Thương Hiệu
-| Tên biến | Mã màu | Mô tả | Sử dụng |
-|---|---|---|---|
-| `brand` | `#598c58` | 🟢 Sage Green | Màu thương hiệu chính, nút bấm, điểm nhấn |
-| `brandHover` | `#4a7a49` | 🟢 Sage Green tối | Trạng thái hover của nút bấm brand |
-| `neutral` | `#64748b` | 🔘 Slate 500 | Text phụ, viền, placeholder |
-
-### 1.2. Màu Loại Giao Dịch (MỚI v1.5.0)
-| Tên biến | Mã màu | Mô tả | Sử dụng |
-|---|---|---|---|
-| `income` | `#10b981` | 🟢 Emerald 500 | Thu nhập, số dư dương |
-| `expense` | `#f43f5e` | 🔴 Rose 500 | Chi tiêu, số dư âm |
-| `transfer` | `#3b82f6` | 🔵 Blue 500 | Chuyển khoản giữa các ví |
-
-### 1.3. Màu Mức Độ Chi Tiêu (MỚI v1.5.0)
-| Tên biến | Mã màu | Mô tả | Sử dụng |
-|---|---|---|---|
-| `mustHave` | `#598c58` | 🟢 Brand | Chi tiêu thiết yếu |
-| `niceToHave` | `#f59e0b` | 🟡 Amber 500 | Chi tiêu thứ yếu |
-| `waste` | `#e11d48` | 🔴 Rose 600 | Chi tiêu lãng phí |
+> This document records the complete color system used in the Bobo Finance application.
+> Purpose: Serve as a reference for consistency, detecting hardcoded values, and maintaining unified UI.
 
 ---
 
-## 2. Hệ Thống Theme (Tailwind CSS Variables)
+## 1. Brand Palette - v1.5.0
 
-Được định nghĩa tại `app/globals.css` và sử dụng trong Tailwind classes. Hỗ trợ Dark Mode.
+Defined centrally in `utils/colors.ts`. This is the Single Source of Truth (SSOT) for color logic in TypeScript code.
 
-### 2.1. Màu Nền & Cơ Bản
-
-| Tên biến CSS | Light Mode (oklch) | Dark Mode (oklch) | Mô tả |
+### 1.1. Brand Colors
+| Variable | Hex Code | Description | Usage |
 |---|---|---|---|
-| `--background` | `1 0 0` (Trắng) | `0.145 0 0` (Đen) | Màu nền chính của trang |
-| `--foreground` | `0.145 0 0` (Đen) | `0.985 0 0` (Trắng) | Màu chữ chính |
-| `--card` | `1 0 0` | `0.205 0 0` | Nền của các thẻ (Card) |
-| `--popover` | `1 0 0` | `0.205 0 0` | Nền của popup, dialog |
-| `--primary` | `0.205 0 0` (Đen) | `0.922 0 0` (Trắng) | Màu chính cho các thành phần UI |
-| `--muted` | `0.97 0 0` | `0.269 0 0` | Màu nền phụ, bị làm mờ |
-| `--border` | `0.922 0 0` | `1 0 0 / 10%` | Viền của các thành phần |
+| `brand` | `#598c58` | 🟢 Sage Green | Primary brand color, buttons, accents |
+| `brandHover` | `#4a7a49` | 🟢 Dark Sage | Hover state for brand buttons |
+| `neutral` | `#64748b` | 🔘 Slate 500 | Secondary text, borders, placeholders |
 
-### 2.2. Biểu Đồ (Charts)
+### 1.2. Transaction Type Colors (NEW v1.5.0)
+| Variable | Hex Code | Description | Usage |
+|---|---|---|---|
+| `income` | `#10b981` | 🟢 Emerald 500 | Income, positive balances |
+| `expense` | `#f43f5e` | 🔴 Rose 500 | Expenses, negative balances |
+| `transfer` | `#3b82f6` | 🔵 Blue 500 | Transfers between wallets |
 
-| Tên biến | Giá trị (Light) | Mô tả |
+### 1.3. Spending Category Colors (NEW v1.5.0)
+| Variable | Hex Code | Description | Usage |
+|---|---|---|---|
+| `mustHave` | `#598c58` | 🟢 Brand | Essential/Must-have spending |
+| `niceToHave` | `#f59e0b` | 🟡 Amber 500 | Non-essential spending |
+| `waste` | `#e11d48` | 🔴 Rose 600 | Wasteful spending |
+
+---
+
+## 2. Theme System (Tailwind CSS Variables)
+
+Defined in `app/globals.css` and used via Tailwind classes. Supports Dark Mode.
+
+### 2.1. Background & Base Colors
+
+| CSS Variable | Light Mode (oklch) | Dark Mode (oklch) | Description |
+|---|---|---|---|
+| `--background` | `1 0 0` (White) | `0.145 0 0` (Black) | Main page background |
+| `--foreground` | `0.145 0 0` (Black) | `0.985 0 0` (White) | Main text color |
+| `--card` | `1 0 0` | `0.205 0 0` | Card backgrounds |
+| `--popover` | `1 0 0` | `0.205 0 0` | Popup/dialog backgrounds |
+| `--primary` | `0.205 0 0` (Black) | `0.922 0 0` (White) | Primary UI elements |
+| `--muted` | `0.97 0 0` | `0.269 0 0` | Muted/secondary backgrounds |
+| `--border` | `0.922 0 0` | `1 0 0 / 10%` | Component borders |
+
+### 2.2. Chart Colors
+
+| Variable | Value (Light) | Description |
 |---|---|---|
-| `--chart-1` | `0.646 0.222 41.116` | 🟠 Cam đậm |
-| `--chart-2` | `0.6 0.118 184.704` | 🔵 Xanh biển |
-| `--chart-3` | `0.398 0.07 227.392` | 🔵 Xanh đậm |
-| `--chart-4` | `0.828 0.189 84.429` | 🟡 Vàng |
-| `--chart-5` | `0.769 0.188 70.08` | 🟠 Cam |
+| `--chart-1` | `0.646 0.222 41.116` | 🟠 Dark Orange |
+| `--chart-2` | `0.6 0.118 184.704` | 🔵 Ocean Blue |
+| `--chart-3` | `0.398 0.07 227.392` | 🔵 Deep Blue |
+| `--chart-4` | `0.828 0.189 84.429` | 🟡 Yellow |
+| `--chart-5` | `0.769 0.188 70.08` | 🟠 Orange |
 
 ---
 
-## 3. Các Điểm Hard Code Cần Refactor
+## 3. Hardcoded Values to Refactor
 
-Dưới đây là danh sách các file đang sử dụng mã màu trực tiếp thay vì dùng biến từ `utils/colors.ts` hoặc Tailwind class.
+Below is a list of files using direct hex codes instead of variables from `utils/colors.ts` or Tailwind classes.
 
 ### 3.1. File `app/actions/send-feedback.ts`
-Đây là template email HTML gửi qua Resend, nên style phải viết inline. Tuy nhiên, các mã màu này đang không khớp với bảng màu chung.
+This is an HTML email template sent via Resend, requiring inline styles. However, these colors don't match the brand palette.
 
-| Dòng | Mã màu | Đề xuất thay thế | Ghi chú |
+| Location | Hex Code | Suggested Replacement | Notes |
 |---|---|---|---|
-| Style h2 | `#1e293b` | `COLORS.brand` (`#598c58`) | Tiêu đề email nên dùng màu brand |
-| Style hr | `#e2e8f0` | `COLORS.neutral` (nhạt hơn) | Viền phân cách |
-| Style td | `#64748b` | `COLORS.neutral` (`#7a869a`) | Màu chữ label |
-| Style div | `#f8fafc` | Nền nhạt của brand | Nền khung nội dung |
-| Style p | `#94a3b8` | `COLORS.neutral` | Màu chữ footer |
+| h2 style | `#1e293b` | `COLORS.brand` (`#598c58`) | Email title should use brand |
+| hr style | `#e2e8f0` | `COLORS.neutral` (lighter) | Separator line |
+| td style | `#64748b` | `COLORS.neutral` | Label text color |
+| div style | `#f8fafc` | Light brand background | Content container |
+| p style | `#94a3b8` | `COLORS.neutral` | Footer text |
 
-### 3.2. File `components/ui/switch.tsx` ✅ ĐÃ REFACTOR (v1.4.12)
-Component Switch của Radix UI đã được cập nhật để sử dụng biến từ `utils/colors.ts`.
+### 3.2. File `components/ui/switch.tsx` ✅ REFACTORED (v1.4.12)
+Switch component now uses variables from `utils/colors.ts`.
 
-| Trước | Sau |
+| Before | After |
 |---|---|
 | `data-[state=checked]:bg-[#598c58]` | `style={{ "--switch-checked": COLORS.brand }}` + `bg-[var(--switch-checked)]` |
 
 ---
 
-## 4. Đề xuất của AI về việc thay đổi màu sắc cho ứng dụng Bobo
-Tài liệu Hệ thống Màu sắc - Bobo Finance (v1.0)
+## 4. AI Recommendations for Color Changes
 
-Tài liệu này định nghĩa hệ thống màu sắc (Color System) cho ứng dụng Bobo Finance, được tối ưu hóa cho Tailwind CSS.
+### Design Philosophy
+🎨 Sage Green (#598c58) as the primary color creates a calm, safe, and professional feel for financial management.
 
-🎨 Triết lý thiết kế: Sage Green (#598c58) làm chủ đạo, tạo cảm giác điềm đạm, an toàn và chuyên nghiệp trong quản lý tài chính.
+### 4.1. Primary Color Scale (Sage Green)
 
-1. Màu Chủ Đạo (Primary Color - Sage Green)
+Developed from base color #598c58. Used for brand identity elements.
 
-Được phát triển từ mã màu gốc #598c58. Dùng cho các thành phần nhận diện thương hiệu.
+| Level | Hex | Tailwind | Application |
+|---|---|---|---|
+| Primary 50 | #f4f7f4 | bg-primary-50 | Light Card backgrounds, hover states |
+| Primary 100 | #e6ede6 | bg-primary-100 | Icon backgrounds, light badges |
+| Primary 500 | #6da16c | bg-primary-500 | Button hover states |
+| Primary 600 | #598c58 | bg-primary-600 | Main color (buttons, active tabs) |
+| Primary 900 | #324d31 | text-primary-900 | Dark heading text |
 
-Cấp độ
+### 4.2. Financial Semantic Colors
 
-Mã Hex
+Used for quick classification of cash flows.
 
-Tên Tailwind
+**Transaction Classification:**
+- Income: #10b981 (emerald-500) - Represents growth
+- Expense: #f43f5e (rose-500) - Represents outflow
+- Transfer: #3b82f6 (blue-500) - Represents movement (neutral)
 
-Ứng dụng
+**Spending Categories:**
+- Must-have: primary-600 - Essential, stable
+- Nice-to-have: #f59e0b (amber-500) - Consider carefully
+- Waste: #e11d48 (rose-600) - Negative warning
 
-Primary 50
+### 4.3. Neutral Colors
 
-#f4f7f4
+Using Slate (blue-gray) palette for a modern, eye-friendly interface.
 
-bg-primary-50
+| Element | Hex | Tailwind | Notes |
+|---|---|---|---|
+| Background | #f8fafc | bg-slate-50 | App background |
+| Surface | #ffffff | bg-white | Cards, modals |
+| Border | #e2e8f0 | border-slate-200 | Separators, input borders |
+| Text Main | #1e293b | text-slate-800 | Primary content |
+| Text Muted | #64748b | text-slate-500 | Secondary notes, dates |
 
-Nền nhẹ cho Card hoặc Hover state
+---
 
-Primary 100
+## 5. UI Display Guidelines
 
-#e6ede6
+### 5.1. Privacy Mode
+When Privacy Mode is enabled:
+- Keep `text-income` or `text-expense` colors
+- Replace amount text with `******` to hide balances while maintaining the financial vibe
 
-bg-primary-100
+### 5.2. Debt Status Display
 
-Nền icon, Badge nhạt
+| Progress | Color | Meaning |
+|---|---|---|
+| < 30% | Red | High remaining debt |
+| 30% - 70% | Gray | Making progress |
+| > 70% | Green | Almost paid off |
 
-Primary 500
+### 5.3. Financial Progress Bar
+Progress bar uses gradient from primary-100 to primary-600 to represent net worth accumulation.
 
-#6da16c
+---
 
-bg-primary-500
-
-Trạng thái Hover của Button
-
-Primary 600
-
-#598c58
-
-bg-primary-600
-
-Màu chính (Primary Button, Active Tab)
-
-Primary 900
-
-#324d31
-
-text-primary-900
-
-Chữ tiêu đề đậm (Heading)
-
-2. Màu Trạng Thái Tài Chính (Semantic Colors)
-
-Dùng để phân loại nhanh các luồng tiền theo [Mục 1.2 của Logic Tài Liệu].
-
-2.1. Phân loại Giao dịch
-
-Thu nhập (Income): #10b981 (emerald-500) - Tượng trưng cho sự tăng trưởng.
-
-Chi tiêu (Expense): #f43f5e (rose-500) - Tượng trưng cho sự thâm hụt.
-
-Chuyển khoản (Transfer): #3b82f6 (blue-500) - Tượng trưng cho sự luân chuyển (Trung tính).
-
-2.2. Mức độ chi tiêu (Category Level)
-
-Phân loại theo tâm lý người dùng [Mục 1.3 của Logic Tài Liệu]:
-
-Thiết yếu (Must-have): Dùng màu primary-600 - Cảm giác bắt buộc, vững chãi.
-
-Thứ yếu (Nice-to-have): #f59e0b (amber-500) - Cần cân nhắc.
-
-Lãng phí (Waste): #e11d48 (rose-600) - Cảnh báo tiêu cực.
-
-3. Màu Trung Tính & Nền (Neutral Colors)
-
-Sử dụng hệ màu Slate (Xám xanh) để giao diện trông hiện đại và không bị mỏi mắt.
-
-Thành phần
-
-Mã Hex
-
-Tên Tailwind
-
-Ghi chú
-
-Background
-
-#f8fafc
-
-bg-slate-50
-
-Nền toàn ứng dụng
-
-Surface
-
-#ffffff
-
-bg-white
-
-Nền của các thẻ (Cards), Modal
-
-Border
-
-#e2e8f0
-
-border-slate-200
-
-Đường kẻ phân cách, viền input
-
-Text Main
-
-#1e293b
-
-text-slate-800
-
-Chữ nội dung chính
-
-Text Muted
-
-#64748b
-
-text-slate-500
-
-Ghi chú phụ, ngày tháng
-
-4. Cấu hình Tailwind CSS (Technical Config)
-
-
-5. Quy tắc hiển thị UI (UI Guidelines)
-
-5.1. Chế độ Bảo mật (Privacy Mode)
-
-Khi [Privacy Mode] bật:
-
-Giữ nguyên màu text-income hoặc text-expense.
-
-Thay đổi nội dung chữ thành ****** để bảo mật số dư mà vẫn giữ được "vibe" tài chính.
-
-5.2. Trạng thái Nợ (Debt Status)
-
-Dựa trên [Mục 5.4 & 5.5 của Logic Tài Liệu]:
-
-Nợ lãi suất cao: Ưu tiên dùng màu waste (#e11d48) để tạo sự thúc giục.
-
-Sắp trả xong (>70%): Chuyển sang màu primary-600 (Xanh) để khích lệ người dùng.
-
-5.3. Mục tiêu Tài chính (Progress Bar)
-
-Thanh tiến độ: Sử dụng gradient từ primary-100 đến primary-600 để thể hiện sự tích lũy tài sản ròng (Net Worth).
-
-Cập nhật lần cuối: 2026-01-20
+Last updated: 2026-01-20

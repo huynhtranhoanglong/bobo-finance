@@ -1,92 +1,92 @@
-# Tài liệu Logic Tính Toán - Bobo Finance
+# Calculation Logic Documentation - Bobo Finance
 
-> Tài liệu này mô tả chi tiết tất cả các logic tính toán trong ứng dụng Bobo Finance, được diễn giải bằng lời văn dễ hiểu.
+> This document describes all calculation logic in the Bobo Finance application, explained in plain language.
 > 
-> 📘 **Đây là "Từ Điển Sống" của ứng dụng** - Mọi thay đổi logic cần được cập nhật tại đây.
+> 📘 **This is the "Living Dictionary" of the application** - All logic changes should be updated here.
 
 ---
 
-## Mục Lục
+## Table of Contents
 
-1. [Tổng Quan Dữ Liệu](#1-tổng-quan-dữ-liệu)
-2. [Tính Toán Tài Chính Cốt Lõi](#2-tính-toán-tài-chính-cốt-lõi)
-3. [Thống Kê Hàng Tháng](#3-thống-kê-hàng-tháng)
-4. [Logic Giao Dịch](#4-logic-giao-dịch)
-5. [Logic Quản Lý Nợ](#5-logic-quản-lý-nợ)
-6. [Logic Chuyển Khoản Giữa Các Ví](#6-logic-chuyển-khoản-giữa-các-ví)
-7. [Logic Gia Đình (Family)](#7-logic-gia-đình-family)
-8. [Các Chỉ Số Phụ Hiển Thị](#8-các-chỉ-số-phụ-hiển-thị)
-9. [Tham Chiếu Kỹ Thuật (Technical Reference)](#9-tham-chiếu-kỹ-thuật-technical-reference)
+1. [Data Overview](#1-data-overview)
+2. [Core Financial Calculations](#2-core-financial-calculations)
+3. [Monthly Statistics](#3-monthly-statistics)
+4. [Transaction Logic](#4-transaction-logic)
+5. [Debt Management Logic](#5-debt-management-logic)
+6. [Inter-Wallet Transfer Logic](#6-inter-wallet-transfer-logic)
+7. [Family Logic](#7-family-logic)
+8. [Secondary Display Indicators](#8-secondary-display-indicators)
+9. [Technical Reference](#9-technical-reference)
 
 ---
 
-## 1. Tổng Quan Dữ Liệu
+## 1. Data Overview
 
-### 1.1. Ngữ Cảnh Người Dùng (User Context)
+### 1.1. User Context
 
-Khi người dùng mở ứng dụng, hệ thống sẽ xác định ngữ cảnh như sau:
+When a user opens the application, the system determines context as follows:
 
-- **Người dùng cá nhân (không có gia đình):** Tất cả dữ liệu được truy vấn dựa trên ID của người dùng đang đăng nhập.
+- **Individual user (no family):** All data is queried based on the logged-in user's ID.
   
-- **Người dùng thuộc gia đình:** Tất cả dữ liệu được truy vấn dựa trên ID của gia đình mà người dùng đang tham gia. Điều này có nghĩa là người dùng sẽ thấy dữ liệu tổng hợp của cả gia đình, không chỉ riêng mình.
+- **User belonging to a family:** All data is queried based on the family ID that the user has joined. This means the user will see aggregated data for the entire family, not just their own.
 
 > **🔧 Backend:**
-> - Hàm helper: `get_user_family_id()` → Trả về `family_id` nếu user thuộc gia đình, ngược lại trả về `NULL`
-> - Biến SQL: `v_user_id := auth.uid()`, `v_family_id := get_user_family_id()`
-> - Logic query: Nếu `v_family_id IS NOT NULL` → query theo `family_id`, ngược lại query theo `user_id`
+> - Helper function: `get_user_family_id()` → Returns `family_id` if user belongs to a family, otherwise returns `NULL`
+> - SQL variables: `v_user_id := auth.uid()`, `v_family_id := get_user_family_id()`
+> - Query logic: If `v_family_id IS NOT NULL` → query by `family_id`, otherwise query by `user_id`
 
-### 1.2. Phân Loại Giao Dịch
+### 1.2. Transaction Classification
 
-Hệ thống phân loại giao dịch thành các loại sau:
+The system classifies transactions into the following types:
 
-| Loại (Type) | Mô tả | Ảnh hưởng Ví |
-|-------------|-------|--------------|
-| `income` | Thu nhập (lương, thu nhập khác) | Cộng tiền |
-| `expense` | Chi tiêu | Trừ tiền |
-| `transfer_out` | Chuyển khoản đi | Trừ tiền |
-| `transfer_in` | Chuyển khoản đến | Cộng tiền |
-| `debt_repayment` | Trả nợ | Trừ tiền |
-
-> **🔧 Backend:**
-> - Enum PostgreSQL: `transaction_type AS ENUM ('income', 'expense', 'transfer_in', 'transfer_out', 'debt_repayment')`
-> - Cột: `transactions.type`
-
-### 1.3. Phân Loại Giao Dịch Chi Tiết
-
-**A. Thu Nhập (Income):**
-
-| Key (Database) | Hiển thị | Mô tả |
-|----------------|----------|-------|
-| `main_income` | 💰 Thu nhập chính | Lương, doanh thu kinh doanh chính, lương hưu |
-| `bonus` | 🎁 Thưởng | Thưởng Tết, tháng 13, thưởng dự án |
-| `investment` | 📈 Đầu tư & Nghề phụ | Lãi tiết kiệm, chứng khoán, freelance, bán hàng online |
-| `other_income` | 📦 Khác | Được tặng, trúng thưởng, nhặt được |
-
-**B. Chi Tiêu (Expense):**
-
-| Key (Database) | Hiển thị | Mô tả | Tính vào biểu đồ |
-|----------------|----------|-------|------------------|
-| `must_have` | ✅ Thiết yếu | Bắt buộc phải chi (tiền nhà, điện nước, ăn uống) | ✅ Có |
-| `nice_to_have` | 🟡 Thứ yếu | Không bắt buộc nhưng nâng cao chất lượng sống (giải trí, du lịch) | ✅ Có |
-| `waste` | 🔴 Lãng phí | Không cần thiết (mua xong hối hận) | ✅ Có |
-| `other_expense` | 📦 Khác | Đặc biệt, trung lập (đổi tiền, điều chỉnh số dư) | ❌ Không |
+| Type | Description | Wallet Effect |
+|------|-------------|---------------|
+| `income` | Income (salary, other income) | Add money |
+| `expense` | Expenses | Subtract money |
+| `transfer_out` | Outgoing transfer | Subtract money |
+| `transfer_in` | Incoming transfer | Add money |
+| `debt_repayment` | Debt payment | Subtract money |
 
 > **🔧 Backend:**
-> - Enum PostgreSQL: `spending_category` (chứa cả income categories)
-> - Cột: `transactions.category_level`
-> - File cấu hình: `utils/categories.ts` (quản lý danh mục tập trung)
+> - PostgreSQL Enum: `transaction_type AS ENUM ('income', 'expense', 'transfer_in', 'transfer_out', 'debt_repayment')`
+> - Column: `transactions.type`
+
+### 1.3. Detailed Transaction Categories
+
+**A. Income Categories:**
+
+| Key (Database) | Display | Description |
+|----------------|---------|-------------|
+| `main_income` | 💰 Main Income | Salary, main business revenue, pension |
+| `bonus` | 🎁 Bonus | Year-end bonus, 13th month salary, project bonus |
+| `investment` | 📈 Investment & Side Job | Savings interest, stocks, freelance, online selling |
+| `other_income` | 📦 Other | Gifts, lottery winnings, found money |
+
+**B. Expense Categories:**
+
+| Key (Database) | Display | Description | Counted in Chart |
+|----------------|---------|-------------|------------------|
+| `must_have` | ✅ Must Have | Mandatory spending (rent, utilities, food) | ✅ Yes |
+| `nice_to_have` | 🟡 Nice to Have | Non-mandatory but quality-of-life spending (entertainment, travel) | ✅ Yes |
+| `waste` | 🔴 Waste | Unnecessary spending (regretful purchases) | ✅ Yes |
+| `other_expense` | 📦 Other | Special, neutral (currency exchange, balance adjustment) | ❌ No |
+
+> **🔧 Backend:**
+> - PostgreSQL Enum: `spending_category` (contains both income and expense categories)
+> - Column: `transactions.category_level`
+> - Config file: `utils/categories.ts` (centralized category management)
 
 ---
 
-## 2. Tính Toán Tài Chính Cốt Lõi
+## 2. Core Financial Calculations
 
-### 2.1. Tổng Tài Sản (Total Assets)
+### 2.1. Total Assets
 
-**Cách tính:**
-- Cộng tất cả số dư hiện tại của toàn bộ ví tiền mà người dùng (hoặc gia đình) sở hữu.
-- Nếu là gia đình, chỉ tính các ví được đánh dấu là "chia sẻ" (shared), không tính ví riêng tư.
+**Calculation:**
+- Sum all current balances of all wallets owned by the user (or family).
+- For families, only count wallets marked as "shared", not private wallets.
 
-**Ví dụ:** Bạn có 3 ví: Tiền mặt (5 triệu), TPBank (20 triệu), Momo (2 triệu). Tổng tài sản = 27 triệu.
+**Example:** You have 3 wallets: Cash (5M), TPBank (20M), Momo (2M). Total Assets = 27M.
 
 > **🔧 Backend:**
 > ```sql
@@ -97,19 +97,19 @@ Hệ thống phân loại giao dịch thành các loại sau:
 >     (v_family_id IS NULL AND user_id = v_user_id)
 > );
 > ```
-> - Biến SQL: `v_total_assets`
-> - Cột: `wallets.balance`, `wallets.visibility`
-> - RPC: `get_dashboard_data()` → trả về trong `metrics.total_assets`
+> - SQL Variable: `v_total_assets`
+> - Column: `wallets.balance`, `wallets.visibility`
+> - RPC: `get_dashboard_data()` → returns in `metrics.total_assets`
 
 ---
 
-### 2.2. Tổng Nợ Phải Trả (Total Payable Debts)
+### 2.2. Total Payable Debts
 
-**Cách tính:**
-- Cộng tất cả số tiền "còn phải trả" của các khoản nợ thuộc loại "phải trả" (payable).
-- Chỉ tính các khoản nợ chưa trả hết (số dư còn lại lớn hơn 0).
+**Calculation:**
+- Sum all "remaining amount" of debts of type "payable".
+- Only count debts not fully paid (remaining balance > 0).
 
-**Ví dụ:** Bạn có 2 khoản nợ: Vay mua laptop còn 15 triệu, Nợ thẻ tín dụng còn 10 triệu. Tổng nợ phải trả = 25 triệu.
+**Example:** You have 2 debts: Laptop loan with 15M remaining, Credit card with 10M remaining. Total Payable Debts = 25M.
 
 > **🔧 Backend:**
 > ```sql
@@ -120,20 +120,20 @@ Hệ thống phân loại giao dịch thành các loại sau:
 >     (v_family_id IS NULL AND user_id = v_user_id)
 > );
 > ```
-> - Biến SQL: `v_total_payable_debts`
-> - Cột: `debts.remaining_amount`, `debts.type`
-> - RPC: `get_dashboard_data()` → trả về trong `metrics.total_debts`
+> - SQL Variable: `v_total_payable_debts`
+> - Column: `debts.remaining_amount`, `debts.type`
+> - RPC: `get_dashboard_data()` → returns in `metrics.total_debts`
 
 ---
 
-### 2.3. Tổng Khoản Cho Vay (Total Receivable Debts)
+### 2.3. Total Receivable Debts
 
-**Cách tính:**
-- Cộng tất cả số tiền "còn phải thu" của các khoản nợ thuộc loại "cho vay" (receivable).
-- Chỉ tính các khoản chưa thu hết (số dư còn lại lớn hơn 0).
-- Đây là tiền người khác đang nợ bạn, sẽ thu về trong tương lai.
+**Calculation:**
+- Sum all "remaining to collect" of debts of type "receivable".
+- Only count amounts not yet collected (remaining > 0).
+- This is money others owe you, to be collected in the future.
 
-**Ví dụ:** Bạn cho bạn bè vay 3 triệu, họ chưa trả. Tổng khoản cho vay = 3 triệu.
+**Example:** You lent a friend 3M, not yet repaid. Total Receivable Debts = 3M.
 
 > **🔧 Backend:**
 > ```sql
@@ -144,59 +144,59 @@ Hệ thống phân loại giao dịch thành các loại sau:
 >     (v_family_id IS NULL AND user_id = v_user_id)
 > );
 > ```
-> - Biến SQL: `v_total_receivable_debts`
-> - Cột: `debts.remaining_amount`, `debts.type`
-> - RPC: `get_dashboard_data()` → trả về trong `metrics.total_receivable`
+> - SQL Variable: `v_total_receivable_debts`
+> - Column: `debts.remaining_amount`, `debts.type`
+> - RPC: `get_dashboard_data()` → returns in `metrics.total_receivable`
 
 ---
 
-### 2.4. Tài Sản Ròng (Net Worth)
+### 2.4. Net Worth
 
-**Cách tính:**
-- Lấy Tổng Tài Sản, trừ đi Tổng Nợ Phải Trả, sau đó cộng thêm Tổng Khoản Cho Vay.
+**Calculation:**
+- Take Total Assets, subtract Total Payable Debts, then add Total Receivable Debts.
 
-**Công thức:**
+**Formula:**
 ```
 Net Worth = Total Assets - Payable Debts + Receivable Debts
 ```
 
-**Ý nghĩa:**
-- Đây là "giá trị thực" của bạn - số tiền bạn thực sự sở hữu sau khi trừ hết nợ và tính cả tiền người khác đang nợ bạn.
-- Tiền bạn cho người khác vay được tính vào tài sản vì đó là tiền sẽ thu về trong tương lai.
-- Nếu số này âm, nghĩa là bạn đang nợ nhiều hơn tổng giá trị bạn có (bao gồm cả khoản cho vay).
+**Meaning:**
+- This is your "true value" - the amount you actually own after subtracting all debts and including money others owe you.
+- Money you've lent to others is counted as an asset because it will be collected in the future.
+- If this number is negative, you owe more than your total value (including receivables).
 
-**Ví dụ:** Tổng tài sản 27 triệu, Tổng nợ phải trả 25 triệu, Tổng khoản cho vay 3 triệu → Tài sản ròng = 27 - 25 + 3 = 5 triệu.
+**Example:** Total Assets 27M, Total Payable Debts 25M, Total Receivable Debts 3M → Net Worth = 27 - 25 + 3 = 5M.
 
 > **🔧 Backend:**
 > ```sql
 > v_net_worth := v_total_assets - v_total_payable_debts + v_total_receivable_debts;
 > ```
-> - Biến SQL: `v_net_worth`
-> - RPC: `get_dashboard_data()` → trả về trong `metrics.net_worth`
+> - SQL Variable: `v_net_worth`
+> - RPC: `get_dashboard_data()` → returns in `metrics.net_worth`
 > - History: 
->   - v1.1.5: `Net Worth = Assets - Debts` (chưa tính receivable)
->   - v1.3.12: Cập nhật công thức mới, thêm `total_receivable`
+>   - v1.1.5: `Net Worth = Assets - Debts` (didn't include receivable)
+>   - v1.3.12: Updated formula, added `total_receivable`
 
 ---
 
-### 2.5. Chi Tiêu Tối Thiểu Hàng Tháng (Minimum Monthly Spend)
+### 2.5. Minimum Monthly Spending
 
-**Cách tính:**
-1. Lấy tất cả các giao dịch chi tiêu trong 90 ngày gần nhất.
-2. Chỉ lọc những giao dịch được đánh dấu là "thiết yếu" (must_have).
-3. Cộng tổng số tiền của các giao dịch này.
-4. Chia cho 3 (vì 90 ngày = 3 tháng) để ra mức chi tiêu trung bình mỗi tháng.
+**Calculation:**
+1. Get all expense transactions from the last 90 days.
+2. Filter only transactions marked as "must_have".
+3. Sum the amounts.
+4. Divide by 3 (since 90 days = 3 months) to get monthly average.
 
-**Công thức:**
+**Formula:**
 ```
 Min Monthly Spend = SUM(expense where category = 'must_have' in last 90 days) / 3
 ```
 
-**Ý nghĩa:**
-- Đây là số tiền tối thiểu bạn cần để duy trì cuộc sống mỗi tháng.
-- Được dùng để tính các mục tiêu tài chính an toàn.
+**Meaning:**
+- This is the minimum amount you need to maintain your life each month.
+- Used to calculate safe financial targets.
 
-**Ví dụ:** Trong 90 ngày qua, bạn chi 24 triệu cho các khoản thiết yếu → Chi tiêu tối thiểu = 24 ÷ 3 = 8 triệu/tháng.
+**Example:** In the last 90 days, you spent 24M on essentials → Minimum Monthly = 24 ÷ 3 = 8M/month.
 
 > **🔧 Backend:**
 > ```sql
@@ -210,30 +210,30 @@ Min Monthly Spend = SUM(expense where category = 'must_have' in last 90 days) / 
 > )
 > SELECT COALESCE(must_have_sum, 0) / 3 INTO v_min_spend FROM metrics_agg;
 > ```
-> - Biến SQL: `v_min_spend`
-> - Phòng chia cho 0: `IF v_min_spend = 0 THEN v_min_spend := 1; END IF;`
-> - RPC: `get_dashboard_data()` → trả về trong `metrics.min_monthly_spend`
+> - SQL Variable: `v_min_spend`
+> - Division by zero protection: `IF v_min_spend = 0 THEN v_min_spend := 1; END IF;`
+> - RPC: `get_dashboard_data()` → returns in `metrics.min_monthly_spend`
 
 ---
 
-### 2.6. Chi Tiêu Tiêu Chuẩn Hàng Tháng (Standard Monthly Spend)
+### 2.6. Standard Monthly Spending
 
-**Cách tính:**
-1. Lấy tất cả các giao dịch chi tiêu trong 90 ngày gần nhất.
-2. Lọc những giao dịch là "thiết yếu" (must_have) HOẶC "tốt để có" (nice_to_have).
-3. Cộng tổng số tiền.
-4. Chia cho 3 để ra mức trung bình mỗi tháng.
+**Calculation:**
+1. Get all expense transactions from the last 90 days.
+2. Filter transactions that are "must_have" OR "nice_to_have".
+3. Sum the amounts.
+4. Divide by 3 to get monthly average.
 
-**Công thức:**
+**Formula:**
 ```
 Std Monthly Spend = SUM(expense where category IN ('must_have', 'nice_to_have') in last 90 days) / 3
 ```
 
-**Ý nghĩa:**
-- Đây là mức chi tiêu để duy trì chất lượng cuộc sống hiện tại (không tính lãng phí).
-- Được dùng để tính mục tiêu tự do tài chính.
+**Meaning:**
+- This is the spending level to maintain your current quality of life (excluding waste).
+- Used to calculate financial freedom targets.
 
-**Ví dụ:** Trong 90 ngày qua, bạn chi 36 triệu cho thiết yếu và tốt để có → Chi tiêu tiêu chuẩn = 36 ÷ 3 = 12 triệu/tháng.
+**Example:** In the last 90 days, you spent 36M on essentials and nice-to-haves → Standard Monthly = 36 ÷ 3 = 12M/month.
 
 > **🔧 Backend:**
 > ```sql
@@ -247,91 +247,91 @@ Std Monthly Spend = SUM(expense where category IN ('must_have', 'nice_to_have') 
 > )
 > SELECT COALESCE(std_sum, 0) / 3 INTO v_std_spend FROM metrics_agg;
 > ```
-> - Biến SQL: `v_std_spend`
-> - Phòng chia cho 0: `IF v_std_spend = 0 THEN v_std_spend := 1; END IF;`
-> - RPC: `get_dashboard_data()` → trả về trong `metrics.std_monthly_spend`
+> - SQL Variable: `v_std_spend`
+> - Division by zero protection: `IF v_std_spend = 0 THEN v_std_spend := 1; END IF;`
+> - RPC: `get_dashboard_data()` → returns in `metrics.std_monthly_spend`
 
 ---
 
-### 2.7. Mục Tiêu An Toàn Tài Chính (Safety Target)
+### 2.7. Financial Safety Target
 
-**Cách tính:**
-- Lấy Chi Tiêu Tối Thiểu Hàng Tháng × 12 tháng × 25 năm.
+**Calculation:**
+- Take Minimum Monthly Spending × 12 months × 25 years.
 
-**Công thức:**
+**Formula:**
 ```
 Safety Target = Min Monthly Spend × 12 × 25
 ```
 
-**Ý nghĩa:**
-- Đây là số tiền bạn cần có để sống thoải mái mà không cần làm việc nữa (ở mức tối thiểu).
-- Con số 25 năm dựa trên quy tắc 4% trong đầu tư: nếu bạn rút 4% mỗi năm từ tài sản đầu tư, tiền sẽ tồn tại khoảng 25 năm.
+**Meaning:**
+- This is the amount you need to live comfortably without working (at minimum level).
+- The 25 years figure is based on the 4% investment rule: if you withdraw 4% annually from investments, the money lasts approximately 25 years.
 
-**Ví dụ:** Chi tiêu tối thiểu 8 triệu/tháng → Mục tiêu an toàn = 8 × 12 × 25 = 2.4 tỷ đồng.
+**Example:** Minimum monthly 8M → Safety Target = 8 × 12 × 25 = 2.4 billion VND.
 
 > **🔧 Backend:**
 > ```sql
 > v_safety_target := v_min_spend * 12 * 25;
 > ```
-> - Biến SQL: `v_safety_target`
-> - RPC: `get_dashboard_data()` → trả về trong `metrics.safety_target`
+> - SQL Variable: `v_safety_target`
+> - RPC: `get_dashboard_data()` → returns in `metrics.safety_target`
 
 ---
 
-### 2.8. Mục Tiêu Tự Do Tài Chính (Freedom Target)
+### 2.8. Financial Freedom Target
 
-**Cách tính:**
-- Lấy Chi Tiêu Tiêu Chuẩn Hàng Tháng × 12 tháng × 25 năm.
+**Calculation:**
+- Take Standard Monthly Spending × 12 months × 25 years.
 
-**Công thức:**
+**Formula:**
 ```
 Freedom Target = Std Monthly Spend × 12 × 25
 ```
 
-**Ý nghĩa:**
-- Đây là số tiền bạn cần có để sống thoải mái với chất lượng cuộc sống hiện tại mà không cần làm việc.
-- Cao hơn mục tiêu an toàn vì bao gồm cả các khoản chi "tốt để có".
+**Meaning:**
+- This is the amount you need to live comfortably with your current quality of life without working.
+- Higher than Safety Target because it includes "nice to have" spending.
 
-**Ví dụ:** Chi tiêu tiêu chuẩn 12 triệu/tháng → Mục tiêu tự do = 12 × 12 × 25 = 3.6 tỷ đồng.
+**Example:** Standard monthly 12M → Freedom Target = 12 × 12 × 25 = 3.6 billion VND.
 
 > **🔧 Backend:**
 > ```sql
 > v_freedom_target := v_std_spend * 12 * 25;
 > ```
-> - Biến SQL: `v_freedom_target`
-> - RPC: `get_dashboard_data()` → trả về trong `metrics.freedom_target`
+> - SQL Variable: `v_freedom_target`
+> - RPC: `get_dashboard_data()` → returns in `metrics.freedom_target`
 
 ---
 
-### 2.9. Tiến Độ Đạt Mục Tiêu (Progress)
+### 2.9. Progress Toward Goals
 
-**Công thức:**
+**Formula:**
 ```
 Safety Progress = (Net Worth / Safety Target) × 100
 Freedom Progress = (Net Worth / Freedom Target) × 100
 ```
 
-**Hiển thị trên Dashboard:**
-- Nếu chưa đạt mục tiêu An toàn: Hiển thị thanh tiến trình hướng tới An toàn tài chính.
-- Nếu đã đạt An toàn nhưng chưa đạt Tự do: Hiển thị thanh tiến trình hướng tới Tự do tài chính.
+**Dashboard Display:**
+- If Safety not yet achieved: Show progress bar toward Financial Safety.
+- If Safety achieved but not Freedom: Show progress bar toward Financial Freedom.
 
 > **🔧 Backend:**
 > ```sql
 > 'safety_progress', CASE WHEN v_safety_target > 0 THEN (v_net_worth / v_safety_target) * 100 ELSE 0 END,
 > 'freedom_progress', CASE WHEN v_freedom_target > 0 THEN (v_net_worth / v_freedom_target) * 100 ELSE 0 END
 > ```
-> - RPC: `get_dashboard_data()` → trả về trong `metrics.safety_progress`, `metrics.freedom_progress`
+> - RPC: `get_dashboard_data()` → returns in `metrics.safety_progress`, `metrics.freedom_progress`
 > - Frontend: `components/financial-progress.tsx`
 
 ---
 
-## 3. Thống Kê Hàng Tháng
+## 3. Monthly Statistics
 
-### 3.1. Thu Nhập Tháng Này (Monthly Income)
+### 3.1. Monthly Income
 
-**Cách tính:**
-- Cộng tất cả số tiền của các giao dịch loại "thu nhập" (income) trong tháng được chọn.
-- Phạm vi tháng được xác định từ ngày 1 đến hết ngày cuối cùng của tháng đó (theo múi giờ người dùng).
+**Calculation:**
+- Sum all amounts of "income" type transactions in the selected month.
+- Month range is determined from day 1 to the last day of that month (in user's timezone).
 
 > **🔧 Backend:**
 > ```sql
@@ -343,16 +343,16 @@ Freedom Progress = (Net Worth / Freedom Target) × 100
 > FROM transactions
 > WHERE date >= v_start_date AND date < v_end_date AND (...user_context...);
 > ```
-> - Biến SQL: `v_income`
-> - RPC: `get_dashboard_data(p_month, p_year, p_timezone)` → trả về trong `monthly_stats.income`
+> - SQL Variable: `v_income`
+> - RPC: `get_dashboard_data(p_month, p_year, p_timezone)` → returns in `monthly_stats.income`
 
 ---
 
-### 3.2. Chi Tiêu Tháng Này (Monthly Expense)
+### 3.2. Monthly Expenses
 
-**Cách tính:**
-- Cộng tất cả số tiền của các giao dịch loại "chi tiêu" (expense) trong tháng được chọn.
-- Không tính các khoản chuyển khoản giữa các ví (vì đó chỉ là di chuyển tiền, không phải chi tiêu thật).
+**Calculation:**
+- Sum all amounts of "expense" type transactions in the selected month.
+- Does not include inter-wallet transfers (as those are just moving money, not actual spending).
 
 > **🔧 Backend:**
 > ```sql
@@ -361,41 +361,41 @@ Freedom Progress = (Net Worth / Freedom Target) × 100
 > FROM transactions
 > WHERE date >= v_start_date AND date < v_end_date AND (...user_context...);
 > ```
-> - Biến SQL: `v_expense`
-> - RPC: `get_dashboard_data()` → trả về trong `monthly_stats.expense`
+> - SQL Variable: `v_expense`
+> - RPC: `get_dashboard_data()` → returns in `monthly_stats.expense`
 
 ---
 
-### 3.3. Số Dư Còn Lại (Remaining)
+### 3.3. Remaining Balance
 
-**Công thức:**
+**Formula:**
 ```
-Remaining = Monthly Income - Monthly Expense
+Remaining = Monthly Income - Monthly Expenses
 ```
 
-**Ý nghĩa:**
-- Số dương: Bạn tiết kiệm được tiền tháng này.
-- Số âm: Bạn chi nhiều hơn thu (có thể đang dùng tiền tiết kiệm hoặc vay).
+**Meaning:**
+- Positive: You saved money this month.
+- Negative: You spent more than you earned (possibly using savings or borrowing).
 
 > **🔧 Backend:**
 > ```sql
 > 'remaining', v_income - v_expense
 > ```
-> - RPC: `get_dashboard_data()` → trả về trong `monthly_stats.remaining`
+> - RPC: `get_dashboard_data()` → returns in `monthly_stats.remaining`
 
 ---
 
-### 3.4. Phân Tích Chi Tiêu (Spending Breakdown)
+### 3.4. Spending Breakdown
 
-Hệ thống tách chi tiêu tháng này thành 3 nhóm:
+The system breaks down this month's spending into 3 groups:
 
-| Category | Biến SQL | Mô tả |
-|----------|----------|-------|
-| `must_have` | `v_must_have` | Thiết yếu |
-| `nice_to_have` | `v_nice_to_have` | Tốt để có |
-| `waste` | `v_waste` | Lãng phí |
+| Category | SQL Variable | Description |
+|----------|--------------|-------------|
+| `must_have` | `v_must_have` | Essential |
+| `nice_to_have` | `v_nice_to_have` | Nice to have |
+| `waste` | `v_waste` | Wasteful |
 
-Các con số này được hiển thị dưới dạng biểu đồ tròn để dễ hình dung tỷ lệ.
+These numbers are displayed as a pie chart for easy visualization.
 
 > **🔧 Backend:**
 > ```sql
@@ -406,57 +406,57 @@ Các con số này được hiển thị dưới dạng biểu đồ tròn để
 > INTO v_must_have, v_nice_to_have, v_waste
 > FROM transactions WHERE ...;
 > ```
-> - RPC: `get_dashboard_data()` → trả về trong `monthly_stats.breakdown`
+> - RPC: `get_dashboard_data()` → returns in `monthly_stats.breakdown`
 > - Frontend: `components/monthly-stats.tsx` (Pie Chart)
 
 ---
 
-### 3.5. So Sánh Tiến Độ Chi Tiêu
+### 3.5. Spending Progress Comparison
 
-Hệ thống so sánh tốc độ chi tiêu của bạn với thời gian đã trôi qua trong tháng:
+The system compares your spending rate against elapsed time in the month:
 
-**Tiến độ Thời gian:**
+**Time Progress:**
 ```
 Time Progress = (Current Day / Total Days in Month) × 100
 ```
-Ví dụ: Ngày 15 của tháng có 30 ngày → Tiến độ thời gian = 50%.
+Example: Day 15 of a 30-day month → Time Progress = 50%.
 
-**Tiến độ Chi tiêu:**
+**Spending Progress:**
 ```
 If has_debt: Spending Progress = (Actual Expense / Min Monthly Spend) × 100
 Else:        Spending Progress = (Actual Expense / Std Monthly Spend) × 100
 ```
 
-**Đánh giá (Frontend Logic):**
+**Assessment (Frontend Logic):**
 
-| Điều kiện | Màu | Ý nghĩa |
-|-----------|-----|---------|
-| Spending < Time - 10% | Xanh | Đang chi tiêu chậm, tốt! |
-| Spending ≈ Time (±10%) | Xám | Đang ổn |
-| Spending > Time + 10% | Đỏ | Cảnh báo, đang chi nhanh hơn kế hoạch |
+| Condition | Color | Meaning |
+|-----------|-------|---------|
+| Spending < Time - 10% | Green | Spending slowly, good! |
+| Spending ≈ Time (±10%) | Gray | On track |
+| Spending > Time + 10% | Red | Warning, spending faster than planned |
 
 > **🔧 Backend:**
 > - `has_debt`: `IF v_total_payable_debts > 0 THEN v_has_debt := true; END IF;`
-> - RPC: `get_dashboard_data()` → trả về `monthly_stats.has_debt`, `monthly_stats.min_spend`, `monthly_stats.std_spend`
+> - RPC: `get_dashboard_data()` → returns `monthly_stats.has_debt`, `monthly_stats.min_spend`, `monthly_stats.std_spend`
 > - Frontend: `components/monthly-stats.tsx`
 
 ---
 
-## 4. Logic Giao Dịch
+## 4. Transaction Logic
 
-### 4.1. Tạo Giao Dịch Thu Nhập / Chi Tiêu
+### 4.1. Creating Income/Expense Transactions
 
-Khi bạn ghi nhận một khoản thu nhập/chi tiêu:
+When you record an income/expense:
 
-1. Hệ thống tạo một dòng giao dịch mới với loại tương ứng.
-2. Số dư của ví được chọn sẽ được cập nhật.
-3. Nếu người dùng thuộc gia đình, giao dịch được gắn ID gia đình để mọi thành viên đều thấy.
+1. System creates a new transaction record with corresponding type.
+2. Selected wallet balance is updated.
+3. If user belongs to a family, transaction is tagged with family ID so all members can see it.
 
 > **🔧 Backend:**
 > - RPC: `create_transaction_and_update_wallet(p_wallet_id, p_amount, p_type, p_category, p_note, p_date)`
-> - Server Action: `addTransaction()` trong `app/actions.ts`
+> - Server Action: `addTransaction()` in `app/actions.ts`
 > ```sql
-> -- Tự động lấy family_id
+> -- Auto-get family_id
 > v_family_id := get_user_family_id();
 > 
 > -- Insert transaction
@@ -473,34 +473,34 @@ Khi bạn ghi nhận một khoản thu nhập/chi tiêu:
 
 ---
 
-### 4.2. Sửa Giao Dịch
+### 4.2. Editing Transactions
 
-Khi bạn sửa một giao dịch đã có:
+When you edit an existing transaction:
 
-**Bước 1 - Hoàn lại số dư cũ:**
-- Nếu giao dịch cũ là chi tiêu/trả nợ/chuyển đi: Cộng lại số tiền cũ vào ví cũ.
-- Nếu giao dịch cũ là thu nhập/chuyển đến: Trừ số tiền cũ khỏi ví cũ.
+**Step 1 - Revert old balance:**
+- If old transaction was expense/repayment/transfer_out: Add old amount back to old wallet.
+- If old transaction was income/transfer_in: Subtract old amount from old wallet.
 
-**Bước 2 - Áp dụng số dư mới:**
-- Nếu giao dịch là chi tiêu/trả nợ/chuyển đi: Trừ số tiền mới khỏi ví mới.
-- Nếu giao dịch là thu nhập/chuyển đến: Cộng số tiền mới vào ví mới.
+**Step 2 - Apply new balance:**
+- If transaction is expense/repayment/transfer_out: Subtract new amount from new wallet.
+- If transaction is income/transfer_in: Add new amount to new wallet.
 
-**Bước 3 - Cập nhật thông tin:**
-- Cập nhật số tiền, ghi chú, ngày, ví, mức độ chi tiêu theo giá trị mới.
+**Step 3 - Update information:**
+- Update amount, note, date, wallet, spending category with new values.
 
 > **🔧 Backend:**
 > - RPC: `update_transaction_v3(p_id, p_new_amount, p_new_note, p_new_date, p_new_wallet_id, p_new_category)`
-> - Server Action: `updateTransactionAction()` trong `app/actions.ts`
-> - Flag: `SECURITY DEFINER` để bypass RLS và update ví của thành viên khác trong gia đình
+> - Server Action: `updateTransactionAction()` in `app/actions.ts`
+> - Flag: `SECURITY DEFINER` to bypass RLS and update other family members' wallets
 > ```sql
-> -- Hoàn lại tiền CŨ vào ví CŨ
+> -- Revert OLD amount to OLD wallet
 > IF v_type IN ('expense', 'debt_repayment', 'transfer_out') THEN
 >     UPDATE wallets SET balance = balance + v_old_amount WHERE id = v_old_wallet_id;
 > ELSIF v_type IN ('income', 'transfer_in') THEN
 >     UPDATE wallets SET balance = balance - v_old_amount WHERE id = v_old_wallet_id;
 > END IF;
 > 
-> -- Trừ/Cộng tiền MỚI vào ví MỚI
+> -- Apply NEW amount to NEW wallet
 > IF v_type IN ('expense', 'debt_repayment', 'transfer_out') THEN
 >     UPDATE wallets SET balance = balance - p_new_amount WHERE id = p_new_wallet_id;
 > ELSIF v_type IN ('income', 'transfer_in') THEN
@@ -510,33 +510,33 @@ Khi bạn sửa một giao dịch đã có:
 
 ---
 
-### 4.3. Xóa Giao Dịch
+### 4.3. Deleting Transactions
 
-Khi bạn xóa một giao dịch:
+When you delete a transaction:
 
-**Hoàn lại số dư:**
-- Nếu giao dịch là chi tiêu/trả nợ/chuyển đi: Cộng lại số tiền vào ví (vì lúc tạo đã trừ).
-- Nếu giao dịch là thu nhập/chuyển đến: Trừ số tiền khỏi ví (vì lúc tạo đã cộng).
+**Revert balance:**
+- If transaction was expense/repayment/transfer_out: Add amount back to wallet (since it was subtracted when created).
+- If transaction was income/transfer_in: Subtract amount from wallet (since it was added when created).
 
-**Xử lý khoản nợ liên quan (nếu có):**
-- Nếu xóa giao dịch trả nợ: Cộng lại số tiền đã trả vào "số dư còn lại" của khoản nợ.
-- Nếu xóa giao dịch tạo nợ: Giảm tổng nợ và số dư còn lại của khoản nợ đó.
+**Handle related debt (if any):**
+- If deleting debt repayment: Add paid amount back to debt's remaining balance.
+- If deleting debt creation transaction: Reduce total debt and remaining amount.
 
-**Cuối cùng:** Xóa dòng giao dịch khỏi hệ thống.
+**Finally:** Delete the transaction record.
 
 > **🔧 Backend:**
 > - RPC: `delete_transaction_v3(p_transaction_id)`
-> - Server Action: `deleteTransactionAction()` trong `app/actions.ts`
-> - Flag: `SECURITY DEFINER` để bypass RLS
+> - Server Action: `deleteTransactionAction()` in `app/actions.ts`
+> - Flag: `SECURITY DEFINER` to bypass RLS
 > ```sql
-> -- Hoàn tiền lại vào Ví
+> -- Revert money to Wallet
 > IF v_type IN ('expense', 'debt_repayment', 'transfer_out') THEN
 >     UPDATE wallets SET balance = balance + v_amount WHERE id = v_wallet_id;
 > ELSIF v_type IN ('income', 'transfer_in') THEN
 >     UPDATE wallets SET balance = balance - v_amount WHERE id = v_wallet_id;
 > END IF;
 > 
-> -- Xử lý Hoàn Nợ (nếu có related_debt_id)
+> -- Handle Debt Reversion (if related_debt_id exists)
 > IF v_related_debt_id IS NOT NULL THEN
 >     IF v_type = 'debt_repayment' THEN
 >         UPDATE debts SET remaining_amount = remaining_amount + v_amount WHERE id = v_related_debt_id;
@@ -545,63 +545,63 @@ Khi bạn xóa một giao dịch:
 >     END IF;
 > END IF;
 > 
-> -- Xóa giao dịch
+> -- Delete transaction
 > DELETE FROM transactions WHERE id = p_transaction_id;
 > ```
 
 ---
 
-## 5. Logic Quản Lý Nợ
+## 5. Debt Management Logic
 
-### 5.1. Phân Loại Nợ
+### 5.1. Debt Classification
 
-| Loại (Type) | Mô tả | Ảnh hưởng ví khi tạo |
-|-------------|-------|---------------------|
-| `payable` | Tiền bạn nợ người khác | Tiền vào (Income) |
-| `receivable` | Tiền người khác nợ bạn | Tiền ra (Expense) |
+| Type | Description | Wallet Effect on Creation |
+|------|-------------|---------------------------|
+| `payable` | Money you owe others | Money in (Income) |
+| `receivable` | Money others owe you | Money out (Expense) |
 
 > **🔧 Backend:**
-> - Enum PostgreSQL: `debt_type AS ENUM ('payable', 'receivable')`
-> - Cột: `debts.type`
-> - Mức lãi suất: `debt_interest_level AS ENUM ('none', 'low', 'medium', 'high')`
+> - PostgreSQL Enum: `debt_type AS ENUM ('payable', 'receivable')`
+> - Column: `debts.type`
+> - Interest level: `debt_interest_level AS ENUM ('none', 'low', 'medium', 'high')`
 
 ---
 
-### 5.2. Tạo Khoản Nợ Mới
+### 5.2. Creating New Debt
 
-Có 2 chế độ tạo nợ:
+There are 2 creation modes:
 
-**Chế độ "Chỉ Ghi Nhận" (Just Record = true):**
-- Dùng khi ghi lại một khoản nợ đã tồn tại từ trước.
-- Chỉ tạo bản ghi nợ với Tổng nợ, Số đã trả, và Số còn lại.
-- **Không tạo giao dịch, không ảnh hưởng số dư ví.**
+**"Just Record" Mode (Just Record = true):**
+- Used to record a pre-existing debt.
+- Only creates debt record with Total, Paid, and Remaining amounts.
+- **No transaction created, no wallet balance affected.**
 
-**Chế độ Thông Thường (Just Record = false):**
-- Dùng khi vừa vay tiền mới.
-- Tạo bản ghi nợ VÀ tạo giao dịch tương ứng.
-- Ảnh hưởng ví theo bảng ở mục 5.1.
+**Normal Mode (Just Record = false):**
+- Used when you just borrowed money.
+- Creates debt record AND corresponding transaction.
+- Affects wallet per table in section 5.1.
 
 > **🔧 Backend:**
 > - RPC: `create_new_debt_v2(p_name, p_total_amount, p_paid_amount, p_type, p_interest, p_wallet_id, p_note, p_date, p_create_transaction)`
-> - Server Action: `addTransaction()` với `type === "create_debt"`
+> - Server Action: `addTransaction()` with `type === "create_debt"`
 > ```sql
-> -- Tính số tiền còn lại
+> -- Calculate remaining amount
 > v_remaining_amount := p_total_amount - p_paid_amount;
 > IF v_remaining_amount < 0 THEN v_remaining_amount := 0; END IF;
 > 
-> -- Tạo khoản nợ
+> -- Create debt
 > INSERT INTO debts (user_id, name, total_amount, remaining_amount, type, interest_level, created_at, family_id)
 > VALUES (auth.uid(), p_name, p_total_amount, v_remaining_amount, p_type, p_interest, p_date, v_family_id)
 > RETURNING id INTO v_new_debt_id;
 > 
-> -- Nếu create_transaction = true và còn nợ > 0
+> -- If create_transaction = true and remaining > 0
 > IF p_create_transaction = true AND p_wallet_id IS NOT NULL AND v_remaining_amount > 0 THEN
 >     IF p_type = 'payable' THEN
->         -- Vay → Income
+>         -- Borrow → Income
 >         INSERT INTO transactions (..., type = 'income', ...);
 >         UPDATE wallets SET balance = balance + v_remaining_amount WHERE id = p_wallet_id;
 >     ELSIF p_type = 'receivable' THEN
->         -- Cho vay → Expense
+>         -- Lend → Expense
 >         INSERT INTO transactions (..., type = 'expense', ...);
 >         UPDATE wallets SET balance = balance - v_remaining_amount WHERE id = p_wallet_id;
 >     END IF;
@@ -610,49 +610,49 @@ Có 2 chế độ tạo nợ:
 
 ---
 
-### 5.3. Trả Nợ
+### 5.3. Debt Repayment
 
-Khi bạn trả một khoản nợ:
+When you pay a debt:
 
-1. Tạo giao dịch `debt_repayment`.
-2. Cập nhật ví (trừ tiền nếu payable, cộng tiền nếu receivable).
-3. Giảm `remaining_amount` của khoản nợ.
+1. Create `debt_repayment` transaction.
+2. Update wallet (subtract if payable, add if receivable).
+3. Reduce `remaining_amount` of the debt.
 
 > **🔧 Backend:**
 > - RPC: `pay_debt(p_debt_id, p_wallet_id, p_amount)`
-> - Server Action: `addTransaction()` với `type === "debt_repayment"`
+> - Server Action: `addTransaction()` with `type === "debt_repayment"`
 > ```sql
-> -- Tạo giao dịch trả nợ
+> -- Create repayment transaction
 > INSERT INTO transactions (..., type = 'debt_repayment', related_debt_id = p_debt_id, ...);
 > 
-> -- Cập nhật ví
+> -- Update wallet
 > IF v_debt_type = 'payable' THEN
 >     UPDATE wallets SET balance = balance - p_amount WHERE id = p_wallet_id;
 > ELSE
 >     UPDATE wallets SET balance = balance + p_amount WHERE id = p_wallet_id;
 > END IF;
 > 
-> -- Giảm remaining
+> -- Reduce remaining
 > UPDATE debts SET remaining_amount = remaining_amount - p_amount WHERE id = p_debt_id;
 > ```
 
 ---
 
-### 5.4. Tính Tiến Độ Trả Nợ
+### 5.4. Debt Repayment Progress
 
-**Công thức:**
+**Formula:**
 ```
 Progress = ((Total Amount - Remaining Amount) / Total Amount) × 100
          = (Paid Amount / Total Amount) × 100
 ```
 
-**Hiển thị (Frontend):**
+**Display (Frontend):**
 
-| Tiến độ | Màu | Ý nghĩa |
-|---------|-----|---------|
-| < 30% | Đỏ | Còn nhiều nợ |
-| 30% - 70% | Xám | Đang trả dần |
-| > 70% | Xanh | Sắp trả xong |
+| Progress | Color | Meaning |
+|----------|-------|---------|
+| < 30% | Red | Lots of debt remaining |
+| 30% - 70% | Gray | Making progress |
+| > 70% | Green | Almost paid off |
 
 > **🔧 Frontend:** `components/debt-card.tsx`
 > ```tsx
@@ -661,14 +661,14 @@ Progress = ((Total Amount - Remaining Amount) / Total Amount) × 100
 
 ---
 
-### 5.5. Sắp Xếp Danh Sách Nợ
+### 5.5. Debt List Sorting
 
-Danh sách nợ trên Dashboard được sắp xếp theo thứ tự ưu tiên:
+The debt list on Dashboard is sorted by priority:
 
-**Quy tắc:**
-1. **Payable trước Receivable**
-2. **Trong Payable:** Theo lãi suất (high → medium → low → none), rồi theo số tiền nhỏ trước (Snowball method)
-3. **Trong Receivable:** Số tiền lớn trước
+**Rules:**
+1. **Payable before Receivable**
+2. **Within Payable:** By interest rate (high → medium → low → none), then by smallest amount first (Snowball method)
+3. **Within Receivable:** Largest amount first
 
 > **🔧 Backend:**
 > ```sql
@@ -683,14 +683,14 @@ Danh sách nợ trên Dashboard được sắp xếp theo thứ tự ưu tiên:
 
 ---
 
-### 5.6. Sửa Khoản Nợ
+### 5.6. Editing Debts
 
-**Chế độ "Chỉ Ghi Nhận" (update_wallet = false):**
-- Chỉ cập nhật thông tin, không ảnh hưởng ví.
+**"Just Record" Mode (update_wallet = false):**
+- Only updates information, no wallet effect.
 
-**Chế độ Cập nhật Ví (update_wallet = true):**
-- Tính chênh lệch: `diff = new_remaining - old_remaining`
-- Tạo giao dịch điều chỉnh tương ứng
+**Update Wallet Mode (update_wallet = true):**
+- Calculate difference: `diff = new_remaining - old_remaining`
+- Create corresponding adjustment transaction
 
 > **🔧 Backend:**
 > - RPC: `update_debt_v2(p_id, p_new_name, p_new_total, p_new_paid, p_wallet_id, p_update_wallet, p_note)`
@@ -699,120 +699,119 @@ Danh sách nợ trên Dashboard được sắp xếp theo thứ tự ưu tiên:
 > v_diff := v_new_remaining - v_old_remaining;
 > 
 > IF v_diff <> 0 AND p_update_wallet = true THEN
->     -- Payable: diff > 0 = vay thêm (income), diff < 0 = trả bớt (expense)
->     -- Receivable: diff > 0 = cho vay thêm (expense), diff < 0 = thu về (income)
+>     -- Payable: diff > 0 = borrowed more (income), diff < 0 = paid back (expense)
+>     -- Receivable: diff > 0 = lent more (expense), diff < 0 = collected (income)
 >     ...
 > END IF;
 > ```
 
 ---
 
-## 6. Logic Chuyển Khoản Giữa Các Ví
+## 6. Inter-Wallet Transfer Logic
 
-### 6.1. Thực Hiện Chuyển Khoản
+### 6.1. Executing Transfers
 
-Khi bạn chuyển tiền từ Ví A sang Ví B:
+When you transfer money from Wallet A to Wallet B:
 
-1. Tạo 2 giao dịch: `transfer_out` (Ví A) và `transfer_in` (Ví B)
-2. Cập nhật số dư: Ví A trừ, Ví B cộng
-3. Cả 2 giao dịch có cùng ghi chú để dễ đối chiếu
+1. Create 2 transactions: `transfer_out` (Wallet A) and `transfer_in` (Wallet B)
+2. Update balances: Wallet A subtract, Wallet B add
+3. Both transactions have the same note for easy reconciliation
 
 > **🔧 Backend:**
 > - RPC: `transfer_funds(p_from_wallet_id, p_to_wallet_id, p_amount, p_note, p_date)`
-> - Server Action: `addTransaction()` với `type === "transfer"`
+> - Server Action: `addTransaction()` with `type === "transfer"`
 > ```sql
-> -- Trừ tiền ví nguồn
+> -- Subtract from source wallet
 > UPDATE wallets SET balance = balance - p_amount WHERE id = p_from_wallet_id;
 > 
-> -- Cộng tiền ví đích
+> -- Add to destination wallet
 > UPDATE wallets SET balance = balance + p_amount WHERE id = p_to_wallet_id;
 > 
-> -- Tạo 2 giao dịch
+> -- Create 2 transactions
 > INSERT INTO transactions (..., wallet_id = p_from_wallet_id, type = 'transfer_out', ...);
 > INSERT INTO transactions (..., wallet_id = p_to_wallet_id, type = 'transfer_in', ...);
 > ```
 
-### 6.2. Ý Nghĩa Trong Thống Kê
+### 6.2. Effect on Statistics
 
-- Các giao dịch chuyển khoản **không được tính** vào Thu nhập hay Chi tiêu của tháng.
-- Vì đây chỉ là di chuyển tiền nội bộ, tổng tài sản không thay đổi.
-
----
-
-## 7. Logic Gia Đình (Family)
-
-### 7.1. Tổng Hợp Dữ Liệu Gia Đình
-
-Khi người dùng tham gia một gia đình:
-
-- Tất cả dữ liệu cá nhân hiện có (ví, quỹ, nợ, giao dịch) sẽ được gắn thêm ID gia đình.
-- Từ lúc này, mọi truy vấn Dashboard, Thống kê sẽ lấy dữ liệu của toàn bộ gia đình.
-- Mỗi ví/nợ sẽ hiển thị thêm tên chủ sở hữu để phân biệt.
-
-> **🔧 Backend:**
-> - Các bảng có cột `family_id`: `wallets`, `funds`, `debts`, `transactions`
-> - RPC Family: `create_family()`, `get_my_family()`, `invite_family_member()`, `accept_invitation()`, `leave_family()`, `remove_family_member()`
-> - Khi tạo dữ liệu mới, tự động gắn `family_id := get_user_family_id()`
+- Transfer transactions are **NOT counted** as Income or Expense in monthly statistics.
+- Because this is just internal money movement, total assets don't change.
 
 ---
 
-### 7.2. Ví Chia Sẻ vs Ví Riêng Tư
+## 7. Family Logic
 
-| Visibility | Ai thấy | Tính vào tổng gia đình | Trang hiển thị |
-|------------|---------|------------------------|----------------|
-| `shared` | Tất cả thành viên | ✅ Có | Dashboard chính |
-| `private` | Chỉ chủ sở hữu | ❌ Không | Trang `/private` |
+### 7.1. Family Data Aggregation
 
-**Điều kiện hiển thị UI:**
-- Toggle "Ví riêng tư" trong dialog tạo ví: **Chỉ hiển thị khi user thuộc gia đình**
-- Menu "Ví riêng tư" trong dropdown user: **Chỉ hiển thị khi user thuộc gia đình**
-- User không có gia đình: Không cần phân biệt shared/private, tất cả ví đều là của riêng họ
+When a user joins a family:
 
-**Tạo ví riêng tư:**
-1. Mở dialog "Tạo ví mới" trên Dashboard hoặc trang `/private`
-2. Bật toggle "Ví riêng tư"
-3. Ví sẽ được tạo với `visibility = 'private'`
-
-**Xem ví riêng tư:**
-- Truy cập trang `/private` từ menu dropdown user
-- Hoặc click vào icon khóa bên cạnh avatar
+- All existing personal data (wallets, funds, debts, transactions) gets tagged with family ID.
+- From then on, all Dashboard and Statistics queries fetch data for the entire family.
+- Each wallet/debt displays owner name for distinction.
 
 > **🔧 Backend:**
-> - Cột: `wallets.visibility` (mặc định `'shared'`)
-> - RPC tạo ví: `create_wallet_with_initial_balance(p_name, p_fund_id, p_initial_balance, p_visibility)`
-> - RPC xem ví private: `get_private_dashboard_data()` - trả về `{ total_balance, wallets, wallet_count }`
-> - Điều kiện query Dashboard: `visibility = 'shared'` khi query cho gia đình
+> - Tables with `family_id` column: `wallets`, `funds`, `debts`, `transactions`
+> - Family RPCs: `create_family()`, `get_my_family()`, `invite_family_member()`, `accept_invitation()`, `leave_family()`, `remove_family_member()`
+> - When creating new data, auto-tag `family_id := get_user_family_id()`
+
+---
+
+### 7.2. Shared vs Private Wallets
+
+| Visibility | Who Sees | Counted in Family Total | Display Location |
+|------------|----------|-------------------------|------------------|
+| `shared` | All members | ✅ Yes | Main Dashboard |
+| `private` | Owner only | ❌ No | `/private` page |
+
+**UI Conditions:**
+- "Private Wallet" toggle in create dialog: **Only shows when user belongs to a family**
+- "Private Wallets" menu in user dropdown: **Only shows when user belongs to a family**
+- Users without family: No shared/private distinction needed, all wallets are theirs alone
+
+**Creating Private Wallet:**
+1. Open "Create Wallet" dialog on Dashboard or `/private` page
+2. Enable "Private Wallet" toggle
+3. Wallet is created with `visibility = 'private'`
+
+**Viewing Private Wallets:**
+- Access `/private` page from user dropdown menu
+- Or click lock icon next to avatar
+
+> **🔧 Backend:**
+> - Column: `wallets.visibility` (default `'shared'`)
+> - Create RPC: `create_wallet_with_initial_balance(p_name, p_fund_id, p_initial_balance, p_visibility)`
+> - Private view RPC: `get_private_dashboard_data()` - returns `{ total_balance, wallets, wallet_count }`
+> - Dashboard query condition: `visibility = 'shared'` when querying for family
 > - File: `202601181800_private_wallet_feature.sql`
 
-
 ---
 
-### 7.3. Rời Khỏi Gia Đình
+### 7.3. Leaving Family
 
-Khi một thành viên rời khỏi gia đình:
+When a member leaves the family:
 
-1. Xóa liên kết thành viên khỏi gia đình.
-2. Gỡ bỏ `family_id` của tất cả dữ liệu cá nhân (ví, quỹ, nợ, giao dịch).
-3. Dữ liệu quay về trạng thái cá nhân.
+1. Remove member link from family.
+2. Remove `family_id` from all personal data (wallets, funds, debts, transactions).
+3. Data returns to individual state.
 
-**Nếu chủ sở hữu rời đi:**
-- Còn thành viên khác: Chuyển quyền cho thành viên tham gia sớm nhất.
-- Là thành viên cuối: Xóa gia đình hoàn toàn.
+**If owner leaves:**
+- Other members remain: Transfer ownership to earliest joined member.
+- Last member: Delete family completely.
 
 > **🔧 Backend:** RPC `leave_family()`
 
 ---
 
-### 7.4. Quỹ (Funds) Trong Chia Sẻ Gia Đình
+### 7.4. Funds in Family Sharing
 
-**Cơ chế hiện tại:**
-- Mỗi user khi đăng nhập lần đầu được tạo **4 quỹ mặc định riêng** (Daily, Emergency, Sinking, Investment).
-- Khi tham gia gia đình, các quỹ này được gắn `family_id`.
-- Điều này dẫn đến việc gia đình 3 thành viên có 12 bản ghi quỹ (4 × 3 người) với tên trùng lặp.
+**Current mechanism:**
+- Each user on first login gets **4 default funds** (Daily, Emergency, Sinking, Investment).
+- When joining a family, these funds get tagged with `family_id`.
+- This leads to a 3-member family having 12 fund records (4 × 3 people) with duplicate names.
 
-**Xử lý hiển thị:**
-- Khi lấy danh sách quỹ cho dropdown, sử dụng **`DISTINCT ON (name)`** để chỉ trả về 1 quỹ duy nhất cho mỗi tên.
-- Đảm bảo dropdown "Thuộc Quỹ" luôn hiển thị đúng 4 mục không trùng lặp.
+**Display handling:**
+- When getting fund list for dropdown, use **`DISTINCT ON (name)`** to return only 1 fund per name.
+- Ensures "Belongs to Fund" dropdown always shows exactly 4 non-duplicate items.
 
 > **🔧 Backend:**
 > ```sql
@@ -825,31 +824,31 @@ Khi một thành viên rời khỏi gia đình:
 
 ---
 
-## 8. Các Chỉ Số Phụ Hiển Thị
+## 8. Secondary Display Indicators
 
-### 8.1. Số Tháng Chi Tiêu Dự Phòng (Emergency Fund Months)
+### 8.1. Emergency Fund Months
 
-**Công thức:**
+**Formula:**
 ```
 Emergency Months = Total Emergency Fund Balance / Min Monthly Spend
 ```
 
-**Hiển thị:**
+**Display:**
 
-| Số tháng | Màu | Ý nghĩa |
-|----------|-----|---------|
-| < 3 | Đỏ | Nguy hiểm |
-| 3 - 6 | Xám | Tạm ổn |
-| > 6 | Xanh | An toàn |
+| Months | Color | Meaning |
+|--------|-------|---------|
+| < 3 | Red | Danger |
+| 3 - 6 | Gray | Okay |
+| > 6 | Green | Safe |
 
-> **🔧 Frontend:** `components/fund-group.tsx` (cho fund "Emergency Fund" hoặc "Quỹ dự phòng khẩn cấp")
+> **🔧 Frontend:** `components/fund-group.tsx` (for fund "Emergency Fund")
 
 ---
 
-### 8.2. Lời Chào Theo Thời Gian
+### 8.2. Time-Based Greetings
 
-| Giờ | Lời chào | Emoji |
-|-----|----------|-------|
+| Hour | Greeting | Emoji |
+|------|----------|-------|
 | 05:00 - 11:59 | `GREETING_TEXT_MORNING` | `GREETING_ICON_MORNING` |
 | 12:00 - 17:59 | `GREETING_TEXT_AFTERNOON` | `GREETING_ICON_AFTERNOON` |
 | 18:00 - 21:59 | `GREETING_TEXT_EVENING` | `GREETING_ICON_EVENING` |
@@ -859,22 +858,21 @@ Emergency Months = Total Emergency Fund Balance / Min Monthly Spend
 
 ---
 
-### 8.3. Định Dạng Tiền Tệ
+### 8.3. Currency Formatting
 
-Tất cả số tiền được định dạng theo chuẩn Việt Nam:
-- Đơn vị: VNĐ (Việt Nam Đồng)
-- Dấu phân cách hàng nghìn: dấu chấm (`.`)
-- Ví dụ: `1.000.000 đ` (một triệu đồng)
+All amounts are formatted according to locale:
+- Vietnamese (vi): `1.000.000 ₫` (symbol after, dot separator)
+- English (en): `₫1,000,000` (symbol before, comma separator)
 
 > **🔧 Frontend:** `utils/format.ts` → `formatCurrency()`, `formatNumber()`, `parseFormattedNumber()`
 
 ---
 
-### 8.4. Chế Độ Bảo Mật (Privacy Mode)
+### 8.4. Privacy Mode
 
-Khi bật chế độ bảo mật:
-- Tất cả số tiền trên màn hình Dashboard được thay bằng `******`.
-- Màu sắc (xanh/đỏ) vẫn được giữ để cho biết tình trạng tài chính tổng quan mà không lộ số cụ thể.
+When privacy mode is enabled:
+- All amounts on Dashboard screen are replaced with `******`.
+- Colors (green/red) are kept to indicate overall financial status without revealing specific numbers.
 
 > **🔧 Frontend:** 
 > - Context: `components/providers/privacy-provider.tsx`
@@ -882,42 +880,42 @@ Khi bật chế độ bảo mật:
 
 ---
 
-## 9. Tham Chiếu Kỹ Thuật (Technical Reference)
+## 9. Technical Reference
 
-### 9.1. Bảng Cơ Sở Dữ Liệu
+### 9.1. Database Tables
 
-| Bảng | Mô tả | File tạo |
-|------|-------|----------|
-| `profiles` | Thông tin user | `Original Table Create.sql` |
-| `funds` | Quỹ (Emergency, Daily, ...) | `Original Table Create.sql` |
-| `wallets` | Ví tiền | `Original Table Create.sql` |
-| `debts` | Khoản nợ | `Original Table Create.sql` |
-| `transactions` | Giao dịch | `Original Table Create.sql` |
-| `families` | Gia đình | `202601161100_family_tables.sql` |
-| `family_members` | Thành viên gia đình | `202601161100_family_tables.sql` |
-| `family_invitations` | Lời mời gia đình | `202601161100_family_tables.sql` |
-| `notifications` | Thông báo | `202601161430_notification_hub.sql` |
+| Table | Description | Creation File |
+|-------|-------------|---------------|
+| `profiles` | User information | `Original Table Create.sql` |
+| `funds` | Funds (Emergency, Daily, ...) | `Original Table Create.sql` |
+| `wallets` | Wallets | `Original Table Create.sql` |
+| `debts` | Debts | `Original Table Create.sql` |
+| `transactions` | Transactions | `Original Table Create.sql` |
+| `families` | Families | `202601161100_family_tables.sql` |
+| `family_members` | Family members | `202601161100_family_tables.sql` |
+| `family_invitations` | Family invitations | `202601161100_family_tables.sql` |
+| `notifications` | Notifications | `202601161430_notification_hub.sql` |
 
-### 9.2. RPC Functions Chính
+### 9.2. Main RPC Functions
 
-| Function | Mô tả | File |
-|----------|-------|------|
-| `get_dashboard_data(p_month, p_year, p_timezone)` | Lấy toàn bộ dữ liệu Dashboard | `202601170830_fix_duplicate_funds.sql` |
-| `create_transaction_and_update_wallet(...)` | Tạo giao dịch + cập nhật ví | `202601161230_update_rpc_family.sql` |
-| `update_transaction_v3(...)` | Sửa giao dịch | `202601161815_fix_delete_transaction_v3.sql` |
-| `delete_transaction_v3(...)` | Xóa giao dịch | `202601161815_fix_delete_transaction_v3.sql` |
-| `create_new_debt_v2(...)` | Tạo khoản nợ mới | `202601162230_hotfix_create_debt_family_id.sql` |
-| `update_debt_v2(...)` | Sửa khoản nợ | `202601160800_update_debt_v2.sql` |
-| `pay_debt(...)` | Trả nợ | `202601161230_update_rpc_family.sql` |
-| `transfer_funds(...)` | Chuyển khoản | `202601161230_update_rpc_family.sql` |
-| `create_wallet_with_initial_balance(...)` | Tạo ví mới | `202601162220_fix_create_wallet_family_id.sql` |
-| `get_user_family_id()` | Helper lấy family_id | `202601161630_optimize_performance_v1.3.8.sql` |
+| Function | Description | File |
+|----------|-------------|------|
+| `get_dashboard_data(p_month, p_year, p_timezone)` | Get all Dashboard data | `202601170830_fix_duplicate_funds.sql` |
+| `create_transaction_and_update_wallet(...)` | Create transaction + update wallet | `202601161230_update_rpc_family.sql` |
+| `update_transaction_v3(...)` | Edit transaction | `202601161815_fix_delete_transaction_v3.sql` |
+| `delete_transaction_v3(...)` | Delete transaction | `202601161815_fix_delete_transaction_v3.sql` |
+| `create_new_debt_v2(...)` | Create new debt | `202601162230_hotfix_create_debt_family_id.sql` |
+| `update_debt_v2(...)` | Edit debt | `202601160800_update_debt_v2.sql` |
+| `pay_debt(...)` | Pay debt | `202601161230_update_rpc_family.sql` |
+| `transfer_funds(...)` | Transfer between wallets | `202601161230_update_rpc_family.sql` |
+| `create_wallet_with_initial_balance(...)` | Create new wallet | `202601162220_fix_create_wallet_family_id.sql` |
+| `get_user_family_id()` | Helper to get family_id | `202601161630_optimize_performance_v1.3.8.sql` |
 
 ### 9.3. Server Actions (Frontend → Backend)
 
-| Action | File | RPC gọi |
-|--------|------|---------|
-| `addTransaction()` | `app/actions.ts` | Nhiều RPC tùy loại |
+| Action | File | RPC Called |
+|--------|------|------------|
+| `addTransaction()` | `app/actions.ts` | Multiple RPCs by type |
 | `updateTransactionAction()` | `app/actions.ts` | `update_transaction_v3` |
 | `deleteTransactionAction()` | `app/actions.ts` | `delete_transaction_v3` |
 | `createWalletAction()` | `app/actions.ts` | `create_wallet_with_initial_balance` |
@@ -926,79 +924,77 @@ Khi bật chế độ bảo mật:
 | `updateDebtAction()` | `app/actions.ts` | `update_debt_v2` |
 | `deleteDebtAction()` | `app/actions.ts` | `delete_debt` |
 
-### 9.4. Múi Giờ
+### 9.4. Timezone
 
-- Kể từ v1.3.13, tất cả tính toán theo tháng sử dụng **múi giờ của thiết bị người dùng**.
-- Múi giờ được lưu trong Cookie (tên: `timezone`) khi người dùng mở app.
-- Nếu Cookie chưa có, mặc định sử dụng múi giờ Việt Nam (`Asia/Ho_Chi_Minh`).
+- Since v1.3.13, all monthly calculations use **user's device timezone**.
+- Timezone is saved in Cookie (name: `timezone`) when user opens app.
+- If Cookie doesn't exist, defaults to Vietnam timezone (`Asia/Ho_Chi_Minh`).
 - Utility: `utils/timezone.ts`
 
-### 9.5. Phòng Tránh Lỗi
+### 9.5. Error Prevention
 
-| Vấn đề | Giải pháp |
-|--------|-----------|
-| Chia cho 0 | Nếu `min_spend = 0` hoặc `std_spend = 0`, tự động đặt = 1 |
-| RLS Circular Dependency | Dùng `SECURITY DEFINER` cho helper functions |
-| Family context trong RLS | Dùng `get_user_family_id()` làm helper |
-| Balance update trong Family | Dùng `SECURITY DEFINER` cho transaction v3 functions |
+| Issue | Solution |
+|-------|----------|
+| Division by zero | If `min_spend = 0` or `std_spend = 0`, auto-set to 1 |
+| RLS Circular Dependency | Use `SECURITY DEFINER` for helper functions |
+| Family context in RLS | Use `get_user_family_id()` as helper |
+| Balance update in Family | Use `SECURITY DEFINER` for transaction v3 functions |
 
-### 9.6. Hằng Số Cấu Hình (Constants)
+### 9.6. Configuration Constants
 
-Kể từ v1.3.15, tất cả các "magic numbers" quan trọng được tập trung trong file `utils/constants.ts`:
+Since v1.3.15, all important "magic numbers" are centralized in `utils/constants.ts`:
 
-| Hằng số | Giá trị | Ý nghĩa | Dùng trong |
-|---------|---------|---------|------------|
-| `SPENDING_CALCULATION_DAYS` | 90 | Số ngày để tính chi tiêu trung bình | SQL: `get_dashboard_data` |
-| `SPENDING_CALCULATION_MONTHS` | 3 | 90 ngày ÷ 30 ngày/tháng | SQL: `get_dashboard_data` |
-| `MONTHS_IN_YEAR` | 12 | Số tháng trong năm | Tính mục tiêu tài chính |
-| `RETIREMENT_YEARS` | 25 | Quy tắc 4%: rút 4%/năm trong 25 năm | Tính Safety/Freedom Target |
-| `SPENDING_PROGRESS_THRESHOLD_PERCENT` | 10 | Ngưỡng cảnh báo chi tiêu (±10%) | `monthly-stats.tsx` |
-| `DEBT_PROGRESS_LOW` | 30 | Dưới 30%: còn nhiều nợ (đỏ) | `debt-card.tsx` |
-| `DEBT_PROGRESS_HIGH` | 70 | Trên 70%: sắp xong (xanh) | `debt-card.tsx` |
-| `EMERGENCY_FUND_DANGER_MONTHS` | 3 | Dưới 3 tháng: nguy hiểm (đỏ) | `fund-group.tsx` |
-| `EMERGENCY_FUND_SAFE_MONTHS` | 6 | Trên 6 tháng: an toàn (xanh) | `fund-group.tsx` |
-| `GREETING_MORNING_START` | 5 | Buổi sáng bắt đầu từ 05:00 | `timezone.ts` |
-| `GREETING_AFTERNOON_START` | 12 | Buổi chiều bắt đầu từ 12:00 | `timezone.ts` |
-| `GREETING_EVENING_START` | 18 | Buổi tối bắt đầu từ 18:00 | `timezone.ts` |
-| `GREETING_NIGHT_START` | 22 | Khuya bắt đầu từ 22:00 | `timezone.ts` |
-| `GREETING_TEXT_*` | (text) | Văn bản lời chào | `constants.ts` |
-| `GREETING_ICON_*` | (icon) | Icon lời chào | `constants.ts` |
+| Constant | Value | Meaning | Used In |
+|----------|-------|---------|---------|
+| `SPENDING_CALCULATION_DAYS` | 90 | Days for average spending calculation | SQL: `get_dashboard_data` |
+| `SPENDING_CALCULATION_MONTHS` | 3 | 90 days ÷ 30 days/month | SQL: `get_dashboard_data` |
+| `MONTHS_IN_YEAR` | 12 | Months in a year | Financial target calculation |
+| `RETIREMENT_YEARS` | 25 | 4% rule: withdraw 4%/year for 25 years | Safety/Freedom Target |
+| `SPENDING_PROGRESS_THRESHOLD_PERCENT` | 10 | Spending warning threshold (±10%) | `monthly-stats.tsx` |
+| `DEBT_PROGRESS_LOW` | 30 | Below 30%: lots of debt (red) | `debt-card.tsx` |
+| `DEBT_PROGRESS_HIGH` | 70 | Above 70%: almost done (green) | `debt-card.tsx` |
+| `EMERGENCY_FUND_DANGER_MONTHS` | 3 | Below 3 months: danger (red) | `fund-group.tsx` |
+| `EMERGENCY_FUND_SAFE_MONTHS` | 6 | Above 6 months: safe (green) | `fund-group.tsx` |
+| `GREETING_MORNING_START` | 5 | Morning starts at 05:00 | `timezone.ts` |
+| `GREETING_AFTERNOON_START` | 12 | Afternoon starts at 12:00 | `timezone.ts` |
+| `GREETING_EVENING_START` | 18 | Evening starts at 18:00 | `timezone.ts` |
+| `GREETING_NIGHT_START` | 22 | Night starts at 22:00 | `timezone.ts` |
+| `GREETING_TEXT_*` | (text) | Greeting text | `constants.ts` |
+| `GREETING_ICON_*` | (icon) | Greeting icon | `constants.ts` |
 
-> ⚠️ **Lưu ý**: Các hằng số trong SQL (`90`, `3`, `12`, `25`) được giữ nguyên do PostgreSQL không hỗ trợ "global constants". Nếu cần thay đổi, phải sửa cả SQL và file `constants.ts`.
+> ⚠️ **Note**: Constants in SQL (`90`, `3`, `12`, `25`) remain as-is since PostgreSQL doesn't support "global constants". If changing, must update both SQL and `constants.ts`.
 
-### 9.7. Đa Ngôn Ngữ (i18n) - Multi-Language Support
+### 9.7. Multi-Language Support (i18n)
 
-Kể từ v1.4.1, ứng dụng hỗ trợ chuyển đổi giữa Tiếng Việt và Tiếng Anh:
+Since v1.4.1, the application supports switching between Vietnamese and English:
 
-**Cấu trúc:**
+**Structure:**
 
-| File | Mô tả |
-|------|-------|
-| `utils/i18n/vi.ts` | Translations tiếng Việt (~200 labels) |
-| `utils/i18n/en.ts` | Translations tiếng Anh (~200 labels) |
-| `utils/i18n/index.ts` | Module exports và types |
-| `components/providers/language-provider.tsx` | React Context và hooks |
+| File | Description |
+|------|-------------|
+| `utils/i18n/vi.ts` | Vietnamese translations (~200 labels) |
+| `utils/i18n/en.ts` | English translations (~200 labels) |
+| `utils/i18n/index.ts` | Module exports and types |
+| `components/providers/language-provider.tsx` | React Context and hooks |
 
-**Sử dụng trong Component:**
+**Usage in Components:**
 ```tsx
 import { useTranslation } from "@/components/providers/language-provider";
 
 function MyComponent() {
     const { t } = useTranslation();
-    return <p>{t.LABEL_SAVE}</p>; // "Lưu" hoặc "Save"
+    return <p>{t.LABEL_SAVE}</p>; // "Lưu" or "Save"
 }
 ```
 
-**Lưu trữ Preference:**
+**Preference Storage:**
 - Cookie name: `language`
-- Giá trị: `vi` hoặc `en`
-- Thời hạn: 1 năm
+- Values: `vi` or `en`
+- Duration: 1 year
 
-> **Lưu ý**: File `utils/labels.ts` cũ được giữ lại để backward compatible. Khuyến khích dùng `useTranslation()` cho components mới.
+> **Note**: Legacy `utils/labels.ts` is retained for backward compatibility. Recommend using `useTranslation()` for new components.
 
 ---
 
-*Tài liệu này được cập nhật lần cuối: 2026-01-19*
-*Phiên bản ứng dụng: v1.4.1*
-
-
+*Last updated: 2026-01-20*
+*Application version: v1.5.0*
