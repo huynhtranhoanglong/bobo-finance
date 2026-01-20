@@ -1,6 +1,7 @@
 "use client"
 
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
+import { HelpTooltip } from "@/components/ui/help-tooltip";
 import { SPENDING_PROGRESS_THRESHOLD_PERCENT } from "@/utils/constants";
 import { COLORS } from "@/utils/colors";
 import { useTranslation } from "@/components/providers/language-provider";
@@ -144,7 +145,10 @@ export default function MonthlyStats({ stats }: MonthlyStatsProps) {
                 {/* Thanh Tiến độ Chi tiêu */}
                 <div className="mb-3">
                     <div className="flex justify-between items-center mb-1">
-                        <span className="text-sm font-medium text-gray-600">{t.LABEL_SPENDING_PROGRESS}</span>
+                        <span className="text-sm font-medium text-gray-600 flex items-center gap-1">
+                            {t.LABEL_SPENDING_PROGRESS}
+                            <HelpTooltip content={t.TOOLTIP_SPENDING_PROGRESS} size={12} />
+                        </span>
                         <span className="text-sm font-bold" style={{ color: progressColor }}>
                             {Math.round(Math.min(spendingProgress, 100))}%
                         </span>

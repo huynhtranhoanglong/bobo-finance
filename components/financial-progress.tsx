@@ -1,6 +1,7 @@
 "use client";
 
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
+import { HelpTooltip } from "@/components/ui/help-tooltip";
 import { COLORS } from "@/utils/colors";
 import { useTranslation } from "@/components/providers/language-provider";
 
@@ -26,6 +27,7 @@ export default function FinancialProgress({ metrics }: FinancialProgressProps) {
     const currentProgress = hasReachedSafety ? metrics.freedom_progress : metrics.safety_progress;
     const currentTarget = hasReachedSafety ? metrics.freedom_target : metrics.safety_target;
     const targetLabel = hasReachedSafety ? t.LABEL_FREEDOM_TARGET : t.LABEL_SAFETY_TARGET;
+    const targetTooltip = hasReachedSafety ? t.TOOLTIP_FREEDOM_TARGET : t.TOOLTIP_SAFETY_TARGET;
     const remaining = currentTarget - metrics.net_worth;
 
     return (
@@ -35,14 +37,20 @@ export default function FinancialProgress({ metrics }: FinancialProgressProps) {
             {/* Spending Stats - 2 columns */}
             <div className="grid grid-cols-2 gap-3 mb-5">
                 <div className="p-3 bg-gray-50 rounded-xl">
-                    <p className="text-xs text-gray-500 mb-1">{t.LABEL_MIN_MONTHLY_SPEND}</p>
+                    <p className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+                        {t.LABEL_MIN_MONTHLY_SPEND}
+                        <HelpTooltip content={t.TOOLTIP_MIN_MONTHLY_SPEND} size={12} />
+                    </p>
                     <p className="font-semibold text-gray-800 text-sm">
                         <PrivacyAmount amount={metrics.min_monthly_spend} />
                         <span className="text-gray-400 font-normal">{t.LABEL_PER_MONTH}</span>
                     </p>
                 </div>
                 <div className="p-3 bg-gray-50 rounded-xl">
-                    <p className="text-xs text-gray-500 mb-1">{t.LABEL_STD_MONTHLY_SPEND}</p>
+                    <p className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+                        {t.LABEL_STD_MONTHLY_SPEND}
+                        <HelpTooltip content={t.TOOLTIP_STD_MONTHLY_SPEND} size={12} />
+                    </p>
                     <p className="font-semibold text-gray-800 text-sm">
                         <PrivacyAmount amount={metrics.std_monthly_spend} />
                         <span className="text-gray-400 font-normal">{t.LABEL_PER_MONTH}</span>
@@ -52,8 +60,9 @@ export default function FinancialProgress({ metrics }: FinancialProgressProps) {
 
             {/* Progress Label */}
             <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium text-gray-600">
+                <span className="text-sm font-medium text-gray-600 flex items-center gap-1">
                     {t.LABEL_TARGET} {targetLabel}
+                    <HelpTooltip content={targetTooltip} size={12} />
                 </span>
                 <span className="text-sm font-bold" style={{ color: COLORS.brand }}>
                     {Math.min(currentProgress, 100).toFixed(1)}%

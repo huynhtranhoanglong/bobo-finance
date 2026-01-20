@@ -355,4 +355,15 @@ export const en: Record<TranslationKeys, string> = {
     LABEL_DEBT_NAME_PLACEHOLDER: "e.g., Home loan, Lent to friend...",
     LABEL_ENTER_NOTE: "Enter note...",
     LABEL_EMAIL_EXAMPLE: "email@example.com",
+
+    // === TOOLTIP EXPLANATIONS (v1.5.1) ===
+    TOOLTIP_NET_WORTH: "Formula: Total Assets − Payable Debts + Receivable Debts. This is your true wealth.",
+    TOOLTIP_MIN_MONTHLY_SPEND: "Average \"Must-have\" spending over the last 90 days. This is the minimum to maintain your life.",
+    TOOLTIP_STD_MONTHLY_SPEND: "Average \"Must-have + Nice-to-have\" spending over 90 days. This maintains your current quality of life.",
+    TOOLTIP_SAFETY_TARGET: "Target = Min Spending × 12 months × 25 years. Based on 4% rule: withdraw 4%/year, money lasts ~25 years.",
+    TOOLTIP_FREEDOM_TARGET: "Target = Std Spending × 12 months × 25 years. When reached, you can live comfortably without working.",
+    TOOLTIP_SPENDING_PROGRESS: "Compares spending rate vs time elapsed in month. Green = slow (good), Red = fast (warning).",
+    TOOLTIP_EXPENSE_CATEGORIES: "3 groups: Must-have (essential), Nice-to-have (quality of life), Waste (unnecessary).",
+    TOOLTIP_EMERGENCY_MONTHS: "Emergency Fund ÷ Min Spending. Recommended: 3-6 months. Below 3 months is dangerous.",
+    TOOLTIP_DEBT_PRIORITY: "Priority: High interest first, then smallest amount (Snowball method). Reduces interest and builds momentum.",
 } as const;

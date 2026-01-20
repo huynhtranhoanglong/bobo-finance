@@ -353,6 +353,17 @@ export const vi = {
     LABEL_DEBT_NAME_PLACEHOLDER: "Vd: Vay mua nhà, Cho bạn mượn...",
     LABEL_ENTER_NOTE: "Nhập ghi chú...",
     LABEL_EMAIL_EXAMPLE: "email@vidu.com",
+
+    // === TOOLTIP EXPLANATIONS (v1.5.1) ===
+    TOOLTIP_NET_WORTH: "Công thức: Tổng tài sản − Nợ phải trả + Nợ thu hồi. Đây là số tiền thực sự bạn sở hữu.",
+    TOOLTIP_MIN_MONTHLY_SPEND: "Trung bình chi tiêu \"Thiết yếu\" trong 90 ngày qua. Đây là mức tối thiểu để duy trì cuộc sống.",
+    TOOLTIP_STD_MONTHLY_SPEND: "Trung bình chi tiêu \"Thiết yếu + Thứ yếu\" trong 90 ngày qua. Đây là mức duy trì chất lượng sống hiện tại.",
+    TOOLTIP_SAFETY_TARGET: "Mục tiêu = Chi tiêu tối thiểu × 12 tháng × 25 năm. Dựa trên quy tắc 4%: rút 4%/năm từ đầu tư, tiền đủ dùng ~25 năm.",
+    TOOLTIP_FREEDOM_TARGET: "Mục tiêu = Chi tiêu tiêu chuẩn × 12 tháng × 25 năm. Khi đạt mức này, bạn có thể sống thoải mái mà không cần làm việc.",
+    TOOLTIP_SPENDING_PROGRESS: "So sánh tốc độ chi tiêu với thời gian trong tháng. Xanh = chi chậm (tốt), Đỏ = chi nhanh (cảnh báo).",
+    TOOLTIP_EXPENSE_CATEGORIES: "3 nhóm: Thiết yếu (cần thiết), Thứ yếu (nâng cao chất lượng sống), Lãng phí (không cần thiết).",
+    TOOLTIP_EMERGENCY_MONTHS: "Quỹ dự phòng ÷ Chi tiêu tối thiểu. Khuyến nghị: 3-6 tháng. Dưới 3 tháng là nguy hiểm.",
+    TOOLTIP_DEBT_PRIORITY: "Ưu tiên: Lãi cao trước, sau đó số nhỏ trước (phương pháp Snowball). Giúp giảm lãi và tạo động lực.",
 } as const;
 
 export type TranslationKeys = keyof typeof vi;

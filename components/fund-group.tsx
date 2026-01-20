@@ -4,6 +4,7 @@ import { useState } from "react"
 import { ChevronDown, ChevronRight, Wallet, Shield, PiggyBank, TrendingUp, Banknote } from "lucide-react"
 import WalletCard from "./wallet-card"
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
+import { HelpTooltip } from "@/components/ui/help-tooltip";
 import { EMERGENCY_FUND_DANGER_MONTHS, EMERGENCY_FUND_SAFE_MONTHS } from "@/utils/constants";
 import { COLORS } from "@/utils/colors";
 import { useTranslation } from "@/components/providers/language-provider";
@@ -102,13 +103,14 @@ export default function FundGroup({ fundName, totalBalance, wallets, fundsList, 
                             <span className="font-bold text-gray-800">{displayName}</span>
                             {showEmergencyStatus && (
                                 <span
-                                    className="ml-2 text-xs px-2 py-0.5 rounded-full font-medium"
+                                    className="ml-2 text-xs px-2 py-0.5 rounded-full font-medium inline-flex items-center gap-1"
                                     style={{
                                         backgroundColor: `${emergencyColor}15`,
                                         color: emergencyColor
                                     }}
                                 >
                                     ~{emergencyMonths.toFixed(1)} {t.LABEL_MONTHS}
+                                    <HelpTooltip content={t.TOOLTIP_EMERGENCY_MONTHS} size={10} />
                                 </span>
                             )}
                         </div>

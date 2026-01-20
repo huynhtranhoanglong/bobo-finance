@@ -1,6 +1,7 @@
 "use client";
 
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
+import { HelpTooltip } from "@/components/ui/help-tooltip";
 import { COLOR_BRAND } from "@/utils/colors";
 import { useTranslation } from "@/components/providers/language-provider";
 
@@ -13,8 +14,9 @@ export default function NetWorthSection({ netWorth }: NetWorthSectionProps) {
 
     return (
         <div className="bg-white p-5 rounded-2xl shadow-sm border mb-4">
-            <p className="text-sm text-gray-500 uppercase tracking-wider font-medium mb-1">
+            <p className="text-sm text-gray-500 uppercase tracking-wider font-medium mb-1 flex items-center gap-1">
                 {t.LABEL_NET_WORTH}
+                <HelpTooltip content={t.TOOLTIP_NET_WORTH} />
             </p>
             <h2 className="text-3xl font-bold" style={{ color: COLOR_BRAND }}>
                 <PrivacyAmount amount={netWorth} />

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { List } from "lucide-react";
 import { useTranslation } from "@/components/providers/language-provider";
 import { COLORS } from "@/utils/colors";
+import { HelpTooltip } from "@/components/ui/help-tooltip";
 
 // Components
 import GreetingHeader from "@/components/greeting-header";
@@ -88,7 +89,10 @@ export default function DashboardClient({
 
                     {/* DEBTS SECTION */}
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-lg font-bold text-gray-800">💳 {t.LABEL_SECTION_DEBTS}</h2>
+                        <h2 className="text-lg font-bold text-gray-800 flex items-center gap-1">
+                            💳 {t.LABEL_SECTION_DEBTS}
+                            <HelpTooltip content={t.TOOLTIP_DEBT_PRIORITY} />
+                        </h2>
                         <CreateDebtDialog wallets={wallets || []} />
                     </div>
                     <div className="space-y-3 mb-6">

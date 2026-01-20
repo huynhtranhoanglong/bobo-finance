@@ -1,5 +1,50 @@
 # Changelog
 
+## [1.5.1] - 2026-01-20
+
+### Feature: Tooltip Help System
+> **Purpose**: Help users understand the unique financial concepts in Bobo Finance through contextual help icons.
+
+- **New Component**: `HelpTooltip` (`components/ui/help-tooltip.tsx`)
+  - Reusable "?" icon with tooltip content
+  - Mobile-friendly: tap to show, tap outside to dismiss
+  - Uses Radix UI Tooltip primitive
+
+- **Tooltips Added** (9 locations):
+  - **Net Worth** - Explains the formula: Assets − Debts + Receivables
+  - **Minimum Spending** - Average of "Must-have" expenses over 90 days
+  - **Standard Spending** - Average of "Must-have + Nice-to-have" over 90 days
+  - **Financial Safety** - Target based on 4% rule (25 years of min spending)
+  - **Financial Freedom** - Target based on 4% rule (25 years of std spending)
+  - **Spending Progress** - Compares spending rate vs time elapsed in month
+  - **Emergency Fund Months** - Why 3-6 months is recommended
+  - **Debt Priority** - Explains Snowball method (high interest, then small amount first)
+
+- **i18n Support**:
+  - Added 9 tooltip labels to both `vi.ts` and `en.ts`
+  - Tooltips display in user's selected language
+
+### Technical Details
+- **New Files**:
+  - `components/ui/help-tooltip.tsx` - Reusable tooltip component
+  - `utils/tooltips.ts` - Centralized tooltip key management
+
+- **Modified Components** (5 files):
+  - `components/net-worth-section.tsx` - Added tooltip
+  - `components/financial-progress.tsx` - Added 4 tooltips
+  - `components/monthly-stats.tsx` - Added tooltip for spending progress
+  - `components/fund-group.tsx` - Added tooltip for emergency months badge
+  - `components/dashboard-client.tsx` - Added tooltip to Debts section header
+
+- **Updated Files**:
+  - `utils/i18n/vi.ts` - Added `TOOLTIP_*` labels
+  - `utils/i18n/en.ts` - Added `TOOLTIP_*` labels
+  - `components/app-version.tsx` - Updated to v1.5.1
+
+> **Note**: No logic changes. This is a pure UX improvement to help users understand financial concepts.
+
+---
+
 ## [1.5.0] - 2026-01-20
 
 ### Feature: Color System Overhaul
