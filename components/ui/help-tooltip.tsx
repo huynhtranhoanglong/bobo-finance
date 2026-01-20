@@ -3,10 +3,10 @@
 import * as React from "react";
 import { HelpCircle } from "lucide-react";
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from "@/components/ui/tooltip";
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { COLORS } from "@/utils/colors";
 
@@ -22,11 +22,10 @@ interface HelpTooltipProps {
 }
 
 /**
- * HelpTooltip - A reusable "?" icon with tooltip
+ * HelpTooltip - A reusable "?" icon with popover (mobile friendly)
  * 
- * Usage:
- * <HelpTooltip content={t.TOOLTIP_NET_WORTH} />
- * <HelpTooltip content="Custom text" side="right" />
+ * Update v1.5.2: Switched from Tooltip (hover) to Popover (click)
+ * to ensure consistent behavior on mobile devices.
  */
 export function HelpTooltip({
     content,
@@ -35,14 +34,14 @@ export function HelpTooltip({
     side = "top"
 }: HelpTooltipProps) {
     return (
-        <Tooltip delayDuration={100}>
-            <TooltipTrigger asChild>
+        <Popover>
+            <PopoverTrigger asChild>
                 <button
                     type="button"
                     className={cn(
                         "inline-flex items-center justify-center rounded-full",
                         "hover:bg-gray-100 transition-colors p-0.5",
-                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1",
+                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 cursor-pointer",
                         className
                     )}
                     style={{ color: COLORS.neutral }}
@@ -50,13 +49,13 @@ export function HelpTooltip({
                 >
                     <HelpCircle size={size} />
                 </button>
-            </TooltipTrigger>
-            <TooltipContent
+            </PopoverTrigger>
+            <PopoverContent
                 side={side}
-                className="max-w-xs text-sm leading-relaxed"
+                className="max-w-[280px] text-sm leading-relaxed p-3"
             >
                 {content}
-            </TooltipContent>
-        </Tooltip>
+            </PopoverContent>
+        </Popover>
     );
 }

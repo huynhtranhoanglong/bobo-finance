@@ -364,6 +364,10 @@ export const vi = {
     TOOLTIP_EXPENSE_CATEGORIES: "3 nhóm: Thiết yếu (cần thiết), Thứ yếu (nâng cao chất lượng sống), Lãng phí (không cần thiết).",
     TOOLTIP_EMERGENCY_MONTHS: "Quỹ dự phòng ÷ Chi tiêu tối thiểu. Khuyến nghị: 3-6 tháng. Dưới 3 tháng là nguy hiểm.",
     TOOLTIP_DEBT_PRIORITY: "Ưu tiên: Lãi cao trước, sau đó số nhỏ trước (phương pháp Snowball). Giúp giảm lãi và tạo động lực.",
+    /** v1.5.2 Tooltips */
+    TOOLTIP_INCOME: "Tổng tất cả các khoản thu trong tháng này (Lương, Thưởng, Lãi đầu tư, v.v...). Kể cả các khoản đã thu nhưng chưa về ví.",
+    TOOLTIP_EXPENSE: "Tổng chi tiêu thực tế trong tháng. KHÔNG bao gồm các khoản chuyển tiền giữa các ví (vì tiền chỉ chuyển từ túi này sang túi khác).",
+    TOOLTIP_WALLETS: "Tổng hợp tất cả tiền bạn đang có. Được chia theo các hũ (Quỹ) để dễ quản lý mục đích sử dụng.",
 } as const;
 
 export type TranslationKeys = keyof typeof vi;

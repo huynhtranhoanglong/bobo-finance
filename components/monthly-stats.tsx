@@ -75,14 +75,20 @@ export default function MonthlyStats({ stats }: MonthlyStatsProps) {
             <div className="grid grid-cols-2 gap-3 mb-3">
                 {/* Thu Nhập */}
                 <div className="p-4 rounded-xl text-center" style={{ backgroundColor: `${COLORS.income}15` }}>
-                    <p className="text-xs uppercase font-semibold mb-1" style={{ color: COLORS.neutral }}>{t.LABEL_MONTHLY_INCOME}</p>
+                    <p className="text-xs uppercase font-semibold mb-1 flex items-center justify-center gap-1" style={{ color: COLORS.neutral }}>
+                        {t.LABEL_MONTHLY_INCOME}
+                        <HelpTooltip content={t.TOOLTIP_INCOME} size={12} />
+                    </p>
                     <p className="font-bold text-base" style={{ color: COLORS.income }}>
                         <PrivacyAmount amount={income} />
                     </p>
                 </div>
                 {/* Chi Tiêu */}
                 <div className="p-4 rounded-xl text-center" style={{ backgroundColor: `${COLORS.expense}15` }}>
-                    <p className="text-xs uppercase font-semibold mb-1" style={{ color: COLORS.neutral }}>{t.LABEL_MONTHLY_EXPENSE}</p>
+                    <p className="text-xs uppercase font-semibold mb-1 flex items-center justify-center gap-1" style={{ color: COLORS.neutral }}>
+                        {t.LABEL_MONTHLY_EXPENSE}
+                        <HelpTooltip content={t.TOOLTIP_EXPENSE} size={12} />
+                    </p>
                     <p className="font-bold text-base" style={{ color: COLORS.expense }}>
                         <PrivacyAmount amount={expense} />
                     </p>

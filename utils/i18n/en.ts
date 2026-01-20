@@ -366,4 +366,8 @@ export const en: Record<TranslationKeys, string> = {
     TOOLTIP_EXPENSE_CATEGORIES: "3 groups: Must-have (essential), Nice-to-have (quality of life), Waste (unnecessary).",
     TOOLTIP_EMERGENCY_MONTHS: "Emergency Fund ÷ Min Spending. Recommended: 3-6 months. Below 3 months is dangerous.",
     TOOLTIP_DEBT_PRIORITY: "Priority: High interest first, then smallest amount (Snowball method). Reduces interest and builds momentum.",
+    /** v1.5.2 Tooltips */
+    TOOLTIP_INCOME: "Total income recorded this month (Salary, Bonus, Investment, etc.).",
+    TOOLTIP_EXPENSE: "Total actual spending this month. DOES NOT include transfers between your own wallets.",
+    TOOLTIP_WALLETS: "Total money you currently have. Grouped by Funds (Jars) for better purpose management.",
 } as const;

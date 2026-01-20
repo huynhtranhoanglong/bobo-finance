@@ -70,7 +70,10 @@ export default function DashboardClient({
 
                     {/* VÍ TIỀN (GOM NHÓM THEO QUỸ) */}
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-lg font-bold text-gray-800">💳 {t.LABEL_SECTION_WALLETS}</h2>
+                        <h2 className="text-lg font-bold text-gray-800 flex items-center gap-1">
+                            💳 {t.LABEL_SECTION_WALLETS}
+                            <HelpTooltip content={t.TOOLTIP_WALLETS} />
+                        </h2>
                         <CreateWalletDialog funds={fundsList || []} hasFamily={!!familyInfo} />
                     </div>
                     <div className="mb-6">

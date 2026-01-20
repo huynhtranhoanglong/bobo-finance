@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.5.2] - 2026-01-21
+
+### Fix: Mobile Tooltip Experience + New Tooltips
+> **Purpose**: Fix the issue where tooltips were difficult to read or disappeared instantly on mobile devices by switching to a "Click-to-view" interaction model.
+
+- **Interaction Update**:
+  - Replaced `Tooltip` (Hover-based) with `Popover` (Click-based) for the entire app.
+  - **On Mobile/Desktop**: Tap/Click the "?" icon to open the explanation. Tap/Click again or click outside to close.
+  - Solves the issue where tapping on mobile would flash the tooltip and hide it immediately.
+
+- **New Tooltips Added**:
+  - **Income** (Month Stats): Explains what counts as income (Salary, Bonus, Investment).
+  - **Expense** (Month Stats): Clarifies that this does not include transfers.
+  - **Wallets** (Dashboard): Explains the purpose of grouping wallets into funds.
+
+- **Technical Details**:
+  - **New Component**: `components/ui/popover.tsx` - Standard Radix UI Popover.
+  - **Modified**: `components/ui/help-tooltip.tsx` - Switched implementation.
+  - **Translations**: Added `TOOLTIP_INCOME`, `TOOLTIP_EXPENSE`, `TOOLTIP_WALLETS` to `vi.ts` and `en.ts`.
+  - **Dependency**: Added `@radix-ui/react-popover`.
+
+---
+
 ## [1.5.1] - 2026-01-20
 
 ### Feature: Tooltip Help System
