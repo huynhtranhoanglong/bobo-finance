@@ -1,5 +1,51 @@
 # Changelog
 
+## [1.5.0] - 2026-01-20
+
+### Feature: Color System Overhaul
+> **Purpose**: Improve visual distinction between transaction types and expense categories with a new semantic color system.
+
+- **New Transaction Type Colors**:
+  - `income`: `#10b981` (Emerald 500) - for income and positive balances.
+  - `expense`: `#f43f5e` (Rose 500) - for expenses and negative balances.
+  - `transfer`: `#3b82f6` (Blue 500) - for transfers between wallets.
+  
+- **New Expense Category Colors**:
+  - `mustHave`: `#598c58` (Brand/Sage Green) - essential spending.
+  - `niceToHave`: `#f59e0b` (Amber 500) - non-essential spending.
+  - `waste`: `#e11d48` (Rose 600) - wasteful spending.
+
+- **Updated Neutral Color**: Changed from `#7a869a` to `#64748b` (Slate 500) for better readability.
+
+### Technical Details
+- **Core Files Modified**:
+  - `utils/colors.ts` - Added 9 new semantic colors, marked `positive`/`negative` as deprecated.
+  - `utils/categories.ts` - Updated to use new `COLORS.mustHave/niceToHave/waste`.
+
+- **Components Updated** (12 files):
+  - `components/monthly-stats.tsx` - Income/expense cards, pie chart colors.
+  - `components/transaction-item.tsx` - Transaction card colors by type.
+  - `components/fund-group.tsx` - Fund header and balance colors.
+  - `components/debt-card.tsx` - Debt progress and status colors.
+  - `components/wallet-card.tsx` - Wallet balance colors.
+  - `components/dashboard-client.tsx` - Navigation link colors.
+  - `components/demo-dashboard.tsx` - Demo mode colors + version.
+  - `components/financial-progress.tsx` - Progress bar colors.
+  - `components/net-worth-section.tsx` - No changes needed (uses brand).
+  - `components/app-version.tsx` - Updated to v1.5.0.
+
+- **Documentation Updated**:
+  - `COLOR_GUIDE.md` - Section 1 rewritten with new color tables.
+
+### Breaking Changes
+- None. Legacy aliases (`positive`, `negative`) still work but are deprecated.
+
+### Migration Notes
+- If you have custom components using `COLOR_POSITIVE`, `COLOR_NEGATIVE`, or `COLOR_NEUTRAL`, they will still work.
+- For new code, use `COLORS.income`, `COLORS.expense`, `COLORS.transfer`, etc.
+
+---
+
 ## [1.4.12] - 2026-01-20
 
 ### Documentation - Color System Guide

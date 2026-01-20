@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { List } from "lucide-react";
 import { useTranslation } from "@/components/providers/language-provider";
-import { COLOR_BRAND } from "@/utils/colors";
+import { COLORS } from "@/utils/colors";
 
 // Components
 import GreetingHeader from "@/components/greeting-header";
@@ -98,7 +98,7 @@ export default function DashboardClient({
                         {(!debts || debts.length === 0) && (
                             <div className="p-6 text-center bg-white rounded-2xl border shadow-sm">
                                 <p className="text-lg mb-1">🎉</p>
-                                <p style={{ color: COLOR_BRAND }} className="font-medium">{t.LABEL_NO_DEBTS_CONGRATS}</p>
+                                <p style={{ color: COLORS.brand }} className="font-medium">{t.LABEL_NO_DEBTS_CONGRATS}</p>
                             </div>
                         )}
                     </div>
@@ -109,8 +109,8 @@ export default function DashboardClient({
                             href="/transactions"
                             className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm hover:shadow-md transition"
                         >
-                            <List size={20} style={{ color: COLOR_BRAND }} />
-                            <span className="text-sm font-medium" style={{ color: COLOR_BRAND }}>{t.LABEL_TRANSACTION_HISTORY}</span>
+                            <List size={20} style={{ color: COLORS.brand }} />
+                            <span className="text-sm font-medium" style={{ color: COLORS.brand }}>{t.LABEL_TRANSACTION_HISTORY}</span>
                         </Link>
                     </div>
 

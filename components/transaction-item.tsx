@@ -4,7 +4,7 @@ import { useState } from "react"
 import { ArrowRight, ArrowRightLeft, CreditCard, Wallet } from "lucide-react"
 import EditTransactionDialog from "./edit-transaction-dialog"
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
-import { COLOR_POSITIVE, COLOR_NEGATIVE, COLOR_NEUTRAL } from "@/utils/colors";
+import { COLORS } from "@/utils/colors";
 import { useTranslation } from "@/components/providers/language-provider";
 
 export default function TransactionItem({ transaction, wallets, onSuccess }: { transaction: any, wallets: any[], onSuccess?: () => void }) {
@@ -21,28 +21,28 @@ export default function TransactionItem({ transaction, wallets, onSuccess }: { t
 
     // Determine icon, color, background based on transaction type
     let icon = <Wallet className="h-5 w-5" />;
-    let amountColor = COLOR_NEUTRAL;
-    let cardBackground = `${COLOR_NEUTRAL}15`;
+    let amountColor: string = COLORS.neutral;
+    let cardBackground: string = `${COLORS.neutral}15`;
     let sign = "";
 
     if (transaction.type === 'income') {
         icon = <ArrowRight className="h-5 w-5 rotate-45" />;
-        amountColor = COLOR_POSITIVE;
-        cardBackground = `${COLOR_POSITIVE}15`;
+        amountColor = COLORS.income;
+        cardBackground = `${COLORS.income}15`;
         sign = "+";
     } else if (transaction.type === 'expense') {
         icon = <ArrowRight className="h-5 w-5 -rotate-45" />;
-        amountColor = COLOR_NEGATIVE;
-        cardBackground = `${COLOR_NEGATIVE}15`;
+        amountColor = COLORS.expense;
+        cardBackground = `${COLORS.expense}15`;
         sign = "-";
     } else if (transaction.type === 'transfer_out' || transaction.type === 'transfer_in') {
         icon = <ArrowRightLeft className="h-5 w-5" />;
-        amountColor = COLOR_NEUTRAL;
-        cardBackground = `${COLOR_NEUTRAL}15`;
+        amountColor = COLORS.transfer;
+        cardBackground = `${COLORS.transfer}15`;
     } else if (transaction.type === 'debt_repayment') {
         icon = <CreditCard className="h-5 w-5" />;
-        amountColor = COLOR_NEUTRAL;
-        cardBackground = `${COLOR_NEUTRAL}15`;
+        amountColor = COLORS.neutral;
+        cardBackground = `${COLORS.neutral}15`;
         sign = "-";
     }
 
