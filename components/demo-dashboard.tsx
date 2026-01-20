@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowRightLeft, List } from "lucide-react";
 import { useTranslation } from "@/components/providers/language-provider";
-import { COLOR_BRAND, COLOR_NEUTRAL } from "@/utils/colors";
+import { COLORS } from "@/utils/colors";
 
 // Components
 import GreetingHeader from "@/components/greeting-header";
@@ -126,16 +126,16 @@ export default function DemoDashboard() {
             {/* Navigation Links */}
             <div className="grid grid-cols-2 gap-3 mb-6">
                 <div className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm cursor-not-allowed">
-                    <List size={20} style={{ color: COLOR_NEUTRAL }} />
-                    <span className="text-sm font-medium" style={{ color: COLOR_NEUTRAL }}>{t.LABEL_TRANSACTION_HISTORY}</span>
+                    <List size={20} style={{ color: COLORS.neutral }} />
+                    <span className="text-sm font-medium" style={{ color: COLORS.neutral }}>{t.LABEL_TRANSACTION_HISTORY}</span>
                 </div>
                 <div className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-2xl border shadow-sm cursor-not-allowed">
-                    <ArrowRightLeft size={20} style={{ color: COLOR_NEUTRAL }} />
-                    <span className="text-sm font-medium" style={{ color: COLOR_NEUTRAL }}>{t.LABEL_DEBT_MANAGEMENT}</span>
+                    <ArrowRightLeft size={20} style={{ color: COLORS.neutral }} />
+                    <span className="text-sm font-medium" style={{ color: COLORS.neutral }}>{t.LABEL_DEBT_MANAGEMENT}</span>
                 </div>
             </div>
 
-            <p className="text-center text-xs text-gray-400 mt-8">Build: v1.4.2 (Demo Mode)</p>
+            <p className="text-center text-xs text-gray-400 mt-8">Build: v1.5.0 (Demo Mode)</p>
         </main>
     );
 }

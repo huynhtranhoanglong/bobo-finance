@@ -1,6 +1,6 @@
 /**
  * Centralized Color Palette - Bobo Finance
- * v1.3.16
+ * v1.5.0
  * 
  * File này chứa tất cả màu sắc được sử dụng trong ứng dụng.
  * Mục đích: Đảm bảo tính nhất quán và dễ dàng thay đổi brand color.
@@ -11,33 +11,43 @@
 // === PRIMARY BRAND COLORS ===
 export const COLORS = {
     /** 
-     * Màu thương hiệu chính - Xanh lá
-     * Dùng cho: buttons, links, highlights, positive values 
+     * Màu thương hiệu chính - Sage Green
+     * Dùng cho: buttons, links, highlights, brand identity 
      */
     brand: '#598c58',
 
     /** 
-     * Màu tích cực - Xanh lá (giống brand)
-     * Dùng cho: thu nhập, tài sản dương, hoàn thành, thành công 
-     */
-    positive: '#598c58',
-
-    /** 
-     * Màu tiêu cực - Đỏ cam
-     * Dùng cho: chi tiêu, nợ, cảnh báo, lỗi 
-     */
-    negative: '#c25e5e',
-
-    /** 
-     * Màu trung tính - Xám xanh
-     * Dùng cho: text phụ, borders, placeholder, info 
-     */
-    neutral: '#7a869a',
-
-    /**
      * Màu hover cho brand (tối hơn một chút)
      */
     brandHover: '#4a7a49',
+
+    /** 
+     * Màu trung tính - Xám xanh (Slate)
+     * Dùng cho: text phụ, borders, placeholder, info 
+     */
+    neutral: '#64748b',
+
+    // === TRANSACTION TYPE COLORS (v1.5.0) ===
+    /** Thu nhập - Emerald 500 */
+    income: '#10b981',
+    /** Chi tiêu - Rose 500 */
+    expense: '#f43f5e',
+    /** Chuyển khoản - Blue 500 */
+    transfer: '#3b82f6',
+
+    // === EXPENSE CATEGORY COLORS (v1.5.0) ===
+    /** Thiết yếu (Must-have) - Dùng brand color */
+    mustHave: '#598c58',
+    /** Thứ yếu (Nice-to-have) - Amber 500 */
+    niceToHave: '#f59e0b',
+    /** Lãng phí (Waste) - Rose 600 */
+    waste: '#e11d48',
+
+    // === LEGACY ALIASES (backward compatibility) ===
+    /** @deprecated Use income/expense instead */
+    positive: '#10b981',  // Now points to income color
+    /** @deprecated Use expense/waste instead */
+    negative: '#f43f5e',  // Now points to expense color
 } as const;
 
 /**

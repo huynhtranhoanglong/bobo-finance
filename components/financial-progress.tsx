@@ -1,7 +1,7 @@
 "use client";
 
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
-import { COLOR_BRAND, COLOR_NEUTRAL } from "@/utils/colors";
+import { COLORS } from "@/utils/colors";
 import { useTranslation } from "@/components/providers/language-provider";
 
 interface FinancialProgressProps {
@@ -55,7 +55,7 @@ export default function FinancialProgress({ metrics }: FinancialProgressProps) {
                 <span className="text-sm font-medium text-gray-600">
                     {t.LABEL_TARGET} {targetLabel}
                 </span>
-                <span className="text-sm font-bold" style={{ color: COLOR_BRAND }}>
+                <span className="text-sm font-bold" style={{ color: COLORS.brand }}>
                     {Math.min(currentProgress, 100).toFixed(1)}%
                 </span>
             </div>
@@ -66,13 +66,13 @@ export default function FinancialProgress({ metrics }: FinancialProgressProps) {
                     className="h-full transition-all duration-500"
                     style={{
                         width: `${Math.min(currentProgress, 100)}%`,
-                        backgroundColor: COLOR_BRAND
+                        backgroundColor: COLORS.brand
                     }}
                 />
             </div>
 
             {/* Remaining Text */}
-            <p className="text-sm text-center" style={{ color: COLOR_NEUTRAL }}>
+            <p className="text-sm text-center" style={{ color: COLORS.neutral }}>
                 {t.LABEL_REMAINING_TO_TARGET
                     .replace("{amount}", "")
                     .replace("{target}", targetLabel)

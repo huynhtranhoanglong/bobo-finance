@@ -5,7 +5,7 @@ import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import EditDebtDialog from "./edit-debt-dialog";
 import { useRouter } from "next/navigation";
 import { DEBT_PROGRESS_LOW, DEBT_PROGRESS_HIGH } from "@/utils/constants";
-import { COLOR_POSITIVE, COLOR_NEGATIVE, COLOR_NEUTRAL } from "@/utils/colors";
+import { COLORS } from "@/utils/colors";
 import { useTranslation } from "@/components/providers/language-provider";
 
 interface DebtCardProps {
@@ -30,11 +30,11 @@ export default function DebtCard({ debt, wallets }: DebtCardProps) {
     const progressPercent = total_amount > 0 ? (paidAmount / total_amount) * 100 : 0;
 
     // Determine color based on progress
-    let progressColor = COLOR_NEGATIVE;
+    let progressColor: string = COLORS.expense;
     if (progressPercent >= DEBT_PROGRESS_HIGH) {
-        progressColor = COLOR_POSITIVE; // Almost done
+        progressColor = COLORS.income; // Almost done
     } else if (progressPercent >= DEBT_PROGRESS_LOW) {
-        progressColor = COLOR_NEUTRAL; // In progress
+        progressColor = COLORS.neutral; // In progress
     }
 
     const handleSuccess = () => {
@@ -52,7 +52,7 @@ export default function DebtCard({ debt, wallets }: DebtCardProps) {
                         <span className="font-bold text-gray-800">{name}</span>
                         <span
                             className="text-[10px] font-medium uppercase"
-                            style={{ color: debt.type === 'receivable' ? COLOR_POSITIVE : COLOR_NEGATIVE }}
+                            style={{ color: debt.type === 'receivable' ? COLORS.income : COLORS.expense }}
                         >
                             {debt.type === 'receivable' ? t.LABEL_DEBT_RECEIVABLE_STATUS : t.LABEL_DEBT_PAYABLE_STATUS}
                         </span>
@@ -70,13 +70,13 @@ export default function DebtCard({ debt, wallets }: DebtCardProps) {
 
                 {/* Amount Info */}
                 <div className="flex justify-between items-center mb-3 text-sm">
-                    <span style={{ color: COLOR_NEUTRAL }}>{t.LABEL_REMAINING_DEBT}</span>
+                    <span style={{ color: COLORS.neutral }}>{t.LABEL_REMAINING_DEBT}</span>
                     <div>
-                        <span className="font-bold" style={{ color: COLOR_NEGATIVE }}>
+                        <span className="font-bold" style={{ color: COLORS.expense }}>
                             <PrivacyAmount amount={remaining_amount} />
                         </span>
-                        <span className="mx-1" style={{ color: COLOR_NEUTRAL }}>/</span>
-                        <span style={{ color: COLOR_NEUTRAL }}>
+                        <span className="mx-1" style={{ color: COLORS.neutral }}>/</span>
+                        <span style={{ color: COLORS.neutral }}>
                             <PrivacyAmount amount={total_amount} />
                         </span>
                     </div>

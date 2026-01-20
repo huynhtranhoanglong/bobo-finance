@@ -1,13 +1,13 @@
 /**
  * Expense & Income Categories Configuration
- * v1.4.11
+ * v1.5.0
  * 
  * Centralized category management for easy maintenance.
  * Used by: add-transaction-dialog, edit-transaction-dialog, monthly-stats
  */
 
 import type { TranslationKeys } from "@/utils/i18n/vi";
-import { COLOR_POSITIVE, COLOR_NEUTRAL, COLOR_NEGATIVE } from "@/utils/colors";
+import { COLORS } from "@/utils/colors";
 
 // === EXPENSE CATEGORIES ===
 export interface ExpenseCategory {
@@ -18,9 +18,9 @@ export interface ExpenseCategory {
 }
 
 export const EXPENSE_CATEGORIES: ExpenseCategory[] = [
-    { key: 'must_have', labelKey: 'LABEL_CATEGORY_MUST_HAVE', countInChart: true, color: COLOR_POSITIVE },
-    { key: 'nice_to_have', labelKey: 'LABEL_CATEGORY_NICE_TO_HAVE', countInChart: true, color: COLOR_NEUTRAL },
-    { key: 'waste', labelKey: 'LABEL_CATEGORY_WASTE', countInChart: true, color: COLOR_NEGATIVE },
+    { key: 'must_have', labelKey: 'LABEL_CATEGORY_MUST_HAVE', countInChart: true, color: COLORS.mustHave },
+    { key: 'nice_to_have', labelKey: 'LABEL_CATEGORY_NICE_TO_HAVE', countInChart: true, color: COLORS.niceToHave },
+    { key: 'waste', labelKey: 'LABEL_CATEGORY_WASTE', countInChart: true, color: COLORS.waste },
     { key: 'other_expense', labelKey: 'LABEL_CATEGORY_OTHER_EXPENSE', countInChart: false },
 ];
 

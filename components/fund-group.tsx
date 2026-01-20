@@ -5,7 +5,7 @@ import { ChevronDown, ChevronRight, Wallet, Shield, PiggyBank, TrendingUp, Bankn
 import WalletCard from "./wallet-card"
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import { EMERGENCY_FUND_DANGER_MONTHS, EMERGENCY_FUND_SAFE_MONTHS } from "@/utils/constants";
-import { COLOR_POSITIVE, COLOR_NEGATIVE, COLOR_NEUTRAL } from "@/utils/colors";
+import { COLORS } from "@/utils/colors";
 import { useTranslation } from "@/components/providers/language-provider";
 
 interface FundGroupProps {
@@ -68,7 +68,7 @@ export default function FundGroup({ fundName, totalBalance, wallets, fundsList, 
 
     // Emergency Fund Status calculation
     let emergencyMonths = 0;
-    let emergencyColor = COLOR_NEUTRAL;
+    let emergencyColor: string = COLORS.neutral;
     let showEmergencyStatus = false;
 
     if (isEmergencyFund(fundName) && minMonthlySpend && minMonthlySpend > 0) {
@@ -76,11 +76,11 @@ export default function FundGroup({ fundName, totalBalance, wallets, fundsList, 
         emergencyMonths = totalBalance / minMonthlySpend;
 
         if (emergencyMonths >= EMERGENCY_FUND_SAFE_MONTHS) {
-            emergencyColor = COLOR_POSITIVE;
+            emergencyColor = COLORS.income;
         } else if (emergencyMonths >= EMERGENCY_FUND_DANGER_MONTHS) {
-            emergencyColor = COLOR_NEUTRAL;
+            emergencyColor = COLORS.neutral;
         } else {
-            emergencyColor = COLOR_NEGATIVE;
+            emergencyColor = COLORS.expense;
         }
     }
 
@@ -92,11 +92,11 @@ export default function FundGroup({ fundName, totalBalance, wallets, fundsList, 
                 className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50 transition"
             >
                 <div className="flex items-center gap-3">
-                    {isOpen ? <ChevronDown size={18} style={{ color: COLOR_NEUTRAL }} /> : <ChevronRight size={18} style={{ color: COLOR_NEUTRAL }} />}
+                    {isOpen ? <ChevronDown size={18} style={{ color: COLORS.neutral }} /> : <ChevronRight size={18} style={{ color: COLORS.neutral }} />}
 
                     <div className="flex items-center gap-2">
-                        <div className="p-2 rounded-xl" style={{ backgroundColor: `${COLOR_POSITIVE}15` }}>
-                            <IconComponent size={18} style={{ color: COLOR_POSITIVE }} />
+                        <div className="p-2 rounded-xl" style={{ backgroundColor: `${COLORS.brand}15` }}>
+                            <IconComponent size={18} style={{ color: COLORS.brand }} />
                         </div>
                         <div>
                             <span className="font-bold text-gray-800">{displayName}</span>
@@ -115,7 +115,7 @@ export default function FundGroup({ fundName, totalBalance, wallets, fundsList, 
                     </div>
                 </div>
 
-                <div className="font-bold" style={{ color: totalBalance >= 0 ? COLOR_POSITIVE : COLOR_NEGATIVE }}>
+                <div className="font-bold" style={{ color: totalBalance >= 0 ? COLORS.income : COLORS.expense }}>
                     <PrivacyAmount amount={totalBalance} />
                 </div>
             </div>
@@ -124,7 +124,7 @@ export default function FundGroup({ fundName, totalBalance, wallets, fundsList, 
             {isOpen && (
                 <div className="px-4 pb-4 space-y-2">
                     {wallets.length === 0 ? (
-                        <p className="text-sm italic text-center py-3" style={{ color: COLOR_NEUTRAL }}>{t.LABEL_NO_WALLETS_IN_FUND}</p>
+                        <p className="text-sm italic text-center py-3" style={{ color: COLORS.neutral }}>{t.LABEL_NO_WALLETS_IN_FUND}</p>
                     ) : (
                         wallets.map(wallet => (
                             <WalletCard key={wallet.id} wallet={wallet} funds={fundsList} />
