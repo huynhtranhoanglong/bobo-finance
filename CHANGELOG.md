@@ -11,9 +11,20 @@
   - **Hardcode Report**: Identified hardcoded hex values in `app/actions/send-feedback.ts` and `components/ui/switch.tsx`.
   - **Refactor Plan**: Proposed steps to unify color usage via Tailwind config and utility constants.
 
+### Refactor - Switch Component Color
+> **Purpose**: Eliminate hardcoded brand color in Switch component for better maintainability.
+
+- **Component Updated**: `components/ui/switch.tsx`
+  - Replaced hardcoded `#598c58` with dynamic `COLORS.brand` from `utils/colors.ts`.
+  - Uses CSS custom property (`--switch-checked`) for Tailwind compatibility.
+  - Now changing brand color in one file will automatically update all Switch components.
+
 ### Technical Details
-- **New File**: `COLOR_GUIDE.md` created.
-- No code changes in this release, only documentation.
+- **Modified Files**: 
+  - `components/ui/switch.tsx` - Refactored to use centralized color.
+  - `COLOR_GUIDE.md` - Updated section 3.2 to reflect completed refactor.
+- **No logic changes** - Pure code quality improvement.
+
 
 ## [1.4.11] - 2026-01-19
 

@@ -62,12 +62,12 @@ Dưới đây là danh sách các file đang sử dụng mã màu trực tiếp 
 | Style div | `#f8fafc` | Nền nhạt của brand | Nền khung nội dung |
 | Style p | `#94a3b8` | `COLORS.neutral` | Màu chữ footer |
 
-### 3.2. File `components/ui/switch.tsx`
-Component Switch của Radix UI đang hardcode màu xanh của brand trong class Tailwind.
+### 3.2. File `components/ui/switch.tsx` ✅ ĐÃ REFACTOR (v1.4.12)
+Component Switch của Radix UI đã được cập nhật để sử dụng biến từ `utils/colors.ts`.
 
-| Đoạn code | Mã màu | Đề xuất |
-|---|---|---|
-| `data-[state=checked]:bg-[#598c58]` | `#598c58` | Dùng `bg-brand` (cần config tailwind) hoặc `style={{ backgroundColor: COLORS.brand }}` |
+| Trước | Sau |
+|---|---|
+| `data-[state=checked]:bg-[#598c58]` | `style={{ "--switch-checked": COLORS.brand }}` + `bg-[var(--switch-checked)]` |
 
 ---
 
@@ -83,12 +83,12 @@ Component Switch của Radix UI đang hardcode màu xanh của brand trong class
     }
     ```
 
-2.  **Thay thế Hardcode trong Email Template**:
-    Trong `app/actions/send-feedback.ts`, import `COLORS` từ `utils/colors.ts` và dùng biến thay vì chuỗi string.
-    Ví dụ: `<h2 style={{ color: COLORS.brand }}>...</h2>`
+2.  **Email Template (Không refactor)**:
+    File `app/actions/send-feedback.ts` vẫn giữ hardcode vì:
+    - Email HTML không thể import JavaScript modules
+    - Các màu này là màu hệ thống (slate), không phải brand colors
+    - Email template hiếm khi thay đổi
 
-3.  **Thay thế Hardcode trong Switch**:
-    Trong `components/ui/switch.tsx`, thay `bg-[#598c58]` bằng class utility nếu đã cấu hình bước 1, hoặc import `COLORS.brand`.
-
-4.  **Kiểm soát việc thêm màu mới**:
+3.  **Kiểm soát việc thêm màu mới**:
     Quy định mọi màu sắc mới phải được thêm vào `utils/colors.ts` trước khi sử dụng.
+
