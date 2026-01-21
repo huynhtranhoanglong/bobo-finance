@@ -171,6 +171,7 @@ export const vi = {
     LABEL_SORT_AMOUNT_HIGH: "Số tiền lớn nhất",
     LABEL_SORT_AMOUNT_LOW: "Số tiền nhỏ nhất",
     LABEL_ALL_WALLETS: "Tất cả ví",
+    LABEL_ALL_EVENTS: "Tất cả sự kiện",
     LABEL_TRANSFER_OUT: "Chuyển đi",
     LABEL_TRANSFER_IN: "Nhận về",
     LABEL_LOAD_MORE: "Tải thêm",

@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.6.3] - 2026-01-21
+
+### Feature: Event Filter in Transaction History
+> **Purpose**: Filter transactions by event in the history page.
+
+- **TransactionFilters**: New Event dropdown (only shows when events exist)
+- **Transactions Page**: Applies `event_id` filter to query
+
+---
+
 ## [1.6.2] - 2026-01-21
 
 ### Feature: Event Selection in Edit Transaction

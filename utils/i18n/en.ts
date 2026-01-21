@@ -173,6 +173,7 @@ export const en: Record<TranslationKeys, string> = {
     LABEL_SORT_AMOUNT_HIGH: "Highest Amount",
     LABEL_SORT_AMOUNT_LOW: "Lowest Amount",
     LABEL_ALL_WALLETS: "All Wallets",
+    LABEL_ALL_EVENTS: "All Events",
     LABEL_TRANSFER_OUT: "Transfer Out",
     LABEL_TRANSFER_IN: "Transfer In",
     LABEL_LOAD_MORE: "Load More",

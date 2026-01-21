@@ -17,7 +17,17 @@ import { Search, Calendar, ChevronDown, ChevronUp, RotateCcw } from "lucide-reac
 import { COLOR_BRAND } from "@/utils/colors"
 import { useTranslation } from "@/components/providers/language-provider"
 
-export default function TransactionFilters({ wallets }: { wallets: any[] }) {
+interface ActiveEvent {
+    id: string;
+    name: string;
+}
+
+interface TransactionFiltersProps {
+    wallets: any[];
+    events?: ActiveEvent[];
+}
+
+export default function TransactionFilters({ wallets, events = [] }: TransactionFiltersProps) {
     const { t } = useTranslation()
     const searchParams = useSearchParams()
     const { replace } = useRouter()
@@ -114,6 +124,7 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
     const hasActiveFilters = searchParams.get("from_date") || searchParams.get("to_date") ||
         (searchParams.get("type") && searchParams.get("type") !== "all") ||
         (searchParams.get("wallet") && searchParams.get("wallet") !== "all") ||
+        (searchParams.get("event") && searchParams.get("event") !== "all") ||
         (searchParams.get("sort") && searchParams.get("sort") !== "date_desc");
 
     return (
@@ -238,6 +249,29 @@ export default function TransactionFilters({ wallets }: { wallets: any[] }) {
                             </Select>
                         </div>
                     </div>
+
+                    {/* 4. EVENT FILTER (v1.6.3) */}
+                    {events.length > 0 && (
+                        <div>
+                            <Label className="text-sm font-medium text-gray-700 mb-2 block">{t.LABEL_EVENT}</Label>
+                            <Select
+                                value={searchParams.get("event")?.toString() || "all"}
+                                onValueChange={(val) => handleFilterChange("event", val)}
+                            >
+                                <SelectTrigger className="h-11 rounded-xl">
+                                    <SelectValue placeholder={t.LABEL_ALL} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">{t.LABEL_ALL_EVENTS}</SelectItem>
+                                    {events.map((e) => (
+                                        <SelectItem key={e.id} value={e.id}>
+                                            📅 {e.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    )}
 
                     {/* Divider */}
                     <div className="border-t" />

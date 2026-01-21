@@ -87,6 +87,7 @@ function TransactionsPageContent() {
             const q = searchParams.get("q") || "";
             const wallet_id = searchParams.get("wallet") || "";
             const type = searchParams.get("type") || "";
+            const event_id = searchParams.get("event") || "";
             const sort = searchParams.get("sort") || "date_desc";
             const from_date = searchParams.get("from_date") || "";
             const to_date = searchParams.get("to_date") || "";
@@ -109,6 +110,10 @@ function TransactionsPageContent() {
             }
             if (type && type !== "all") {
                 query = query.eq("type", type);
+            }
+            // v1.6.3: Event filter
+            if (event_id && event_id !== "all") {
+                query = query.eq("event_id", event_id);
             }
             if (from_date) {
                 // FIX v1.2.6: Append T00:00:00 to force Local Time 00:00:00
@@ -169,7 +174,7 @@ function TransactionsPageContent() {
                     </div>
 
                     {/* Filters */}
-                    <TransactionFilters wallets={wallets || []} />
+                    <TransactionFilters wallets={wallets || []} events={activeEvents} />
 
                     {/* Transactions List */}
                     {loading ? (
