@@ -271,7 +271,7 @@ export default function AddTransactionDialog({ wallets, debts, funds, activeEven
                             <Select name="event_id">
                                 <SelectTrigger><SelectValue placeholder={t.LABEL_NO_EVENT} /></SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="">{t.LABEL_NO_EVENT}</SelectItem>
+                                    <SelectItem value="none">{t.LABEL_NO_EVENT}</SelectItem>
                                     {activeEvents.map(e => (
                                         <SelectItem key={e.id} value={e.id}>📅 {e.name}</SelectItem>
                                     ))}

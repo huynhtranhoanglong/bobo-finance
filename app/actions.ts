@@ -131,7 +131,8 @@ export async function addTransaction(formData: FormData) {
     else {
         const wallet_id = formData.get("wallet_id") as string;
         const category = formData.get("category") as string || null;
-        const event_id = formData.get("event_id") as string || null;
+        const event_id_raw = formData.get("event_id") as string;
+        const event_id = (event_id_raw && event_id_raw !== "none") ? event_id_raw : null;
 
         const result = await supabase.rpc("create_transaction_and_update_wallet", {
             p_wallet_id: wallet_id,
@@ -185,7 +186,8 @@ export async function updateTransactionAction(formData: FormData) {
     const wallet_id = formData.get("wallet_id") as string;
     const date = formData.get("date") as string; // Lấy ngày từ form (đã format đúng ISO hoặc timestamp)
     const category = formData.get("category") as string || null;
-    const event_id = formData.get("event_id") as string || null;
+    const event_id_raw = formData.get("event_id") as string;
+    const event_id = (event_id_raw && event_id_raw !== "none") ? event_id_raw : null;
 
     // Gọi hàm RPC V3 mới
     const { error } = await supabase.rpc("update_transaction_v3", {
