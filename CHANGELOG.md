@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.6.4] - 2026-01-22
+
+### UI/UX: Login Page Redesign (Minimalism)
+> **Purpose**: Redesign login page with Minimalism style, Mobile-first approach, and Fintech professional color palette.
+
+- **Design System** (via UI/UX Pro Max):
+  - Style: Swiss Minimalism - clean, spacious, functional
+  - Colors: Brand Sage Green `#598c58`, Off-white background `#FAFAFA`
+  - Typography: Slate color scale for professional look
+
+- **Layout Changes**:
+  - Removed card shadow and heavy borders for cleaner look
+  - Background: Changed from `bg-gray-50` to `bg-[#FAFAFA]` (warmer off-white)
+  - Increased padding and spacing for better mobile touch targets
+
+- **Component Updates**:
+  - Logo: Increased size to 72x72 for better visibility
+  - Language Toggle: Simplified from Switch to minimal Globe icon + text
+  - Inputs: Height increased to 48px (`h-12`) for easier mobile interaction
+  - Buttons: Consistent 48px height, smooth hover transitions
+  - Focus states: Subtle brand-colored ring for accessibility
+
+- **Technical**:
+  - Replaced inline color codes with `COLOR_BRAND` and `COLOR_BRAND_HOVER` from `utils/colors.ts`
+  - Google icon: Using proper multi-color SVG paths instead of single-color icon
+  - All interactive elements have `cursor-pointer` class
+
+> **Note**: No logic changes. Pure UI/UX improvement.
+
+---
+
 ## [1.6.3] - 2026-01-21
 
 ### Feature: Event Filter in Transaction History
