@@ -7,7 +7,19 @@ import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import { COLORS } from "@/utils/colors";
 import { useTranslation } from "@/components/providers/language-provider";
 
-export default function TransactionItem({ transaction, wallets, onSuccess }: { transaction: any, wallets: any[], onSuccess?: () => void }) {
+interface ActiveEvent {
+    id: string;
+    name: string;
+}
+
+interface TransactionItemProps {
+    transaction: any;
+    wallets: any[];
+    activeEvents?: ActiveEvent[];
+    onSuccess?: () => void;
+}
+
+export default function TransactionItem({ transaction, wallets, activeEvents = [], onSuccess }: TransactionItemProps) {
     const { t } = useTranslation()
     const [isEditOpen, setIsEditOpen] = useState(false);
 
@@ -89,6 +101,7 @@ export default function TransactionItem({ transaction, wallets, onSuccess }: { t
                     setOpen={setIsEditOpen}
                     transaction={transaction}
                     wallets={wallets}
+                    activeEvents={activeEvents}
                     onSuccess={onSuccess}
                 />
             )}

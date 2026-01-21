@@ -26,6 +26,7 @@ function TransactionsPageContent() {
     const [wallets, setWallets] = useState<any[]>([]);
     const [debts, setDebts] = useState<any[]>([]);
     const [funds, setFunds] = useState<any[]>([]);
+    const [activeEvents, setActiveEvents] = useState<any[]>([]);
     const [user, setUser] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [staticDataLoaded, setStaticDataLoaded] = useState(false);
@@ -63,6 +64,10 @@ function TransactionsPageContent() {
             // Get funds (for FAB)
             const { data: fundsData } = await supabase.from("funds").select("id, name");
             setFunds(fundsData || []);
+
+            // Get active events (v1.6.2)
+            const { data: eventsData } = await supabase.rpc('get_active_events');
+            setActiveEvents(eventsData || []);
 
             setStaticDataLoaded(true);
         }
@@ -177,6 +182,7 @@ function TransactionsPageContent() {
                                         key={t.id}
                                         transaction={t}
                                         wallets={wallets || []}
+                                        activeEvents={activeEvents}
                                         onSuccess={handleRefresh}
                                     />
                                 ))}
@@ -213,6 +219,7 @@ function TransactionsPageContent() {
                 wallets={wallets || []}
                 debts={debts || []}
                 funds={funds || []}
+                activeEvents={activeEvents}
                 onSuccess={handleRefresh}
             />
         </>

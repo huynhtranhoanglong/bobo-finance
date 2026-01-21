@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.6.2] - 2026-01-21
+
+### Feature: Event Selection in Edit Transaction
+> **Purpose**: Allow editing events for existing expense transactions.
+
+- **Edit Transaction Dialog**: Shows Event dropdown for expense transactions when active events exist
+- **Transactions Page**: Fetches active events and passes to TransactionItem and AddTransactionDialog
+
+---
+
 ## [1.6.1] - 2026-01-21
 
 ### Feature: Event Integration in Transactions

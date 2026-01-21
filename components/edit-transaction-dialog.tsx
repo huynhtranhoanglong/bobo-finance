@@ -7,13 +7,27 @@ import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { updateTransactionAction, deleteTransactionAction } from "@/app/actions"
-import { Trash2, Loader2 } from "lucide-react"
+import { Trash2, Loader2, Calendar } from "lucide-react"
 import { WalletOption } from "@/components/ui/wallet-option"
 import { COLOR_BRAND } from "@/utils/colors"
 import { useTranslation } from "@/components/providers/language-provider"
 import { EXPENSE_CATEGORIES, INCOME_CATEGORIES } from "@/utils/categories"
 
-export default function EditTransactionDialog({ open, setOpen, transaction, wallets, onSuccess }: any) {
+interface ActiveEvent {
+    id: string;
+    name: string;
+}
+
+interface EditTransactionDialogProps {
+    open: boolean;
+    setOpen: (open: boolean) => void;
+    transaction: any;
+    wallets: any[];
+    activeEvents?: ActiveEvent[];
+    onSuccess?: () => void;
+}
+
+export default function EditTransactionDialog({ open, setOpen, transaction, wallets, activeEvents = [], onSuccess }: EditTransactionDialogProps) {
     const { t } = useTranslation()
     const [loading, setLoading] = useState(false);
 
@@ -121,7 +135,26 @@ export default function EditTransactionDialog({ open, setOpen, transaction, wall
                         </Select>
                     </div>
 
-                    {/* 5. GHI CHÚ */}
+                    {/* 5. SỰ KIỆN (v1.6.2 - Chỉ hiện cho expense) */}
+                    {transaction.type === 'expense' && activeEvents.length > 0 && (
+                        <div className="grid gap-2">
+                            <Label className="flex items-center gap-2">
+                                <Calendar className="w-4 h-4" style={{ color: COLOR_BRAND }} />
+                                {t.LABEL_BELONGS_TO_EVENT}
+                            </Label>
+                            <Select name="event_id" defaultValue={transaction.event_id || "none"}>
+                                <SelectTrigger><SelectValue placeholder={t.LABEL_NO_EVENT} /></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="none">{t.LABEL_NO_EVENT}</SelectItem>
+                                    {activeEvents.map(e => (
+                                        <SelectItem key={e.id} value={e.id}>📅 {e.name}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    )}
+
+                    {/* 6. GHI CHÚ */}
                     <div className="grid gap-2">
                         <Label>{t.LABEL_NOTE}</Label>
                         <Input name="note" defaultValue={transaction.note || ""} />
