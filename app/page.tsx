@@ -55,6 +55,10 @@ export default async function Home({
   const fundsList = dashboardData?.funds || [];
   const familyInfo = dashboardData?.family;
 
+  // v1.6.1: Fetch active events for Add Transaction
+  const { data: activeEventsData } = await supabase.rpc('get_active_events');
+  const activeEvents = activeEventsData || [];
+
   // v1.4.0: Check if user has private wallets
   let hasPrivateWallets = false;
   if (familyInfo) {
@@ -117,6 +121,7 @@ export default async function Home({
       familyInfo={familyInfo}
       sortedGroups={sortedGroups}
       hasPrivateWallets={hasPrivateWallets}
+      activeEvents={activeEvents}
     />
   );
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Plus, ArrowRightLeft, Loader2 } from "lucide-react"
+import { Plus, ArrowRightLeft, Loader2, Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { MoneyInput } from "@/components/ui/money-input"
@@ -15,7 +15,12 @@ import { COLOR_BRAND } from "@/utils/colors"
 import { useTranslation } from "@/components/providers/language-provider"
 import { EXPENSE_CATEGORIES, INCOME_CATEGORIES } from "@/utils/categories"
 
-export default function AddTransactionDialog({ wallets, debts, funds, onSuccess }: { wallets: any[], debts: any[], funds: any[], onSuccess?: () => void }) {
+interface ActiveEvent {
+    id: string;
+    name: string;
+}
+
+export default function AddTransactionDialog({ wallets, debts, funds, activeEvents = [], onSuccess }: { wallets: any[], debts: any[], funds: any[], activeEvents?: ActiveEvent[], onSuccess?: () => void }) {
     const [open, setOpen] = useState(false)
     const [type, setType] = useState("expense")
     const [loading, setLoading] = useState(false)
@@ -250,6 +255,25 @@ export default function AddTransactionDialog({ wallets, debts, funds, onSuccess 
                                 <SelectContent>
                                     {INCOME_CATEGORIES.map(cat => (
                                         <SelectItem key={cat.key} value={cat.key}>{t[cat.labelKey]}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    )}
+
+                    {/* Event Dropdown (Chỉ hiện khi Chi tiêu VÀ có active events) - v1.6.1 */}
+                    {type === "expense" && activeEvents.length > 0 && (
+                        <div className="grid gap-2">
+                            <Label className="flex items-center gap-2">
+                                <Calendar className="w-4 h-4" style={{ color: COLOR_BRAND }} />
+                                {t.LABEL_BELONGS_TO_EVENT}
+                            </Label>
+                            <Select name="event_id">
+                                <SelectTrigger><SelectValue placeholder={t.LABEL_NO_EVENT} /></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="">{t.LABEL_NO_EVENT}</SelectItem>
+                                    {activeEvents.map(e => (
+                                        <SelectItem key={e.id} value={e.id}>📅 {e.name}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>

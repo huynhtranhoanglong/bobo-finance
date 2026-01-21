@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.6.1] - 2026-01-21
+
+### Feature: Event Integration in Transactions
+> **Purpose**: Allow tagging expense transactions to an active Event from the Add Transaction dialog.
+
+- **Add Transaction Dialog**: New dropdown "Thuộc sự kiện" appears when creating expense and there are active events
+- **SQL Updates**: `create_transaction_and_update_wallet` and `update_transaction_v3` now accept `p_event_id`
+- **Dashboard**: Fetches active events and passes to AddTransactionDialog
+
+**SQL Script**: `sql_backup/202601210930_event_transaction_integration.sql`
+
+---
+
 ## [1.6.0] - 2026-01-21
 
 ### Feature: Event Tracking

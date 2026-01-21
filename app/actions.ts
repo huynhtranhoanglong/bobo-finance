@@ -131,6 +131,7 @@ export async function addTransaction(formData: FormData) {
     else {
         const wallet_id = formData.get("wallet_id") as string;
         const category = formData.get("category") as string || null;
+        const event_id = formData.get("event_id") as string || null;
 
         const result = await supabase.rpc("create_transaction_and_update_wallet", {
             p_wallet_id: wallet_id,
@@ -139,6 +140,7 @@ export async function addTransaction(formData: FormData) {
             p_category: category,
             p_note: note,
             p_date: date,
+            p_event_id: event_id,
         });
         error = result.error;
     }
@@ -174,7 +176,7 @@ export async function deleteDebtAction(id: string) {
 }
 // ... (code cũ giữ nguyên)
 
-// HÀM MỚI: Sửa giao dịch (v1.3.11 - Fix Family Balance)
+// HÀM MỚI: Sửa giao dịch (v1.3.11 - Fix Family Balance, v1.6.1 - Event support)
 export async function updateTransactionAction(formData: FormData) {
     const supabase = await createClient();
     const id = formData.get("id") as string;
@@ -183,6 +185,7 @@ export async function updateTransactionAction(formData: FormData) {
     const wallet_id = formData.get("wallet_id") as string;
     const date = formData.get("date") as string; // Lấy ngày từ form (đã format đúng ISO hoặc timestamp)
     const category = formData.get("category") as string || null;
+    const event_id = formData.get("event_id") as string || null;
 
     // Gọi hàm RPC V3 mới
     const { error } = await supabase.rpc("update_transaction_v3", {
@@ -191,11 +194,13 @@ export async function updateTransactionAction(formData: FormData) {
         p_new_note: note,
         p_new_date: date, // Truyền ngày mới
         p_new_wallet_id: wallet_id,
-        p_new_category: category // Truyền category mới
+        p_new_category: category, // Truyền category mới
+        p_new_event_id: event_id // Truyền event mới (v1.6.1)
     });
 
     if (error) return { error: error.message };
     revalidatePath("/");
+    revalidatePath("/events");
     return { success: true };
 }
 

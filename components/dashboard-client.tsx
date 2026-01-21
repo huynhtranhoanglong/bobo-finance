@@ -30,6 +30,7 @@ interface DashboardClientProps {
     familyInfo: any;
     sortedGroups: any[];
     hasPrivateWallets: boolean;
+    activeEvents?: { id: string; name: string }[];
 }
 
 export default function DashboardClient({
@@ -43,6 +44,7 @@ export default function DashboardClient({
     familyInfo,
     sortedGroups,
     hasPrivateWallets,
+    activeEvents = [],
 }: DashboardClientProps) {
     const { t } = useTranslation();
 
@@ -128,7 +130,7 @@ export default function DashboardClient({
             </PullToRefresh>
 
             {/* NÚT FAB (THÊM GIAO DỊCH) */}
-            <AddTransactionDialog wallets={wallets || []} debts={debts || []} funds={fundsList || []} />
+            <AddTransactionDialog wallets={wallets || []} debts={debts || []} funds={fundsList || []} activeEvents={activeEvents} />
         </>
     );
 }
