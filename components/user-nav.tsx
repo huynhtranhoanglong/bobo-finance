@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import { LogOut, MessageSquare, Users, Lock, User } from "lucide-react"
+import { LogOut, MessageSquare, Users, Lock, User, Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
@@ -54,6 +54,13 @@ export function UserNav({ email, hasFamily = false, hasPrivateWallets = false }:
                         <DropdownMenuItem className="cursor-pointer">
                             <Users className="mr-2 h-4 w-4" />
                             {t.LABEL_FAMILY}
+                        </DropdownMenuItem>
+                    </Link>
+                    {/* v1.6.0: Events Tracking */}
+                    <Link href="/events">
+                        <DropdownMenuItem className="cursor-pointer">
+                            <Calendar className="mr-2 h-4 w-4" />
+                            {t.LABEL_EVENTS}
                         </DropdownMenuItem>
                     </Link>
                     {/* v1.4.0: Private Wallet - chỉ hiển thị khi có gia đình VÀ đã có ví riêng tư */}

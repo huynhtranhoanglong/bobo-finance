@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.6.0] - 2026-01-21
+
+### Feature: Event Tracking
+> **Purpose**: Allow users to track expenses for individual events (trips, business travel, parties, etc.) separately from regular monthly statistics.
+
+- **New Pages**:
+  - `/events` - List of all events (Active/Completed tabs)
+  - `/events/[id]` - Event detail page with spending breakdown and transaction list
+
+- **Features**:
+  - Create, edit, delete events
+  - Optional budget per event with progress bar
+  - Optional start/end dates
+  - Tag expense transactions to an event
+  - Spending breakdown by category (must_have, nice_to_have, waste, other)
+  - Private/Shared visibility (for family users)
+  - Dashboard widget showing active events
+
+- **Database Changes**:
+  - New table: `events` (id, user_id, family_id, name, budget, start_date, end_date, status, visibility)
+  - New column: `transactions.event_id` (nullable FK to events)
+  - 9 new RPC functions for event management
+
+- **UI Updates**:
+  - Events menu item in user dropdown
+  - Events widget on dashboard (shows active events)
+
+- **SQL Script**: `sql_backup/202601210900_event_tracking_feature.sql`
+
+---
+
 ## [1.5.2] - 2026-01-21
 
 ### Fix: Mobile Tooltip Experience + New Tooltips

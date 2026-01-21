@@ -1,6 +1,6 @@
 /**
  * English Translations - Bobo Finance
- * v1.4.1
+ * v1.6.0
  */
 
 import type { TranslationKeys } from "./vi";
@@ -370,4 +370,38 @@ export const en: Record<TranslationKeys, string> = {
     TOOLTIP_INCOME: "Total income recorded this month (Salary, Bonus, Investment, etc.).",
     TOOLTIP_EXPENSE: "Total actual spending this month. DOES NOT include transfers between your own wallets.",
     TOOLTIP_WALLETS: "Total money you currently have. Grouped by Funds (Jars) for better purpose management.",
+
+    // === EVENT TRACKING (v1.6.0) ===
+    LABEL_EVENTS: "Events",
+    LABEL_EVENT: "Event",
+    LABEL_CREATE_EVENT: "Create Event",
+    LABEL_EDIT_EVENT: "Edit Event",
+    LABEL_DELETE_EVENT: "Delete Event",
+    LABEL_EVENT_NAME: "Event Name",
+    LABEL_EVENT_NAME_PLACEHOLDER: "e.g., Trip to Paris, Birthday Party...",
+    LABEL_EVENT_BUDGET: "Budget",
+    LABEL_EVENT_BUDGET_OPTIONAL: "(Optional)",
+    LABEL_EVENT_START_DATE: "Start Date",
+    LABEL_EVENT_END_DATE: "End Date",
+    LABEL_EVENT_STATUS_ACTIVE: "Active",
+    LABEL_EVENT_STATUS_COMPLETED: "Completed",
+    LABEL_COMPLETE_EVENT: "Complete Event",
+    LABEL_REOPEN_EVENT: "Reopen Event",
+    LABEL_NO_BUDGET: "No Limit",
+    LABEL_TOTAL_SPENT: "Spent",
+    LABEL_BELONGS_TO_EVENT: "Belongs to Event",
+    LABEL_NO_ACTIVE_EVENTS: "No active events",
+    LABEL_ACTIVE_EVENTS: "Active",
+    LABEL_COMPLETED_EVENTS: "Completed",
+    LABEL_EVENT_TRANSACTIONS: "Event Transactions",
+    LABEL_EVENT_BREAKDOWN: "Spending Breakdown",
+    LABEL_EVENT_EMPTY: "No events yet.",
+    LABEL_EVENT_NO_TRANSACTIONS: "No transactions in this event yet.",
+    LABEL_DELETE_EVENT_CONFIRM: "Delete this event? Transactions will be kept.",
+    LABEL_COMPLETE_EVENT_CONFIRM: "Mark this event as completed?",
+    LABEL_BUDGET_REMAINING: "Remaining",
+    LABEL_BUDGET_OVER: "Over Budget",
+    LABEL_SELECT_EVENT: "Select Event",
+    LABEL_NO_EVENT: "No Event",
+    TOOLTIP_EVENT: "Tag a transaction to an event to track spending separately (trips, work, parties...)",
 } as const;

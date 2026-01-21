@@ -15,8 +15,10 @@
 5. [Debt Management Logic](#5-debt-management-logic)
 6. [Inter-Wallet Transfer Logic](#6-inter-wallet-transfer-logic)
 7. [Family Logic](#7-family-logic)
-8. [Secondary Display Indicators](#8-secondary-display-indicators)
-9. [Technical Reference](#9-technical-reference)
+8. [Event Tracking Logic](#8-event-tracking-logic)
+9. [Secondary Display Indicators](#9-secondary-display-indicators)
+10. [Technical Reference](#10-technical-reference)
+
 
 ---
 
@@ -824,7 +826,72 @@ When a member leaves the family:
 
 ---
 
-## 8. Secondary Display Indicators
+## 8. Event Tracking Logic
+
+### 8.1. What is an Event?
+
+An Event is a way to group related expenses together for tracking purposes. Examples:
+- 🏖️ Travel to Danang
+- 💼 Business trip to Hanoi
+- 🎉 Birthday party
+- 🏠 Home renovation
+
+### 8.2. Event Properties
+
+| Property | Required | Description |
+|----------|----------|-------------|
+| `name` | ✅ Yes | Event name |
+| `budget` | ❌ Optional | Expected spending limit |
+| `start_date` | ❌ Optional | When event starts |
+| `end_date` | ❌ Optional | When event ends |
+| `status` | Auto | `active` or `completed` |
+| `visibility` | Auto | `shared` or `private` (family users only) |
+
+### 8.3. How Event Tracking Works
+
+1. **Create Event**: User creates an event with a name and optional budget.
+2. **Tag Transactions**: When creating expense transactions, user can optionally tag them to an active event.
+3. **View Report**: Event detail page shows total spent, breakdown by category, and list of transactions.
+4. **Complete Event**: When done, user marks event as completed for archiving.
+
+### 8.4. Important Rules
+
+- **Transactions still count normally**: An expense tagged to an event is still counted in monthly statistics and affects wallet balance.
+- **Events are separate tracking**: They simply group transactions for easier reporting.
+- **Only expenses**: Only expense transactions can be tagged to events (not income, transfers, or debt repayments).
+- **Private/Shared for family**: If user has a family, they can choose event visibility like wallets.
+
+### 8.5. Calculations
+
+**Total Spent:**
+```sql
+SELECT COALESCE(SUM(amount), 0) FROM transactions WHERE event_id = ?
+```
+
+**Category Breakdown:**
+```sql
+SELECT 
+    SUM(CASE WHEN category_level = 'must_have' THEN amount ELSE 0 END) as must_have,
+    SUM(CASE WHEN category_level = 'nice_to_have' THEN amount ELSE 0 END) as nice_to_have,
+    SUM(CASE WHEN category_level = 'waste' THEN amount ELSE 0 END) as waste,
+    SUM(CASE WHEN category_level = 'other_expense' THEN amount ELSE 0 END) as other
+FROM transactions WHERE event_id = ?
+```
+
+**Budget Progress:**
+```
+Progress % = (Total Spent / Budget) × 100
+```
+
+> **🔧 Backend:**
+> - Table: `events` (id, user_id, family_id, name, budget, start_date, end_date, status, visibility)
+> - Column: `transactions.event_id` (nullable FK)
+> - RPC: `create_event`, `get_events_list`, `get_event_detail`, `update_event`, `complete_event`, `delete_event`
+> - SQL File: `sql_backup/202601210900_event_tracking_feature.sql`
+
+---
+
+## 9. Secondary Display Indicators
 
 ### 8.1. Emergency Fund Months
 

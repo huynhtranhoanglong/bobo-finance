@@ -1,6 +1,6 @@
 /**
  * Vietnamese Translations - Bobo Finance
- * v1.4.1
+ * v1.6.0
  */
 
 export const vi = {
@@ -368,6 +368,40 @@ export const vi = {
     TOOLTIP_INCOME: "Tổng tất cả các khoản thu trong tháng này (Lương, Thưởng, Lãi đầu tư, v.v...). Kể cả các khoản đã thu nhưng chưa về ví.",
     TOOLTIP_EXPENSE: "Tổng chi tiêu thực tế trong tháng. KHÔNG bao gồm các khoản chuyển tiền giữa các ví (vì tiền chỉ chuyển từ túi này sang túi khác).",
     TOOLTIP_WALLETS: "Tổng hợp tất cả tiền bạn đang có. Được chia theo các hũ (Quỹ) để dễ quản lý mục đích sử dụng.",
+
+    // === EVENT TRACKING (v1.6.0) ===
+    LABEL_EVENTS: "Sự kiện",
+    LABEL_EVENT: "Sự kiện",
+    LABEL_CREATE_EVENT: "Tạo sự kiện",
+    LABEL_EDIT_EVENT: "Chỉnh sửa sự kiện",
+    LABEL_DELETE_EVENT: "Xóa sự kiện",
+    LABEL_EVENT_NAME: "Tên sự kiện",
+    LABEL_EVENT_NAME_PLACEHOLDER: "Vd: Du lịch Đà Nẵng, Tiệc sinh nhật...",
+    LABEL_EVENT_BUDGET: "Ngân sách dự kiến",
+    LABEL_EVENT_BUDGET_OPTIONAL: "(Tùy chọn)",
+    LABEL_EVENT_START_DATE: "Ngày bắt đầu",
+    LABEL_EVENT_END_DATE: "Ngày kết thúc",
+    LABEL_EVENT_STATUS_ACTIVE: "Đang diễn ra",
+    LABEL_EVENT_STATUS_COMPLETED: "Đã hoàn thành",
+    LABEL_COMPLETE_EVENT: "Hoàn thành sự kiện",
+    LABEL_REOPEN_EVENT: "Mở lại sự kiện",
+    LABEL_NO_BUDGET: "Không giới hạn",
+    LABEL_TOTAL_SPENT: "Đã chi",
+    LABEL_BELONGS_TO_EVENT: "Thuộc sự kiện",
+    LABEL_NO_ACTIVE_EVENTS: "Không có sự kiện nào",
+    LABEL_ACTIVE_EVENTS: "Đang diễn ra",
+    LABEL_COMPLETED_EVENTS: "Đã hoàn thành",
+    LABEL_EVENT_TRANSACTIONS: "Giao dịch trong sự kiện",
+    LABEL_EVENT_BREAKDOWN: "Phân tích chi tiêu",
+    LABEL_EVENT_EMPTY: "Chưa có sự kiện nào.",
+    LABEL_EVENT_NO_TRANSACTIONS: "Chưa có giao dịch nào trong sự kiện này.",
+    LABEL_DELETE_EVENT_CONFIRM: "Xóa sự kiện này? Các giao dịch sẽ được giữ lại.",
+    LABEL_COMPLETE_EVENT_CONFIRM: "Đánh dấu sự kiện này đã hoàn thành?",
+    LABEL_BUDGET_REMAINING: "Còn lại",
+    LABEL_BUDGET_OVER: "Vượt ngân sách",
+    LABEL_SELECT_EVENT: "Chọn sự kiện",
+    LABEL_NO_EVENT: "Không thuộc sự kiện",
+    TOOLTIP_EVENT: "Gắn giao dịch vào một sự kiện để theo dõi chi tiêu riêng (du lịch, công tác, tiệc...)",
 } as const;
 
 export type TranslationKeys = keyof typeof vi;
