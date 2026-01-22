@@ -14,6 +14,7 @@
 - **UI Improvements**:
   - **Removed FAB**: Replaced the floating (+) button with a central action button in the navbar.
   - **Layout**: Added bottom padding (`pb-32`) to content pages to prevent overlap.
+  - **Auto-hide**: Smartly hides navigation when scrolling down to maximize screen space, reappears on scroll up.
   - **Soft Refresh**: Implemented `transaction-added` event for seamless data updates without page reload.
 
 - **Technical**:

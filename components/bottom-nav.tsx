@@ -21,6 +21,30 @@ export function BottomNav() {
     const [activeEvents, setActiveEvents] = useState<any[]>([]);
     const [loadingData, setLoadingData] = useState(false);
 
+    // Auto-hide on scroll
+    const [isVisible, setIsVisible] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            // Show if scrolling up or at the top
+            if (currentScrollY < lastScrollY || currentScrollY < 100) {
+                setIsVisible(true);
+            }
+            // Hide if scrolling down and not at the top
+            else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                setIsVisible(false);
+            }
+
+            setLastScrollY(currentScrollY);
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [lastScrollY]);
+
     // Hide BottomNav on auth pages and invite pages
     if (
         pathname.startsWith("/login") ||
@@ -81,7 +105,10 @@ export function BottomNav() {
     );
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 z-40 px-4 pb-4 pt-0 pointer-events-none">
+        <div
+            className={`fixed bottom-0 left-0 right-0 z-40 px-4 pb-4 pt-0 pointer-events-none transition-transform duration-300 ease-in-out ${isVisible ? "translate-y-0" : "translate-y-[150%]"
+                }`}
+        >
             {/* Glass Container */}
             <div className="mx-auto max-w-lg pointer-events-auto">
                 <nav className="flex items-center justify-between px-2 h-[4.5rem] rounded-[2rem] bg-white/80 backdrop-blur-xl border border-white/40 shadow-xl shadow-slate-200/50">
