@@ -16,6 +16,7 @@ import { User } from "@supabase/supabase-js";
 import { PrivacyToggle } from "@/components/ui/privacy-toggle";
 import { PageHeader } from "@/components/ui/page-header";
 import { UserNav } from "@/components/user-nav";
+import { NotificationBell } from "@/components/notification-bell";
 
 interface Event {
     id: string;
@@ -154,20 +155,29 @@ export default function EventsPageClient({ hasFamily, user }: EventsPageClientPr
 
             <div className="max-w-2xl mx-auto w-full p-4 md:p-8 pb-32 relative z-10">
                 {/* Header */}
-                <PageHeader title={t.LABEL_EVENTS} user={user} className="px-0 pt-0" />
-
-                {/* Create Event FAB */}
-                <div className="fixed bottom-6 right-6 z-50">
-                    <CreateEventDialog hasFamily={hasFamily} onSuccess={fetchEvents}>
-                        <Button
-                            size="icon"
-                            className="w-14 h-14 rounded-full shadow-lg shadow-emerald-200/50 hover:shadow-emerald-200/70 transition-all hover:scale-105"
-                            style={{ backgroundColor: COLORS.brand }}
-                        >
-                            <Plus className="w-6 h-6" />
-                        </Button>
-                    </CreateEventDialog>
-                </div>
+                <PageHeader
+                    title={t.LABEL_EVENTS}
+                    user={user}
+                    className="px-0 pt-0"
+                    rightContent={
+                        <div className="flex items-center gap-3">
+                            <div className="rounded-full p-0.5 bg-white/40 backdrop-blur-sm border border-white/40 shadow-sm transition-all hover:bg-white/60">
+                                <NotificationBell />
+                            </div>
+                            <div className="rounded-full p-0.5 bg-white/40 backdrop-blur-sm border border-white/40 shadow-sm transition-all hover:bg-white/60">
+                                <PrivacyToggle />
+                            </div>
+                            <CreateEventDialog hasFamily={hasFamily} onSuccess={fetchEvents}>
+                                <button
+                                    className="w-9 h-9 rounded-full flex items-center justify-center text-white shadow-md transition-all hover:scale-105 active:scale-95"
+                                    style={{ backgroundColor: COLORS.brand }}
+                                >
+                                    <Plus className="w-5 h-5" />
+                                </button>
+                            </CreateEventDialog>
+                        </div>
+                    }
+                />
 
                 {/* Content */}
                 <div>

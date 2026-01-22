@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.7.2] - 2026-01-22
+
+### UI/UX: Events Page Optimization
+> **Purpose**: Optimize the "Add Event" button placement to resolve UX conflicts with the Bottom Navigation Bar.
+
+- **Header Integration**:
+  - Moved "Add Event" button from floating position (bottom-right) to the Header (top-right).
+  - Grouped with Notification and Privacy controls for a cleaner layout.
+  - Resolved "Touch Target Conflict" between the FAB and the new Bottom Nav.
+
+- **Technical**:
+  - Updated `components/events-page-client.tsx`.
+  - Implemented `rightContent` prop in `PageHeader` to support custom action groups.
+
 ## [1.7.1] - 2026-01-22
 
 ### UI/UX: Smart Header Optimization
