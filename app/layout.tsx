@@ -4,6 +4,7 @@ import "./globals.css";
 import { PrivacyProvider } from "@/components/providers/privacy-provider";
 import { LanguageProvider } from "@/components/providers/language-provider";
 import { TimezoneProvider } from "@/components/timezone-provider";
+import { BottomNav } from "@/components/bottom-nav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default function RootLayout({
           <TimezoneProvider>
             <PrivacyProvider>
               {children}
+              <BottomNav />
             </PrivacyProvider>
           </TimezoneProvider>
         </LanguageProvider>

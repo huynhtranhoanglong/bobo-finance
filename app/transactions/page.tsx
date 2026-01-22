@@ -9,7 +9,6 @@ import TransactionFilters from "@/components/transaction-filters";
 import { PrivacyToggle } from "@/components/ui/privacy-toggle";
 import { UserNav } from "@/components/user-nav";
 import { PageHeader } from "@/components/ui/page-header";
-import AddTransactionDialog from "@/components/add-transaction-dialog";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
 import { TransactionListSkeleton } from "@/components/ui/skeleton";
@@ -38,6 +37,12 @@ function TransactionsPageContent() {
     const handleRefresh = () => {
         setRefreshTrigger(prev => prev + 1);
     };
+
+    // Listen for transaction-added event from BottomNav
+    useEffect(() => {
+        window.addEventListener('transaction-added', handleRefresh);
+        return () => window.removeEventListener('transaction-added', handleRefresh);
+    }, []);
 
     // Fetch static data ONCE on mount (wallets, debts, funds, user)
     useEffect(() => {
@@ -217,14 +222,6 @@ function TransactionsPageContent() {
                     </div>
                 </main>
             </PullToRefresh>
-            {/* FAB Button - Moved outside PullToRefresh */}
-            <AddTransactionDialog
-                wallets={wallets || []}
-                debts={debts || []}
-                funds={funds || []}
-                activeEvents={activeEvents}
-                onSuccess={handleRefresh}
-            />
         </>
     );
 }

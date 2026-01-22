@@ -5,6 +5,7 @@
 
 export const vi = {
     // === COMMON LABELS ===
+    LABEL_HOME: "Trang chủ",
     LABEL_LOADING: "Đang xử lý...",
     LABEL_LOADING_DATA: "Đang tải dữ liệu...",
     LABEL_LOADING_PAGE: "Đang tải trang...",

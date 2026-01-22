@@ -7,6 +7,7 @@ import type { TranslationKeys } from "./vi";
 
 export const en: Record<TranslationKeys, string> = {
     // === COMMON LABELS ===
+    LABEL_HOME: "Home",
     LABEL_LOADING: "Loading...",
     LABEL_LOADING_DATA: "Loading data...",
     LABEL_LOADING_PAGE: "Loading page...",

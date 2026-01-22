@@ -20,7 +20,7 @@ interface ActiveEvent {
     name: string;
 }
 
-export default function AddTransactionDialog({ wallets, debts, funds, activeEvents = [], onSuccess }: { wallets: any[], debts: any[], funds: any[], activeEvents?: ActiveEvent[], onSuccess?: () => void }) {
+export default function AddTransactionDialog({ wallets, debts, funds, activeEvents = [], onSuccess, trigger }: { wallets: any[], debts: any[], funds: any[], activeEvents?: ActiveEvent[], onSuccess?: () => void, trigger?: React.ReactNode }) {
     const [open, setOpen] = useState(false)
     const [type, setType] = useState("expense")
     const [loading, setLoading] = useState(false)
@@ -66,13 +66,17 @@ export default function AddTransactionDialog({ wallets, debts, funds, activeEven
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button
-                    className="fixed bottom-8 right-8 h-14 w-14 rounded-full shadow-lg text-white z-50 hover:scale-105 transition-transform"
-                    style={{ backgroundColor: COLOR_BRAND }}
-                    size="icon"
-                >
-                    <Plus className="h-6 w-6" />
-                </Button>
+                {trigger ? (
+                    trigger
+                ) : (
+                    <Button
+                        className="fixed bottom-8 right-8 h-14 w-14 rounded-full shadow-lg text-white z-50 hover:scale-105 transition-transform"
+                        style={{ backgroundColor: COLOR_BRAND }}
+                        size="icon"
+                    >
+                        <Plus className="h-6 w-6" />
+                    </Button>
+                )}
             </DialogTrigger>
 
             <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">

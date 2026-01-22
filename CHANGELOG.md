@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.7.0] - 2026-01-22
+
+### UI/UX: Bottom Navigation Bar Redesign
+> **Purpose**: Replace the floating action button (FAB) with a modern Bottom Navigation Bar to improve mobile navigation and accessibility.
+
+- **New Component: Bottom Navigation**
+  - **Fixed Bottom**: Always accessible 5-tab navigation.
+  - **Glassmorphism**: Modern frosted glass effect (`bg-white/80`, `backdrop-blur-xl`).
+  - **Structure**: Home, Transactions, Add (+), Events, Account.
+  - **Smart Logic**: Automatically hides on Auth pages.
+
+- **UI Improvements**:
+  - **Removed FAB**: Replaced the floating (+) button with a central action button in the navbar.
+  - **Layout**: Added bottom padding (`pb-32`) to content pages to prevent overlap.
+  - **Soft Refresh**: Implemented `transaction-added` event for seamless data updates without page reload.
+
+- **Technical**:
+  - Created `components/bottom-nav.tsx`.
+  - Updated `app/layout.tsx` to include global navigation.
+  - Refactored `AddTransactionDialog` to support custom triggers.
+
 ## [1.6.5] - 2026-01-22
 
 ### UI/UX: Soft UI Evolution Login Redesign
