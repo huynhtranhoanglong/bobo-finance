@@ -148,33 +148,28 @@ export default function EventsPageClient({ hasFamily }: EventsPageClientProps) {
             </div>
 
             {/* Header */}
-            <div className="sticky top-0 z-50 transition-all duration-300">
-                <div className="absolute inset-0 bg-white/70 backdrop-blur-xl border-b border-white/20 shadow-sm" />
-                <div className="max-w-md mx-auto px-4 py-4 relative flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => router.push("/")}
-                            className="bg-white/50 hover:bg-white/80 rounded-xl w-10 h-10 text-slate-600"
-                        >
-                            <ArrowLeft className="w-5 h-5" />
-                        </Button>
-                        <h1 className="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
-                            {t.LABEL_EVENTS}
-                        </h1>
-                    </div>
-                    <CreateEventDialog hasFamily={hasFamily} onSuccess={fetchEvents}>
-                        <Button
-                            size="sm"
-                            className="rounded-xl shadow-lg shadow-emerald-200/50 hover:shadow-emerald-200/70 transition-all"
-                            style={{ backgroundColor: COLORS.brand }}
-                        >
-                            <Plus className="w-4 h-4 mr-1.5" />
-                            {t.LABEL_CREATE_EVENT}
-                        </Button>
-                    </CreateEventDialog>
+            <div className="flex items-center justify-between mb-8 px-4 pt-8 relative z-10">
+                <div className="flex items-center gap-4">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => router.push("/")}
+                        className="p-2.5 h-auto w-auto bg-white/50 hover:bg-white rounded-full transition-all text-slate-500 hover:text-slate-800 shadow-sm border border-transparent hover:border-slate-100"
+                    >
+                        <ArrowLeft className="h-5 w-5" />
+                    </Button>
+                    <h1 className="text-2xl font-bold text-slate-800 tracking-tight">{t.LABEL_EVENTS}</h1>
                 </div>
+                <CreateEventDialog hasFamily={hasFamily} onSuccess={fetchEvents}>
+                    <Button
+                        size="sm"
+                        className="rounded-full shadow-lg shadow-emerald-200/50 hover:shadow-emerald-200/70 transition-all px-4"
+                        style={{ backgroundColor: COLORS.brand }}
+                    >
+                        <Plus className="w-4 h-4 mr-1.5" />
+                        {t.LABEL_CREATE_EVENT}
+                    </Button>
+                </CreateEventDialog>
             </div>
 
             {/* Content */}

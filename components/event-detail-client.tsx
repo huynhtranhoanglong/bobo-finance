@@ -125,40 +125,37 @@ export default function EventDetailClient({ eventId }: EventDetailClientProps) {
             </div>
 
             {/* Header */}
-            <div className="sticky top-0 z-50 transition-all duration-300">
-                <div className="absolute inset-0 bg-white/70 backdrop-blur-xl border-b border-white/20 shadow-sm" />
-                <div className="max-w-md mx-auto px-4 py-4 relative flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => router.push("/events")}
-                            className="bg-white/50 hover:bg-white/80 rounded-xl w-10 h-10 text-slate-600"
-                        >
-                            <ArrowLeft className="w-5 h-5" />
-                        </Button>
-                        <div className="flex flex-col">
-                            <h1 className="text-lg font-bold text-slate-800 leading-tight">{event.name}</h1>
-                            <div className="flex items-center gap-2 mt-0.5">
-                                <span className={`text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full ${event.status === "active" ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-600"}`}>
-                                    {event.status === "active" ? t.LABEL_EVENT_STATUS_ACTIVE : t.LABEL_EVENT_STATUS_COMPLETED}
-                                </span>
-                            </div>
+            <div className="flex items-center justify-between mb-8 px-4 pt-8 relative z-10">
+                <div className="flex items-center gap-4">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => router.push("/events")}
+                        className="p-2.5 h-auto w-auto bg-white/50 hover:bg-white rounded-full transition-all text-slate-500 hover:text-slate-800 shadow-sm border border-transparent hover:border-slate-100"
+                    >
+                        <ArrowLeft className="h-5 w-5" />
+                    </Button>
+                    <div className="flex flex-col">
+                        <h1 className="text-2xl font-bold text-slate-800 tracking-tight">{event.name}</h1>
+                        <div className="flex items-center gap-2">
+                            <span className={`text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full ${event.status === "active" ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-600"}`}>
+                                {event.status === "active" ? t.LABEL_EVENT_STATUS_ACTIVE : t.LABEL_EVENT_STATUS_COMPLETED}
+                            </span>
                         </div>
                     </div>
-                    {event.is_owner && (
-                        <div className="flex gap-2">
-                            <EditEventDialog event={event} onSuccess={fetchEvent}>
-                                <Button variant="ghost" size="icon" className="hover:bg-slate-100 rounded-xl text-slate-500">
-                                    <Edit className="w-4 h-4" />
-                                </Button>
-                            </EditEventDialog>
-                            <Button variant="ghost" size="icon" onClick={handleDelete} disabled={actionLoading} className="hover:bg-red-50 rounded-xl text-red-400 hover:text-red-500">
-                                <Trash2 className="w-4 h-4" />
-                            </Button>
-                        </div>
-                    )}
                 </div>
+                {event.is_owner && (
+                    <div className="flex gap-2">
+                        <EditEventDialog event={event} onSuccess={fetchEvent}>
+                            <Button variant="ghost" size="icon" className="p-2.5 h-auto w-auto bg-white/50 hover:bg-white rounded-full transition-all text-slate-500 hover:text-slate-800 shadow-sm border border-transparent hover:border-slate-100">
+                                <Edit className="w-4 h-4" />
+                            </Button>
+                        </EditEventDialog>
+                        <Button variant="ghost" size="icon" onClick={handleDelete} disabled={actionLoading} className="p-2.5 h-auto w-auto bg-white/50 hover:bg-red-50 rounded-full transition-all text-red-400 hover:text-red-500 shadow-sm border border-transparent hover:border-red-100">
+                            <Trash2 className="w-4 h-4" />
+                        </Button>
+                    </div>
+                )}
             </div>
 
             <div className="flex-1 max-w-md mx-auto w-full px-4 py-6 relative z-10 space-y-6">
