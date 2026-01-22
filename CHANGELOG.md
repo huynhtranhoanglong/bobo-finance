@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.7.8] - 2026-01-22
+
+### UI/UX: Family Page Redesign (Swiss Glass Minimalism)
+> **Purpose**: Complete the visual standardization of Level 2 pages (Family) to match the "Pro Max" design language.
+
+- **Design Style: Swiss Glass Minimalism**:
+  - **Background**: `#FAFAFA` with Ambient Orbs (Emerald & Blue).
+  - **Cards**: All sections (Members, Invites, Forms) are now translucent Glass Cards (`bg-white/60`, `backdrop-blur-xl`).
+  - **Consistency**: Matched the visual hierarchy and spacing of the Account Page.
+
+- **Navigation**:
+  - Implemented standard `PageHeader` with **Back Button Enabled**.
+  - Header behavior set to **Non-Sticky** (trôi đi khi cuộn).
+
+- **Technical**:
+  - Refactored `app/family/page.tsx` to use shared components and modern Tailwind structure.
+
 ## [1.7.7] - 2026-01-22
 
 ### UI/UX: Standardization of Header Behavior (Non-Sticky)

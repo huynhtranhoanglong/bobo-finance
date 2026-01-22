@@ -27,6 +27,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { AppVersion } from "@/components/app-version"
+import { PageHeader } from "@/components/ui/page-header"
 import { COLOR_BRAND } from "@/utils/colors"
 import { useTranslation } from "@/components/providers/language-provider"
 
@@ -141,194 +142,212 @@ export default function FamilyPage() {
 
     if (loading) {
         return (
-            <main className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+            <main className="min-h-screen bg-[#FAFAFA] flex items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
             </main>
         )
     }
 
     return (
-        <main className="min-h-screen bg-gray-50 p-4 pb-24">
-            {/* Header */}
-            <div className="flex items-center gap-3 mb-6">
-                <Link href="/" className="p-2 hover:bg-gray-100 rounded-xl transition">
-                    <ArrowLeft size={24} />
-                </Link>
-                <h1 className="text-2xl font-bold">👨‍👩‍👧 {t.LABEL_FAMILY_PAGE_TITLE}</h1>
+        <main className="min-h-screen bg-[#FAFAFA] relative overflow-hidden flex flex-col pt-safe">
+            {/* Ambient Background */}
+            <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+                <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-emerald-100/40 rounded-full blur-[80px] mix-blend-multiply opacity-70 animate-float" />
+                <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-blue-100/40 rounded-full blur-[60px] mix-blend-multiply opacity-60 animate-delayed-float" />
             </div>
 
-            {/* STATE 1: No Family */}
-            {!familyData && (
-                <div className="bg-white rounded-2xl p-6 shadow-sm border">
-                    <div className="text-center mb-6">
-                        <Users size={48} className="mx-auto text-gray-300 mb-4" />
-                        <h2 className="text-lg font-semibold text-gray-800">{t.LABEL_NO_FAMILY}</h2>
-                        <p className="text-sm text-gray-500 mt-1">
-                            {t.LABEL_NO_FAMILY_DESC}
-                        </p>
-                    </div>
+            <div className="max-w-lg mx-auto w-full p-4 md:p-8 pb-32 relative z-10">
+                {/* Header */}
+                <PageHeader
+                    title={`👨‍👩‍👧 ${t.LABEL_FAMILY_PAGE_TITLE}`}
+                    showBackButton={true}
+                    sticky={false}
+                    className="px-0 mb-8"
+                />
 
-                    <form action={handleCreateFamily} className="space-y-4">
-                        <div>
-                            <Label>{t.LABEL_FAMILY_NAME}</Label>
-                            <Input
-                                name="name"
-                                placeholder={t.LABEL_FAMILY_NAME_PLACEHOLDER}
-                                required
-                                className="mt-1"
-                            />
-                        </div>
-                        <Button
-                            type="submit"
-                            disabled={actionLoading}
-                            className="w-full"
-                            style={{ backgroundColor: COLOR_BRAND }}
-                        >
-                            {actionLoading ? (
-                                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {t.LABEL_CREATING}</>
-                            ) : (
-                                <><UserPlus className="mr-2 h-4 w-4" /> {t.LABEL_CREATE_FAMILY}</>
-                            )}
-                        </Button>
-                    </form>
-                </div>
-            )}
-
-            {/* STATE 2 & 3: Has Family */}
-            {familyData && (
-                <>
-                    {/* Family Info */}
-                    <div className="bg-white rounded-2xl p-5 shadow-sm border mb-4">
-                        <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-                                <Users className="text-green-600" size={24} />
+                {/* STATE 1: No Family */}
+                {!familyData && (
+                    <div className="bg-white/60 backdrop-blur-xl rounded-[2rem] p-8 shadow-sm border border-white/40">
+                        <div className="text-center mb-8">
+                            <div className="w-20 h-20 bg-slate-100/50 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/60 shadow-inner">
+                                <Users size={40} className="text-slate-400" />
                             </div>
+                            <h2 className="text-xl font-bold text-slate-800">{t.LABEL_NO_FAMILY}</h2>
+                            <p className="text-slate-500 mt-2 leading-relaxed">
+                                {t.LABEL_NO_FAMILY_DESC}
+                            </p>
+                        </div>
+
+                        <form action={handleCreateFamily} className="space-y-5">
                             <div>
-                                <h2 className="text-lg font-bold text-gray-800">{familyData.name}</h2>
-                                <p className="text-sm text-gray-500">
+                                <Label className="text-slate-600 font-medium ml-1 mb-1.5 block">{t.LABEL_FAMILY_NAME}</Label>
+                                <Input
+                                    name="name"
+                                    placeholder={t.LABEL_FAMILY_NAME_PLACEHOLDER}
+                                    required
+                                    className="bg-white/50 border-white/60 focus:bg-white focus:border-emerald-200/50 rounded-xl h-12 transition-all shadow-sm"
+                                />
+                            </div>
+                            <Button
+                                type="submit"
+                                disabled={actionLoading}
+                                className="w-full h-12 rounded-xl text-base font-medium shadow-lg shadow-emerald-200/50 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                                style={{ backgroundColor: COLOR_BRAND }}
+                            >
+                                {actionLoading ? (
+                                    <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> {t.LABEL_CREATING}</>
+                                ) : (
+                                    <><UserPlus className="mr-2 h-5 w-5" /> {t.LABEL_CREATE_FAMILY}</>
+                                )}
+                            </Button>
+                        </form>
+                    </div>
+                )}
+
+                {/* STATE 2 & 3: Has Family */}
+                {familyData && (
+                    <div className="space-y-6">
+                        {/* Family Info - Glass Card */}
+                        <div className="bg-white/60 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white/40 flex items-center gap-4 relative overflow-hidden group">
+                            <div className="absolute inset-0 bg-gradient-to-r from-emerald-50/50 to-transparent pointer-events-none" />
+                            <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-100 to-emerald-50 flex items-center justify-center shadow-md border border-white/60 group-hover:scale-105 transition-transform duration-500">
+                                <Users className="text-emerald-600" size={32} />
+                            </div>
+                            <div className="relative">
+                                <h2 className="text-xl font-bold text-slate-800">{familyData.name}</h2>
+                                <p className="text-slate-500 font-medium flex items-center gap-2">
                                     {familyData.members?.length || 0} {t.LABEL_MEMBERS}
                                     {familyData.is_owner && (
-                                        <span className="ml-2 text-amber-600 font-medium">
-                                            <Crown className="inline h-3 w-3" /> {t.LABEL_OWNER_BADGE}
+                                        <span className="flex items-center gap-1 text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full text-xs border border-amber-100">
+                                            <Crown className="h-3 w-3" /> {t.LABEL_OWNER_BADGE}
                                         </span>
                                     )}
                                 </p>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Members List */}
-                    <div className="bg-white rounded-2xl p-5 shadow-sm border mb-4">
-                        <h3 className="font-semibold text-gray-700 mb-3">{t.LABEL_MEMBERS_TITLE}</h3>
-                        <div className="space-y-3">
-                            {familyData.members?.map((member) => (
-                                <div key={member.user_id} className="flex items-center justify-between py-2 border-b last:border-b-0">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 font-medium">
-                                            {(member.display_name || member.email).charAt(0).toUpperCase()}
-                                        </div>
-                                        <div>
-                                            <p className="font-medium text-gray-800">
-                                                {member.display_name || member.email}
-                                                {member.role === 'owner' && (
-                                                    <Crown className="inline ml-1 h-4 w-4 text-amber-500" />
-                                                )}
-                                            </p>
-                                            <p className="text-xs text-gray-500">{member.email}</p>
-                                        </div>
-                                    </div>
-                                    {/* Remove button (owner can remove others) */}
-                                    {familyData.is_owner && member.role !== 'owner' && (
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            onClick={() => handleRemove(member.user_id, member.display_name || member.email)}
-                                            disabled={actionLoading}
-                                            className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                                        >
-                                            <Trash2 size={16} />
-                                        </Button>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Pending Invitations (Owner only) */}
-                    {familyData.is_owner && familyData.pending_invitations && familyData.pending_invitations.length > 0 && (
-                        <div className="bg-white rounded-2xl p-5 shadow-sm border mb-4">
-                            <h3 className="font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                                <Clock size={16} /> {t.LABEL_PENDING_INVITATIONS}
+                        {/* Members List - Glass Card */}
+                        <div className="bg-white/60 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white/40">
+                            <h3 className="font-bold text-slate-700 mb-4 flex items-center gap-2">
+                                <Users size={18} className="text-slate-400" />
+                                {t.LABEL_MEMBERS_TITLE}
                             </h3>
-                            <div className="space-y-2">
-                                {familyData.pending_invitations.map((inv) => (
-                                    <div key={inv.id} className="flex items-center justify-between py-2 px-3 bg-amber-50 rounded-lg">
-                                        <div className="flex items-center gap-2">
-                                            <Mail size={14} className="text-amber-600" />
-                                            <span className="text-sm text-gray-700">{inv.email}</span>
+                            <div className="space-y-3">
+                                {familyData.members?.map((member) => (
+                                    <div key={member.user_id} className="flex items-center justify-between p-3 rounded-2xl bg-white/40 hover:bg-white/60 border border-transparent hover:border-white/50 transition-all group">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-100 to-white flex items-center justify-center text-slate-600 font-bold border border-white shadow-sm">
+                                                {(member.display_name || member.email).charAt(0).toUpperCase()}
+                                            </div>
+                                            <div>
+                                                <p className="font-semibold text-slate-800 flex items-center gap-1.5">
+                                                    {member.display_name || member.email}
+                                                    {member.role === 'owner' && (
+                                                        <Crown className="h-3.5 w-3.5 text-amber-500 fill-amber-500" />
+                                                    )}
+                                                </p>
+                                                <p className="text-xs text-slate-500">{member.email}</p>
+                                            </div>
                                         </div>
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            onClick={() => handleCancelInvitation(inv.id)}
-                                            disabled={actionLoading}
-                                            className="h-6 w-6 p-0 text-gray-400 hover:text-red-500"
-                                        >
-                                            <X size={14} />
-                                        </Button>
+                                        {/* Remove button */}
+                                        {familyData.is_owner && member.role !== 'owner' && (
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => handleRemove(member.user_id, member.display_name || member.email)}
+                                                disabled={actionLoading}
+                                                className="text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl"
+                                            >
+                                                <Trash2 size={18} />
+                                            </Button>
+                                        )}
                                     </div>
                                 ))}
                             </div>
                         </div>
-                    )}
 
-                    {/* Invite Form (Owner only) */}
-                    {familyData.is_owner && (
-                        <div className="bg-white rounded-2xl p-5 shadow-sm border mb-4">
-                            <h3 className="font-semibold text-gray-700 mb-3">{t.LABEL_INVITE_NEW_MEMBER}</h3>
-                            <form action={handleInvite} className="flex gap-2">
-                                <Input
-                                    name="email"
-                                    type="email"
-                                    placeholder={t.LABEL_INVITE_EMAIL_PLACEHOLDER}
-                                    required
-                                    className="flex-1"
-                                />
-                                <Button
-                                    type="submit"
-                                    disabled={actionLoading}
-                                    style={{ backgroundColor: COLOR_BRAND }}
-                                >
-                                    {actionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <UserPlus size={18} />}
-                                </Button>
-                            </form>
-                            <p className="text-xs text-gray-500 mt-2">
-                                {t.LABEL_INVITE_NOTE}
+                        {/* Pending Invitations - Glass Card */}
+                        {familyData.is_owner && familyData.pending_invitations && familyData.pending_invitations.length > 0 && (
+                            <div className="bg-white/60 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white/40">
+                                <h3 className="font-bold text-slate-700 mb-4 flex items-center gap-2">
+                                    <Clock size={18} className="text-amber-500" /> {t.LABEL_PENDING_INVITATIONS}
+                                </h3>
+                                <div className="space-y-2">
+                                    {familyData.pending_invitations.map((inv) => (
+                                        <div key={inv.id} className="flex items-center justify-between p-3 bg-amber-50/50 border border-amber-100/50 rounded-2xl">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
+                                                    <Mail size={14} />
+                                                </div>
+                                                <span className="text-sm font-medium text-slate-700">{inv.email}</span>
+                                            </div>
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => handleCancelInvitation(inv.id)}
+                                                disabled={actionLoading}
+                                                className="h-8 w-8 p-0 rounded-full text-slate-400 hover:text-red-500 hover:bg-red-50/50"
+                                            >
+                                                <X size={16} />
+                                            </Button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Invite Form - Glass Card */}
+                        {familyData.is_owner && (
+                            <div className="bg-white/60 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white/40">
+                                <h3 className="font-bold text-slate-700 mb-4 flex items-center gap-2">
+                                    <UserPlus size={18} className="text-emerald-600" />
+                                    {t.LABEL_INVITE_NEW_MEMBER}
+                                </h3>
+                                <form action={handleInvite} className="flex gap-3">
+                                    <Input
+                                        name="email"
+                                        type="email"
+                                        placeholder={t.LABEL_INVITE_EMAIL_PLACEHOLDER}
+                                        required
+                                        className="flex-1 bg-white/50 border-white/60 focus:bg-white focus:border-emerald-200/50 rounded-xl h-11 shadow-sm"
+                                    />
+                                    <Button
+                                        type="submit"
+                                        disabled={actionLoading}
+                                        style={{ backgroundColor: COLOR_BRAND }}
+                                        className="rounded-xl px-4 shadow-lg shadow-emerald-100"
+                                    >
+                                        {actionLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <UserPlus size={20} />}
+                                    </Button>
+                                </form>
+                                <p className="text-xs text-slate-400 mt-3 pl-1">
+                                    {t.LABEL_INVITE_NOTE}
+                                </p>
+                            </div>
+                        )}
+
+                        {/* Leave Button */}
+                        <div className="pt-2 pb-8">
+                            <Button
+                                variant="outline"
+                                onClick={handleLeave}
+                                disabled={actionLoading}
+                                className="w-full h-12 rounded-xl text-red-600 bg-white/40 border-red-100 hover:bg-red-50 hover:text-red-700 hover:border-red-200 transition-all shadow-sm"
+                            >
+                                <LogOut className="mr-2 h-4 w-4" />
+                                {t.LABEL_LEAVE_FAMILY}
+                            </Button>
+                            <p className="text-xs text-center text-slate-400 mt-3">
+                                {familyData.is_owner
+                                    ? t.LABEL_LEAVE_OWNER_NOTE
+                                    : t.LABEL_LEAVE_MEMBER_NOTE}
                             </p>
                         </div>
-                    )}
-
-                    {/* Leave Button */}
-                    <div className="mt-6">
-                        <Button
-                            variant="outline"
-                            onClick={handleLeave}
-                            disabled={actionLoading}
-                            className="w-full text-red-600 border-red-200 hover:bg-red-50"
-                        >
-                            <LogOut className="mr-2 h-4 w-4" />
-                            {t.LABEL_LEAVE_FAMILY}
-                        </Button>
-                        <p className="text-xs text-center text-gray-500 mt-2">
-                            {familyData.is_owner
-                                ? t.LABEL_LEAVE_OWNER_NOTE
-                                : t.LABEL_LEAVE_MEMBER_NOTE}
-                        </p>
                     </div>
-                </>
-            )}
+                )}
 
-            <AppVersion />
+                <AppVersion light={false} className="mt-8 opacity-60" />
+            </div>
         </main>
     )
 }
