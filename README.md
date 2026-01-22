@@ -21,7 +21,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
-  <img src="https://img.shields.io/badge/version-1.6.4-blue.svg" alt="Version">
+  <img src="https://img.shields.io/badge/version-1.6.5-blue.svg" alt="Version">
   <img src="https://img.shields.io/badge/Next.js-16-black.svg" alt="Next.js">
   <img src="https://img.shields.io/badge/TypeScript-5.0-blue.svg" alt="TypeScript">
 </p>
