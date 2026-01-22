@@ -1,5 +1,50 @@
 # Changelog
 
+## [1.8.0] - 2026-01-23
+
+### UI/UX: Add Transaction Drawer Redesign
+> **Purpose**: Optimize the transaction creation experience for speed and simplicity. Target: Complete a transaction in under 10 seconds.
+
+- **Bottom Sheet UI**:
+  - Replaced traditional Dialog with **Bottom Sheet (Drawer)** that slides up from the bottom.
+  - More natural interaction for mobile users with swipe-to-close.
+  - Swiss Glass Minimalism styling with `bg-white/95 backdrop-blur-xl` and `rounded-t-[2rem]`.
+
+- **Simplified Flow**:
+  - **Expense by default**: Most common action is immediately available.
+  - **Smart defaults**: Auto-selects wallet with highest balance, category defaults to "Must have".
+  - **Segment Control** for expense categories: One-tap selection instead of dropdown.
+  - Mode switcher (Income/Transfer/Debt) shown as subtle links at bottom.
+
+- **Hero Amount Input**:
+  - Large, centered amount input (`text-4xl`) as the primary focus.
+  - Auto-focus for immediate typing.
+
+- **Visual Enhancements**:
+  - Drag handle indicator at top for intuitive dismissal.
+  - Soft shadow on submit button with brand color glow.
+  - Smooth animations and transitions throughout.
+
+### Technical Details
+
+- **New Files**:
+  - `components/ui/drawer.tsx` - Vaul-based Drawer component with Glass styling.
+  - `components/add-transaction-drawer.tsx` - New transaction creation interface.
+
+- **Dependencies**:
+  - Added `vaul` (already installed) - Bottom Sheet primitive for React.
+
+- **Modified Files**:
+  - `components/bottom-nav.tsx` - Integrated new Drawer instead of Dialog.
+  - `components/app-version.tsx` - Updated to v1.8.0.
+
+- **Preserved Files**:
+  - `components/add-transaction-dialog.tsx` - Kept for backward compatibility (other pages may use it).
+
+> **Note**: No logic changes. Transaction creation flow and database operations remain unchanged.
+
+---
+
 ## [1.7.10] - 2026-01-22
 
 ### UI/UX: Private Wallet Redesign (Ghost Purple Theme)

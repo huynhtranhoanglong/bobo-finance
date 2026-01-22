@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Home, List, Plus, Calendar, User, Loader2 } from "lucide-react";
 import { useTranslation } from "@/components/providers/language-provider";
 import { COLOR_BRAND } from "@/utils/colors";
-import AddTransactionDialog from "@/components/add-transaction-dialog";
+import AddTransactionDrawer from "@/components/add-transaction-drawer";
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 
@@ -133,7 +133,7 @@ export function BottomNav() {
 
                     {/* 3. ADD BUTTON (CENTER) */}
                     <div className="relative w-16 flex justify-center">
-                        <AddTransactionDialog
+                        <AddTransactionDrawer
                             wallets={wallets}
                             debts={debts}
                             funds={funds}
