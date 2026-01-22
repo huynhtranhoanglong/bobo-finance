@@ -162,7 +162,7 @@ export default function FamilyPage() {
                     title={`👨‍👩‍👧 ${t.LABEL_FAMILY_PAGE_TITLE}`}
                     showBackButton={true}
                     sticky={false}
-                    className="px-0 mb-8"
+                    className="px-0"
                 />
 
                 {/* STATE 1: No Family */}

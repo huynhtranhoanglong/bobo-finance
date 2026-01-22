@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.7.9] - 2026-01-22
+
+### Bug Fix: Family Page Header Overlap
+> **Purpose**: Fix layout issue where content was scrolling underneath the fixed header on the Family Page.
+
+- **UI Fix**:
+  - Removed incorrect margin override (`mb-8`) on `PageHeader` in Family Page.
+  - Restored default spacing (`mb-20`) to prevent content overlap.
+
 ## [1.7.8] - 2026-01-22
 
 ### UI/UX: Family Page Redesign (Swiss Glass Minimalism)
