@@ -3,6 +3,7 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { PrivacyToggle } from "@/components/ui/privacy-toggle";
+import { NotificationBell } from "@/components/notification-bell";
 import { UserNav } from "@/components/user-nav";
 import { User } from "@supabase/supabase-js";
 import { cn } from "@/lib/utils";
@@ -31,13 +32,16 @@ export function PageHeader({
                 >
                     <ArrowLeft className="h-5 w-5" />
                 </Link>
-                <h1 className="text-2xl font-bold text-slate-800 tracking-tight">{title}</h1>
+                <h1 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">{title}</h1>
             </div>
             <div className="flex items-center gap-3">
                 {rightContent ? (
                     rightContent
                 ) : (
                     <>
+                        <div className="bg-white/50 backdrop-blur-sm rounded-full p-0.5 border border-white/40 shadow-sm">
+                            <NotificationBell />
+                        </div>
                         <div className="bg-white/50 backdrop-blur-sm rounded-full p-0.5 border border-white/40 shadow-sm">
                             <PrivacyToggle />
                         </div>
