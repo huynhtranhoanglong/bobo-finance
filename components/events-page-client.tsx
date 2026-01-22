@@ -12,6 +12,9 @@ import { formatCurrency } from "@/utils/format";
 import Link from "next/link";
 import CreateEventDialog from "@/components/create-event-dialog";
 import { getEventsListAction } from "@/app/actions";
+import { User } from "@supabase/supabase-js";
+import { PrivacyToggle } from "@/components/ui/privacy-toggle";
+import { UserNav } from "@/components/user-nav";
 
 interface Event {
     id: string;
@@ -27,9 +30,10 @@ interface Event {
 
 interface EventsPageClientProps {
     hasFamily: boolean;
+    user: User;
 }
 
-export default function EventsPageClient({ hasFamily }: EventsPageClientProps) {
+export default function EventsPageClient({ hasFamily, user }: EventsPageClientProps) {
     const { t } = useTranslation();
     const router = useRouter();
     const [events, setEvents] = useState<Event[]>([]);
@@ -147,90 +151,101 @@ export default function EventsPageClient({ hasFamily }: EventsPageClientProps) {
                 <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-blue-100/40 rounded-full blur-[60px] mix-blend-multiply opacity-60 animate-delayed-float" />
             </div>
 
-            {/* Header */}
-            <div className="flex items-center justify-between mb-8 px-4 pt-8 relative z-10">
-                <div className="flex items-center gap-4">
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => router.push("/")}
-                        className="p-2.5 h-auto w-auto bg-white/50 hover:bg-white rounded-full transition-all text-slate-500 hover:text-slate-800 shadow-sm border border-transparent hover:border-slate-100"
-                    >
-                        <ArrowLeft className="h-5 w-5" />
-                    </Button>
-                    <h1 className="text-2xl font-bold text-slate-800 tracking-tight">{t.LABEL_EVENTS}</h1>
-                </div>
-                <CreateEventDialog hasFamily={hasFamily} onSuccess={fetchEvents}>
-                    <Button
-                        size="sm"
-                        className="rounded-full shadow-lg shadow-emerald-200/50 hover:shadow-emerald-200/70 transition-all px-4"
-                        style={{ backgroundColor: COLORS.brand }}
-                    >
-                        <Plus className="w-4 h-4 mr-1.5" />
-                        {t.LABEL_CREATE_EVENT}
-                    </Button>
-                </CreateEventDialog>
-            </div>
-
-            {/* Content */}
-            <div className="flex-1 max-w-md mx-auto w-full px-4 py-6 relative z-10">
-                {loading ? (
-                    <div className="flex justify-center py-20">
-                        <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
+            <div className="max-w-2xl mx-auto w-full p-4 md:p-8 pb-32 relative z-10">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center gap-4">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => router.push("/")}
+                            className="p-2.5 h-auto w-auto bg-white/50 hover:bg-white rounded-full transition-all text-slate-500 hover:text-slate-800 shadow-sm border border-transparent hover:border-slate-100"
+                        >
+                            <ArrowLeft className="h-5 w-5" />
+                        </Button>
+                        <h1 className="text-2xl font-bold text-slate-800 tracking-tight">{t.LABEL_EVENTS}</h1>
                     </div>
-                ) : events.length === 0 ? (
-                    <Card className="text-center py-16 bg-white/60 backdrop-blur-md border border-white/40 shadow-sm rounded-[2rem]">
-                        <CardContent>
-                            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <Calendar className="w-8 h-8 text-slate-400" />
-                            </div>
-                            <p className="text-slate-500 font-medium text-lg">{t.LABEL_EVENT_EMPTY}</p>
-                            <p className="text-slate-400 text-sm mt-1 mb-6">Create an event to start tracking expenses</p>
-                            <CreateEventDialog hasFamily={hasFamily} onSuccess={fetchEvents}>
-                                <Button
-                                    className="rounded-xl shadow-lg shadow-emerald-200/50"
-                                    style={{ backgroundColor: COLORS.brand }}
+                    <div className="flex items-center gap-3">
+                        <div className="bg-white/50 backdrop-blur-sm rounded-full p-0.5 border border-white/40 shadow-sm">
+                            <PrivacyToggle />
+                        </div>
+                        <UserNav email={user.email || 'User'} />
+                    </div>
+                </div>
+
+                {/* Create Event FAB */}
+                <div className="fixed bottom-6 right-6 z-50">
+                    <CreateEventDialog hasFamily={hasFamily} onSuccess={fetchEvents}>
+                        <Button
+                            size="icon"
+                            className="w-14 h-14 rounded-full shadow-lg shadow-emerald-200/50 hover:shadow-emerald-200/70 transition-all hover:scale-105"
+                            style={{ backgroundColor: COLORS.brand }}
+                        >
+                            <Plus className="w-6 h-6" />
+                        </Button>
+                    </CreateEventDialog>
+                </div>
+
+                {/* Content */}
+                <div>
+                    {loading ? (
+                        <div className="flex justify-center py-20">
+                            <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
+                        </div>
+                    ) : events.length === 0 ? (
+                        <Card className="text-center py-16 bg-white/60 backdrop-blur-md border border-white/40 shadow-sm rounded-[2rem]">
+                            <CardContent>
+                                <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <Calendar className="w-8 h-8 text-slate-400" />
+                                </div>
+                                <p className="text-slate-500 font-medium text-lg">{t.LABEL_EVENT_EMPTY}</p>
+                                <p className="text-slate-400 text-sm mt-1 mb-6">Create an event to start tracking expenses</p>
+                                <CreateEventDialog hasFamily={hasFamily} onSuccess={fetchEvents}>
+                                    <Button
+                                        className="rounded-xl shadow-lg shadow-emerald-200/50"
+                                        style={{ backgroundColor: COLORS.brand }}
+                                    >
+                                        <Plus className="w-4 h-4 mr-2" />
+                                        {t.LABEL_CREATE_EVENT}
+                                    </Button>
+                                </CreateEventDialog>
+                            </CardContent>
+                        </Card>
+                    ) : (
+                        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                            <TabsList className="w-full mb-6 bg-slate-100/50 p-1 rounded-2xl border border-white/20">
+                                <TabsTrigger
+                                    value="active"
+                                    className="flex-1 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-emerald-700 transition-all"
                                 >
-                                    <Plus className="w-4 h-4 mr-2" />
-                                    {t.LABEL_CREATE_EVENT}
-                                </Button>
-                            </CreateEventDialog>
-                        </CardContent>
-                    </Card>
-                ) : (
-                    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                        <TabsList className="w-full mb-6 bg-slate-100/50 p-1 rounded-2xl border border-white/20">
-                            <TabsTrigger
-                                value="active"
-                                className="flex-1 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-emerald-700 transition-all"
-                            >
-                                {t.LABEL_ACTIVE_EVENTS} <span className="ml-1.5 text-xs opacity-70 bg-slate-200 px-1.5 rounded-full">{activeEvents.length}</span>
-                            </TabsTrigger>
-                            <TabsTrigger
-                                value="completed"
-                                className="flex-1 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-slate-700 transition-all"
-                            >
-                                {t.LABEL_COMPLETED_EVENTS} <span className="ml-1.5 text-xs opacity-70 bg-slate-200 px-1.5 rounded-full">{completedEvents.length}</span>
-                            </TabsTrigger>
-                        </TabsList>
+                                    {t.LABEL_ACTIVE_EVENTS} <span className="ml-1.5 text-xs opacity-70 bg-slate-200 px-1.5 rounded-full">{activeEvents.length}</span>
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    value="completed"
+                                    className="flex-1 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-slate-700 transition-all"
+                                >
+                                    {t.LABEL_COMPLETED_EVENTS} <span className="ml-1.5 text-xs opacity-70 bg-slate-200 px-1.5 rounded-full">{completedEvents.length}</span>
+                                </TabsTrigger>
+                            </TabsList>
 
-                        <TabsContent value="active" className="space-y-4 data-[state=inactive]:hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
-                            {activeEvents.length === 0 ? (
-                                <p className="text-center text-slate-400 py-12 italic">{t.LABEL_NO_ACTIVE_EVENTS}</p>
-                            ) : (
-                                activeEvents.map((event) => <EventCard key={event.id} event={event} />)
-                            )}
-                        </TabsContent>
+                            <TabsContent value="active" className="space-y-4 data-[state=inactive]:hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                {activeEvents.length === 0 ? (
+                                    <p className="text-center text-slate-400 py-12 italic">{t.LABEL_NO_ACTIVE_EVENTS}</p>
+                                ) : (
+                                    activeEvents.map((event) => <EventCard key={event.id} event={event} />)
+                                )}
+                            </TabsContent>
 
-                        <TabsContent value="completed" className="space-y-4 data-[state=inactive]:hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
-                            {completedEvents.length === 0 ? (
-                                <p className="text-center text-slate-400 py-12 italic">{t.LABEL_EVENT_EMPTY}</p>
-                            ) : (
-                                completedEvents.map((event) => <EventCard key={event.id} event={event} />)
-                            )}
-                        </TabsContent>
-                    </Tabs>
-                )}
+                            <TabsContent value="completed" className="space-y-4 data-[state=inactive]:hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                {completedEvents.length === 0 ? (
+                                    <p className="text-center text-slate-400 py-12 italic">{t.LABEL_EVENT_EMPTY}</p>
+                                ) : (
+                                    completedEvents.map((event) => <EventCard key={event.id} event={event} />)
+                                )}
+                            </TabsContent>
+                        </Tabs>
+                    )}
+                </div>
             </div>
         </div>
     );

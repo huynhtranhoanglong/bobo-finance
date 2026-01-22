@@ -15,5 +15,5 @@ export default async function EventsPage() {
     const familyResult = await supabase.rpc("get_user_family_id");
     const hasFamily = !!familyResult.data;
 
-    return <EventsPageClient hasFamily={hasFamily} />;
+    return <EventsPageClient hasFamily={hasFamily} user={user} />;
 }
