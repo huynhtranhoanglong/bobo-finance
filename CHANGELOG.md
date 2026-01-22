@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.7.4] - 2026-01-22
+
+### UI/UX: Root Pages Standardization
+> **Purpose**: Apply consistent "No Back Button" logic to all root-level pages (Transactions, Account) and refactor code for better maintainability.
+
+- **Refactoring & Standardization**:
+  - **Account Page**:
+    - Refactored to use the shared `PageHeader` component instead of hardcoded HTML.
+    - Hidden Back Button to align with the Root Page hierarchy.
+  - **Transaction List Page**:
+    - Updated `PageHeader` to hide the Back Button.
+
+- **Technical**:
+  - Updated `app/account/page.tsx`: Implemented standard `PageHeader`.
+  - Updated `app/transactions/page.tsx`: Passed `showBackButton={false}`.
+
 ## [1.7.3] - 2026-01-22
 
 ### UI/UX: Back Button Logic Refinement

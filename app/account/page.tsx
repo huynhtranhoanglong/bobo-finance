@@ -9,6 +9,7 @@ import { getProfileAction, updateProfileAction, signOutAction } from "@/app/acti
 import { ArrowLeft, Loader2, Save, User, LogOut, Mail, Globe, Check, Users, Lock, MessageSquare } from "lucide-react"
 import Link from "next/link"
 import { AppVersion } from "@/components/app-version"
+import { PageHeader } from "@/components/ui/page-header"
 import { COLOR_BRAND } from "@/utils/colors"
 import { useTranslation, useLanguage } from "@/components/providers/language-provider"
 import { Language } from "@/utils/i18n"
@@ -77,12 +78,13 @@ export default function AccountPage() {
 
     return (
         <main className="min-h-screen bg-gray-50 p-4 pb-24">
-            {/* Header */}
-            <div className="flex items-center gap-3 mb-6 max-w-lg mx-auto">
-                <Link href="/" className="p-2 hover:bg-gray-100 rounded-xl transition">
-                    <ArrowLeft size={24} />
-                </Link>
-                <h1 className="text-2xl font-bold">👤 {t.LABEL_ACCOUNT_PAGE_TITLE}</h1>
+            {/* Header - Refactored to Standard Component */}
+            <div className="max-w-lg mx-auto">
+                <PageHeader
+                    title={`👤 ${t.LABEL_ACCOUNT_PAGE_TITLE}`}
+                    showBackButton={false}
+                    className="px-0 mb-6"
+                />
             </div>
 
             <div className="max-w-lg mx-auto space-y-4">
