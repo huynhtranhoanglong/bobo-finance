@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Calendar, Plus, Check, ArrowLeft, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from "@/components/providers/language-provider";
 import { COLORS } from "@/utils/colors";
@@ -58,76 +58,119 @@ export default function EventsPageClient({ hasFamily }: EventsPageClientProps) {
 
         return (
             <Link href={`/events/${event.id}`}>
-                <Card className="mb-3 hover:shadow-md transition-shadow cursor-pointer">
-                    <CardContent className="p-4">
-                        <div className="flex justify-between items-start mb-2">
-                            <div className="flex items-center gap-2">
-                                <Calendar className="w-4 h-4" style={{ color: COLORS.brand }} />
-                                <h3 className="font-semibold">{event.name}</h3>
+                <div
+                    className="mb-4 relative group transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]"
+                >
+                    <div
+                        className="absolute inset-0 bg-gradient-to-br from-white/80 to-white/40 backdrop-blur-md rounded-[1.5rem] border border-white/40 shadow-sm"
+                        style={{
+                            boxShadow: `0 8px 32px -8px ${event.status === 'active' ? COLORS.brand : COLORS.neutral}20`
+                        }}
+                    />
+
+                    <div className="relative p-5">
+                        <div className="flex justify-between items-start mb-3">
+                            <div className="flex items-center gap-3">
+                                <div
+                                    className="w-10 h-10 rounded-2xl flex items-center justify-center shadow-inner"
+                                    style={{
+                                        backgroundColor: event.status === 'active' ? `${COLORS.brand}15` : '#f1f5f9',
+                                        color: event.status === 'active' ? COLORS.brand : '#64748b'
+                                    }}
+                                >
+                                    <Calendar className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-slate-800 text-lg leading-tight">{event.name}</h3>
+                                    <p className="text-xs text-slate-500 font-medium mt-0.5">
+                                        {event.transaction_count} {t.LABEL_TRANSACTION.toLowerCase()}
+                                    </p>
+                                </div>
                             </div>
                             {event.status === "completed" && (
-                                <span className="text-xs px-2 py-1 rounded-full bg-green-100 text-green-700">
-                                    <Check className="w-3 h-3 inline mr-1" />
+                                <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 font-medium flex items-center shadow-sm">
+                                    <Check className="w-3 h-3 mr-1" />
                                     {t.LABEL_EVENT_STATUS_COMPLETED}
                                 </span>
                             )}
                         </div>
 
-                        <div className="flex justify-between items-center mt-3">
+                        <div className="flex justify-between items-end mt-4">
                             <div>
-                                <p className="text-sm text-gray-500">{t.LABEL_TOTAL_SPENT}</p>
-                                <p className="font-bold" style={{ color: isOverBudget ? COLORS.expense : COLORS.brand }}>
+                                <p className="text-xs text-slate-400 font-medium mb-1 uppercase tracking-wider">{t.LABEL_TOTAL_SPENT}</p>
+                                <p className="font-bold text-xl tracking-tight" style={{ color: isOverBudget ? COLORS.expense : COLORS.brand }}>
                                     {formatCurrency(event.total_spent)}
                                 </p>
                             </div>
                             {event.budget && (
                                 <div className="text-right">
-                                    <p className="text-sm text-gray-500">{t.LABEL_EVENT_BUDGET}</p>
-                                    <p className="font-medium">{formatCurrency(event.budget)}</p>
+                                    <p className="text-xs text-slate-400 font-medium mb-1 uppercase tracking-wider">{t.LABEL_EVENT_BUDGET}</p>
+                                    <p className="font-semibold text-slate-600">{formatCurrency(event.budget)}</p>
                                 </div>
                             )}
                         </div>
 
                         {event.budget && (
-                            <div className="mt-3">
-                                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div className="mt-4">
+                                <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden shadow-inner">
                                     <div
-                                        className="h-full rounded-full transition-all"
+                                        className="h-full rounded-full transition-all duration-500 ease-out relative overflow-hidden"
                                         style={{
                                             width: `${Math.min(progress, 100)}%`,
                                             backgroundColor: isOverBudget ? COLORS.expense : COLORS.brand
                                         }}
-                                    />
+                                    >
+                                        <div className="absolute inset-0 bg-white/20 w-full h-full animate-[shimmer_2s_infinite]" />
+                                    </div>
                                 </div>
-                                <p className="text-xs text-gray-500 mt-1 text-right">
-                                    {progress.toFixed(0)}%
-                                </p>
+                                <div className="flex justify-between items-center mt-1.5">
+                                    <p className="text-xs text-slate-400 font-medium">
+                                        {progress.toFixed(0)}% {t.LABEL_USED}
+                                    </p>
+                                    <p className="text-xs font-medium" style={{ color: isOverBudget ? COLORS.expense : COLORS.brand }}>
+                                        {isOverBudget ? t.LABEL_BUDGET_OVER : t.LABEL_BUDGET_REMAINING}
+                                    </p>
+                                </div>
                             </div>
                         )}
-
-                        <p className="text-xs text-gray-400 mt-2">
-                            {event.transaction_count} {t.LABEL_TRANSACTION.toLowerCase()}
-                        </p>
-                    </CardContent>
-                </Card>
+                    </div>
+                </div>
             </Link>
         );
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 pb-20">
+        <div className="min-h-screen bg-[#FAFAFA] relative overflow-hidden flex flex-col pt-safe">
+            {/* Ambient Background */}
+            <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+                <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-emerald-100/40 rounded-full blur-[80px] mix-blend-multiply opacity-70 animate-float" />
+                <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-blue-100/40 rounded-full blur-[60px] mix-blend-multiply opacity-60 animate-delayed-float" />
+            </div>
+
             {/* Header */}
-            <div className="bg-white shadow-sm sticky top-0 z-10">
-                <div className="max-w-md mx-auto px-4 py-4 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <Button variant="ghost" size="icon" onClick={() => router.push("/")}>
+            <div className="sticky top-0 z-50 transition-all duration-300">
+                <div className="absolute inset-0 bg-white/70 backdrop-blur-xl border-b border-white/20 shadow-sm" />
+                <div className="max-w-md mx-auto px-4 py-4 relative flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => router.push("/")}
+                            className="bg-white/50 hover:bg-white/80 rounded-xl w-10 h-10 text-slate-600"
+                        >
                             <ArrowLeft className="w-5 h-5" />
                         </Button>
-                        <h1 className="text-xl font-bold">{t.LABEL_EVENTS}</h1>
+                        <h1 className="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+                            {t.LABEL_EVENTS}
+                        </h1>
                     </div>
                     <CreateEventDialog hasFamily={hasFamily} onSuccess={fetchEvents}>
-                        <Button size="sm" style={{ backgroundColor: COLORS.brand }}>
-                            <Plus className="w-4 h-4 mr-1" />
+                        <Button
+                            size="sm"
+                            className="rounded-xl shadow-lg shadow-emerald-200/50 hover:shadow-emerald-200/70 transition-all"
+                            style={{ backgroundColor: COLORS.brand }}
+                        >
+                            <Plus className="w-4 h-4 mr-1.5" />
                             {t.LABEL_CREATE_EVENT}
                         </Button>
                     </CreateEventDialog>
@@ -135,18 +178,24 @@ export default function EventsPageClient({ hasFamily }: EventsPageClientProps) {
             </div>
 
             {/* Content */}
-            <div className="max-w-md mx-auto px-4 py-4">
+            <div className="flex-1 max-w-md mx-auto w-full px-4 py-6 relative z-10">
                 {loading ? (
-                    <div className="flex justify-center py-12">
-                        <Loader2 className="w-8 h-8 animate-spin" style={{ color: COLORS.brand }} />
+                    <div className="flex justify-center py-20">
+                        <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
                     </div>
                 ) : events.length === 0 ? (
-                    <Card className="text-center py-12">
+                    <Card className="text-center py-16 bg-white/60 backdrop-blur-md border border-white/40 shadow-sm rounded-[2rem]">
                         <CardContent>
-                            <Calendar className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-                            <p className="text-gray-500">{t.LABEL_EVENT_EMPTY}</p>
+                            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <Calendar className="w-8 h-8 text-slate-400" />
+                            </div>
+                            <p className="text-slate-500 font-medium text-lg">{t.LABEL_EVENT_EMPTY}</p>
+                            <p className="text-slate-400 text-sm mt-1 mb-6">Create an event to start tracking expenses</p>
                             <CreateEventDialog hasFamily={hasFamily} onSuccess={fetchEvents}>
-                                <Button className="mt-4" style={{ backgroundColor: COLORS.brand }}>
+                                <Button
+                                    className="rounded-xl shadow-lg shadow-emerald-200/50"
+                                    style={{ backgroundColor: COLORS.brand }}
+                                >
                                     <Plus className="w-4 h-4 mr-2" />
                                     {t.LABEL_CREATE_EVENT}
                                 </Button>
@@ -154,27 +203,33 @@ export default function EventsPageClient({ hasFamily }: EventsPageClientProps) {
                         </CardContent>
                     </Card>
                 ) : (
-                    <Tabs value={activeTab} onValueChange={setActiveTab}>
-                        <TabsList className="w-full mb-4">
-                            <TabsTrigger value="active" className="flex-1">
-                                {t.LABEL_ACTIVE_EVENTS} ({activeEvents.length})
+                    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                        <TabsList className="w-full mb-6 bg-slate-100/50 p-1 rounded-2xl border border-white/20">
+                            <TabsTrigger
+                                value="active"
+                                className="flex-1 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-emerald-700 transition-all"
+                            >
+                                {t.LABEL_ACTIVE_EVENTS} <span className="ml-1.5 text-xs opacity-70 bg-slate-200 px-1.5 rounded-full">{activeEvents.length}</span>
                             </TabsTrigger>
-                            <TabsTrigger value="completed" className="flex-1">
-                                {t.LABEL_COMPLETED_EVENTS} ({completedEvents.length})
+                            <TabsTrigger
+                                value="completed"
+                                className="flex-1 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-slate-700 transition-all"
+                            >
+                                {t.LABEL_COMPLETED_EVENTS} <span className="ml-1.5 text-xs opacity-70 bg-slate-200 px-1.5 rounded-full">{completedEvents.length}</span>
                             </TabsTrigger>
                         </TabsList>
 
-                        <TabsContent value="active">
+                        <TabsContent value="active" className="space-y-4 data-[state=inactive]:hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
                             {activeEvents.length === 0 ? (
-                                <p className="text-center text-gray-500 py-8">{t.LABEL_NO_ACTIVE_EVENTS}</p>
+                                <p className="text-center text-slate-400 py-12 italic">{t.LABEL_NO_ACTIVE_EVENTS}</p>
                             ) : (
                                 activeEvents.map((event) => <EventCard key={event.id} event={event} />)
                             )}
                         </TabsContent>
 
-                        <TabsContent value="completed">
+                        <TabsContent value="completed" className="space-y-4 data-[state=inactive]:hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
                             {completedEvents.length === 0 ? (
-                                <p className="text-center text-gray-500 py-8">{t.LABEL_EVENT_EMPTY}</p>
+                                <p className="text-center text-slate-400 py-12 italic">{t.LABEL_EVENT_EMPTY}</p>
                             ) : (
                                 completedEvents.map((event) => <EventCard key={event.id} event={event} />)
                             )}

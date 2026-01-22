@@ -97,8 +97,8 @@ export default function EventDetailClient({ eventId }: EventDetailClientProps) {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <Loader2 className="w-8 h-8 animate-spin" style={{ color: COLORS.brand }} />
+            <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center">
+                <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
             </div>
         );
     }
@@ -117,71 +117,93 @@ export default function EventDetailClient({ eventId }: EventDetailClientProps) {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 pb-20">
+        <div className="min-h-screen bg-[#FAFAFA] relative overflow-hidden flex flex-col pt-safe">
+            {/* Ambient Background */}
+            <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+                <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-indigo-100/40 rounded-full blur-[80px] mix-blend-multiply opacity-70 animate-float" />
+                <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-pink-100/40 rounded-full blur-[60px] mix-blend-multiply opacity-60 animate-delayed-float" />
+            </div>
+
             {/* Header */}
-            <div className="bg-white shadow-sm sticky top-0 z-10">
-                <div className="max-w-md mx-auto px-4 py-4 flex items-center justify-between">
+            <div className="sticky top-0 z-50 transition-all duration-300">
+                <div className="absolute inset-0 bg-white/70 backdrop-blur-xl border-b border-white/20 shadow-sm" />
+                <div className="max-w-md mx-auto px-4 py-4 relative flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <Button variant="ghost" size="icon" onClick={() => router.push("/events")}>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => router.push("/events")}
+                            className="bg-white/50 hover:bg-white/80 rounded-xl w-10 h-10 text-slate-600"
+                        >
                             <ArrowLeft className="w-5 h-5" />
                         </Button>
-                        <div>
-                            <h1 className="text-lg font-bold">{event.name}</h1>
-                            <span className={`text-xs px-2 py-0.5 rounded-full ${event.status === "active" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`}>
-                                {event.status === "active" ? t.LABEL_EVENT_STATUS_ACTIVE : t.LABEL_EVENT_STATUS_COMPLETED}
-                            </span>
+                        <div className="flex flex-col">
+                            <h1 className="text-lg font-bold text-slate-800 leading-tight">{event.name}</h1>
+                            <div className="flex items-center gap-2 mt-0.5">
+                                <span className={`text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full ${event.status === "active" ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-600"}`}>
+                                    {event.status === "active" ? t.LABEL_EVENT_STATUS_ACTIVE : t.LABEL_EVENT_STATUS_COMPLETED}
+                                </span>
+                            </div>
                         </div>
                     </div>
                     {event.is_owner && (
                         <div className="flex gap-2">
                             <EditEventDialog event={event} onSuccess={fetchEvent}>
-                                <Button variant="ghost" size="icon">
+                                <Button variant="ghost" size="icon" className="hover:bg-slate-100 rounded-xl text-slate-500">
                                     <Edit className="w-4 h-4" />
                                 </Button>
                             </EditEventDialog>
-                            <Button variant="ghost" size="icon" onClick={handleDelete} disabled={actionLoading}>
-                                <Trash2 className="w-4 h-4 text-red-500" />
+                            <Button variant="ghost" size="icon" onClick={handleDelete} disabled={actionLoading} className="hover:bg-red-50 rounded-xl text-red-400 hover:text-red-500">
+                                <Trash2 className="w-4 h-4" />
                             </Button>
                         </div>
                     )}
                 </div>
             </div>
 
-            <div className="max-w-md mx-auto px-4 py-4 space-y-4">
+            <div className="flex-1 max-w-md mx-auto w-full px-4 py-6 relative z-10 space-y-6">
                 {/* Summary Card */}
-                <Card>
-                    <CardContent className="p-4">
-                        <div className="text-center mb-4">
-                            <p className="text-sm text-gray-500">{t.LABEL_TOTAL_SPENT}</p>
-                            <p className="text-3xl font-bold" style={{ color: isOverBudget ? COLORS.expense : COLORS.brand }}>
+                <Card className="bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm rounded-[2rem] overflow-hidden">
+                    <CardContent className="p-6 relative">
+                        {/* Ambient glow for total */}
+                        <div
+                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full blur-[40px] opacity-20 pointer-events-none"
+                            style={{ backgroundColor: isOverBudget ? COLORS.expense : COLORS.brand }}
+                        />
+
+                        <div className="text-center mb-6 relative z-10">
+                            <p className="text-xs text-slate-400 font-medium uppercase tracking-wider mb-2">{t.LABEL_TOTAL_SPENT}</p>
+                            <p className="text-4xl font-bold tracking-tight transform transition-all duration-300 hover:scale-105" style={{ color: isOverBudget ? COLORS.expense : COLORS.brand }}>
                                 {formatCurrency(event.breakdown.total)}
                             </p>
                         </div>
 
                         {event.budget && (
-                            <>
-                                <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden mb-2">
+                            <div className="relative z-10">
+                                <div className="w-full h-3 bg-slate-100/80 rounded-full overflow-hidden mb-3 shadow-inner">
                                     <div
-                                        className="h-full rounded-full transition-all"
+                                        className="h-full rounded-full transition-all duration-700 ease-out relative overflow-hidden"
                                         style={{
                                             width: `${Math.min(progress, 100)}%`,
                                             backgroundColor: isOverBudget ? COLORS.expense : COLORS.brand
                                         }}
-                                    />
+                                    >
+                                        <div className="absolute inset-0 bg-white/20 w-full h-full animate-[shimmer_2s_infinite]" />
+                                    </div>
                                 </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-500">{t.LABEL_EVENT_BUDGET}: {formatCurrency(event.budget)}</span>
+                                <div className="flex justify-between items-center text-xs font-medium">
+                                    <span className="text-slate-400">{t.LABEL_EVENT_BUDGET}: <span className="text-slate-600">{formatCurrency(event.budget)}</span></span>
                                     <span style={{ color: isOverBudget ? COLORS.expense : COLORS.brand }}>
                                         {isOverBudget ? t.LABEL_BUDGET_OVER : t.LABEL_BUDGET_REMAINING}: {formatCurrency(Math.abs(remaining))}
                                     </span>
                                 </div>
-                            </>
+                            </div>
                         )}
 
                         {/* Action Buttons */}
                         {event.is_owner && event.status === "active" && (
                             <Button
-                                className="w-full mt-4"
+                                className="w-full mt-6 rounded-xl shadow-lg shadow-emerald-200/50 hover:shadow-emerald-200/70 transition-all font-medium"
                                 style={{ backgroundColor: COLORS.brand }}
                                 onClick={handleComplete}
                                 disabled={actionLoading}
@@ -193,7 +215,7 @@ export default function EventDetailClient({ eventId }: EventDetailClientProps) {
 
                         {event.is_owner && event.status === "completed" && (
                             <Button
-                                className="w-full mt-4"
+                                className="w-full mt-6 rounded-xl border-dashed border-slate-300 text-slate-600 hover:bg-slate-50 hover:border-slate-400 transition-all"
                                 variant="outline"
                                 onClick={handleReopen}
                                 disabled={actionLoading}
@@ -206,20 +228,23 @@ export default function EventDetailClient({ eventId }: EventDetailClientProps) {
                 </Card>
 
                 {/* Breakdown */}
-                <Card>
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-base">{t.LABEL_EVENT_BREAKDOWN}</CardTitle>
+                <Card className="bg-white/60 backdrop-blur-md border border-white/40 shadow-sm rounded-[1.5rem]">
+                    <CardHeader className="pb-2 pt-5 px-6">
+                        <CardTitle className="text-sm font-bold text-slate-700 uppercase tracking-wider">{t.LABEL_EVENT_BREAKDOWN}</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-2">
+                    <CardContent className="space-y-3 px-6 pb-6">
                         {[
                             { key: "must_have", label: t.LABEL_CATEGORY_MUST_HAVE, value: event.breakdown.must_have },
                             { key: "nice_to_have", label: t.LABEL_CATEGORY_NICE_TO_HAVE, value: event.breakdown.nice_to_have },
                             { key: "waste", label: t.LABEL_CATEGORY_WASTE, value: event.breakdown.waste },
                             { key: "other", label: t.LABEL_CATEGORY_OTHER_EXPENSE, value: event.breakdown.other },
                         ].map((cat) => (
-                            <div key={cat.key} className="flex justify-between items-center">
-                                <span>{cat.label}</span>
-                                <span className="font-medium" style={{ color: categoryColors[cat.key as keyof typeof categoryColors] }}>
+                            <div key={cat.key} className="flex justify-between items-center group">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: categoryColors[cat.key as keyof typeof categoryColors] }} />
+                                    <span className="text-sm text-slate-600 group-hover:text-slate-900 transition-colors">{cat.label}</span>
+                                </div>
+                                <span className="font-semibold text-sm" style={{ color: categoryColors[cat.key as keyof typeof categoryColors] }}>
                                     {formatCurrency(cat.value)}
                                 </span>
                             </div>
@@ -228,22 +253,27 @@ export default function EventDetailClient({ eventId }: EventDetailClientProps) {
                 </Card>
 
                 {/* Transactions List */}
-                <Card>
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-base">{t.LABEL_EVENT_TRANSACTIONS} ({event.transactions.length})</CardTitle>
+                <Card className="bg-white/60 backdrop-blur-md border border-white/40 shadow-sm rounded-[1.5rem]">
+                    <CardHeader className="pb-2 pt-5 px-6">
+                        <CardTitle className="text-sm font-bold text-slate-700 uppercase tracking-wider">
+                            {t.LABEL_EVENT_TRANSACTIONS} <span className="ml-1 text-slate-400 font-normal normal-case">({event.transactions.length})</span>
+                        </CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="px-2 pb-2">
                         {event.transactions.length === 0 ? (
-                            <p className="text-center text-gray-500 py-4">{t.LABEL_EVENT_NO_TRANSACTIONS}</p>
+                            <p className="text-center text-slate-400 py-6 text-sm italic">{t.LABEL_EVENT_NO_TRANSACTIONS}</p>
                         ) : (
-                            <div className="space-y-2">
+                            <div className="space-y-1">
                                 {event.transactions.map((tx) => (
-                                    <div key={tx.id} className="flex justify-between items-center py-2 border-b last:border-0">
+                                    <div
+                                        key={tx.id}
+                                        className="flex justify-between items-center p-3 hover:bg-white/60 rounded-xl transition-colors group"
+                                    >
                                         <div>
-                                            <p className="font-medium">{tx.note || t.LABEL_EXPENSE}</p>
-                                            <p className="text-xs text-gray-500">{tx.wallet_name} • {new Date(tx.date).toLocaleDateString()}</p>
+                                            <p className="font-semibold text-slate-700 group-hover:text-slate-900 transition-colors">{tx.note || t.LABEL_EXPENSE}</p>
+                                            <p className="text-xs text-slate-400 mt-0.5">{tx.wallet_name} • {new Date(tx.date).toLocaleDateString()}</p>
                                         </div>
-                                        <span className="font-bold" style={{ color: COLORS.expense }}>
+                                        <span className="font-bold text-slate-700" style={{ color: COLORS.expense }}>
                                             -{formatCurrency(tx.amount)}
                                         </span>
                                     </div>

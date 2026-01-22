@@ -406,4 +406,5 @@ export const en: Record<TranslationKeys, string> = {
     LABEL_SELECT_EVENT: "Select Event",
     LABEL_NO_EVENT: "No Event",
     TOOLTIP_EVENT: "Tag a transaction to an event to track spending separately (trips, work, parties...)",
+    LABEL_USED: "Used",
 } as const;

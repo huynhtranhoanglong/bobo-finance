@@ -404,6 +404,7 @@ export const vi = {
     LABEL_SELECT_EVENT: "Chọn sự kiện",
     LABEL_NO_EVENT: "Không thuộc sự kiện",
     TOOLTIP_EVENT: "Gắn giao dịch vào một sự kiện để theo dõi chi tiêu riêng (du lịch, công tác, tiệc...)",
+    LABEL_USED: "Đã dùng",
 } as const;
 
 export type TranslationKeys = keyof typeof vi;
