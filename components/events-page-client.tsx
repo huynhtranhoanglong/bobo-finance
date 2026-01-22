@@ -14,6 +14,7 @@ import CreateEventDialog from "@/components/create-event-dialog";
 import { getEventsListAction } from "@/app/actions";
 import { User } from "@supabase/supabase-js";
 import { PrivacyToggle } from "@/components/ui/privacy-toggle";
+import { PageHeader } from "@/components/ui/page-header";
 import { UserNav } from "@/components/user-nav";
 
 interface Event {
@@ -153,25 +154,7 @@ export default function EventsPageClient({ hasFamily, user }: EventsPageClientPr
 
             <div className="max-w-2xl mx-auto w-full p-4 md:p-8 pb-32 relative z-10">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-8">
-                    <div className="flex items-center gap-4">
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => router.push("/")}
-                            className="p-2.5 h-auto w-auto bg-white/50 hover:bg-white rounded-full transition-all text-slate-500 hover:text-slate-800 shadow-sm border border-transparent hover:border-slate-100"
-                        >
-                            <ArrowLeft className="h-5 w-5" />
-                        </Button>
-                        <h1 className="text-2xl font-bold text-slate-800 tracking-tight">{t.LABEL_EVENTS}</h1>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <div className="bg-white/50 backdrop-blur-sm rounded-full p-0.5 border border-white/40 shadow-sm">
-                            <PrivacyToggle />
-                        </div>
-                        <UserNav email={user.email || 'User'} />
-                    </div>
-                </div>
+                <PageHeader title={t.LABEL_EVENTS} user={user} className="px-0 pt-0" />
 
                 {/* Create Event FAB */}
                 <div className="fixed bottom-6 right-6 z-50">

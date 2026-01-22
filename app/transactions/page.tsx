@@ -8,6 +8,7 @@ import TransactionItem from "@/components/transaction-item";
 import TransactionFilters from "@/components/transaction-filters";
 import { PrivacyToggle } from "@/components/ui/privacy-toggle";
 import { UserNav } from "@/components/user-nav";
+import { PageHeader } from "@/components/ui/page-header";
 import AddTransactionDialog from "@/components/add-transaction-dialog";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
@@ -165,20 +166,7 @@ function TransactionsPageContent() {
 
                     <div className="max-w-2xl mx-auto p-4 md:p-8 pb-32">
                         {/* Header */}
-                        <div className="flex items-center justify-between mb-8">
-                            <div className="flex items-center gap-4">
-                                <Link href="/" className="p-2.5 bg-white/50 hover:bg-white rounded-full transition-all text-slate-500 hover:text-slate-800 shadow-sm border border-transparent hover:border-slate-100">
-                                    <ArrowLeft className="h-5 w-5" />
-                                </Link>
-                                <h1 className="text-2xl font-bold text-slate-800 tracking-tight">{t.LABEL_TRANSACTION_HISTORY}</h1>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <div className="bg-white/50 backdrop-blur-sm rounded-full p-0.5 border border-white/40 shadow-sm">
-                                    <PrivacyToggle />
-                                </div>
-                                {user && <UserNav email={user.email || 'User'} />}
-                            </div>
-                        </div>
+                        <PageHeader title={t.LABEL_TRANSACTION_HISTORY} user={user} className="px-0 pt-0" />
 
                         {/* Filters - Now Soft UI */}
                         <TransactionFilters wallets={wallets || []} events={activeEvents} />
