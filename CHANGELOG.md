@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.8.1] - 2026-01-23
+
+### UI Fix: Add Transaction Drawer Improvements
+> **Purpose**: Fix reported UI issues from user feedback.
+
+- **Wallet Text Overflow Fix**:
+  - Added `overflow-hidden` and `truncate` to wallet SelectTrigger.
+  - Prevents wallet name and balance from overflowing into adjacent columns.
+
+- **Category Segment Control**:
+  - Changed from 3 columns to **4 columns** to include "Other" category.
+  - Now displays: Thiết yếu | Thứ yếu | Lãng phí | **Khác**
+  - Uses all categories from `EXPENSE_CATEGORIES` config.
+  - Reduced font size to `text-xs` for better fit.
+
+### Technical Details
+- **Modified File**: `components/add-transaction-drawer.tsx`
+  - CategorySegment: `grid-cols-3` → `grid-cols-4`
+  - SelectTrigger: Added `overflow-hidden`, SelectValue: Added `className="truncate"`
+
+---
+
 ## [1.8.0] - 2026-01-23
 
 ### UI/UX: Add Transaction Drawer Redesign

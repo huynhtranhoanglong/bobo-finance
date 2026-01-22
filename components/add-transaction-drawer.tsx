@@ -105,22 +105,23 @@ export default function AddTransactionDrawer({
         }
     }
 
-    // Category Segment Control (for expense)
+    // Category Segment Control (for expense) - 4 columns including "Other"
     const CategorySegment = () => (
-        <div className="grid grid-cols-3 gap-2 p-1 bg-slate-100/50 rounded-2xl">
-            {EXPENSE_CATEGORIES.filter(cat => cat.key !== 'other_expense').map((cat) => {
+        <div className="grid grid-cols-4 gap-1.5 p-1 bg-slate-100/50 rounded-2xl">
+            {EXPENSE_CATEGORIES.map((cat) => {
                 const isSelected = selectedCategory === cat.key;
                 const colors: Record<string, string> = {
                     must_have: COLORS.mustHave,
                     nice_to_have: COLORS.niceToHave,
-                    waste: COLORS.waste
+                    waste: COLORS.waste,
+                    other_expense: COLORS.neutral
                 };
                 return (
                     <button
                         key={cat.key}
                         type="button"
                         onClick={() => setSelectedCategory(cat.key)}
-                        className={`py-2.5 px-3 rounded-xl text-sm font-medium transition-all ${isSelected
+                        className={`py-2.5 px-2 rounded-xl text-xs font-medium transition-all text-center ${isSelected
                             ? "bg-white shadow-sm"
                             : "hover:bg-white/50"
                             }`}
@@ -218,8 +219,8 @@ export default function AddTransactionDrawer({
                                     <div className="space-y-2">
                                         <Label className="text-slate-500 text-xs font-medium ml-1">{t.LABEL_WALLET}</Label>
                                         <Select name="wallet_id" required defaultValue={defaultWallet?.id}>
-                                            <SelectTrigger className="h-12 rounded-xl bg-white/50 border-slate-100 focus:bg-white">
-                                                <SelectValue placeholder={t.LABEL_SELECT_WALLET} />
+                                            <SelectTrigger className="h-12 rounded-xl bg-white/50 border-slate-100 focus:bg-white overflow-hidden">
+                                                <SelectValue placeholder={t.LABEL_SELECT_WALLET} className="truncate" />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {wallets.map(w => (
@@ -268,8 +269,8 @@ export default function AddTransactionDrawer({
                                 <div className="space-y-2">
                                     <Label className="text-slate-500 text-xs font-medium ml-1">{t.LABEL_WALLET}</Label>
                                     <Select name="wallet_id" required defaultValue={defaultWallet?.id}>
-                                        <SelectTrigger className="h-12 rounded-xl bg-white/50 border-slate-100 focus:bg-white">
-                                            <SelectValue placeholder={t.LABEL_SELECT_WALLET} />
+                                        <SelectTrigger className="h-12 rounded-xl bg-white/50 border-slate-100 focus:bg-white overflow-hidden">
+                                            <SelectValue placeholder={t.LABEL_SELECT_WALLET} className="truncate" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {wallets.map(w => (
@@ -302,8 +303,8 @@ export default function AddTransactionDrawer({
                                 <div className="space-y-2">
                                     <Label className="text-slate-500 text-xs font-medium ml-1">{t.LABEL_FROM_WALLET}</Label>
                                     <Select name="wallet_id" required>
-                                        <SelectTrigger className="h-12 rounded-xl bg-white/50 border-slate-100 focus:bg-white">
-                                            <SelectValue placeholder={t.LABEL_SELECT} />
+                                        <SelectTrigger className="h-12 rounded-xl bg-white/50 border-slate-100 focus:bg-white overflow-hidden">
+                                            <SelectValue placeholder={t.LABEL_SELECT} className="truncate" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {wallets.map(w => (
@@ -318,8 +319,8 @@ export default function AddTransactionDrawer({
                                 <div className="space-y-2">
                                     <Label className="text-slate-500 text-xs font-medium ml-1">{t.LABEL_TO_WALLET}</Label>
                                     <Select name="to_wallet_id" required>
-                                        <SelectTrigger className="h-12 rounded-xl bg-white/50 border-slate-100 focus:bg-white">
-                                            <SelectValue placeholder={t.LABEL_SELECT} />
+                                        <SelectTrigger className="h-12 rounded-xl bg-white/50 border-slate-100 focus:bg-white overflow-hidden">
+                                            <SelectValue placeholder={t.LABEL_SELECT} className="truncate" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {wallets.map(w => (
@@ -340,8 +341,8 @@ export default function AddTransactionDrawer({
                                     <div className="space-y-2">
                                         <Label className="text-slate-500 text-xs font-medium ml-1">{t.LABEL_TAKE_FROM_WALLET}</Label>
                                         <Select name="wallet_id" required defaultValue={defaultWallet?.id}>
-                                            <SelectTrigger className="h-12 rounded-xl bg-white/50 border-slate-100 focus:bg-white">
-                                                <SelectValue placeholder={t.LABEL_SELECT_WALLET} />
+                                            <SelectTrigger className="h-12 rounded-xl bg-white/50 border-slate-100 focus:bg-white overflow-hidden">
+                                                <SelectValue placeholder={t.LABEL_SELECT_WALLET} className="truncate" />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {wallets.map(w => (
