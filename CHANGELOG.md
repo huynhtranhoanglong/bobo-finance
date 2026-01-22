@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.7.5] - 2026-01-22
+
+### UI/UX: Account Page Redesign (Swiss Glass Minimalism)
+> **Purpose**: Modernize the Account Page to match the "Pro Max" design language used in Transactions and Events pages.
+
+- **Design Style: Swiss Glass Minimalism**:
+  - **Background**: Changed from `gray-50` to `#FAFAFA` with floating Ambient Orbs (Emerald & Blue).
+  - **Glassmorphism**: Cards use `bg-white/60`, `backdrop-blur-xl`, and `border-white/40` for a sleek, translucent look.
+  - **Typography**: Updated colors to `slate-800`/`slate-500` for better contrast and elegance.
+  - **Components**:
+    - **Avatar**: Enhanced with gradient background, ring, and glow effect.
+    - **Inputs**: Soft styles with translucent background.
+    - **Menu Items**: Converted to List Glass Cards with hover animations.
+    - **Language Selector**: Modernized with larger touch targets and clearer active states.
+
+- **Technical**:
+  - Updated `app/account/page.tsx`: Full UI rewrite using new Tailwind classes and ambient wrapper.
+
 ## [1.7.4] - 2026-01-22
 
 ### UI/UX: Root Pages Standardization
