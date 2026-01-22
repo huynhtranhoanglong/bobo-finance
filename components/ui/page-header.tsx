@@ -14,6 +14,7 @@ interface PageHeaderProps {
     user?: User | null;
     className?: string;
     rightContent?: React.ReactNode;
+    sticky?: boolean;
 }
 
 export function PageHeader({
@@ -21,11 +22,12 @@ export function PageHeader({
     backUrl = "/",
     showBackButton = true,
     className,
-    rightContent
+    rightContent,
+    sticky = false
 }: PageHeaderProps) {
     return (
         <div className={cn("mb-20", className)}> {/* Spacer for fixed header */}
-            <SmartHeader rightContent={rightContent}>
+            <SmartHeader rightContent={rightContent} sticky={sticky}>
                 <div className="flex items-center gap-3">
                     {showBackButton && (
                         <Link

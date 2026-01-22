@@ -10,13 +10,15 @@ interface SmartHeaderProps {
     rightContent?: React.ReactNode;
     className?: string;
     children?: React.ReactNode;
+    sticky?: boolean;
 }
 
 export function SmartHeader({
     title,
     rightContent,
     className,
-    children
+    children,
+    sticky = false
 }: SmartHeaderProps) {
     const [isScrolled, setIsScrolled] = useState(false);
 
@@ -36,8 +38,9 @@ export function SmartHeader({
     return (
         <header
             className={cn(
-                "fixed top-0 left-0 right-0 z-30 px-6 py-4 transition-all duration-300 ease-in-out",
-                isScrolled
+                sticky ? "fixed" : "absolute",
+                "top-0 left-0 right-0 z-30 px-6 py-4 transition-all duration-300 ease-in-out",
+                isScrolled && sticky
                     ? "bg-white/70 backdrop-blur-xl shadow-md border-b border-white/20"
                     : "bg-transparent",
                 className

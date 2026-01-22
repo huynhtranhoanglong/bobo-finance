@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.7.7] - 2026-01-22
+
+### UI/UX: Standardization of Header Behavior (Non-Sticky)
+> **Purpose**: Ensure consistent navigation experience by making headers scroll with the page content (Non-Sticky) across all views.
+
+- **UI Update**:
+  - Updated `SmartHeader` to use `absolute` positioning by default instead of `fixed`.
+  - Added new `sticky` prop (default: `false`) to allow optional sticky behavior if needed in the future.
+  - This change aligns functionality between Account, Events, and Transactions pages, ensuring headers naturally scroll out of view.
+
 ## [1.7.6] - 2026-01-22
 
 ### Bug Fix: Account Page Header Overlap
