@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.8.2] - 2026-01-23
+
+### UI Cleanup: Remove Balance from Wallet Dropdown
+> **Purpose**: Simplify wallet dropdown for cleaner, more compact UI.
+
+- **WalletOption Component**:
+  - Removed balance display from wallet dropdown items.
+  - Now shows only wallet name (e.g., "Tiền mặt" instead of "Tiền mặt (5.000.000 ₫)").
+  - Applies to all wallet selectors: Add Transaction, Edit Transaction, Create Debt dialogs.
+  - `balance` prop kept as optional for backward compatibility.
+
+### Technical Details
+- **Modified File**: `components/ui/wallet-option.tsx`
+
+---
+
 ## [1.8.1] - 2026-01-23
 
 ### UI Fix: Add Transaction Drawer Improvements

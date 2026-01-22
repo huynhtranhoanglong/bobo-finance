@@ -1,15 +1,15 @@
 import React from 'react';
-import { formatCurrency } from '@/utils/format';
 
 interface WalletOptionProps {
     name: string;
-    balance: number;
+    balance?: number; // Optional, kept for backward compatibility but not displayed
 }
 
-export function WalletOption({ name, balance }: WalletOptionProps) {
-    return (
-        <span>
-            {name} ({formatCurrency(balance)})
-        </span>
-    );
+/**
+ * Simplified wallet option for dropdown selects.
+ * Only displays wallet name for cleaner UI.
+ * v1.8.2: Removed balance display per user feedback.
+ */
+export function WalletOption({ name }: WalletOptionProps) {
+    return <span>{name}</span>;
 }
