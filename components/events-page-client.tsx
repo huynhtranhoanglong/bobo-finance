@@ -159,6 +159,7 @@ export default function EventsPageClient({ hasFamily, user }: EventsPageClientPr
                     title={t.LABEL_EVENTS}
                     user={user}
                     className="px-0 pt-0"
+                    showBackButton={false}
                     rightContent={
                         <div className="flex items-center gap-3">
                             <div className="rounded-full p-0.5 bg-white/40 backdrop-blur-sm border border-white/40 shadow-sm transition-all hover:bg-white/60">

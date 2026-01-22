@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.7.3] - 2026-01-22
+
+### UI/UX: Back Button Logic Refinement
+> **Purpose**: Improve navigation hierarchy and remove redundancy on root-level pages (Tabs).
+
+- **Conditional Back Button**:
+  - **Removed** Nút Back (ArrowLeft) trên các trang cấp 1 (Root Pages) như `/events` vì đã có Bottom Navigation Bar.
+  - **Maintained** Nút Back trên các trang con (Child Pages) như chi tiết, chỉnh sửa để đảm bảo dòng chảy thao tác (Navigation Flow).
+  - Giúp Header thoáng hơn, tập trung vào nội dung và các nút hành động (Action Buttons).
+
+- **Technical**:
+  - Updated `components/ui/page-header.tsx`: Added `showBackButton` prop (default: `true`).
+  - Updated `components/events-page-client.tsx`: Set `showBackButton={false}`.
+
 ## [1.7.2] - 2026-01-22
 
 ### UI/UX: Events Page Optimization
