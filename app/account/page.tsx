@@ -89,7 +89,7 @@ export default function AccountPage() {
                 <PageHeader
                     title={`👤 ${t.LABEL_ACCOUNT_PAGE_TITLE}`}
                     showBackButton={false}
-                    className="px-0 mb-8"
+                    className="px-0"
                 />
 
                 <div className="space-y-6">

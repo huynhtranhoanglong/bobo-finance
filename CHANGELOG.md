@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.7.6] - 2026-01-22
+
+### Bug Fix: Account Page Header Overlap
+> **Purpose**: Fix layout issue where content was scrolling underneath the fixed header due to insufficient spacing.
+
+- **UI Fix**:
+  - Removed incorrect margin override on `PageHeader` in Account Page.
+  - Restored default spacing (`mb-20`) to ensure content starts below the header, preventing overlap.
+
 ## [1.7.5] - 2026-01-22
 
 ### UI/UX: Account Page Redesign (Swiss Glass Minimalism)
