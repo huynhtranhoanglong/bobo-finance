@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.6.5] - 2026-01-22
+
+### UI/UX: Soft UI Evolution Login Redesign
+> **Purpose**: Modernize the login experience with "Soft UI Evolution" style while maintaining brand identity.
+
+- **Design Style**: Soft UI / Glassmorphism hybrid
+  - **Container**: `rounded-[2rem]`, `backdrop-blur-xl`, `bg-white/80` with diffused shadow.
+  - **Inputs**: "Sinking" style (`bg-slate-50`) with inner shadow feel and emerald focus ring.
+  - **Buttons**:
+    - Primary: Brand Sage Green with **colored shadow** (`shadow-[0_10px_20px_-10px_rgba(89,140,88,0.4)]`) for glowing effect.
+    - Google: Soft white button with hover lift effect.
+  - **Atmosphere**: Added ambient background orbs (Emerald/Blue) for depth.
+
+- **Micro-interactions**:
+  - Smooth hover transitions (`duration-300`).
+  - Active states for buttons (physical press feel).
+  - Floating language toggle.
+
+- **Technical**:
+  - Updated `app/login/page.tsx`.
+  - Removed duplicate code blocks.
+  - Maintained full accessibility and mobile responsiveness.
+
+---
+
 ## [1.6.4] - 2026-01-22
 
 ### UI/UX: Login Page Redesign (Minimalism)
