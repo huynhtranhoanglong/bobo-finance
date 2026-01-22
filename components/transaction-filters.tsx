@@ -13,7 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { Search, Calendar, ChevronDown, ChevronUp, RotateCcw } from "lucide-react"
+import { Search, Calendar, ChevronDown, ChevronUp, RotateCcw, Filter } from "lucide-react"
 import { COLOR_BRAND } from "@/utils/colors"
 import { useTranslation } from "@/components/providers/language-provider"
 
@@ -128,20 +128,28 @@ export default function TransactionFilters({ wallets, events = [] }: Transaction
         (searchParams.get("sort") && searchParams.get("sort") !== "date_desc");
 
     return (
-        <div className="bg-white rounded-2xl shadow-sm border mb-6">
+        <div className="bg-white/70 backdrop-blur-xl rounded-[1.5rem] shadow-[0_15px_30px_-15px_rgba(0,0,0,0.05)] border border-white/20 mb-8 transition-all duration-300">
             {/* Header - Always visible */}
             <div
-                className="p-4 flex items-center justify-between cursor-pointer"
+                className="p-5 flex items-center justify-between cursor-pointer group"
                 onClick={() => setIsExpanded(!isExpanded)}
             >
-                <div className="flex items-center gap-2">
-                    <Search size={20} style={{ color: COLOR_BRAND }} />
-                    <span className="font-medium text-gray-700">{t.LABEL_FILTER_SEARCH}</span>
-                    {hasActiveFilters && (
-                        <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
-                            {t.LABEL_FILTERING}
-                        </span>
-                    )}
+                <div className="flex items-center gap-3">
+                    <div className="bg-emerald-50 rounded-xl p-2 text-emerald-600 group-hover:bg-emerald-100 group-hover:scale-105 transition-all duration-300">
+                        <Filter size={20} />
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="font-semibold text-slate-700">{t.LABEL_FILTER_SEARCH}</span>
+                        {hasActiveFilters ? (
+                            <span className="text-xs text-emerald-600 font-medium">
+                                {t.LABEL_FILTERING}
+                            </span>
+                        ) : (
+                            <span className="text-xs text-slate-400">
+                                {t.LABEL_TAP_TO_FILTER}
+                            </span>
+                        )}
+                    </div>
                 </div>
                 {/* Reset Button (Only visible if expanded or filters active) */}
                 <div className="flex items-center gap-2">
@@ -149,7 +157,7 @@ export default function TransactionFilters({ wallets, events = [] }: Transaction
                         <Button
                             size="sm"
                             variant="ghost"
-                            className="h-8 w-8 p-0 text-gray-500 hover:text-red-600 hover:bg-red-50"
+                            className="h-9 w-9 p-0 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-full transition-all"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 replace("/transactions");
@@ -159,43 +167,49 @@ export default function TransactionFilters({ wallets, events = [] }: Transaction
                             <RotateCcw size={16} />
                         </Button>
                     )}
-                    {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                    <div className={`p-1 text-slate-400 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}>
+                        <ChevronDown size={20} />
+                    </div>
                 </div>
             </div>
 
             {/* Collapsible Content */}
             {isExpanded && (
-                <div className="px-5 pb-5 space-y-4 border-t pt-4">
+                <div className="px-5 pb-6 space-y-5 animate-in slide-in-from-top-2 fade-in duration-300">
+                    <div className="h-px bg-slate-100/80 w-full" />
+
                     {/* 1. SEARCH - Full Width */}
                     <div>
-                        <Label className="text-sm font-medium text-gray-700 mb-2 block">
+                        <Label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2 block ml-1">
                             {t.LABEL_SEARCH_BY_NOTE}
                         </Label>
-                        <Input
-                            placeholder={t.LABEL_SEARCH_PLACEHOLDER}
-                            className="h-11 rounded-xl"
-                            defaultValue={searchParams.get("q")?.toString()}
-                            onChange={(e) => handleSearch(e.target.value)}
-                        />
+                        <div className="relative group">
+                            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-emerald-500 transition-colors" />
+                            <Input
+                                placeholder={t.LABEL_SEARCH_PLACEHOLDER}
+                                className="h-12 pl-10 rounded-2xl bg-slate-50/50 border-slate-100 text-slate-800 placeholder:text-slate-400 focus:bg-white focus:border-emerald-200 focus:ring-4 focus:ring-emerald-500/10 transition-all duration-300 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)]"
+                                defaultValue={searchParams.get("q")?.toString()}
+                                onChange={(e) => handleSearch(e.target.value)}
+                            />
+                        </div>
                     </div>
-
-                    {/* Divider */}
-                    <div className="border-t" />
 
                     {/* 2. DATE PRESET FILTER */}
                     <div>
-                        <Label className="text-sm font-medium text-gray-700 mb-2 block flex items-center gap-2">
-                            <Calendar size={16} style={{ color: COLOR_BRAND }} />
+                        <Label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2 block ml-1 flex items-center gap-1.5">
                             {t.LABEL_DATE_RANGE}
                         </Label>
                         <Select
                             value={searchParams.get("date_preset")?.toString() || "all"}
                             onValueChange={handleDatePresetChange}
                         >
-                            <SelectTrigger className="h-11 rounded-xl">
-                                <SelectValue placeholder={t.LABEL_DATE_ALL_TIME} />
+                            <SelectTrigger className="h-12 rounded-2xl bg-slate-50/50 border-slate-100 text-slate-700 focus:ring-emerald-500/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:bg-slate-50 transition-colors">
+                                <div className="flex items-center gap-2">
+                                    <Calendar size={16} className="text-slate-400" />
+                                    <SelectValue placeholder={t.LABEL_DATE_ALL_TIME} />
+                                </div>
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="rounded-xl border-slate-100 shadow-xl">
                                 <SelectItem value="all">{t.LABEL_DATE_ALL_TIME}</SelectItem>
                                 <SelectItem value="today">{t.LABEL_DATE_TODAY}</SelectItem>
                                 <SelectItem value="yesterday">{t.LABEL_DATE_YESTERDAY}</SelectItem>
@@ -208,17 +222,17 @@ export default function TransactionFilters({ wallets, events = [] }: Transaction
                     </div>
 
                     {/* 3. TYPE & WALLET FILTERS */}
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <Label className="text-sm font-medium text-gray-700 mb-2 block">{t.LABEL_TYPE}</Label>
+                            <Label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2 block ml-1">{t.LABEL_TYPE}</Label>
                             <Select
                                 value={searchParams.get("type")?.toString() || "all"}
                                 onValueChange={(val) => handleFilterChange("type", val)}
                             >
-                                <SelectTrigger className="h-11 rounded-xl">
+                                <SelectTrigger className="h-12 rounded-2xl bg-slate-50/50 border-slate-100 text-slate-700 focus:ring-emerald-500/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:bg-slate-50 transition-colors">
                                     <SelectValue placeholder={t.LABEL_ALL} />
                                 </SelectTrigger>
-                                <SelectContent>
+                                <SelectContent className="rounded-xl border-slate-100 shadow-xl">
                                     <SelectItem value="all">{t.LABEL_ALL}</SelectItem>
                                     <SelectItem value="income">{t.LABEL_INCOME}</SelectItem>
                                     <SelectItem value="expense">{t.LABEL_EXPENSE}</SelectItem>
@@ -230,15 +244,15 @@ export default function TransactionFilters({ wallets, events = [] }: Transaction
                         </div>
 
                         <div>
-                            <Label className="text-sm font-medium text-gray-700 mb-2 block">{t.LABEL_WALLET}</Label>
+                            <Label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2 block ml-1">{t.LABEL_WALLET}</Label>
                             <Select
                                 value={searchParams.get("wallet")?.toString() || "all"}
                                 onValueChange={(val) => handleFilterChange("wallet", val)}
                             >
-                                <SelectTrigger className="h-11 rounded-xl">
+                                <SelectTrigger className="h-12 rounded-2xl bg-slate-50/50 border-slate-100 text-slate-700 focus:ring-emerald-500/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:bg-slate-50 transition-colors">
                                     <SelectValue placeholder={t.LABEL_ALL} />
                                 </SelectTrigger>
-                                <SelectContent>
+                                <SelectContent className="rounded-xl border-slate-100 shadow-xl">
                                     <SelectItem value="all">{t.LABEL_ALL_WALLETS}</SelectItem>
                                     {wallets.map((w) => (
                                         <SelectItem key={w.id} value={w.id}>
@@ -253,15 +267,15 @@ export default function TransactionFilters({ wallets, events = [] }: Transaction
                     {/* 4. EVENT FILTER (v1.6.3) */}
                     {events.length > 0 && (
                         <div>
-                            <Label className="text-sm font-medium text-gray-700 mb-2 block">{t.LABEL_EVENT}</Label>
+                            <Label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2 block ml-1">{t.LABEL_EVENT}</Label>
                             <Select
                                 value={searchParams.get("event")?.toString() || "all"}
                                 onValueChange={(val) => handleFilterChange("event", val)}
                             >
-                                <SelectTrigger className="h-11 rounded-xl">
+                                <SelectTrigger className="h-12 rounded-2xl bg-slate-50/50 border-slate-100 text-slate-700 focus:ring-emerald-500/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:bg-slate-50 transition-colors">
                                     <SelectValue placeholder={t.LABEL_ALL} />
                                 </SelectTrigger>
-                                <SelectContent>
+                                <SelectContent className="rounded-xl border-slate-100 shadow-xl">
                                     <SelectItem value="all">{t.LABEL_ALL_EVENTS}</SelectItem>
                                     {events.map((e) => (
                                         <SelectItem key={e.id} value={e.id}>
@@ -273,20 +287,17 @@ export default function TransactionFilters({ wallets, events = [] }: Transaction
                         </div>
                     )}
 
-                    {/* Divider */}
-                    <div className="border-t" />
-
                     {/* 4. SORT - Bottom */}
                     <div>
-                        <Label className="text-sm font-medium text-gray-700 mb-2 block">{t.LABEL_SORT}</Label>
+                        <Label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2 block ml-1">{t.LABEL_SORT}</Label>
                         <Select
                             value={searchParams.get("sort")?.toString() || "date_desc"}
                             onValueChange={(val) => handleFilterChange("sort", val)}
                         >
-                            <SelectTrigger className="h-11 rounded-xl">
+                            <SelectTrigger className="h-12 rounded-2xl bg-slate-50/50 border-slate-100 text-slate-700 focus:ring-emerald-500/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:bg-slate-50 transition-colors">
                                 <SelectValue placeholder={t.LABEL_SORT_NEWEST} />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="rounded-xl border-slate-100 shadow-xl">
                                 <SelectItem value="date_desc">{t.LABEL_SORT_NEWEST}</SelectItem>
                                 <SelectItem value="date_asc">{t.LABEL_SORT_OLDEST}</SelectItem>
                                 <SelectItem value="amount_desc">{t.LABEL_SORT_AMOUNT_HIGH}</SelectItem>

@@ -154,6 +154,7 @@ export const en: Record<TranslationKeys, string> = {
     LABEL_RESET_FILTER: "Reset Filters",
     LABEL_SEARCH_BY_NOTE: "Search by note",
     LABEL_SEARCH_PLACEHOLDER: "Enter keyword...",
+    LABEL_TAP_TO_FILTER: "Tap to filter & search",
 
     // === DATE PRESETS ===
     LABEL_DATE_RANGE: "Date Range",

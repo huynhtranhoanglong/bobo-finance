@@ -158,65 +158,75 @@ function TransactionsPageContent() {
     return (
         <>
             <PullToRefresh>
-                <main className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-6">
-                        <div className="flex items-center gap-4">
-                            <Link href="/" className="p-2 hover:bg-gray-200 rounded-full transition">
-                                <ArrowLeft className="h-6 w-6 text-gray-700" />
-                            </Link>
-                            <h1 className="text-2xl font-bold">{t.LABEL_TRANSACTION_HISTORY}</h1>
+                <main className="relative isolate min-h-screen bg-[#FAFAFA] overflow-hidden">
+                    {/* Background Ambient Orbs */}
+                    <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-emerald-100/40 rounded-full blur-[120px] -z-10 mt-20" />
+                    <div className="absolute top-[20%] right-[-10%] w-[40%] h-[40%] bg-blue-100/40 rounded-full blur-[100px] -z-10" />
+
+                    <div className="max-w-2xl mx-auto p-4 md:p-8 pb-32">
+                        {/* Header */}
+                        <div className="flex items-center justify-between mb-8">
+                            <div className="flex items-center gap-4">
+                                <Link href="/" className="p-2.5 bg-white/50 hover:bg-white rounded-full transition-all text-slate-500 hover:text-slate-800 shadow-sm border border-transparent hover:border-slate-100">
+                                    <ArrowLeft className="h-5 w-5" />
+                                </Link>
+                                <h1 className="text-2xl font-bold text-slate-800 tracking-tight">{t.LABEL_TRANSACTION_HISTORY}</h1>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <div className="bg-white/50 backdrop-blur-sm rounded-full p-0.5 border border-white/40 shadow-sm">
+                                    <PrivacyToggle />
+                                </div>
+                                {user && <UserNav email={user.email || 'User'} />}
+                            </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <PrivacyToggle />
-                            {user && <UserNav email={user.email || 'User'} />}
-                        </div>
-                    </div>
 
-                    {/* Filters */}
-                    <TransactionFilters wallets={wallets || []} events={activeEvents} />
+                        {/* Filters - Now Soft UI */}
+                        <TransactionFilters wallets={wallets || []} events={activeEvents} />
 
-                    {/* Transactions List */}
-                    {loading ? (
-                        <TransactionListSkeleton />
-                    ) : (
-                        <>
-                            <div className="space-y-3">
-                                {displayedTransactions.map((t: any) => (
-                                    <TransactionItem
-                                        key={t.id}
-                                        transaction={t}
-                                        wallets={wallets || []}
-                                        activeEvents={activeEvents}
-                                        onSuccess={handleRefresh}
-                                    />
-                                ))}
+                        {/* Transactions List */}
+                        {loading ? (
+                            <TransactionListSkeleton />
+                        ) : (
+                            <>
+                                <div className="space-y-4">
+                                    {displayedTransactions.map((t: any) => (
+                                        <TransactionItem
+                                            key={t.id}
+                                            transaction={t}
+                                            wallets={wallets || []}
+                                            activeEvents={activeEvents}
+                                            onSuccess={handleRefresh}
+                                        />
+                                    ))}
 
-                                {transactions.length === 0 && (
-                                    <div className="text-center text-gray-500 py-10 bg-white rounded-2xl border shadow-sm">
-                                        {t.LABEL_NO_TRANSACTIONS}
+                                    {transactions.length === 0 && (
+                                        <div className="text-center py-16 bg-white/60 backdrop-blur-md rounded-[2rem] border border-white/40 shadow-sm">
+                                            <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                <div className="w-8 h-8 rounded-full bg-slate-200/50" />
+                                            </div>
+                                            <p className="text-slate-500 font-medium">{t.LABEL_NO_TRANSACTIONS}</p>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Load More Button */}
+                                {hasMore && (
+                                    <div className="flex justify-center mt-10">
+                                        <Button
+                                            onClick={handleLoadMore}
+                                            variant="outline"
+                                            className="rounded-2xl h-12 px-8 gap-2 bg-white/60 hover:bg-white border-slate-200 hover:border-emerald-200 text-slate-600 hover:text-emerald-700 shadow-sm hover:shadow-md transition-all duration-300"
+                                        >
+                                            {t.LABEL_LOAD_MORE_TRANSACTIONS} <span className="opacity-60">({remainingCount} {t.LABEL_TRANSACTIONS_MORE})</span>
+                                            <ChevronDown size={18} />
+                                        </Button>
                                     </div>
                                 )}
-                            </div>
+                            </>
+                        )}
 
-                            {/* Load More Button */}
-                            {hasMore && (
-                                <div className="flex justify-center mt-6">
-                                    <Button
-                                        onClick={handleLoadMore}
-                                        variant="outline"
-                                        className="rounded-xl h-12 px-6 gap-2"
-                                        style={{ borderColor: COLOR_BRAND, color: COLOR_BRAND }}
-                                    >
-                                        {t.LABEL_LOAD_MORE_TRANSACTIONS} ({remainingCount} {t.LABEL_TRANSACTIONS_MORE})
-                                        <ChevronDown size={18} />
-                                    </Button>
-                                </div>
-                            )}
-                        </>
-                    )}
-
-                    <AppVersion />
+                        <AppVersion />
+                    </div>
                 </main>
             </PullToRefresh>
             {/* FAB Button - Moved outside PullToRefresh */}
@@ -235,8 +245,8 @@ export default function TransactionsPage() {
     const { t } = useTranslation();
     return (
         <Suspense fallback={
-            <div className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
-                <div className="text-center text-gray-500 py-10">{t.LABEL_LOADING_PAGE}</div>
+            <div className="flex items-center justify-center min-h-screen bg-[#FAFAFA]">
+                <div className="text-center text-slate-400 font-medium animate-pulse">{t.LABEL_LOADING_PAGE}</div>
             </div>
         }>
             <TransactionsPageContent />

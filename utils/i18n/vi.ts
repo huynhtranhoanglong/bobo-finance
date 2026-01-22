@@ -152,6 +152,7 @@ export const vi = {
     LABEL_RESET_FILTER: "Mặc định (Xóa bộ lọc)",
     LABEL_SEARCH_BY_NOTE: "Tìm kiếm theo ghi chú",
     LABEL_SEARCH_PLACEHOLDER: "Nhập từ khóa...",
+    LABEL_TAP_TO_FILTER: "Chạm để lọc & tìm kiếm",
 
     // === DATE PRESETS ===
     LABEL_DATE_RANGE: "Khoảng thời gian",
