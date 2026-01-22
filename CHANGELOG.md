@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.7.1] - 2026-01-22
+
+### UI/UX: Smart Header Optimization
+> **Purpose**: Optimize the header layout to complement the new Bottom Navigation Bar, removing redundancy and improving aesthetics.
+
+- **Smart Sticky Header**:
+  - Implemented `SmartHeader` component with dynamic scroll effects.
+  - **Top**: Transparent background to showcase ambient design.
+  - **Scroll**: Transforms to Glassmorphism style (`bg-white/70`, `backdrop-blur-xl`) and sticks to top.
+
+- **UX Refinements**:
+  - **Removed Redundancy**: Removed User Avatar/Menu from header (as it duplicated the Account Tab).
+  - **Streamlined Actions**: Header now focuses on quick actions: Notification Bell and Privacy Toggle.
+  - **Account Page**: Migrated Family, Private Wallet, Feedback, and Logout options to the Account page for a unified settings hub.
+
+- **Technical**:
+  - Created `components/smart-header.tsx`.
+  - Refactored `GreetingHeader` and `PageHeader` to use the new smart component.
+  - specific styles for scroll-based transitions using `IntersectionObserver` logic (via scroll event).
+
 ## [1.7.0] - 2026-01-22
 
 ### UI/UX: Bottom Navigation Bar Redesign

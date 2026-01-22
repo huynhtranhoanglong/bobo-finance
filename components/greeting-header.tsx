@@ -1,23 +1,16 @@
-"use client";
-
-import { UserNav } from "@/components/user-nav";
-import { PrivacyToggle } from "@/components/ui/privacy-toggle";
-import { NotificationBell } from "@/components/notification-bell";
+import { SmartHeader } from "@/components/smart-header";
 import { useTranslation } from "@/components/providers/language-provider";
 
 interface GreetingHeaderProps {
     userEmail?: string;
     userName?: string;
     hasFamily?: boolean;
-    hasPrivateWallets?: boolean; // v1.4.0: For conditional private wallet menu
+    hasPrivateWallets?: boolean;
     showControls?: boolean;
 }
 
 export default function GreetingHeader({
-    userEmail,
     userName,
-    hasFamily = false,
-    hasPrivateWallets = false,
     showControls = true
 }: GreetingHeaderProps) {
     const { t } = useTranslation();
@@ -41,19 +34,23 @@ export default function GreetingHeader({
         emoji = "🌃";
     }
 
-    return (
-        <div className="flex items-center justify-between mb-6">
-            <h1 className="text-2xl font-bold text-gray-900">
-                {emoji} {t[greetingKey]}{userName ? `, ${userName}!` : "!"}
-            </h1>
+    if (!showControls) {
+        return (
+            <div className="flex items-center justify-between mb-6">
+                <h1 className="text-2xl font-bold text-gray-900">
+                    {emoji} {t[greetingKey]}{userName ? `, ${userName}!` : "!"}
+                </h1>
+            </div>
+        )
+    }
 
-            {showControls && (
-                <div className="flex items-center gap-2">
-                    <NotificationBell />
-                    <PrivacyToggle />
-                    {userEmail && <UserNav email={userEmail} hasFamily={hasFamily} hasPrivateWallets={hasPrivateWallets} />}
-                </div>
-            )}
+    return (
+        <div className="mb-20"> {/* Spacer for fixed header */}
+            <SmartHeader>
+                <h1 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">
+                    {emoji} {t[greetingKey]}{userName ? `, ${userName}!` : "!"}
+                </h1>
+            </SmartHeader>
         </div>
     );
 }

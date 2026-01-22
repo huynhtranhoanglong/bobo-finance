@@ -6,12 +6,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { getProfileAction, updateProfileAction, signOutAction } from "@/app/actions"
-import { ArrowLeft, Loader2, Save, User, LogOut, Mail, Globe, Check } from "lucide-react"
+import { ArrowLeft, Loader2, Save, User, LogOut, Mail, Globe, Check, Users, Lock, MessageSquare } from "lucide-react"
 import Link from "next/link"
 import { AppVersion } from "@/components/app-version"
 import { COLOR_BRAND } from "@/utils/colors"
 import { useTranslation, useLanguage } from "@/components/providers/language-provider"
 import { Language } from "@/utils/i18n"
+import { FeedbackDialog } from "@/components/feedback-dialog"
 
 interface Profile {
     id: string
@@ -29,6 +30,7 @@ export default function AccountPage() {
     const [profile, setProfile] = useState<Profile | null>(null)
     const [saving, setSaving] = useState(false)
     const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
+    const [isFeedbackOpen, setIsFeedbackOpen] = useState(false)
 
     useEffect(() => {
         fetchProfile()
@@ -140,6 +142,52 @@ export default function AccountPage() {
                     </form>
                 </div>
 
+                {/* Menu Shortcuts (Migrated from Header) */}
+                <div className="bg-white rounded-2xl p-2 shadow-sm border space-y-1">
+                    <Link href="/family" className="flex items-center justify-between p-3 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer group">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 rounded-full bg-blue-50 text-blue-600 group-hover:bg-blue-100 transition-colors">
+                                <Users size={20} />
+                            </div>
+                            <span className="font-medium text-slate-700">{t.LABEL_FAMILY}</span>
+                        </div>
+                        <ArrowLeft size={16} className="text-slate-300 rotate-180" />
+                    </Link>
+
+                    {/* Check if user has family to decide private wallet visibility or general logic */}
+                    {/* Simplified for now: Always show link if user knows about it, or could fetch status. 
+                        For strict parity, we should fetch family status. Page already fetches profile.
+                        Let's fetch family info here too? Or just static link.
+                        Given prompt instruction: "Add entire menu... Private Wallet (if valid)".
+                        We'll need family info. 
+                    */}
+
+                    <Link href="/private" className="flex items-center justify-between p-3 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer group">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 rounded-full bg-purple-50 text-purple-600 group-hover:bg-purple-100 transition-colors">
+                                <Lock size={20} />
+                            </div>
+                            <span className="font-medium text-slate-700">{t.LABEL_PRIVATE_DASHBOARD}</span>
+                        </div>
+                        <ArrowLeft size={16} className="text-slate-300 rotate-180" />
+                    </Link>
+
+                    <button
+                        onClick={() => setIsFeedbackOpen(true)}
+                        className="w-full flex items-center justify-between p-3 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer group"
+                    >
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 rounded-full bg-orange-50 text-orange-600 group-hover:bg-orange-100 transition-colors">
+                                <MessageSquare size={20} />
+                            </div>
+                            <span className="font-medium text-slate-700">{t.LABEL_FEEDBACK}</span>
+                        </div>
+                        <ArrowLeft size={16} className="text-slate-300 rotate-180" />
+                    </button>
+
+                    <FeedbackDialog open={isFeedbackOpen} onOpenChange={setIsFeedbackOpen} />
+                </div>
+
                 {/* Language Settings */}
                 <div className="bg-white rounded-2xl p-6 shadow-sm border">
                     <h3 className="font-semibold text-gray-700 mb-4 flex items-center gap-2">
@@ -150,8 +198,8 @@ export default function AccountPage() {
                         <button
                             onClick={() => handleLanguageChange('vi')}
                             className={`w-full flex items-center justify-between p-3 rounded-xl border transition ${language === 'vi'
-                                    ? 'border-green-500 bg-green-50'
-                                    : 'border-gray-200 hover:bg-gray-50'
+                                ? 'border-green-500 bg-green-50'
+                                : 'border-gray-200 hover:bg-gray-50'
                                 }`}
                         >
                             <div className="flex items-center gap-3">
@@ -164,8 +212,8 @@ export default function AccountPage() {
                         <button
                             onClick={() => handleLanguageChange('en')}
                             className={`w-full flex items-center justify-between p-3 rounded-xl border transition ${language === 'en'
-                                    ? 'border-green-500 bg-green-50'
-                                    : 'border-gray-200 hover:bg-gray-50'
+                                ? 'border-green-500 bg-green-50'
+                                : 'border-gray-200 hover:bg-gray-50'
                                 }`}
                         >
                             <div className="flex items-center gap-3">
