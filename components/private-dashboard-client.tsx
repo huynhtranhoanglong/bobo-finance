@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ArrowLeft, Lock } from "lucide-react";
+import { PageHeader } from "@/components/ui/page-header";
 
 import { PrivacyAmount } from "@/components/ui/privacy-amount";
 import WalletCard from "@/components/wallet-card";
@@ -26,68 +27,84 @@ export default function PrivateDashboardClient({
     const { t } = useTranslation();
 
     return (
-        <main className="p-4 md:p-8 max-w-2xl mx-auto pb-32 bg-gray-50 min-h-screen">
-            {/* Header with Back button */}
-            <div className="flex items-center gap-3 mb-6">
-                <Link
-                    href="/"
-                    className="p-2 rounded-full hover:bg-gray-200 transition"
-                >
-                    <ArrowLeft className="h-5 w-5 text-gray-600" />
-                </Link>
-                <div className="flex items-center gap-2">
-                    <Lock className="h-5 w-5" style={{ color: COLOR_BRAND }} />
-                    <h1 className="text-xl font-bold text-gray-800">{t.LABEL_PRIVATE_DASHBOARD_TITLE}</h1>
+        <main className="min-h-screen bg-[#FAFAFA] relative overflow-hidden flex flex-col pt-safe">
+            {/* Ambient Background - Purple & Pink Theme for "Private" feel */}
+            <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+                <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-100/40 rounded-full blur-[80px] mix-blend-multiply opacity-70 animate-float" />
+                <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-pink-100/40 rounded-full blur-[60px] mix-blend-multiply opacity-60 animate-delayed-float" />
+            </div>
+
+            <div className="max-w-lg mx-auto w-full p-4 md:p-8 pb-32 relative z-10">
+                {/* Header */}
+                <PageHeader
+                    title={t.LABEL_PRIVATE_DASHBOARD_TITLE}
+                    showBackButton={true}
+                    sticky={false}
+                    className="px-0"
+                    rightContent={<Lock className="w-5 h-5 text-purple-400" />}
+                />
+
+                {/* Note about private wallets - Glass Card */}
+                <div className="mb-8 p-4 bg-purple-50/50 border border-purple-100/50 backdrop-blur-sm rounded-2xl flex gap-3 items-start shadow-sm">
+                    <span className="text-xl">🔒</span>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                        {t.LABEL_PRIVATE_DASHBOARD_NOTE}
+                    </p>
                 </div>
-            </div>
 
-            {/* Note about private wallets */}
-            <div className="mb-6 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-                <p className="text-amber-800 text-sm">
-                    🔒 {t.LABEL_PRIVATE_DASHBOARD_NOTE}
-                </p>
-            </div>
+                {/* Total Private Balance - Glass Card */}
+                <div className="bg-white/60 backdrop-blur-xl rounded-[2.5rem] p-8 mb-8 shadow-sm border border-white/40 relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-50/30 to-transparent pointer-events-none" />
 
-            {/* Total Private Balance */}
-            <div className="bg-white rounded-2xl border shadow-sm p-6 mb-6">
-                <p className="text-gray-500 text-sm mb-1">{t.LABEL_TOTAL_PRIVATE_BALANCE}</p>
-                <div style={{ color: COLOR_BRAND }}>
-                    <PrivacyAmount
-                        amount={totalBalance}
-                        className="text-3xl font-bold"
-                    />
+                    <div className="relative text-center">
+                        <p className="text-slate-500 font-medium mb-2 uppercase tracking-wider text-xs">{t.LABEL_TOTAL_PRIVATE_BALANCE}</p>
+                        <div className="flex justify-center items-baseline gap-1">
+                            <PrivacyAmount
+                                amount={totalBalance}
+                                className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-500"
+                            />
+                        </div>
+                        <div className="mt-4 inline-flex items-center gap-2 bg-white/50 px-4 py-1.5 rounded-full border border-white/60 shadow-sm">
+                            <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
+                            <p className="text-slate-500 text-xs font-medium">
+                                {walletCount} {t.LABEL_PRIVATE_WALLETS_COUNT}
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <p className="text-gray-400 text-xs mt-2">
-                    {walletCount} {t.LABEL_PRIVATE_WALLETS_COUNT}
-                </p>
-            </div>
 
-            {/* Private Wallets List */}
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-bold text-gray-800">💳 {t.LABEL_SECTION_WALLETS}</h2>
-                <CreateWalletDialog funds={fundsList} hasFamily={true} defaultPrivate={true} />
-            </div>
-
-            {wallets.length > 0 ? (
-                <div className="space-y-3 mb-6">
-                    {wallets.map((wallet: any) => (
-                        <WalletCard
-                            key={wallet.id}
-                            wallet={wallet}
-                            funds={fundsList}
-                        />
-                    ))}
-                </div>
-            ) : (
-                <div className="bg-white rounded-2xl border shadow-sm p-8 text-center mb-6">
-                    <Lock className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-                    <p className="text-gray-500 mb-4">{t.LABEL_PRIVATE_DASHBOARD_EMPTY}</p>
+                {/* Private Wallets List */}
+                <div className="flex justify-between items-end mb-6 px-1">
+                    <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        💳 {t.LABEL_SECTION_WALLETS}
+                    </h2>
                     <CreateWalletDialog funds={fundsList} hasFamily={true} defaultPrivate={true} />
                 </div>
-            )}
 
-            {/* Footer */}
-            <AppVersion />
+                {wallets.length > 0 ? (
+                    <div className="space-y-4">
+                        {wallets.map((wallet: any) => (
+                            <div key={wallet.id} className="transform transition-all duration-300 hover:scale-[1.02]">
+                                <WalletCard
+                                    wallet={wallet}
+                                    funds={fundsList}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="bg-white/40 backdrop-blur-md rounded-[2rem] border border-white/40 p-10 text-center">
+                        <div className="w-16 h-16 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
+                            <Lock className="h-8 w-8 text-purple-300" />
+                        </div>
+                        <p className="text-slate-500 mb-6 font-medium">{t.LABEL_PRIVATE_DASHBOARD_EMPTY}</p>
+                        <CreateWalletDialog funds={fundsList} hasFamily={true} defaultPrivate={true} />
+                    </div>
+                )}
+
+                {/* Footer */}
+                <AppVersion light={false} className="mt-12 opacity-50" />
+            </div>
         </main>
     );
 }

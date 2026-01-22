@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.7.10] - 2026-01-22
+
+### UI/UX: Private Wallet Redesign (Ghost Purple Theme)
+> **Purpose**: Standardize the Private Wallet interface with the new design language while maintaining a distinct visual identity for "Private" mode.
+
+- **Design Style: Swiss Glass Minimalism (Purple Edition)**:
+  - **Background**: `#FAFAFA` with Ambient Orbs (Purple & Pink) to distinguish from Family (Green) and Account (Blue/Emerald).
+  - **Visuals**: Used Glassmorphism for all cards, gradient text for balances, and floating animations.
+
+- **Components**:
+  - **Header**: Integrated standard `PageHeader` (Non-Sticky, Back Button enabled).
+  - **Cards**: Redesigned Total Balance and Note sections as translucent glass cards.
+
 ## [1.7.9] - 2026-01-22
 
 ### Bug Fix: Family Page Header Overlap
