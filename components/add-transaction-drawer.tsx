@@ -362,7 +362,7 @@ export default function AddTransactionDrawer({
                                             <SelectContent>
                                                 {debts.map(d => (
                                                     <SelectItem key={d.id} value={d.id}>
-                                                        {d.name} ({formatCurrency(d.remaining_amount)})
+                                                        {d.name}
                                                     </SelectItem>
                                                 ))}
                                             </SelectContent>

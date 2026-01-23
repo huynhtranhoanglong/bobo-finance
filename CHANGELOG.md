@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.8.4] - 2026-01-23
+
+### UI Cleanup: Remove Balance from Debt Dropdown
+> **Purpose**: Consistent clean UI for dropdown selects.
+
+- Removed remaining balance display from debt dropdown items.
+- Now shows only debt name (e.g., "Vay mua xe" instead of "Vay mua xe (Còn lại: 15.000.000 ₫)").
+- Applied to both `add-transaction-drawer.tsx` and `add-transaction-dialog.tsx`.
+
+---
+
 ## [1.8.3] - 2026-01-23
 
 ### Bug Fix: Debt Dropdown in Repayment Mode

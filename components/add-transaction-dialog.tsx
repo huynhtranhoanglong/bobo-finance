@@ -179,7 +179,7 @@ export default function AddTransactionDialog({ wallets, debts, funds, activeEven
                                     <SelectContent>
                                         {debts.filter(d => d.type === 'payable').map(d => (
                                             <SelectItem key={d.id} value={d.id}>
-                                                {d.name} ({t.LABEL_REMAINING_DEBT}: {formatCurrency(d.remaining_amount)})
+                                                {d.name}
                                             </SelectItem>
                                         ))}
                                     </SelectContent>
