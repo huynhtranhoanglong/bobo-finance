@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.8.3] - 2026-01-23
+
+### Bug Fix: Debt Dropdown in Repayment Mode
+> **Purpose**: Fix issue where debt dropdown was empty in "Trả nợ" (Debt Repayment) mode.
+
+- **Root Cause**:
+  - Data from `bottom-nav.tsx` already filtered debts with `.eq('type', 'payable')`.
+  - But `add-transaction-drawer.tsx` tried to filter again with `.filter(d => d.type === 'payable')`.
+  - Since `type` field was not included in the select query, all items were filtered out.
+
+- **Fix**:
+  - Removed redundant client-side filter in drawer component.
+  - Debts are now properly displayed in dropdown.
+
+### Technical Details
+- **Modified File**: `components/add-transaction-drawer.tsx`
+  - Line 363: Removed `.filter(d => d.type === 'payable')`
+
+---
+
 ## [1.8.2] - 2026-01-23
 
 ### UI Cleanup: Remove Balance from Wallet Dropdown

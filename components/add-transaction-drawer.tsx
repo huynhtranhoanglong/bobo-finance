@@ -360,7 +360,7 @@ export default function AddTransactionDrawer({
                                                 <SelectValue placeholder={t.LABEL_SELECT_DEBT} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {debts.filter(d => d.type === 'payable').map(d => (
+                                                {debts.map(d => (
                                                     <SelectItem key={d.id} value={d.id}>
                                                         {d.name} ({formatCurrency(d.remaining_amount)})
                                                     </SelectItem>
