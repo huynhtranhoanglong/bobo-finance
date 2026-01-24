@@ -26,7 +26,7 @@ import {
     X
 } from "lucide-react"
 import Link from "next/link"
-import { AppVersion } from "@/components/app-version"
+import { AppVersion } from "@/components/layout/app-version"
 import { PageHeader } from "@/components/ui/page-header"
 import { COLOR_BRAND } from "@/utils/colors"
 import { useTranslation } from "@/components/providers/language-provider"

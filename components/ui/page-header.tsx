@@ -5,7 +5,7 @@ import Link from "next/link";
 import { User } from "@supabase/supabase-js";
 import { cn } from "@/lib/utils";
 
-import { SmartHeader } from "@/components/smart-header";
+import { SmartHeader } from "@/components/layout/smart-header";
 
 interface PageHeaderProps {
     title: string;

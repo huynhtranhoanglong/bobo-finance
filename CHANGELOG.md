@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.8.6] - 2026-01-24
+
+### Refactor: Application Structure & Code Cleanup
+> **Purpose**: "Housekeeping" update to improve code maintainability, readability, and project structure without affecting end-user functionality.
+
+- **Server Actions Split**:
+  - Decomposed the monolithic `app/actions.ts` (~400 lines) into modular files:
+    - `actions/transaction.ts`: Transaction operations.
+    - `actions/wallet.ts`: Wallet operations.
+    - `actions/debt.ts`: Debt operations.
+    - `actions/event.ts`: Event operations.
+    - `actions/family.ts`: Family management.
+    - `actions/account.ts`: Profile management.
+    - `actions/auth.ts`: Authentication.
+  - Benefits: adhere to Single Responsibility Principle, easier to navigate and maintain.
+
+- **Component Reorganization**:
+  - Cleaned up the root `components/` directory by grouping files into semantic folders:
+    - `components/dialogs/`: All popup dialogs (Add Transaction, Create Wallet...).
+    - `components/dashboard/`: Dashboard widgets and sections.
+    - `components/cards/`: Reusable cards (Wallet Card, Debt Card, Transaction Item).
+    - `components/layout/`: Layout elements (Header, Navigation, Sidebar).
+    - `components/features/`: Feature-specific clients (Events).
+
+- **Technical Details**:
+  - Updated all import paths to reflect the new structure.
+  - Verified application integrity via manual testing.
+  - No logic or database changes.
+
+---
+
 ## [1.8.5] - 2026-01-24
 
 ### Bug Fix: Missing Family ID in Transactions

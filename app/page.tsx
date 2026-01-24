@@ -6,8 +6,8 @@ import { ArrowRightLeft, List } from "lucide-react";
 // Import các Components
 import { ensureDefaultFunds } from "@/app/actions/ensure-funds";
 import { DisablePrivacyOnMount } from "@/components/ui/disable-privacy";
-import DashboardClient from "@/components/dashboard-client";
-import DemoDashboard from "@/components/demo-dashboard";
+import DashboardClient from "@/components/dashboard/dashboard-client";
+import DemoDashboard from "@/components/dashboard/demo-dashboard";
 import { DEFAULT_TIMEZONE } from "@/utils/timezone";
 
 export default async function Home({

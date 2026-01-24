@@ -8,12 +8,12 @@ import { Label } from "@/components/ui/label"
 import { getProfileAction, updateProfileAction, signOutAction } from "@/app/actions"
 import { ArrowLeft, Loader2, Save, User, LogOut, Mail, Globe, Check, Users, Lock, MessageSquare } from "lucide-react"
 import Link from "next/link"
-import { AppVersion } from "@/components/app-version"
+import { AppVersion } from "@/components/layout/app-version"
 import { PageHeader } from "@/components/ui/page-header"
 import { COLOR_BRAND } from "@/utils/colors"
 import { useTranslation, useLanguage } from "@/components/providers/language-provider"
 import { Language } from "@/utils/i18n"
-import { FeedbackDialog } from "@/components/feedback-dialog"
+import { FeedbackDialog } from "@/components/dialogs/feedback-dialog"
 
 interface Profile {
     id: string

@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import PrivateDashboardClient from "@/components/private-dashboard-client";
+import PrivateDashboardClient from "@/components/dashboard/private-dashboard-client";
 
 export default async function PrivateDashboardPage() {
     const supabase = await createClient();

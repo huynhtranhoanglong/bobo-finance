@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import EventDetailClient from "@/components/event-detail-client";
+import EventDetailClient from "@/components/features/event-detail-client";
 
 interface PageProps {
     params: Promise<{ id: string }>;
