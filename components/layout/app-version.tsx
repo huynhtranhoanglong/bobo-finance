@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 // CENTRALIZED VERSION CONTROL
-export const APP_VERSION = "1.8.6";
+export const APP_VERSION = "1.8.7";
 
 interface AppVersionProps {
     className?: string;

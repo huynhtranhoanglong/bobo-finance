@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.8.7] - 2026-01-25
+
+### Bug Fix: Transfer Transactions Missing Family ID
+> **Purpose**: Fix an issue where transfer transactions (`transfer_in`, `transfer_out`) were created without `family_id` even when the user belonged to a family.
+
+- **Root Cause**: PostgreSQL function overloading. Two versions of `transfer_funds` existed:
+  - Old version (5 params with `p_date`): No `family_id` logic.
+  - New version (4 params): Has `family_id` logic.
+  - Frontend called with 5 params → PostgreSQL selected the old version.
+
+- **Fix**:
+  - Dropped both old function versions.
+  - Created unified version with 5 params + `family_id` logic.
+  - Backfilled existing transfer transactions missing `family_id`.
+
+- **SQL Script**: `sql_backup/202601250700_fix_transfer_overload.sql`.
+
+---
+
 ## [1.8.6] - 2026-01-24
 
 ### Refactor: Application Structure & Code Cleanup
